@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">FiTX</string>
+    <!--Facebook-->
+    <string name="title_activity_menu_meta_calc">Sign in</string>
+    <string name="facebook_app_id">199490150600145</string>
+    <string name="fb_login_protocol_scheme">fb199490150600145</string>
+    <!--end-of-Facebook-->
+    <string name="title_activity_user_login">UserLoginActivity</string>
+
+
+    <string name="fitx">FiTX Fitness Assistant</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_main">FiTX/Main</string>
+
+    <string name="button_diet_name">Dieta</string>
+    <string name="button_training_name">Trening</string>
+    <string name="button_settings_name">Ustawienia</string>
+    <string name="button_stats_name">Statystyki</string>
+
+
+    <string name="button_register">Rejestracja</string>
+    <string name="loading">Ładowanie</string>
+
+
+    <string name="proteins_short_colon">B:</string>
+    <string name="fats_short_colon">T:</string>
+    <string name="carbs_short_colon">W:</string>
+    <string name="kcal_short_colon">KCAL:</string>
+
+    <string name="grams_short">g</string>
+    <string name="kcal_short">kcal</string>
+
+
+    <string name="text_view_rest_time">Odpoczynek</string>
+
+
+</resources>
