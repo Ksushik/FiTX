@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx;
+package com.brus5.lukaszkrawczak.fitx.Login;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,9 +19,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.DTO.UserLoginNormalDTO;
-import com.brus5.lukaszkrawczak.fitx.DTO.UserLoginRegisterFacebookDTO;
+import com.brus5.lukaszkrawczak.fitx.Configuration;
+import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginNormalDTO;
+import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginRegisterFacebookDTO;
 
+import com.brus5.lukaszkrawczak.fitx.MainActivity;
+import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -38,9 +42,9 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class UserLoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "UserLoginActivity";
+    private static final String TAG = "LoginActivity";
     LoginButton loginButton;
     AccessToken accessToken;
     AccessTokenTracker accessTokenTracker;
@@ -55,7 +59,7 @@ public class UserLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // initializing FacebookSdk
-        FacebookSdk.sdkInitialize(UserLoginActivity.this);
+        FacebookSdk.sdkInitialize(LoginActivity.this);
         setContentView(R.layout.activity_user_login);
 
         changeStatusBarColor();
@@ -63,12 +67,11 @@ public class UserLoginActivity extends AppCompatActivity {
         userButtonNormalLogin();
         userButtonRegister();
         userButtonFacebookLogin();
-//        new LoginPresenter();
     }
 
-    private void changeStatusBarColor() {
+    public void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(UserLoginActivity.this, R.color.color_main_activity_statusbar));
+            getWindow().setStatusBarColor(ContextCompat.getColor(LoginActivity.this, R.color.color_main_activity_statusbar));
         }
         Toolbar toolbar = findViewById(R.id.toolbarLoginActivity);
         setSupportActionBar(toolbar);
@@ -82,10 +85,11 @@ public class UserLoginActivity extends AppCompatActivity {
     }
 
     private void userButtonNormalLogin() {
-        if (SaveSharedPreference.getUserName(UserLoginActivity.this).length() == 0){
+        if (SaveSharedPreference.getUserName(LoginActivity.this).length() == 0){
             buttonLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
@@ -97,13 +101,13 @@ public class UserLoginActivity extends AppCompatActivity {
                     dto.userPassword = getUserPassword();
 
                     LoginService loginService = new LoginService();
-                    loginService.LoginNormal(dto,UserLoginActivity.this);
+                    loginService.LoginNormal(dto,LoginActivity.this);
 
                 }
             });
         }
         else {
-            runNextActivity(UserLoginActivity.this,MainActivity.class,true);
+            runNextActivity(LoginActivity.this,MainActivity.class,true);
         }
     }
 
@@ -111,7 +115,7 @@ public class UserLoginActivity extends AppCompatActivity {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                runNextActivity(UserLoginActivity.this, null, false);
+                runNextActivity(LoginActivity.this, null, false);
             }
         });
     }
@@ -140,7 +144,7 @@ public class UserLoginActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(final LoginResult loginResult) {
-            ProgressDialog dialog = ProgressDialog.show(UserLoginActivity.this,"Loading...",
+            ProgressDialog dialog = ProgressDialog.show(LoginActivity.this,"Loading...",
                     "Loading application View, please wait...", false, false);
             dialog.show();
             Log.e(TAG,"Login success \n" + loginResult.getAccessToken().getUserId() + "\n" + loginResult.getAccessToken().getToken());
@@ -183,13 +187,13 @@ public class UserLoginActivity extends AppCompatActivity {
                                 registerFacebookDTO.userEmail = userEmail;
 
                                 // do not pass DB_USERNAME from Facebook to SaveSharedPreference class
-                                SaveSharedPreference.setUserFirstName(UserLoginActivity.this, registerFacebookDTO.userFirstName);
-                                SaveSharedPreference.setUserBirthday(UserLoginActivity.this, registerFacebookDTO.userBirthday);
-                                SaveSharedPreference.setUserGender(UserLoginActivity.this, registerFacebookDTO.userGender);
-                                SaveSharedPreference.setUserEmail(UserLoginActivity.this, registerFacebookDTO.userEmail);
+                                SaveSharedPreference.setUserFirstName(LoginActivity.this, registerFacebookDTO.userFirstName);
+                                SaveSharedPreference.setUserBirthday(LoginActivity.this, registerFacebookDTO.userBirthday);
+                                SaveSharedPreference.setUserGender(LoginActivity.this, registerFacebookDTO.userGender);
+                                SaveSharedPreference.setUserEmail(LoginActivity.this, registerFacebookDTO.userEmail);
 
                                 LoginService loginService = new LoginService();
-                                loginService.LoginWithFacebook(registerFacebookDTO,UserLoginActivity.this);
+                                loginService.LoginWithFacebook(registerFacebookDTO,LoginActivity.this);
 
                                 Log.d(TAG,"convertedBirthday: "+convertedBirthday);
                                 Log.d(TAG,"user_email: "+userEmail);
@@ -208,7 +212,7 @@ public class UserLoginActivity extends AppCompatActivity {
             request.setParameters(parameters);
             request.executeAsync();
 
-            runNextActivity(UserLoginActivity.this,MainActivity.class,false);
+            runNextActivity(LoginActivity.this,MainActivity.class,false);
         }
 
         @Override
@@ -235,7 +239,7 @@ public class UserLoginActivity extends AppCompatActivity {
         if accesstoken isn't null then start new Activity which is MainActivity.class
         */
         if (accessToken != null){
-            runNextActivity(UserLoginActivity.this,MainActivity.class, false);
+            runNextActivity(LoginActivity.this,MainActivity.class, false);
         }
     }
 
@@ -271,7 +275,7 @@ public class UserLoginActivity extends AppCompatActivity {
     public void runNextActivity(Context packageContext, Class<?> cls, boolean defaultLogin){
         Intent intent = new Intent(packageContext,cls);
         intent.putExtra("defaultLogin",defaultLogin);
-        UserLoginActivity.this.startActivity(intent);
+        LoginActivity.this.startActivity(intent);
         finish();
     }
 

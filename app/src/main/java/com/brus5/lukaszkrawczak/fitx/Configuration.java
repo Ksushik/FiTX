@@ -1,6 +1,13 @@
 package com.brus5.lukaszkrawczak.fitx;
 
+import android.content.Context;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
+import com.brus5.lukaszkrawczak.fitx.Login.LoginActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,19 +16,19 @@ import java.util.Calendar;
  * Created by lukaszkrawczak on 24.05.2018.
  */
 
-public class Configuration {
+public class Configuration extends AppCompatActivity{
     private static final String TAG = "Configuration";
     public static final String BASE_URL = "http://justfitx.xyz/";
+
 
 
 
     public static final String DIET_USER_SHOW_DAILY_URL = BASE_URL + "Diet/" + "ShowByUser.php";
     public static final String DIET_SEND_COUNTED_KCAL_URL = BASE_URL + "Diet/" + "UpdateKcalResult.php";
     public static final String DIET_RESET_KCAL_URL = BASE_URL + "Diet/" + "DeleteMeal.php";
+    public static final String DIET_GET_PRODUCT_INFORMATIONS = BASE_URL + "Diet/" + "GetProductInformations.php";
 
-
-    public static final String SHOW_TRAINING_URL = Configuration.BASE_URL + "Training/" + "ShowByUser.php";
-
+    public static final String SHOW_TRAINING_URL = BASE_URL + "Training/" + "ShowByUser.php";
 
     public static final String USER_CANCEL = "Zakończono przez użytkownika";
     public static final String LOGIN_ERROR = "Nieudana próba połączenia";
@@ -53,6 +60,7 @@ public class Configuration {
         Log.e(TAG, "generateNextDay: "+startDate );
         return startDate;
     }
+
 
 
 }

@@ -23,7 +23,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".UserLoginActivity"
+            android:name=".Login.LoginActivity"
             android:label="@string/fitx"
             android:theme="@style/FiTX3theme.noBar"
             android:windowSoftInputMode="stateHidden">
@@ -38,7 +38,7 @@
             android:label="@string/fitx"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".StatsActivity"
+            android:name=".Stats.StatsActivity"
             android:label="@string/fitx"
             android:parentActivityName=".MainActivity"
             android:theme="@style/FiTX3theme.noBar" />
@@ -51,6 +51,12 @@
             android:name=".Training.TrainingActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/FiTX3theme.noBar" />
+        <activity
+            android:name=".Diet.DietProductShowActivity"
+            android:label="@string/fitx"
+            android:theme="@style/FiTX3theme.noBar"
+
+            android:parentActivityName=".Diet.DietActivity"/>
     </application>
 
 </manifest>

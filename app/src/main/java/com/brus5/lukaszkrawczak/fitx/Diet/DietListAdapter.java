@@ -33,8 +33,6 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
     }
 
 
-
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -50,8 +48,9 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
         double fats = getItem(position).getFats();
         double carbs = getItem(position).getCarbs();
         double kcal = getItem(position).getKcal();
+        String image = getItem(position).getImage();
 
-        new Diet(id, name, weight, proteins, fats, carbs, kcal);
+        new Diet(id, name, weight, proteins, fats, carbs, kcal, image);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent,false);
@@ -63,6 +62,7 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
         TextView dietMealCarbs = convertView.findViewById(R.id.dietMealCarbs);
         TextView dietMealID = convertView.findViewById(R.id.dietMealID);
         TextView dietMealKcal = convertView.findViewById(R.id.dietMealKcal);
+        TextView dietMealImage = convertView.findViewById(R.id.dietMealImage);
 
         dietMealID.setText(String.valueOf(id));
 
@@ -75,6 +75,8 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
         dietMealKcal.setText(replaceCommaWithDotNoFloatingPoint(kcal));
 
         dietMealWeight.setText(replaceCommaWithDotNoFloatingPoint(weight));
+
+        dietMealImage.setText(image);
 
         ArrayList arrayList = new ArrayList();
         arrayList.add(kcal);

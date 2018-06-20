@@ -18,7 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
-import com.brus5.lukaszkrawczak.fitx.DTO.RestApiNames;
+import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.brus5.lukaszkrawczak.fitx.Training.DTO.TrainingShowByUserDTO;

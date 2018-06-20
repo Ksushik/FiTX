@@ -48,6 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/calendarViewDietActivity" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
@@ -68,6 +69,7 @@
         app:layout_constraintTop_toBottomOf="@+id/progressBarProteins" />
 
     <TextView
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
@@ -82,29 +84,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
         android:elevation="2dp"
         android:text="Carbs"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guidelineDiet3"
         app:layout_constraintTop_toBottomOf="@+id/progressBarCarbs" />
 
     <TextView
         android:id="@+id/textViewFats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="32dp"
         android:elevation="2dp"
         android:text="Fats"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/guidelineDiet2"
         app:layout_constraintTop_toBottomOf="@+id/progressBarFats" />
 
     <TextView
@@ -112,13 +109,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
         android:elevation="2dp"
         android:text="Proteins"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineDiet1"
         app:layout_constraintStart_toStartOf="@+id/toolbar5"
         app:layout_constraintTop_toBottomOf="@+id/progressBarProteins" />
 
@@ -130,8 +127,8 @@
         android:text="Kcal"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/progressBarKcal"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="@+id/guideline3" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineDiet2"
+        app:layout_constraintStart_toStartOf="@+id/guidelineDiet2" />
 
     <TextView
         android:id="@+id/textViewShowDayDietActivity"
@@ -155,7 +152,7 @@
         android:max="100"
         android:progress="0"
         android:progressTint="@android:color/holo_blue_dark"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineDiet1"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewShowDayDietActivity" />
@@ -166,15 +163,16 @@
         android:layout_width="0dp"
         android:layout_height="5dp"
         android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="8dp"
         android:elevation="2dp"
         android:max="100"
         android:progress="0"
         android:progressTint="@android:color/holo_orange_dark"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineDiet3"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/guidelineDiet1"
         app:layout_constraintTop_toBottomOf="@+id/textViewShowDayDietActivity" />
 
     <ProgressBar
@@ -183,6 +181,7 @@
         android:layout_width="0dp"
         android:layout_height="5dp"
         android:layout_marginEnd="2dp"
+        android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="8dp"
         android:elevation="2dp"
@@ -190,8 +189,7 @@
         android:progress="0"
         android:progressTint="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guidelineDiet3"
         app:layout_constraintTop_toBottomOf="@+id/textViewShowDayDietActivity" />
 
     <ProgressBar
@@ -210,25 +208,25 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/guidelineDiet1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.33" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.66" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline3"
+        android:id="@+id/guidelineDiet2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.50121653" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineDiet3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6666667" />
 
     <ListView
         android:id="@+id/listViewDietActivity"

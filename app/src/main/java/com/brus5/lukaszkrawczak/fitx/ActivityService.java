@@ -11,9 +11,9 @@
 //import com.android.volley.VolleyError;
 //import com.android.volley.toolbox.StringRequest;
 //import com.android.volley.toolbox.Volley;
-//import com.brus5.lukaszkrawczak.fitx.DTO.RestApiNames;
-//import com.brus5.lukaszkrawczak.fitx.DTO.UserLoginNormalDTO;
-//import com.brus5.lukaszkrawczak.fitx.DTO.UserLoginRegisterFacebookDTO;
+//import com.brus5.lukaszkrawczak.fitx.Login.DTO.RestApiNames;
+//import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginNormalDTO;
+//import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginRegisterFacebookDTO;
 //
 //
 //import org.json.JSONException;
@@ -104,7 +104,7 @@
 //                                SaveSharedPreference.setUserName(ctx,dto.userName);
 //                                SaveSharedPreference.setDefLogin(ctx,true);
 //                                ctx.startActivity(intent);
-//                                ((UserLoginActivity)ctx).finish();
+//                                ((LoginActivity)ctx).finish();
 //                            } else {
 //                                Toast.makeText(ctx, Configuration.LOGIN_ERROR, Toast.LENGTH_LONG).show();
 //                            }
@@ -147,7 +147,7 @@
 //                                SaveSharedPreference.setUserName(ctx,dto.userName);
 //                                SaveSharedPreference.setDefLogin(ctx,true);
 //                                ctx.startActivity(intent);
-//                                ((UserLoginActivity)ctx).finish();
+//                                ((LoginActivity)ctx).finish();
 //                            } else {
 //                                Toast.makeText(ctx, Configuration.LOGIN_ERROR, Toast.LENGTH_LONG).show();
 //                            }

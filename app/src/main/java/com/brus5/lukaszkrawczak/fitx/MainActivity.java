@@ -13,9 +13,9 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
+import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 

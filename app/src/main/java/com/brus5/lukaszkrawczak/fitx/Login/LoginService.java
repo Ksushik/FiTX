@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx;
+package com.brus5.lukaszkrawczak.fitx.Login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +11,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.DTO.RestApiNames;
-import com.brus5.lukaszkrawczak.fitx.DTO.UserLoginNormalDTO;
-import com.brus5.lukaszkrawczak.fitx.DTO.UserLoginRegisterFacebookDTO;
+import com.brus5.lukaszkrawczak.fitx.Configuration;
+import com.brus5.lukaszkrawczak.fitx.RestApiNames;
+import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginNormalDTO;
+import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginRegisterFacebookDTO;
+import com.brus5.lukaszkrawczak.fitx.MainActivity;
+import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -100,7 +103,7 @@ public class LoginService {
                                 SaveSharedPreference.setUserName(ctx,dto.userName);
                                 SaveSharedPreference.setDefLogin(ctx,true);
                                 ctx.startActivity(intent);
-                                ((UserLoginActivity)ctx).finish();
+                                ((LoginActivity)ctx).finish();
                             } else {
                                 Toast.makeText(ctx, Configuration.LOGIN_ERROR, Toast.LENGTH_LONG).show();
                             }
@@ -143,7 +146,7 @@ public class LoginService {
                                 SaveSharedPreference.setUserName(ctx,dto.userName);
                                 SaveSharedPreference.setDefLogin(ctx,true);
                                 ctx.startActivity(intent);
-                                ((UserLoginActivity)ctx).finish();
+                                ((LoginActivity)ctx).finish();
                             } else {
                                 Toast.makeText(ctx, Configuration.LOGIN_ERROR, Toast.LENGTH_LONG).show();
                             }

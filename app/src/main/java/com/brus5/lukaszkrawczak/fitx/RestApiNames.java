@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx.DTO;
+package com.brus5.lukaszkrawczak.fitx;
 
 public class RestApiNames {
 

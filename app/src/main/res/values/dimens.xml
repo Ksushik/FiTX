@@ -4,6 +4,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="activity_listview_horizontal_margin">8dp</dimen>
-    <dimen name="activity_listview_vertical_margin">8dp</dimen>
+    <dimen name="activity_listview_horizontal_margin">4dp</dimen>
+    <dimen name="activity_listview_vertical_margin">4dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

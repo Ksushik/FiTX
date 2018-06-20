@@ -1,6 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.Diet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -8,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,7 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
-import com.brus5.lukaszkrawczak.fitx.DTO.RestApiNames;
+import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietResetKcalFromGraphDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietSendCountedKcalDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietUserShowDailyDTO;
@@ -75,6 +78,14 @@ public class DietActivity extends AppCompatActivity {
         loadInput();
         Configuration cfg = new Configuration();
         weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
+
+        onListViewItemSelected();
+
+    }
+
+    public void runNextActivity(Context packageContext, Class<?> cls){
+        Intent intent = new Intent(packageContext,cls);
+        DietActivity.this.startActivity(intent);
     }
 
     private void loadInput() {
@@ -172,6 +183,7 @@ public class DietActivity extends AppCompatActivity {
                             double productKcal;
                             double weight;
                             double finalkcal = 0d;
+                            String productImage = "";
                             JSONArray product_informations = jsonObject.getJSONArray("server_response");
                             JSONArray product_weight_response = jsonObject.getJSONArray("product_weight_response");
 
@@ -185,6 +197,7 @@ public class DietActivity extends AppCompatActivity {
                                     productFats = productsJsonObj.getDouble("fats");
                                     productCarbs = productsJsonObj.getDouble("carbs");
                                     productKcal = productsJsonObj.getDouble("kcal");
+                                    productImage = productsJsonObj.getString("image");
 
                                     JSONObject productWeightJsonObj = product_weight_response.getJSONObject(i);
                                     weight = productWeightJsonObj.getDouble("weight");
@@ -202,7 +215,7 @@ public class DietActivity extends AppCompatActivity {
                                     carbsCounted += productCarbs;
                                     kcalCounted += finalkcal;
 
-                                    Diet diet = new Diet(productId, upName, weight, productProteins, productFats, productCarbs,finalkcal);
+                                    Diet diet = new Diet(productId, upName, weight, productProteins, productFats, productCarbs,finalkcal, productImage);
                                     dietArrayList.add(diet);
                                 }
 
@@ -235,7 +248,6 @@ public class DietActivity extends AppCompatActivity {
                             Log.i(TAG, "onResponse: RESULT"+RESULT);
                             Log.i(TAG, "onResponse: ratio " + proteinRatio+":"+ fatRatio+":"+carbRatio);
                             Log.i(TAG, "onResponse: totalCalories "+totalCalories);
-//                            Log.i(TAG, "onResponse: productWeightArrayList "+ productWeightArrayList);
                             Log.i(TAG, "onResponse: proteinGoal: "+proteinGoal+" fatGoal: "+fatGoal+" carbGoal: "+carbsGoal);
                             Log.i(TAG, "onResponse: productKcalArrayList: "+kcalCounted+" P: "+proteinsCounted+" F: "+fatsCounted+" C: "+carbsCounted);
 
@@ -285,6 +297,23 @@ public class DietActivity extends AppCompatActivity {
         };
         RequestQueue queue = Volley.newRequestQueue(ctx);
         queue.add(strRequest);
+    }
+
+    private void onListViewItemSelected() {
+        listViewDietActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                TextView productId = view.findViewById(R.id.dietMealID);
+                TextView productWeight = view.findViewById(R.id.dietMealWeight);
+
+                Intent intent = new Intent(DietActivity.this,DietProductShowActivity.class);
+                intent.putExtra("productId",productId.getText().toString());
+                intent.putExtra("productWeight",Double.valueOf(productWeight.getText().toString()));
+                startActivity(intent);
+
+            }
+        });
     }
 
     private void progressBarProteinsChangeColor(double result, double goal){

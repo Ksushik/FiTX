@@ -1,5 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx;
 
+import com.brus5.lukaszkrawczak.fitx.Login.LoginActivity;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -7,13 +9,13 @@ import static org.junit.Assert.*;
 /**
  * Created by lukaszkrawczak on 25.05.2018.
  */
-public class UserLoginActivityTest {
+public class LoginActivityTest {
     @Test
     public void getUserName() throws Exception {
 
         int inputLenght;
 
-        UserLoginActivity user = new UserLoginActivity();
+        LoginActivity user = new LoginActivity();
         user.setUserName("12");
 
 //        assertEquals(2,charLenght(user.getUserName()));

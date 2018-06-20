@@ -12,8 +12,9 @@ public class Diet {
     private double fats;
     private double carbs;
     private double kcal;
+    private String image;
 
-    public Diet(int id, String name, double weight, double proteins, double fats, double carbs, double kcal) {
+    public Diet(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, String image) {
         this.id = id;
         this.name = name;
         this.weight = weight;
@@ -21,6 +22,7 @@ public class Diet {
         this.fats = fats;
         this.carbs = carbs;
         this.kcal = kcal;
+        this.image = image;
     }
 
     public int getId() {
@@ -77,5 +79,13 @@ public class Diet {
 
     public void setKcal(double kcal) {
         this.kcal = kcal;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

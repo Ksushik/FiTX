@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx.DTO;
+package com.brus5.lukaszkrawczak.fitx.Login.DTO;
 
 /**
  * Created by lukaszkrawczak on 24.05.2018.

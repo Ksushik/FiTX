@@ -17,6 +17,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.constraint.Guideline
+            android:id="@+id/guidelineDiet2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.33" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guidelineDiet1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.66" />
+
         <TextView
             android:id="@+id/dietMealTitle"
             android:layout_width="wrap_content"
@@ -26,7 +40,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="8dp"
             android:text="MealTitle"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,11 +91,10 @@
             android:id="@+id/dietMealID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="TextView"
             android:visibility="invisible"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="270dp" />
+            tools:layout_editor_absoluteX="129dp"
+            tools:layout_editor_absoluteY="0dp" />
 
         <TextView
             android:id="@+id/dietMealKcal"
@@ -96,7 +109,7 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:text="@string/proteins_short_colon"
             android:textSize="11sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,28 +119,28 @@
             android:id="@+id/textView40"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="120dp"
             android:text="@string/fats_short_colon"
             android:textSize="11sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineDiet2"
             app:layout_constraintTop_toTopOf="@+id/textView5" />
 
         <TextView
             android:id="@+id/textView42"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="200dp"
             android:text="@string/carbs_short_colon"
             android:textSize="11sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView40" />
+            app:layout_constraintStart_toStartOf="@+id/guidelineDiet1"
+            app:layout_constraintTop_toTopOf="@+id/textView5" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
             android:text="@string/grams_short"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintStart_toEndOf="@+id/dietMealWeight"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -171,6 +184,15 @@
             android:textSize="11sp"
             app:layout_constraintStart_toEndOf="@+id/dietMealCarbs"
             app:layout_constraintTop_toTopOf="@+id/textView42" />
+
+        <TextView
+            android:id="@+id/dietMealImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:visibility="invisible"
+            tools:layout_editor_absoluteX="188dp"
+            tools:layout_editor_absoluteY="0dp" />
 
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>
