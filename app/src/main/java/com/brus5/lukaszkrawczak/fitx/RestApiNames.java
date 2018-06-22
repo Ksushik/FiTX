@@ -39,6 +39,10 @@ public class RestApiNames {
     public static String DB_PRODUCT_FATS = "fats";
     public static String DB_PRODUCT_CARBS = "carbs";
     public static String DB_PRODUCT_KCAL = "kcal";
+    public static String DB_PRODUCT_SATURATED_FATS = "fats_saturated";
+    public static String DB_PRODUCT_UNSATURATED_FATS = "fats_unsaturated";
+    public static String DB_PRODUCT_CARBS_FIBER = "carbs_fiber";
+    public static String DB_PRODUCT_CARBS_SUGAR = "carbs_sugar";
 
     /* Names of db_kcalres */
     public static String DB_KCAL_LIMIT = "RESULT";

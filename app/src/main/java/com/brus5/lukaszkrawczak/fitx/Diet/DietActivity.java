@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -80,6 +82,10 @@ public class DietActivity extends AppCompatActivity {
         weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
 
         onListViewItemSelected();
+
+        // TODO: 20.06.2018 ogarnij timestamp na mysql
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        Log.e(TAG, "onCreate: timestamp "+timeStamp );
 
     }
 
@@ -191,17 +197,15 @@ public class DietActivity extends AppCompatActivity {
                                 for (int i = 0; i < product_informations.length(); i++){
                                     JSONObject productsJsonObj = product_informations.getJSONObject(i);
 
-                                    productId = productsJsonObj.getInt("product_id");
-                                    productName = productsJsonObj.getString("name");
-                                    productProteins = productsJsonObj.getDouble("proteins");
-                                    productFats = productsJsonObj.getDouble("fats");
-                                    productCarbs = productsJsonObj.getDouble("carbs");
-                                    productKcal = productsJsonObj.getDouble("kcal");
-                                    productImage = productsJsonObj.getString("image");
+                                    productId = productsJsonObj.getInt(RestApiNames.DB_PRODUCT_ID);
+                                    productName = productsJsonObj.getString(RestApiNames.DB_PRODUCT_NAME);
+                                    productProteins = productsJsonObj.getDouble(RestApiNames.DB_PRODUCT_PROTEINS);
+                                    productFats = productsJsonObj.getDouble(RestApiNames.DB_PRODUCT_FATS);
+                                    productCarbs = productsJsonObj.getDouble(RestApiNames.DB_PRODUCT_CARBS);
+                                    productKcal = productsJsonObj.getDouble(RestApiNames.DB_PRODUCT_KCAL);
 
                                     JSONObject productWeightJsonObj = product_weight_response.getJSONObject(i);
-                                    weight = productWeightJsonObj.getDouble("weight");
-//                                    productWeightArrayList.add(weight);
+                                    weight = productWeightJsonObj.getDouble(RestApiNames.DB_PRODUCT_WEIGHT);
 
                                     productProteins = productProteins * (weight / 100);
                                     productFats = productFats * (weight / 100);
@@ -250,6 +254,7 @@ public class DietActivity extends AppCompatActivity {
                             Log.i(TAG, "onResponse: totalCalories "+totalCalories);
                             Log.i(TAG, "onResponse: proteinGoal: "+proteinGoal+" fatGoal: "+fatGoal+" carbGoal: "+carbsGoal);
                             Log.i(TAG, "onResponse: productKcalArrayList: "+kcalCounted+" P: "+proteinsCounted+" F: "+fatsCounted+" C: "+carbsCounted);
+
 
                             dietListAdapter = new DietListAdapter(DietActivity.this,R.layout.diet_meal_row,dietArrayList);
                             listViewDietActivity.setAdapter(dietListAdapter);

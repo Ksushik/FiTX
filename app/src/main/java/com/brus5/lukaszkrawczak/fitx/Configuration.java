@@ -61,6 +61,4 @@ public class Configuration extends AppCompatActivity{
         return startDate;
     }
 
-
-
 }

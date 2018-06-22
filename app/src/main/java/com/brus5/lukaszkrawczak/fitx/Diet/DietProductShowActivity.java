@@ -36,16 +36,18 @@ public class DietProductShowActivity extends AppCompatActivity {
     private static final String TAG = "DietProductShowActivity";
     ImageView productImageView;
 
-    TextView textViewProductName, textViewProductProteins, textViewProductFats, textViewProductCarbs, textViewProductCalories;
+    TextView textViewProductName, textViewProductProteins, textViewProductFats, textViewProductCarbs, textViewProductCalories, textViewProductSaturatedFats, textViewProductUnsaturatedFats, textViewProductFiber, textViewProductSugars;
     EditText editTextProductWeight;
     String productId;
 
     double productProteins = 0d;
     double productFats = 0d;
     double productCarbs = 0d;
-    double productFiber = 0d;
-    double proudtSugars = 0d;
     double productCalories = 0d;
+    double productSaturatedFats = 0d;
+    double productUnsaturatedFats = 0d;
+    double productCarbsFiber = 0d;
+    double productCarbsSugars = 0d;
 
     double productWeight;
 
@@ -144,6 +146,10 @@ public class DietProductShowActivity extends AppCompatActivity {
                                     productProteins = productInfoJsonObject.getDouble(RestApiNames.DB_PRODUCT_PROTEINS);
                                     productFats = productInfoJsonObject.getDouble(RestApiNames.DB_PRODUCT_FATS);
                                     productCarbs = productInfoJsonObject.getDouble(RestApiNames.DB_PRODUCT_CARBS);
+                                    productSaturatedFats = productInfoJsonObject.getDouble(RestApiNames.DB_PRODUCT_SATURATED_FATS);
+                                    productUnsaturatedFats = productInfoJsonObject.getDouble(RestApiNames.DB_PRODUCT_UNSATURATED_FATS);
+                                    productCarbsFiber = productInfoJsonObject.getDouble(RestApiNames.DB_PRODUCT_CARBS_FIBER);
+                                    productCarbsSugars = productInfoJsonObject.getDouble(RestApiNames.DB_PRODUCT_CARBS_SUGAR);
 
                                     String upName = productName.substring(0,1).toUpperCase() + productName.substring(1);
                                     textViewProductName.setText(upName);
@@ -179,6 +185,10 @@ public class DietProductShowActivity extends AppCompatActivity {
         textViewProductProteins.setText(countProteinsGrams(aDouble));
         textViewProductFats.setText(countFatsGrams(aDouble));
         textViewProductCarbs.setText(countCarbsGrams(aDouble));
+        textViewProductSaturatedFats.setText(countSaturatedFats(aDouble));
+        textViewProductUnsaturatedFats.setText(countUnsaturatedFats(aDouble));
+        textViewProductFiber.setText(countCarbsFiber(aDouble));
+        textViewProductSugars.setText(countCarbsSugar(aDouble));
 
         double proteins = Double.valueOf(textViewProductProteins.getText().toString());
         double fats = Double.valueOf(textViewProductFats.getText().toString());
@@ -193,6 +203,10 @@ public class DietProductShowActivity extends AppCompatActivity {
         textViewProductFats.setText(s);
         textViewProductCarbs.setText(s);
         textViewProductCalories.setText(s);
+        textViewProductSaturatedFats.setText(s);
+        textViewProductUnsaturatedFats.setText(s);
+        textViewProductFiber.setText(s);
+        textViewProductSugars.setText(s);
     }
 
     private boolean isError(boolean b) {
@@ -216,6 +230,22 @@ public class DietProductShowActivity extends AppCompatActivity {
         double calories = proteins*4+fats*9+carbs*4;
         return String.format("%.1f",calories).replace(",",".");
     }
+    private String countSaturatedFats(Double weight) {
+        Double mProductProteins = productSaturatedFats*(weight*0.01);
+        return String.format("%.1f",mProductProteins).replace(",",".");
+    }
+    private String countUnsaturatedFats(Double weight) {
+        Double mProductProteins = productUnsaturatedFats*(weight*0.01);
+        return String.format("%.1f",mProductProteins).replace(",",".");
+    }
+    private String countCarbsFiber(Double weight) {
+        Double mProductProteins = productCarbsFiber*(weight*0.01);
+        return String.format("%.1f",mProductProteins).replace(",",".");
+    }
+    private String countCarbsSugar(Double weight) {
+        Double mProductProteins = productCarbsSugars*(weight*0.01);
+        return String.format("%.1f",mProductProteins).replace(",",".");
+    }
 
     private void loadInput() {
         productImageView = findViewById(R.id.productImageView);
@@ -225,7 +255,10 @@ public class DietProductShowActivity extends AppCompatActivity {
         textViewProductCarbs = findViewById(R.id.textViewProductCarbs);
         editTextProductWeight = findViewById(R.id.editTextProductWeight);
         textViewProductCalories = findViewById(R.id.textViewProductCalories);
-
+        textViewProductSaturatedFats = findViewById(R.id.textViewProductSaturatedFats);
+        textViewProductUnsaturatedFats = findViewById(R.id.textViewProductUnsaturatedFats);
+        textViewProductFiber = findViewById(R.id.textViewProductFiber);
+        textViewProductSugars = findViewById(R.id.textViewProductSugars);
     }
 
     private void changeStatusBarColor() {

@@ -41,21 +41,23 @@
             android:name=".Stats.StatsActivity"
             android:label="@string/fitx"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/FiTX3theme.noBar" />
+            android:theme="@style/FiTX3theme.noBar"
+             />
         <activity
             android:name=".Diet.DietActivity"
             android:label="@string/fitx"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/FiTX3theme.noBar" />
+            android:theme="@style/FiTX3theme.noBar"
+             />
         <activity
             android:name=".Training.TrainingActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/FiTX3theme.noBar" />
+            android:theme="@style/FiTX3theme.noBar"
+             />
         <activity
             android:name=".Diet.DietProductShowActivity"
             android:label="@string/fitx"
             android:theme="@style/FiTX3theme.noBar"
-
             android:parentActivityName=".Diet.DietActivity"/>
     </application>
 
