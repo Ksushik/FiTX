@@ -9,15 +9,18 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
+import com.brus5.lukaszkrawczak.fitx.Login.DTO.GetUserInfoDTO;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginNormalDTO;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginRegisterFacebookDTO;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +34,7 @@ public class LoginService {
 
     private static final String FACEBOOK_REGISTER = Configuration.BASE_URL + "Facebook/FacebookRegisterRequest.php";
     private static final String LOGIN_REQUEST = Configuration.BASE_URL + "User/UserLoginRequest.php";
+    private static final String GET_USER_INFO = Configuration.BASE_URL + "User/UserInfoShowRequest.php";
 
     public void LoginWithFacebook(final UserLoginRegisterFacebookDTO dto, final Context ctx){
 
@@ -104,6 +108,14 @@ public class LoginService {
                                 SaveSharedPreference.setDefLogin(ctx,true);
                                 ctx.startActivity(intent);
                                 ((LoginActivity)ctx).finish();
+
+
+                            GetUserInfoDTO dto = new GetUserInfoDTO();
+                            dto.userName = SaveSharedPreference.getUserName(ctx);
+                            GetUserInfo(dto,ctx);
+
+
+
                             } else {
                                 Toast.makeText(ctx, Configuration.LOGIN_ERROR, Toast.LENGTH_LONG).show();
                             }
@@ -133,6 +145,63 @@ public class LoginService {
         RequestQueue queue = Volley.newRequestQueue(ctx);
         queue.add(strRequest);
     }
+
+    public void GetUserInfo(final GetUserInfoDTO dto, final Context ctx){
+        StringRequest strRequest = new StringRequest(Request.Method.POST, GET_USER_INFO,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            int userId = 0;
+                            String userFirstName = "";
+                            String userBirthday = "";
+                            String userPassword = "";
+                            String userEmail = "";
+                            String userGender = "";
+                            JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+                            for (int i = 0; i < jsonArray.length(); i++){
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                userId = jsonObject1.getInt("user_id");
+                                userFirstName = jsonObject1.getString("name");
+                                userBirthday = jsonObject1.getString("birthday");
+                                userPassword = jsonObject1.getString("password");
+                                userEmail = jsonObject1.getString("email");
+                                userGender = jsonObject1.getString("male");
+
+                            }
+                            SaveSharedPreference.setUserID(ctx,userId);
+                            SaveSharedPreference.setUserFirstName(ctx,userFirstName);
+//                          userName is no needed because it was added in LoginNormal();
+                            SaveSharedPreference.setUserBirthday(ctx,userBirthday);
+                            SaveSharedPreference.setUserPassword(ctx,userPassword);
+                            SaveSharedPreference.setUserEmail(ctx,userEmail);
+                            SaveSharedPreference.setUserGender(ctx,userGender);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                HashMap<String,String> params = new HashMap<>();
+                params.put(RestApiNames.DB_USERNAME, dto.userName);
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(ctx);
+        queue.add(strRequest);
+    }
+
     public void GraphKcalJson(final UserLoginNormalDTO dto, final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, LOGIN_REQUEST,
                 new Response.Listener<String>() {

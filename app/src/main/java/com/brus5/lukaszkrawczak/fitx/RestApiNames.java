@@ -43,6 +43,15 @@ public class RestApiNames {
     public static String DB_PRODUCT_UNSATURATED_FATS = "fats_unsaturated";
     public static String DB_PRODUCT_CARBS_FIBER = "carbs_fiber";
     public static String DB_PRODUCT_CARBS_SUGAR = "carbs_sugar";
+    public static String DB_PRODUCT_MULTIPLIER_PIECE = "multiplier_piece";
+
+
+    /* Names of db_user_diet */
+    public static String DB_USER_DIET_ID = "id";
+    public static String DB_USER_DIET_USERNAME = "username";
+    public static String DB_USER_DIET_DATE = "date";
+    public static String DB_USER_DIET_WEIGHT_UPDATE = "updateweight";
+    public static String DB_USER_DIET_DATE_UPDATE = "updatedate";
 
     /* Names of db_kcalres */
     public static String DB_KCAL_LIMIT = "RESULT";
@@ -52,6 +61,7 @@ public class RestApiNames {
 
     /* Used more often */
     public static String DB_DATE = "date";
+
     public static String DB_UPDATE_RESULT = "updateresult";
 
 }

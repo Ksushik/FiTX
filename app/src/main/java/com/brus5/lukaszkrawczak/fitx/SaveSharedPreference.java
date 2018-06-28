@@ -12,14 +12,15 @@ import java.util.Calendar;
 
 public class SaveSharedPreference
 {
-    private static final String PREF_USER_ID = "userID";
-    private static final String PREF_USER_NAME= "DB_USERNAME";
-    private static final String DEF_LOGIN= "defaultLogin";
-    private static final String PREF_USER_FIRST_NAME= "DB_USER_FIRSTNAME";
-    private static final String PREF_USER_BIRTHDAY= "DB_USER_BIRTHDAY";
-    private static final String PREF_USER_EMAIL= "DB_USER_EMAIL";
-    private static final String PREF_USER_GENDER= "DB_USER_GENDER";
-    private static final String PREF_USER_AGE= "userAge";
+    private static final String PREF_USER_ID            = "userID";
+    private static final String PREF_USER_NAME          = "userName";
+    private static final String DEF_LOGIN               = "defaultLogin";
+    private static final String PREF_USER_FIRST_NAME    = "userFirstName";
+    private static final String PREF_USER_BIRTHDAY      = "userBirthday";
+    private static final String PREF_USER_EMAIL         = "userEmail";
+    private static final String PREF_USER_GENDER        = "userGender";
+    private static final String PREF_USER_AGE           = "userAge";
+    private static final String PREF_USER_PASSWORD      = "userPassword";
 
     private static final String TAG = "SaveSharedPreference";
 
@@ -133,6 +134,18 @@ public class SaveSharedPreference
         String ageString = ageInt.toString();
         return ageString;
     }
+
+    public static void setUserPassword(Context ctx, String userPassword) {
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_PASSWORD, userPassword);
+        editor.commit();
+    }
+
+    public static String getUserPassword(Context ctx) {
+        return getSharedPreferences(ctx).getString(PREF_USER_PASSWORD, "");
+    }
+
+
 
 
 

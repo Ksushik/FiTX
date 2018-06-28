@@ -1,6 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.Diet.DTO;
 
-public class DietSendCountedKcalDTO {
+public class DietUpdateKcalResultDTO {
     public int userId;
     public String updateKcalResult;
     public String userName;

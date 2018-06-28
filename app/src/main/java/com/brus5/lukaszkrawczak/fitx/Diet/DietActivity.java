@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,9 +23,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
+import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietDeleteCountedKcalDTO;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
-import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietResetKcalFromGraphDTO;
-import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietSendCountedKcalDTO;
+import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietUpdateKcalResultDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietUserShowDailyDTO;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -35,7 +34,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -68,7 +66,7 @@ public class DietActivity extends AppCompatActivity {
 
     /* Gettings DB_DATE */
     Configuration cfg = new Configuration();
-    String dateInsde, dateInsideTextView;
+    String dateInsde, dateInsideTextView, productTimeStamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +76,10 @@ public class DietActivity extends AppCompatActivity {
         changeStatusBarColor();
         onBackButtonPressed();
         loadInput();
-        Configuration cfg = new Configuration();
+
         weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
 
         onListViewItemSelected();
-
-        // TODO: 20.06.2018 ogarnij timestamp na mysql
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        Log.e(TAG, "onCreate: timestamp "+timeStamp );
 
     }
 
@@ -148,7 +142,6 @@ public class DietActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response)
                     {
-                        Log.d(TAG, "onResponse: response "+response);
                         double proteinsCounted = 0d;
                         double fatsCounted = 0d;
                         double carbsCounted = 0d;
@@ -163,6 +156,9 @@ public class DietActivity extends AppCompatActivity {
                         try {
                             /* Getting DietRatio from MySQL */
                             JSONObject jsonObject = new JSONObject(response);
+
+                            Log.d(TAG, "onResponse: "+jsonObject.toString(1));
+
                             JSONArray dietratio = jsonObject.getJSONArray("dietratio");
                             if (dietratio.length() > 0) {
                                 for (int i = 0; i < dietratio.length(); i++) {
@@ -206,6 +202,7 @@ public class DietActivity extends AppCompatActivity {
 
                                     JSONObject productWeightJsonObj = product_weight_response.getJSONObject(i);
                                     weight = productWeightJsonObj.getDouble(RestApiNames.DB_PRODUCT_WEIGHT);
+                                    productTimeStamp = productWeightJsonObj.getString(RestApiNames.DB_DATE);
 
                                     productProteins = productProteins * (weight / 100);
                                     productFats = productFats * (weight / 100);
@@ -255,26 +252,33 @@ public class DietActivity extends AppCompatActivity {
                             Log.i(TAG, "onResponse: proteinGoal: "+proteinGoal+" fatGoal: "+fatGoal+" carbGoal: "+carbsGoal);
                             Log.i(TAG, "onResponse: productKcalArrayList: "+kcalCounted+" P: "+proteinsCounted+" F: "+fatsCounted+" C: "+carbsCounted);
 
+                            Log.e(TAG, "getKcalResult(): "+getKcalResult());
 
                             dietListAdapter = new DietListAdapter(DietActivity.this,R.layout.diet_meal_row,dietArrayList);
                             listViewDietActivity.setAdapter(dietListAdapter);
                             listViewDietActivity.invalidate();
 
                             if (getKcalResult() > 0d) {
-                                DietSendCountedKcalDTO dietSendCountedKcalDTO = new DietSendCountedKcalDTO();
-                                dietSendCountedKcalDTO.userId = SaveSharedPreference.getUserID(DietActivity.this);
-                                dietSendCountedKcalDTO.userName = SaveSharedPreference.getUserName(DietActivity.this);
-                                dietSendCountedKcalDTO.updateKcalResult = String.valueOf(kcalCounted);
-                                dietSendCountedKcalDTO.dateToday = dateInsde;
+                                DietUpdateKcalResultDTO dto = new DietUpdateKcalResultDTO();
+                                dto.userId = SaveSharedPreference.getUserID(DietActivity.this);
+                                dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
+                                dto.updateKcalResult = String.format("%.1f",kcalCounted);
+                                dto.dateToday = dateInsde;
                                 DietService dietService = new DietService();
-                                dietService.DietSendCountedKcal(dietSendCountedKcalDTO,DietActivity.this);
+                                dietService.DietUpdateCountedKcal(dto,DietActivity.this);
+                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserID(ctx));
+                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserFirstName(ctx));
+                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserBirthday(ctx));
+                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserPassword(ctx));
+                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserEmail(ctx));
+                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserGender(ctx));
                             }
                             else if (getKcalResult() == 0d){
-                                DietResetKcalFromGraphDTO dietResetKcalFromGraphDTO = new DietResetKcalFromGraphDTO();
-                                dietResetKcalFromGraphDTO.userName = SaveSharedPreference.getUserName(DietActivity.this);
-                                dietResetKcalFromGraphDTO.dateToday = dateInsde;
+                                DietDeleteCountedKcalDTO dto = new DietDeleteCountedKcalDTO();
+                                dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
+                                dto.dateToday = dateInsde;
                                 DietService dietService = new DietService();
-                                dietService.DietResetKcalFromGraph(dietResetKcalFromGraphDTO,DietActivity.this);
+                                dietService.DietDeleteCountedKcal(dto,DietActivity.this);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -315,6 +319,9 @@ public class DietActivity extends AppCompatActivity {
                 Intent intent = new Intent(DietActivity.this,DietProductShowActivity.class);
                 intent.putExtra("productId",productId.getText().toString());
                 intent.putExtra("productWeight",Double.valueOf(productWeight.getText().toString()));
+                intent.putExtra("productTimeStamp", productTimeStamp);
+
+
                 startActivity(intent);
 
             }
@@ -433,6 +440,18 @@ public class DietActivity extends AppCompatActivity {
 
     public void setKcalResult(double kcalResult) {
         this.kcalResult = kcalResult;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        // this is your backendcall
+        dietListAdapter.clear();
+        DietUserShowDailyDTO dietUserShowDailyDTO = new DietUserShowDailyDTO();
+        dietUserShowDailyDTO.userName = SaveSharedPreference.getUserName(DietActivity.this);
+        dietUserShowDailyDTO.dateToday = dateInsde;
+        loadUsersDailyDietAsynchTask(dietUserShowDailyDTO,DietActivity.this);
+
     }
 
 }

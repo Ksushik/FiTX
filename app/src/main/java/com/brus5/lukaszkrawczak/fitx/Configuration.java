@@ -21,14 +21,14 @@ public class Configuration extends AppCompatActivity{
     public static final String BASE_URL = "http://justfitx.xyz/";
 
 
+    public static final String DIET_USER_SHOW_DAILY_URL             = BASE_URL + "Diet/" + "ShowByUser.php";
+    public static final String DIET_UPDATE_COUNTED_KCAL_URL         = BASE_URL + "Diet/" + "KcalResultUpdate.php";
+    public static final String DIET_DELETE_COUNTED_KCAL_URL         = BASE_URL + "Diet/" + "KcalResultDelete.php";
+    public static final String DIET_RESET_KCAL_URL                  = BASE_URL + "Diet/" + "DeleteMeal.php";
+    public static final String DIET_GET_PRODUCT_INFORMATIONS        = BASE_URL + "Diet/" + "GetProductInformations.php";
+    public static final String DIET_UPDATE_WEIGHT_PRODUCT           = BASE_URL + "Diet/" + "UpdateProductWeight.php";
 
-
-    public static final String DIET_USER_SHOW_DAILY_URL = BASE_URL + "Diet/" + "ShowByUser.php";
-    public static final String DIET_SEND_COUNTED_KCAL_URL = BASE_URL + "Diet/" + "UpdateKcalResult.php";
-    public static final String DIET_RESET_KCAL_URL = BASE_URL + "Diet/" + "DeleteMeal.php";
-    public static final String DIET_GET_PRODUCT_INFORMATIONS = BASE_URL + "Diet/" + "GetProductInformations.php";
-
-    public static final String SHOW_TRAINING_URL = BASE_URL + "Training/" + "ShowByUser.php";
+    public static final String SHOW_TRAINING_URL                    = BASE_URL + "Training/" + "ShowByUser.php";
 
     public static final String USER_CANCEL = "Zakończono przez użytkownika";
     public static final String LOGIN_ERROR = "Nieudana próba połączenia";
