@@ -16,6 +16,8 @@ import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
 
+import junit.framework.Assert;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,9 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         changeStatusBarColor();
-        loadInputs();
+        loadInputs(MainActivity.this);
 
         weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
+
+
     }
 
     private void weekCalendar(Calendar endDate, Calendar startDate) {
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
     }
 
-    private void loadInputs() {
+    private void loadInputs(Context ctx) {
         buttonDietActivity = findViewById(R.id.buttonDietActivity);
         buttonDietActivity.setOnClickListener(this);
         buttonTrainingActivity = findViewById(R.id.buttonTrainingActivity);
@@ -85,6 +89,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonSettingsActivity.setOnClickListener(this);
         buttonStatsActivity = findViewById(R.id.buttonStatsActivity);
         buttonStatsActivity.setOnClickListener(this);
+
+        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserID(ctx));
+        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserFirstName(ctx));
+        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserName(ctx));
+        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserBirthday(ctx));
+        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserPassword(ctx));
+        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserEmail(ctx));
+        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserGender(ctx));
+        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserAge(ctx));
     }
 
     @Override

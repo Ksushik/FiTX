@@ -22,7 +22,6 @@
     <string name="options">Opcje</string>
 
 
-
     <string name="button_register">Rejestracja</string>
     <string name="loading">Ładowanie</string>
 
@@ -50,10 +49,11 @@
 
     <string name="username_error">Username Error</string>
 
+    <string name="search">Szukaj</string>
+
     <string name="zero">0</string>
     <string name="product_name">Nazwa produktu</string>
     <string name="accept">Akceptuj</string>
-
 
 
     <string-array name="product_value_choice">

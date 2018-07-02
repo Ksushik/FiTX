@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -46,25 +48,13 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 public class DietActivity extends AppCompatActivity {
 
     private static final String TAG = "DietActivity";
-
-
-
     HorizontalCalendar horizontalCalendar;
-
-    TextView textViewShowDayDietActivity;
-
-    TextView textViewProteins, textViewFats, textViewCarbs, textViewKcal;
-
+    TextView textViewProteins, textViewFats, textViewCarbs, textViewKcal, textViewShowDayDietActivity;
     ProgressBar progressBarProteins, progressBarFats, progressBarCarbs, progressBarKcal;
-
     ArrayList<Diet> dietArrayList = new ArrayList<>();
-
     DietListAdapter dietListAdapter;
     ListView listViewDietActivity;
-
     double kcalResult = 0d;
-
-    /* Gettings DB_DATE */
     Configuration cfg = new Configuration();
     String dateInsde, dateInsideTextView, productTimeStamp;
 
@@ -266,12 +256,7 @@ public class DietActivity extends AppCompatActivity {
                                 dto.dateToday = dateInsde;
                                 DietService dietService = new DietService();
                                 dietService.DietUpdateCountedKcal(dto,DietActivity.this);
-                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserID(ctx));
-                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserFirstName(ctx));
-                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserBirthday(ctx));
-                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserPassword(ctx));
-                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserEmail(ctx));
-                                Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserGender(ctx));
+
                             }
                             else if (getKcalResult() == 0d){
                                 DietDeleteCountedKcalDTO dto = new DietDeleteCountedKcalDTO();
@@ -430,16 +415,16 @@ public class DietActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    private void onBackButtonPressed() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
     public double getKcalResult() {
         return kcalResult;
     }
 
     public void setKcalResult(double kcalResult) {
         this.kcalResult = kcalResult;
+    }
+
+    private void onBackButtonPressed() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -454,4 +439,21 @@ public class DietActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_diet_product_add, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menuSearchProduct:
+            Intent intent = new Intent(DietActivity.this,DietProductSearchActivity.class);
+            DietActivity.this.startActivity(intent);
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

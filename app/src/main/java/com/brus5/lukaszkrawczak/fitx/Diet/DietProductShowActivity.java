@@ -28,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
+import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietProductDeleteDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietProductWeightUpdateDTO;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
@@ -76,17 +77,12 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet_product_show);
-
         changeStatusBarColor();
         onBackButtonPressed();
         loadInput();
+        getIntentFromPreviousActiity();
 
-        Intent intent = getIntent();
-        productId = intent.getStringExtra("productId");
-        userName = intent.getStringExtra("userName");
-        productTimeStamp = intent.getStringExtra("productTimeStamp");
-        productWeight = intent.getDoubleExtra("productWeight",0);
-        Log.e(TAG, "onCreate: "+SaveSharedPreference.getUserName(DietProductShowActivity.this));
+
         String url = "http://justfitx.xyz/images/products/mid/" + productId + ".png";
 
         loadImageFromUrl(url);
@@ -96,9 +92,14 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         editTextProductWeight.setText(String.valueOf(productWeight));
 
         productWeightChanger(false);
+    }
 
-
-
+    private void getIntentFromPreviousActiity() {
+        Intent intent = getIntent();
+        productId = intent.getStringExtra("productId");
+        userName = intent.getStringExtra("userName");
+        productTimeStamp = intent.getStringExtra("productTimeStamp");
+        productWeight = intent.getDoubleExtra("productWeight",0);
     }
 
     private void loadInput() {
@@ -238,7 +239,6 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
         textViewProductCalories.setText(countCalories(proteins,fats,carbs));
 
-
         convertProductWeightFromPieces(aDouble);
         setProductWeightConverted(aDouble);
     }
@@ -355,8 +355,6 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
-
     private void setProductWeightConverted(double productWeightConverted) {
         this.productWeightConverted = productWeightConverted;
     }
@@ -377,8 +375,17 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 dto.productTimeStamp = productTimeStamp;
                 DietService service = new DietService();
                 service.DietProductWeightUpdate(dto, DietProductShowActivity.this);
+                finish();
                 break;
             case R.id.buttonDelete:
+                DietProductDeleteDTO dto1 = new DietProductDeleteDTO();
+                dto1.productId = productId;
+                dto1.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
+                dto1.updateProductWeight = getProductWeightConverted();
+                dto1.productTimeStamp = productTimeStamp;
+                DietService service1 = new DietService();
+                service1.DietDeleteProduct(dto1,DietProductShowActivity.this);
+                finish();
                 break;
         }
     }
