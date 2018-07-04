@@ -32,7 +32,6 @@ public class TrainingExerciseShow extends AppCompatActivity {
 
     private void loadInput() {
         editTextTrainingExerciseShow = findViewById(R.id.editTextTrainingExerciseShow);
-        Log.e(TAG, "loadInput: "+editTextTrainingExerciseShow.getText().toString());
     }
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

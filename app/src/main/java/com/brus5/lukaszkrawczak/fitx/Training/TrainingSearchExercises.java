@@ -186,7 +186,7 @@ public class TrainingSearchExercises extends AppCompatActivity implements View.O
     }
 
     public void runNextActivity(Context context, String exercise){
-        Intent intent = new Intent(context,TrainingExerciseShow.class);
+        Intent intent = new Intent(context,TrainingExcerciseList.class);
         intent.putExtra("exercise",exercise);
         TrainingSearchExercises.this.startActivity(intent);
     }
