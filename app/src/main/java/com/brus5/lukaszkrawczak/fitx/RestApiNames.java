@@ -21,15 +21,15 @@ public class RestApiNames {
     public static String DB_CARBS_RATIO = "carbsratio";
 
     /* Names of db_training */
-    public static String DB_EXCERCISE_ID = "id";
-    public static String DB_EXCERCISE_DESCRIPTION = "description";
+    public static String DB_EXERCISE_ID = "id";
+    public static String DB_EXERCISE_NAME = "name";
 
-    /* Names of db_trainings */
-    public static String DB_EXCERCISE_DONE = "done";
-    public static String DB_EXCERCISE_REST_TIME = "rest";
-    public static String DB_EXCERCISE_REPS = "reps";
-    public static String DB_EXCERCISE_WEIGHT = "weight";
-    public static String DB_EXCERCISE_NOTEPAD = "notepad";
+    /* Names of db_user_exercise */
+    public static String DB_EXERCISE_DONE = "done";
+    public static String DB_EXERCISE_REST_TIME = "rest";
+    public static String DB_EXERCISE_REPS = "reps";
+    public static String DB_EXERCISE_WEIGHT = "weight";
+    public static String DB_EXERCISE_NOTEPAD = "notepad";
 
     /* Names of db_products */
     public static String DB_PRODUCT_ID = "product_id";
@@ -44,13 +44,13 @@ public class RestApiNames {
     public static String DB_PRODUCT_CARBS_FIBER = "carbs_fiber";
     public static String DB_PRODUCT_CARBS_SUGAR = "carbs_sugar";
     public static String DB_PRODUCT_MULTIPLIER_PIECE = "multiplier_piece";
-
+    public static String DB_PRODUCT_VERIFIED = "verified";
 
     /* Names of db_user_diet */
     public static String DB_USER_DIET_ID = "id";
     public static String DB_USER_DIET_USERNAME = "username";
     public static String DB_USER_DIET_DATE = "date";
-    public static String DB_USER_DIET_WEIGHT_UPDATE = "updateweight";
+    public static String DB_PRODUCT_DIET_WEIGHT_UPDATE = "updateweight";
     public static String DB_USER_DIET_DATE_UPDATE = "updatedate";
 
     /* Names of db_kcalres */

@@ -12,9 +12,9 @@ public class Diet {
     private double fats;
     private double carbs;
     private double kcal;
-    private String image;
+    private int verified;
 
-    public Diet(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, String image) {
+    public Diet(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, int verified) {
         this.id = id;
         this.name = name;
         this.weight = weight;
@@ -22,7 +22,7 @@ public class Diet {
         this.fats = fats;
         this.carbs = carbs;
         this.kcal = kcal;
-        this.image = image;
+        this.verified = verified;
     }
 
     public int getId() {
@@ -81,11 +81,11 @@ public class Diet {
         this.kcal = kcal;
     }
 
-    public String getImage() {
-        return image;
+    public int getVerified() {
+        return verified;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setVerified(int verified) {
+        this.verified = verified;
     }
 }

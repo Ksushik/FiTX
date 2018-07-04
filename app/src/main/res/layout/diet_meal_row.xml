@@ -194,5 +194,16 @@
             tools:layout_editor_absoluteX="188dp"
             tools:layout_editor_absoluteY="0dp" />
 
+        <ImageView
+            android:id="@+id/imageViewProductVerified"
+            android:layout_width="12sp"
+            android:layout_height="12sp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/dietMealTitle"
+            app:layout_constraintStart_toEndOf="@+id/dietMealTitle"
+            app:layout_constraintTop_toTopOf="@+id/dietMealTitle"
+            app:srcCompat="@drawable/icon_verified" />
+
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Training.TrainingSearchExercises">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarTrainingSearchExercises"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_main_activity_statusbar"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+    <!-- FRONT IMAGE SHOWED -->
+
+    <ImageView
+        android:id="@+id/imageViewBodyFront"
+        android:layout_width="wrap_content"
+        android:layout_height="400sp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/body_front"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:srcCompat="@drawable/body_front" />
+
+    <TextView
+        android:id="@+id/textViewButtonChest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="76dp"
+        android:gravity="center_horizontal"
+        android:onClick="onClick"
+        android:text="@string/body_chest"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/imageViewBodyFront"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBodyFront" />
+
+    <TextView
+        android:id="@+id/textViewButtonAbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="132dp"
+        android:onClick="onClick"
+        android:text="@string/body_abs"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/imageViewBodyFront"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBodyFront" />
+
+    <TextView
+        android:id="@+id/textViewButtonQuads"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="163dp"
+        android:layout_marginEnd="228dp"
+        android:layout_marginRight="228dp"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:text="@string/body_quads"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewBodyFront"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewBodyFront" />
+
+    <TextView
+        android:id="@+id/textViewButtonShoulders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="72dp"
+        android:onClick="onClick"
+        android:text="@string/body_shoulders"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewBodyFront"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBodyFront" />
+
+    <TextView
+        android:id="@+id/textViewButtonBiceps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="105dp"
+        android:onClick="onClick"
+        android:text="@string/body_biceps"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewBodyFront"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBodyFront" />
+
+    <TextView
+        android:id="@+id/textViewButtonForearms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="243dp"
+        android:layout_marginLeft="232dp"
+        android:layout_marginStart="232dp"
+        android:onClick="onClick"
+        android:text="@string/body_forearms"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewBodyFront"
+        app:layout_constraintStart_toStartOf="@+id/imageViewBodyFront" />
+
+    <!-- END OF FRONT IMAGE SHOWED -->
+
+
+    <ImageView
+        android:id="@+id/imageViewButtonRotate"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/rotate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/icon_rotate" />
+
+    <!-- BACK IMAGE HIDED -->
+
+    <ImageView
+        android:id="@+id/imageViewBodyBack"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="400sp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/body_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:srcCompat="@drawable/body_back" />
+
+    <TextView
+        android:id="@+id/textViewButtonLats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="232dp"
+        android:layout_marginRight="232dp"
+        android:layout_marginTop="96dp"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:text="@string/body_lats"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewBodyBack"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBodyBack" />
+
+    <TextView
+        android:id="@+id/textViewButtonTraps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="232dp"
+        android:layout_marginRight="232dp"
+        android:layout_marginTop="52dp"
+        android:onClick="onClick"
+        android:text="@string/body_trapss"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewBodyBack"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBodyBack" />
+
+    <TextView
+        android:id="@+id/textViewButtonGlutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="232dp"
+        android:layout_marginRight="232dp"
+        android:layout_marginTop="188dp"
+        android:onClick="onClick"
+        android:text="@string/body_glutes"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewBodyBack"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBodyBack" />
+
+    <TextView
+        android:id="@+id/textViewButtonTriceps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="232dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginTop="104dp"
+        android:onClick="onClick"
+        android:text="@string/body_triceps"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/imageViewBodyBack"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBodyBack" />
+
+    <TextView
+        android:id="@+id/textViewButtonHamstrings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="232dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginTop="236dp"
+        android:onClick="onClick"
+        android:text="@string/body_hamstrings"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/imageViewBodyBack"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBodyBack" />
+
+    <TextView
+        android:id="@+id/textViewButtonCalves"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="226dp"
+        android:layout_marginStart="224dp"
+        android:layout_marginTop="300dp"
+        android:onClick="onClick"
+        android:text="@string/body_calves"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/imageViewBodyBack"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBodyBack" />
+
+    <!-- END OF FRONT IMAGE HIDED -->
+
+</android.support.constraint.ConstraintLayout>

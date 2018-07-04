@@ -20,12 +20,13 @@ public class Configuration extends AppCompatActivity{
     private static final String TAG = "Configuration";
     public static final String BASE_URL = "http://justfitx.xyz/";
 
-
-    public static final String DIET_USER_SHOW_DAILY_URL             = BASE_URL + "Diet/" + "ShowByUser.php";
-    public static final String DIET_UPDATE_COUNTED_KCAL_URL         = BASE_URL + "Diet/" + "KcalResultUpdate.php";
-    public static final String DIET_DELETE_COUNTED_KCAL_URL         = BASE_URL + "Diet/" + "KcalResultDelete.php";
-    public static final String DIET_DELETE_PRODUCT                  = BASE_URL + "Diet/" + "ProductDelete.php";
     public static final String DIET_GET_PRODUCT_INFORMATIONS        = BASE_URL + "Diet/" + "GetProductInformations.php";
+    public static final String DIET_DELETE_COUNTED_KCAL_URL         = BASE_URL + "Diet/" + "KcalResultDelete.php";
+    public static final String DIET_UPDATE_COUNTED_KCAL_URL         = BASE_URL + "Diet/" + "KcalResultUpdate.php";
+    public static final String DIET_DELETE_PRODUCT                  = BASE_URL + "Diet/" + "ProductDelete.php";
+    public static final String DIET_INSERT_PRODUCT                  = BASE_URL + "Diet/" + "ProductInsert.php";
+    public static final String DIET_SEARCH_PRODUCT                  = BASE_URL + "Diet/" + "ProductsSearch.php";
+    public static final String DIET_USER_SHOW_DAILY_URL             = BASE_URL + "Diet/" + "ShowByUser.php";
     public static final String DIET_UPDATE_WEIGHT_PRODUCT           = BASE_URL + "Diet/" + "UpdateProductWeight.php";
 
     public static final String SHOW_TRAINING_URL                    = BASE_URL + "Training/" + "ShowByUser.php";

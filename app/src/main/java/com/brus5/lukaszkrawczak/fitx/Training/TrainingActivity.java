@@ -1,12 +1,15 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
+import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
+import com.brus5.lukaszkrawczak.fitx.Diet.DietProductSearchActivity;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -46,13 +51,6 @@ public class TrainingActivity extends AppCompatActivity {
     Configuration cfg = new Configuration();
     String dateInsde, dateInsideTextView;
     TextView textViewShowDayTrainingActivity;
-
-    private ArrayList<String> trainingID = new ArrayList<>();
-    private ArrayList<String> trainingName = new ArrayList<>();
-    private ArrayList<String> trainingDone = new ArrayList<>();
-    private ArrayList<String> trainingRestTime = new ArrayList<>();
-    private ArrayList<String> trainingReps = new ArrayList<>();
-    private ArrayList<String> trainingWeight = new ArrayList<>();
 
     ArrayList<Training> trainingArrayList = new ArrayList<>();
     ListView listViewTrainingActivity;
@@ -118,45 +116,41 @@ public class TrainingActivity extends AppCompatActivity {
                     public void onResponse(String response)
                     {
                         try {
-
-
                             JSONObject jsonObject = new JSONObject(response);
+                            Log.d(TAG, "onResponse: "+jsonObject.toString(1));
                             JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
-                            int excerciseRestTime;
-                            int excerciseReps;
-                            int excerciseWeight;
-
                             JSONArray server_response = jsonObject.getJSONArray("server_response");
-                            int excerciseId;
-                            String excerciseDescription;
+
+                            int exerciseRestTime = 0;
+                            String exerciseReps = "";
+                            String exerciseWeight = "";
+                            int excerciseId = 0;
+                            String exerciseName = "";
 
                             if (trainings_info.length() > 0) {
                                 for (int i = 0; i < trainings_info.length(); i++) {
                                     JSONObject trainingInfoJsonObj = trainings_info.getJSONObject(i);
-                                    excerciseRestTime = trainingInfoJsonObj.getInt(RestApiNames.DB_EXCERCISE_REST_TIME);
-                                    excerciseReps = trainingInfoJsonObj.getInt(RestApiNames.DB_EXCERCISE_REPS);
-                                    excerciseWeight = trainingInfoJsonObj.getInt(RestApiNames.DB_EXCERCISE_WEIGHT);
+                                    exerciseRestTime = trainingInfoJsonObj.getInt(RestApiNames.DB_EXERCISE_REST_TIME);
+                                    exerciseReps = trainingInfoJsonObj.getString(RestApiNames.DB_EXERCISE_REPS);
+                                    exerciseWeight = trainingInfoJsonObj.getString(RestApiNames.DB_EXERCISE_WEIGHT);
 
                                     JSONObject trainingNameJsonObj = server_response.getJSONObject(i);
-                                    excerciseId = trainingNameJsonObj.getInt(RestApiNames.DB_EXCERCISE_ID);
-                                    excerciseDescription = trainingNameJsonObj.getString(RestApiNames.DB_EXCERCISE_DESCRIPTION);
+                                    excerciseId = trainingNameJsonObj.getInt(RestApiNames.DB_EXERCISE_ID);
+                                    exerciseName = trainingNameJsonObj.getString(RestApiNames.DB_EXERCISE_NAME);
 
-
-                                    Training training = new Training(excerciseId,excerciseDescription,excerciseRestTime,excerciseWeight,excerciseReps);
+                                    Training training = new Training(excerciseId,exerciseName,exerciseRestTime,exerciseWeight,exerciseReps);
                                     trainingArrayList.add(training);
                                 }
                             }
-
-
+                            Log.e(TAG, "onResponse: "+exerciseRestTime );
+                            Log.e(TAG, "onResponse: "+exerciseReps );
+                            Log.e(TAG, "onResponse: "+ exerciseWeight);
+                            Log.e(TAG, "onResponse: "+ excerciseId);
+                            Log.e(TAG, "onResponse: "+ exerciseName);
                             trainingListAdapter = new TrainingListAdapter(TrainingActivity.this,R.layout.training_excercise_row,trainingArrayList);
                             listViewTrainingActivity.setAdapter(trainingListAdapter);
                             listViewTrainingActivity.invalidate();
 
-                            Log.d(TAG, "trainingID "+trainingID);
-                            Log.d(TAG, "trainingName "+ TrainingActivity.this.trainingName);
-                            Log.d(TAG, "trainingRestTime "+ TrainingActivity.this.trainingRestTime);
-                            Log.d(TAG, "trainingWeight "+ TrainingActivity.this.trainingWeight);
-                            Log.d(TAG, "trainingReps "+ TrainingActivity.this.trainingReps);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -194,5 +188,22 @@ public class TrainingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_training_exercise_search, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_search_exercise:
+                Intent intent = new Intent(TrainingActivity.this,TrainingSearchExercises.class);
+                TrainingActivity.this.startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

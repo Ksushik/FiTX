@@ -49,6 +49,7 @@
             android:theme="@style/FiTX3theme.noBar" />
         <activity
             android:name=".Training.TrainingActivity"
+            android:label="@string/fitx"
             android:parentActivityName=".MainActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
@@ -56,11 +57,21 @@
             android:label="@string/fitx"
             android:parentActivityName=".Diet.DietActivity"
             android:theme="@style/FiTX3theme.noBar" />
-        <activity android:name=".Diet.DietProductSearchActivity"
+        <activity
+            android:name=".Diet.DietProductSearchActivity"
             android:label="@string/fitx"
             android:parentActivityName=".Diet.DietActivity"
-            android:theme="@style/FiTX3theme.noBar"
-            />
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity
+            android:name=".Training.TrainingExerciseShow"
+            android:label="@string/fitx"
+            android:parentActivityName=".Training.TrainingActivity"
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity
+            android:name=".Training.TrainingSearchExercises"
+            android:label="@string/fitx"
+            android:parentActivityName=".Training.TrainingActivity"
+            android:theme="@style/FiTX3theme.noBar" />
     </application>
 
 </manifest>

@@ -21,6 +21,27 @@
 
     <string name="options">Opcje</string>
 
+    <string name="body_chest">Klatka \npiersiowa</string>
+    <string name="body_abs">Brzuch</string>
+    <string name="body_quads">Czworogłowe</string>
+    <string name="body_shoulders">Barki</string>
+    <string name="body_biceps">Bicepsy</string>
+    <string name="body_forearms">Przedramiona</string>
+
+    <string name="body_trapss">Czworoboczny</string>
+    <string name="body_lats">Najszerszy \ngrzbietu</string>
+    <string name="body_triceps">Triceps</string>
+    <string name="body_glutes">Pośladki</string>
+    <string name="body_hamstrings">Dwugłowy</string>
+    <string name="body_calves">Łydki</string>
+
+
+    <string name="rotate">Obrót</string>
+    <string name="body_front">Ciało przód</string>
+    <string name="body_back">Ciało tył</string>
+
+
+
 
     <string name="button_register">Rejestracja</string>
     <string name="loading">Ładowanie</string>
@@ -65,6 +86,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="delete">Usuń</string>
+    <string name="value_per_100_g">kcal / 100g</string>
 
 
 </resources>

@@ -12,7 +12,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,6 +28,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietProductDeleteDTO;
+import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietProductInsertDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietProductWeightUpdateDTO;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
@@ -46,18 +46,16 @@ import java.util.Map;
 
 public class DietProductShowActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     private static final String TAG = "DietProductShowActivity";
-    ImageView productImageView;
+    ImageView productImageView,imageViewShowProductVerified;
 
     TextView textViewProductName, textViewProductProteins, textViewProductFats, textViewProductCarbs, textViewProductCalories, textViewProductSaturatedFats, textViewProductUnsaturatedFats, textViewProductFiber, textViewProductSugars;
     EditText editTextProductWeight;
-    String productId, userName, productTimeStamp;
+    String productId, userName, productTimeStamp, previousActivity;
     Spinner spinnerChooser;
     Button buttonAcceptChanges, buttonDelete;
     ProgressBar progressBarDietProductShowActivity;
 
     String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-
-    private static final String[] chooseOptions = {"Ilość gramów", "Ilość sztuk"};
 
     private double productProteins = 0d;
     private double productFats = 0d;
@@ -68,9 +66,9 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     private double productCarbsFiber = 0d;
     private double productCarbsSugars = 0d;
     private double productMultiplierPiece = 0d;
+    private int productVerified = 0;
 
     private double productWeightConverted;
-
     private double productWeight;
 
     @Override
@@ -91,19 +89,40 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
         editTextProductWeight.setText(String.valueOf(productWeight));
 
-        productWeightChanger(false);
+        productWeightChangerEditText(false);
+
+        hideDeleteButtonIfActivityIsDifferent();
+    }
+
+    private void hideDeleteButtonIfActivityIsDifferent() {
+        if (previousActivity.equals("DietProductSearchActivity")){
+            buttonDelete.setVisibility(View.INVISIBLE);
+        }
+        else {
+            buttonDelete.setVisibility(View.VISIBLE);
+        }
+
+
     }
 
     private void getIntentFromPreviousActiity() {
         Intent intent = getIntent();
         productId = intent.getStringExtra("productId");
-        userName = intent.getStringExtra("userName");
+        userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
         productTimeStamp = intent.getStringExtra("productTimeStamp");
-        productWeight = intent.getDoubleExtra("productWeight",0);
+        productTimeStamp = timeStampChanger(productTimeStamp);
+        productWeight = intent.getDoubleExtra("productWeight",50);
+        previousActivity = intent.getStringExtra("previousActivity");
+    }
+
+    private String timeStampChanger(String productTimeStamp) {
+        if (productTimeStamp == null) return timeStamp;
+        else return this.productTimeStamp;
     }
 
     private void loadInput() {
         productImageView = findViewById(R.id.productImageView);
+        imageViewShowProductVerified = findViewById(R.id.imageViewShowProductVerified);
 
         editTextProductWeight = findViewById(R.id.editTextProductWeight);
 
@@ -170,6 +189,11 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                                     productCarbsFiber = productInfoJsonObject.getDouble(RestApiNames.DB_PRODUCT_CARBS_FIBER);
                                     productCarbsSugars = productInfoJsonObject.getDouble(RestApiNames.DB_PRODUCT_CARBS_SUGAR);
                                     productMultiplierPiece = productInfoJsonObject.getDouble(RestApiNames.DB_PRODUCT_MULTIPLIER_PIECE);
+                                    productVerified = productInfoJsonObject.getInt(RestApiNames.DB_PRODUCT_VERIFIED);
+
+                                    if (productVerified == 1){
+                                        imageViewShowProductVerified.setVisibility(View.VISIBLE);
+                                    }
 
                                     String upName = productName.substring(0,1).toUpperCase() + productName.substring(1);
                                     textViewProductName.setText(upName);
@@ -208,13 +232,13 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
             case 0:
                 editTextProductWeight.clearFocus();
                 editTextProductWeight.setText(String.valueOf(productWeight));
-                productWeightChanger(false);
+                productWeightChangerEditText(false);
                 setProductWeight(productWeight);
                 break;
             case 1:
                 editTextProductWeight.clearFocus();
                 editTextProductWeight.setText("1");
-                productWeightChanger(true);
+                productWeightChangerEditText(true);
                 setProductWeight(100/productMultiplierPiece);
                 break;
         }
@@ -247,7 +271,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         return String.format("%.0f",aDouble);
     }
 
-    private void productWeightChanger(final boolean productPieces) {
+    private void productWeightChangerEditText(final boolean productPieces) {
         editTextProductWeight.didTouchFocusSelect();
         editTextProductWeight.addTextChangedListener(new TextWatcher() {
             @Override
@@ -367,15 +391,30 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.buttonAcceptChanges:
-                Log.e(TAG, "onClick: "+getProductWeightConverted() );
-                DietProductWeightUpdateDTO dto = new DietProductWeightUpdateDTO();
-                dto.productId = productId;
-                dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
-                dto.updateProductWeight = getProductWeightConverted();
-                dto.productTimeStamp = productTimeStamp;
-                DietService service = new DietService();
-                service.DietProductWeightUpdate(dto, DietProductShowActivity.this);
-                finish();
+
+                if (previousActivity.equals("DietProductSearchActivity")){
+                    Log.e(TAG, "onClick: "+getProductWeightConverted() );
+                    DietProductInsertDTO dto = new DietProductInsertDTO();
+                    dto.productId = productId;
+                    dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
+                    dto.productWeight = getProductWeightConverted();
+                    dto.productTimeStamp = productTimeStamp;
+                    DietService service = new DietService();
+                    service.DietProductInsert(dto, DietProductShowActivity.this);
+                    finish();
+                }
+                else {
+
+                    Log.e(TAG, "onClick: " + getProductWeightConverted());
+                    DietProductWeightUpdateDTO dto = new DietProductWeightUpdateDTO();
+                    dto.productId = productId;
+                    dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
+                    dto.updateProductWeight = getProductWeightConverted();
+                    dto.productTimeStamp = productTimeStamp;
+                    DietService service = new DietService();
+                    service.DietProductWeightUpdate(dto, DietProductShowActivity.this);
+                    finish();
+                }
                 break;
             case R.id.buttonDelete:
                 DietProductDeleteDTO dto1 = new DietProductDeleteDTO();

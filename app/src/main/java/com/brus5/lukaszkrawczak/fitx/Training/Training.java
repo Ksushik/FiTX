@@ -8,11 +8,10 @@ public class Training {
     private int task_id;
     private String task_name;
     private int task_rest;
-    private int task_weight;
-    private int task_reps;
+    private String task_weight;
+    private String task_reps;
 
-
-    public Training(int task_id, String task_name, int task_rest, int task_weight, int task_reps) {
+    public Training(int task_id, String task_name, int task_rest, String task_weight, String task_reps) {
         this.task_id = task_id;
         this.task_name = task_name;
         this.task_rest = task_rest;
@@ -44,19 +43,19 @@ public class Training {
         this.task_rest = task_rest;
     }
 
-    public int getTask_weight() {
+    public String getTask_weight() {
         return task_weight;
     }
 
-    public void setTask_weight(int task_weight) {
+    public void setTask_weight(String task_weight) {
         this.task_weight = task_weight;
     }
 
-    public int getTask_reps() {
+    public String getTask_reps() {
         return task_reps;
     }
 
-    public void setTask_reps(int task_reps) {
+    public void setTask_reps(String task_reps) {
         this.task_reps = task_reps;
     }
 }

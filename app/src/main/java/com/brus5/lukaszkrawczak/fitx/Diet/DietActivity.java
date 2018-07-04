@@ -175,7 +175,7 @@ public class DietActivity extends AppCompatActivity {
                             double productKcal;
                             double weight;
                             double finalkcal = 0d;
-                            String productImage = "";
+                            int productVerified = 0;
                             JSONArray product_informations = jsonObject.getJSONArray("server_response");
                             JSONArray product_weight_response = jsonObject.getJSONArray("product_weight_response");
 
@@ -189,6 +189,7 @@ public class DietActivity extends AppCompatActivity {
                                     productFats = productsJsonObj.getDouble(RestApiNames.DB_PRODUCT_FATS);
                                     productCarbs = productsJsonObj.getDouble(RestApiNames.DB_PRODUCT_CARBS);
                                     productKcal = productsJsonObj.getDouble(RestApiNames.DB_PRODUCT_KCAL);
+                                    productVerified = productsJsonObj.getInt(RestApiNames.DB_PRODUCT_VERIFIED);
 
                                     JSONObject productWeightJsonObj = product_weight_response.getJSONObject(i);
                                     weight = productWeightJsonObj.getDouble(RestApiNames.DB_PRODUCT_WEIGHT);
@@ -206,7 +207,7 @@ public class DietActivity extends AppCompatActivity {
                                     carbsCounted += productCarbs;
                                     kcalCounted += finalkcal;
 
-                                    Diet diet = new Diet(productId, upName, weight, productProteins, productFats, productCarbs,finalkcal, productImage);
+                                    Diet diet = new Diet(productId, upName, weight, productProteins, productFats, productCarbs,finalkcal, productVerified);
                                     dietArrayList.add(diet);
                                 }
 
@@ -305,7 +306,7 @@ public class DietActivity extends AppCompatActivity {
                 intent.putExtra("productId",productId.getText().toString());
                 intent.putExtra("productWeight",Double.valueOf(productWeight.getText().toString()));
                 intent.putExtra("productTimeStamp", productTimeStamp);
-
+                intent.putExtra("previousActivity", "DietActivity");
 
                 startActivity(intent);
 
@@ -442,14 +443,14 @@ public class DietActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_diet_product_add, menu);
+        getMenuInflater().inflate(R.menu.menu_diet_product_search, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menuSearchProduct:
+            case R.id.menu_search_product:
             Intent intent = new Intent(DietActivity.this,DietProductSearchActivity.class);
             DietActivity.this.startActivity(intent);
             break;
