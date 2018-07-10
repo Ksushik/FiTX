@@ -1,22 +1,21 @@
 package com.brus5.lukaszkrawczak.fitx;
 
+import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-
-import com.brus5.lukaszkrawczak.fitx.Login.LoginActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
+import devs.mulham.horizontalcalendar.HorizontalCalendar;
+import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
 /**
  * Created by lukaszkrawczak on 24.05.2018.
  */
 
-public class Configuration extends AppCompatActivity{
+public class Configuration extends AppCompatActivity {
     private static final String TAG = "Configuration";
     public static final String BASE_URL = "http://justfitx.xyz/";
 
@@ -49,15 +48,34 @@ public class Configuration extends AppCompatActivity{
         return simpleDateTextView;
     }
 
-    public Calendar generateEndDay(){
+    public static Calendar generateEndDay(){
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.MONTH, 1);
         return endDate;
     }
-    public Calendar generateNextDay(){
+    public static Calendar generateNextDay(){
         Calendar startDate = Calendar.getInstance();
         startDate.add(Calendar.MONTH, -1);
         return startDate;
     }
 
+    public static void setHorizontalCalendar(Context ctx, int resId){
+      HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder((Activity) ctx, resId)
+                .startDate(generateNextDay().getTime())
+                .endDate(generateEndDay().getTime())
+                .datesNumberOnScreen(5)
+                .dayNameFormat("EE")
+                .dayNumberFormat("dd")
+                .showDayName(true)
+                .showMonthName(false)
+                .build();
+//        return horizontalCalendar(ctx,resId);
+        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+            @Override
+            public void onDateSelected(Date date, int position) {
+
+            }
+        });
+
+    }
 }

@@ -21,11 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
-import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
-import com.brus5.lukaszkrawczak.fitx.Diet.DietProductSearchActivity;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.brus5.lukaszkrawczak.fitx.Training.DTO.TrainingShowByUserDTO;
 
 import org.json.JSONArray;
@@ -33,13 +30,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
-import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
 public class TrainingActivity extends AppCompatActivity {
 
@@ -64,7 +58,9 @@ public class TrainingActivity extends AppCompatActivity {
         onBackButtonPressed();
         loadInput();
 
-        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
+//        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
+        weekCalendarTest();
+
     }
 
     private void loadInput() {
@@ -72,36 +68,60 @@ public class TrainingActivity extends AppCompatActivity {
         listViewTrainingActivity = findViewById(R.id.listViewTrainingActivity);
     }
 
-    private void weekCalendar(Calendar endDate, Calendar startDate) {
-        horizontalCalendar = new HorizontalCalendar.Builder(TrainingActivity.this, R.id.calendarViewTrainingActivity)
-                .startDate(startDate.getTime())
-                .endDate(endDate.getTime())
-                .datesNumberOnScreen(5)
-                .dayNameFormat("EE")
-                .dayNumberFormat("dd")
-//                .textSize(10f, 16f, 14f)
-                .showDayName(true)
-                .showMonthName(false)
-                .build();
+//    private void weekCalendar(Calendar endDate, Calendar startDate) {
+//        horizontalCalendar = new HorizontalCalendar.Builder(TrainingActivity.this, R.id.calendarViewTrainingActivity)
+//                .startDate(startDate.getTime())
+//                .endDate(endDate.getTime())
+//                .datesNumberOnScreen(5)
+//                .dayNameFormat("EE")
+//                .dayNumberFormat("dd")
+////                .textSize(10f, 16f, 14f)
+//                .showDayName(true)
+//                .showMonthName(false)
+//                .build();
+//
+//        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+//            @Override
+//            public void onDateSelected(Date date, int position) {
+//                dateInsde = cfg.getSimpleDateDateInside().format(date.getTime());
+//                dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
+//
+//                textViewShowDayTrainingActivity.setText(dateInsideTextView);
+//
+//                trainingArrayList.clear();
+//
+//                TrainingShowByUserDTO trainingShowByUserDTO = new TrainingShowByUserDTO();
+//                trainingShowByUserDTO.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
+//                trainingShowByUserDTO.dateToday = dateInsde;
+//                loadUsersDailyTrainingAsynchTask(trainingShowByUserDTO,TrainingActivity.this);
+//
+//                Log.i(TAG, "onDateSelected: "+dateInsde+" position: "+position);
+//            }
+//        });
+//    }
 
-        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
-            @Override
-            public void onDateSelected(Date date, int position) {
-                dateInsde = cfg.getSimpleDateDateInside().format(date.getTime());
-                dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
+    private void weekCalendarTest() {
 
-                textViewShowDayTrainingActivity.setText(dateInsideTextView);
+        Configuration.setHorizontalCalendar(TrainingActivity.this,R.id.calendarViewTrainingActivity);
 
-                trainingArrayList.clear();
-
-                TrainingShowByUserDTO trainingShowByUserDTO = new TrainingShowByUserDTO();
-                trainingShowByUserDTO.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-                trainingShowByUserDTO.dateToday = dateInsde;
-                loadUsersDailyTrainingAsynchTask(trainingShowByUserDTO,TrainingActivity.this);
-
-                Log.i(TAG, "onDateSelected: "+dateInsde+" position: "+position);
-            }
-        });
+//        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+//            @Override
+//            public void onDateSelected(Date date, int position) {
+//                dateInsde = cfg.getSimpleDateDateInside().format(date.getTime());
+//                dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
+//
+//                textViewShowDayTrainingActivity.setText(dateInsideTextView);
+//
+//                trainingArrayList.clear();
+//
+//                TrainingShowByUserDTO trainingShowByUserDTO = new TrainingShowByUserDTO();
+//                trainingShowByUserDTO.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
+//                trainingShowByUserDTO.dateToday = dateInsde;
+//                loadUsersDailyTrainingAsynchTask(trainingShowByUserDTO,TrainingActivity.this);
+//
+//                Log.i(TAG, "onDateSelected: "+dateInsde+" position: "+position);
+//            }
+//        });
     }
 
     private void onBackButtonPressed() {

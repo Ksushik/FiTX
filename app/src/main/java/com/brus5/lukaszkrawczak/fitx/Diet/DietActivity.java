@@ -388,24 +388,15 @@ public class DietActivity extends AppCompatActivity {
 
     private int countProteinGoal(double kcalResult, double valueRatio){
         double result = (kcalResult*valueRatio*0.01)/4;
-        String sResult = String.format("%.0f",result);
-        int intResult = Integer.parseInt(sResult);
-
-        return intResult;
+        return (int) result;
     }
     private int countFatsGoal(double kcalResult, double valueRatio){
         double result = (kcalResult*valueRatio*0.01)/9;
-        String sResult = String.format("%.0f",result);
-        int intResult = Integer.parseInt(sResult);
-
-        return intResult;
+        return (int) result;
     }
     private int countCarbsGoal(double kcalResult, double valueRatio){
         double result = (kcalResult*valueRatio*0.01)/4;
-        String sResult = String.format("%.0f",result);
-        int intResult = Integer.parseInt(sResult);
-
-        return intResult;
+        return (int) result;
     }
 
     private void changeStatusBarColor() {

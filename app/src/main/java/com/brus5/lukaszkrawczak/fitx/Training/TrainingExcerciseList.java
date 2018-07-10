@@ -20,6 +20,7 @@ public class TrainingExcerciseList extends AppCompatActivity {
         onBackButtonPressed();
 
 
+
     }
 
 
@@ -36,5 +37,7 @@ public class TrainingExcerciseList extends AppCompatActivity {
     private void onBackButtonPressed() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+
 
 }
