@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changeStatusBarColor();
         loadInputs(MainActivity.this);
 
-        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
+//        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
 
     }
     private void weekCalendar(Calendar endDate, Calendar startDate) {
