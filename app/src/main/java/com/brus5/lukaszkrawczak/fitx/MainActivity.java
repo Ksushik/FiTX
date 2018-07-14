@@ -126,4 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     void creatingSimpleMethod(){
 
     }
+    void creatingSimpleMethod2(){
+
+    }
 }
