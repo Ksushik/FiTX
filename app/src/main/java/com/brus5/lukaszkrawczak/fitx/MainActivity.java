@@ -128,4 +128,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 void test(){
 
 }
+
+void test2(){
+
+}
 }
