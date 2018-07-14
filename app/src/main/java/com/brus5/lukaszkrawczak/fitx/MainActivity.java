@@ -122,18 +122,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(packageContext,cls);
         MainActivity.this.startActivity(intent);
     }
-
-    void creatingSimpleMethod(){
-
-    }
-    void creatingSimpleMethod2(){
-
-    }
-    void creatingSimpleMethod3(){
-
-    }
-    void creatingSimpleMethod4(){
-
-    }
-
 }
