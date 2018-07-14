@@ -121,5 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void runNextActivity(Context packageContext, Class<?> cls){
         Intent intent = new Intent(packageContext,cls);
         MainActivity.this.startActivity(intent);
+
     }
 }
