@@ -2,6 +2,7 @@ package com.brus5.lukaszkrawczak.fitx.Training;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +22,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
+import com.brus5.lukaszkrawczak.fitx.DTO;
+import com.brus5.lukaszkrawczak.fitx.DTOAdapter;
+import com.brus5.lukaszkrawczak.fitx.Login.LoginActivity;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.brus5.lukaszkrawczak.fitx.Training.DTO.TrainingShowByUserDTO;
 
 import org.json.JSONArray;
@@ -30,12 +35,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
+import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
 public class TrainingActivity extends AppCompatActivity {
+
 
     private static final String TAG = "TrainingActivity";
 
@@ -59,7 +68,12 @@ public class TrainingActivity extends AppCompatActivity {
         loadInput();
 
 //        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
-        weekCalendarTest();
+        weekCalendarTest(savedInstanceState);
+
+
+                DTO dto = new DTO();
+                dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
+                dto.dateToday = dateInsde;
 
     }
 
@@ -90,45 +104,30 @@ public class TrainingActivity extends AppCompatActivity {
 //
 //                trainingArrayList.clear();
 //
-//                TrainingShowByUserDTO trainingShowByUserDTO = new TrainingShowByUserDTO();
-//                trainingShowByUserDTO.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-//                trainingShowByUserDTO.dateToday = dateInsde;
-//                loadUsersDailyTrainingAsynchTask(trainingShowByUserDTO,TrainingActivity.this);
+//                DTO dto = new DTO();
+//                dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
+//                dto.dateToday = dateInsde;
+//                loadAsynchTask(dto,TrainingActivity.this);
 //
 //                Log.i(TAG, "onDateSelected: "+dateInsde+" position: "+position);
 //            }
 //        });
 //    }
 
-    private void weekCalendarTest() {
+    private void weekCalendarTest(Bundle savedInstanceState) {
+        com.brus5.lukaszkrawczak.fitx.Training.DTO.TrainingShowByUserDTO trainingShowByUserDTO = new com.brus5.lukaszkrawczak.fitx.Training.DTO.TrainingShowByUserDTO();
+        trainingShowByUserDTO.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
+        trainingShowByUserDTO.dateToday = dateInsde;
 
-        Configuration.setHorizontalCalendar(TrainingActivity.this,R.id.calendarViewTrainingActivity);
+        cfg.setHorizontalCalendar(TrainingActivity.this, R.id.calendarViewTrainingActivity, textViewShowDayTrainingActivity,TrainingActivity.class,savedInstanceState);
 
-//        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
-//            @Override
-//            public void onDateSelected(Date date, int position) {
-//                dateInsde = cfg.getSimpleDateDateInside().format(date.getTime());
-//                dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
-//
-//                textViewShowDayTrainingActivity.setText(dateInsideTextView);
-//
-//                trainingArrayList.clear();
-//
-//                TrainingShowByUserDTO trainingShowByUserDTO = new TrainingShowByUserDTO();
-//                trainingShowByUserDTO.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-//                trainingShowByUserDTO.dateToday = dateInsde;
-//                loadUsersDailyTrainingAsynchTask(trainingShowByUserDTO,TrainingActivity.this);
-//
-//                Log.i(TAG, "onDateSelected: "+dateInsde+" position: "+position);
-//            }
-//        });
     }
 
     private void onBackButtonPressed() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void loadUsersDailyTrainingAsynchTask(final TrainingShowByUserDTO trainingShowByUserDTO, final Context ctx){
+    public void loadAsynchTask(final DTO dto, final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
                 new Response.Listener<String>()
                 {
@@ -191,8 +190,8 @@ public class TrainingActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 HashMap<String,String> params = new HashMap<>();
-                params.put(RestApiNames.DB_USERNAME, trainingShowByUserDTO.userName);
-                params.put(RestApiNames.DB_DATE, trainingShowByUserDTO.dateToday);
+                params.put(RestApiNames.DB_USERNAME, dto.userName);
+                params.put(RestApiNames.DB_DATE, dto.dateToday);
                 return params;
             }
         };
@@ -225,5 +224,4 @@ public class TrainingActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

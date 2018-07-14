@@ -96,7 +96,7 @@ public class DietProductSearchActivity extends AppCompatActivity {
                             public void run() {
                                 dto.name = s.toString();
                                 searchProductsAsynchTask(dto,DietProductSearchActivity.this);
-                                Log.e(TAG, "run: testing" );
+                                dto.printStatus();
                             }
                         },
                         DELAY

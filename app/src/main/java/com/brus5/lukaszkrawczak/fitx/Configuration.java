@@ -2,8 +2,14 @@ package com.brus5.lukaszkrawczak.fitx;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
+import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +21,7 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
  * Created by lukaszkrawczak on 24.05.2018.
  */
 
-public class Configuration extends AppCompatActivity {
+public class Configuration {
     private static final String TAG = "Configuration";
     public static final String BASE_URL = "http://justfitx.xyz/";
 
@@ -38,6 +44,9 @@ public class Configuration extends AppCompatActivity {
 
     public static final String CONNECTION_INTERNET_FAILED = "Błąd połączenia";
 
+    private String dateInside;
+    private String dateInsideTextView;
+
     SimpleDateFormat simpleDateDateInside = new SimpleDateFormat("yyyy-MM-dd");
     public SimpleDateFormat getSimpleDateDateInside() {
         return simpleDateDateInside;
@@ -48,19 +57,19 @@ public class Configuration extends AppCompatActivity {
         return simpleDateTextView;
     }
 
-    public static Calendar generateEndDay(){
+    public Calendar generateEndDay(){
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.MONTH, 1);
         return endDate;
     }
-    public static Calendar generateNextDay(){
+    public Calendar generateNextDay(){
         Calendar startDate = Calendar.getInstance();
         startDate.add(Calendar.MONTH, -1);
         return startDate;
     }
 
-    public static void setHorizontalCalendar(Context ctx, int resId){
-      HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder((Activity) ctx, resId)
+    public void setHorizontalCalendar(final Context ctx, int resId, final TextView tv, final Class<?> cls, final Bundle savedInstanceState){
+        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder((Activity) ctx, resId)
                 .startDate(generateNextDay().getTime())
                 .endDate(generateEndDay().getTime())
                 .datesNumberOnScreen(5)
@@ -69,13 +78,89 @@ public class Configuration extends AppCompatActivity {
                 .showDayName(true)
                 .showMonthName(false)
                 .build();
-//        return horizontalCalendar(ctx,resId);
+
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Date date, int position) {
+                Log.i(TAG, "*********************************************************************");
+                tv.setText(getSimpleDateTextView().format(date.getTime()));
 
+                DTO dto = new DTO();
+                dto.userName = SaveSharedPreference.getUserName(ctx);
+                dto.dateToday = getSimpleDateDateInside().format(date.getTime());
+
+//                DTOAdapter dtoAdapter = new DTOAdapter(ctx);
+//                dtoAdapter.setCtx(ctx);
+//                dtoAdapter.setDto(dto);
+
+//                TrainingActivity tr = new TrainingActivity();
+//                tr.loadAsynchTask(dto, ctx);
+
+
+                Log.i(TAG, "onDateSelected: "+cls.getName());
+
+
+                Method[] methods = cls.getMethods();
+                for (int i = 0; i<methods.length; i++){
+                    Log.i(TAG, "myMethods: " + methods[i].getName());
+                }
+
+
+//              Reflection used here, with calling asynch method to get data from database
+
+                try {
+
+                    Class<?> c = Class.forName(cls.getName());
+
+                    Object obj = c.newInstance();
+
+                    Log.e(TAG, "c: " + c);
+
+                    Method method = c.getDeclaredMethod("loadAsynchTask", DTO.class, Context.class);
+
+                    Method bundle = c.getDeclaredMethod("onCreate", Bundle.class);
+
+// FIXME: 13.07.2018 WORK HERE!
+                    Log.d(TAG, "method: "+method);
+
+
+                    method.invoke(obj,dto,ctx);
+/*
+                    Class<?> c = Class.forName(cls.getName());
+
+                    Object obj = c.newInstance();
+
+                    Log.e(TAG, "c: " + c);
+
+                    Method method = c.getDeclaredMethod("say");
+
+                    Log.d(TAG, "method: "+method);
+
+                    method.invoke(obj);
+*/
+
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+
+
+                Log.i(TAG, "onDateSelected() is called. DTO.userName: " + dto.userName + "; DTO.dateInside: " + dto.dateToday);
+                Log.i(TAG, "*********************************************************************");
             }
         });
 
+
+
+
     }
+
+
 }
