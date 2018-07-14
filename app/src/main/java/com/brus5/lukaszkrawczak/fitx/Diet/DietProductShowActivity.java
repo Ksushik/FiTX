@@ -55,12 +55,12 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     Button buttonAcceptChanges, buttonDelete;
     ProgressBar progressBarDietProductShowActivity;
 
-    String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+    String timeStamp;
 
     private double productProteins = 0d;
     private double productFats = 0d;
     private double productCarbs = 0d;
-    private double productCalories = 0d;
+//    private double productCalories = 0d;
     private double productSaturatedFats = 0d;
     private double productUnsaturatedFats = 0d;
     private double productCarbsFiber = 0d;
@@ -70,6 +70,10 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
     private double productWeightConverted;
     private double productWeight;
+
+    public DietProductShowActivity() {
+        timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +164,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     @Override
                     public void onError() {
                         progressBarDietProductShowActivity.setVisibility(View.VISIBLE);
-                        isError(true);
+                        isError();
                     }
                 });
     }
@@ -174,7 +178,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            String productName = "";
+                            String productName;
                             Log.i(TAG, "onResponse: "+jsonObject.toString(17));
                             JSONArray server_response = jsonObject.getJSONArray("server_response");
                                 for (int i = 0; i < server_response.length(); i++) {
@@ -268,7 +272,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     }
 
     private String convertProductWeightFromPieces(Double aDouble) {
-        return String.format("%.0f",aDouble);
+        return String.format("%.0f", aDouble);
     }
 
     private void productWeightChangerEditText(final boolean productPieces) {
@@ -291,7 +295,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                         s.append("");
                         resetTextViewsToZero();
                     } else if (Double.valueOf(s.toString()) > 2000) {
-                        isError(true);
+                        isError();
                         resetTextViewsToZero();
                         editTextProductWeight.setText("");
                     } else {
@@ -303,7 +307,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                             s.append("");
                             resetTextViewsToZero();
                         } else if (Double.valueOf(s.toString()) > 2000) {
-                            isError(true);
+                            isError();
                             resetTextViewsToZero();
                             editTextProductWeight.setText("");
                         } else {
@@ -328,8 +332,8 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         textViewProductSugars.setText(s);
     }
 
-    private void isError(boolean b) {
-        Toast.makeText(DietProductShowActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
+    private void isError() {
+            Toast.makeText(DietProductShowActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
     }
 
     // Need to add this kind of conversion because Samsung devices got problems and shows double value with comma (2,9) not with dot (2.9).
@@ -391,14 +395,14 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.buttonAcceptChanges:
-
                 if (previousActivity.equals("DietProductSearchActivity")){
                     Log.e(TAG, "onClick: "+getProductWeightConverted() );
                     DietProductInsertDTO dto = new DietProductInsertDTO();
                     dto.productId = productId;
-                    dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
+                    dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this) ;
                     dto.productWeight = getProductWeightConverted();
                     dto.productTimeStamp = productTimeStamp;
+                    dto.printStatus();
                     DietService service = new DietService();
                     service.DietProductInsert(dto, DietProductShowActivity.this);
                     finish();
@@ -411,6 +415,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
                     dto.updateProductWeight = getProductWeightConverted();
                     dto.productTimeStamp = productTimeStamp;
+                    dto.printStatus();
                     DietService service = new DietService();
                     service.DietProductWeightUpdate(dto, DietProductShowActivity.this);
                     finish();
@@ -422,6 +427,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 dto1.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
                 dto1.updateProductWeight = getProductWeightConverted();
                 dto1.productTimeStamp = productTimeStamp;
+                dto1.printStatus();
                 DietService service1 = new DietService();
                 service1.DietDeleteProduct(dto1,DietProductShowActivity.this);
                 finish();

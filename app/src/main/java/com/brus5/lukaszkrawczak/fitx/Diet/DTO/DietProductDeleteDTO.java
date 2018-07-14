@@ -1,9 +1,24 @@
 package com.brus5.lukaszkrawczak.fitx.Diet.DTO;
 
-public class DietProductDeleteDTO {
+
+import android.util.Log;
+
+import com.brus5.lukaszkrawczak.fitx.DtoStatus;
+
+public class DietProductDeleteDTO implements DtoStatus{
+    private static final String TAG = "DietProductDeleteDTO";
     public String productId;
     public String userName;
     public String updateProductWeight;
     public String productTimeStamp;
 
+    @Override
+    public void printStatus() {
+        Log.i(TAG, "printStatus: " +
+                " * productId: " + productId +
+                " * userName: " + userName +
+                " * updateProductWeight: " + updateProductWeight+
+                " * productTimeStamp: "+ productTimeStamp +
+                " *");
+    }
 }

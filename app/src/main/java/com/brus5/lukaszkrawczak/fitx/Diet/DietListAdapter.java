@@ -33,7 +33,6 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
         mResource = resource;
     }
 
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

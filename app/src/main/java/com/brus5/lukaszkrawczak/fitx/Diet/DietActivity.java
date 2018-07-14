@@ -115,10 +115,11 @@ public class DietActivity extends AppCompatActivity {
 
                 dietArrayList.clear();
 
-                DietUserShowDailyDTO dietUserShowDailyDTO = new DietUserShowDailyDTO();
-                dietUserShowDailyDTO.userName = SaveSharedPreference.getUserName(DietActivity.this);
-                dietUserShowDailyDTO.dateToday = dateInsde;
-                loadUsersDailyDietAsynchTask(dietUserShowDailyDTO,DietActivity.this);
+                DietUserShowDailyDTO dto = new DietUserShowDailyDTO();
+                dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
+                dto.dateToday = dateInsde;
+                dto.printStatus();
+                loadUsersDailyDietAsynchTask(dto,DietActivity.this);
 
                 Log.i(TAG, "onDateSelected: "+dateInsde);
             }
@@ -255,6 +256,7 @@ public class DietActivity extends AppCompatActivity {
                                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
                                 dto.updateKcalResult = String.format("%.1f",kcalCounted);
                                 dto.dateToday = dateInsde;
+                                dto.printStatus();
                                 DietService dietService = new DietService();
                                 dietService.DietUpdateCountedKcal(dto,DietActivity.this);
 
@@ -263,6 +265,7 @@ public class DietActivity extends AppCompatActivity {
                                 DietDeleteCountedKcalDTO dto = new DietDeleteCountedKcalDTO();
                                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
                                 dto.dateToday = dateInsde;
+                                dto.printStatus();
                                 DietService dietService = new DietService();
                                 dietService.DietDeleteCountedKcal(dto,DietActivity.this);
                             }
@@ -422,13 +425,12 @@ public class DietActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        // this is your backendcall
+        // this backendcall
         dietListAdapter.clear();
         DietUserShowDailyDTO dietUserShowDailyDTO = new DietUserShowDailyDTO();
         dietUserShowDailyDTO.userName = SaveSharedPreference.getUserName(DietActivity.this);
         dietUserShowDailyDTO.dateToday = dateInsde;
         loadUsersDailyDietAsynchTask(dietUserShowDailyDTO,DietActivity.this);
-
     }
 
     @Override
