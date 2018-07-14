@@ -68,7 +68,7 @@ public class TrainingActivity extends AppCompatActivity {
         loadInput();
 
 //        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
-        weekCalendarTest(savedInstanceState);
+        weekCalendarTest();
 
 
                 DTO dto = new DTO();
@@ -114,12 +114,12 @@ public class TrainingActivity extends AppCompatActivity {
 //        });
 //    }
 
-    private void weekCalendarTest(Bundle savedInstanceState) {
+    private void weekCalendarTest() {
         com.brus5.lukaszkrawczak.fitx.Training.DTO.TrainingShowByUserDTO trainingShowByUserDTO = new com.brus5.lukaszkrawczak.fitx.Training.DTO.TrainingShowByUserDTO();
         trainingShowByUserDTO.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
         trainingShowByUserDTO.dateToday = dateInsde;
 
-        cfg.setHorizontalCalendar(TrainingActivity.this, R.id.calendarViewTrainingActivity, textViewShowDayTrainingActivity,TrainingActivity.class,savedInstanceState);
+        cfg.setHorizontalCalendar(TrainingActivity.this, R.id.calendarViewTrainingActivity, textViewShowDayTrainingActivity,TrainingActivity.class);
 
     }
 
@@ -128,6 +128,9 @@ public class TrainingActivity extends AppCompatActivity {
     }
 
     public void loadAsynchTask(final DTO dto, final Context ctx){
+
+        // FIXME: 14.07.2018 working here
+        
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
                 new Response.Listener<String>()
                 {

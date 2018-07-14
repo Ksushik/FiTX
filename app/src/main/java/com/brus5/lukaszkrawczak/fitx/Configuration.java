@@ -68,7 +68,7 @@ public class Configuration {
         return startDate;
     }
 
-    public void setHorizontalCalendar(final Context ctx, int resId, final TextView tv, final Class<?> cls, final Bundle savedInstanceState){
+    public void setHorizontalCalendar(final Context ctx, int resId, final TextView tv, final Class<?> cls){
         HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder((Activity) ctx, resId)
                 .startDate(generateNextDay().getTime())
                 .endDate(generateEndDay().getTime())
@@ -118,11 +118,12 @@ public class Configuration {
 
                     Method method = c.getDeclaredMethod("loadAsynchTask", DTO.class, Context.class);
 
-                    Method bundle = c.getDeclaredMethod("onCreate", Bundle.class);
-
 // FIXME: 13.07.2018 WORK HERE!
                     Log.d(TAG, "method: "+method);
 
+
+                    TrainingActivity trainingActivity = new TrainingActivity();
+                    trainingActivity.onCreate();
 
                     method.invoke(obj,dto,ctx);
 /*
