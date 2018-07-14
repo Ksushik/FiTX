@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
 
+        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
+
+
     }
     private void weekCalendar(Calendar endDate, Calendar startDate) {
         horizontalCalendar = new HorizontalCalendar.Builder(MainActivity.this, R.id.calendarViewMainActivity)
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(packageContext,cls);
         MainActivity.this.startActivity(intent);
     }
-    void test2(){}
+void test(){
 
-
+}
 }
