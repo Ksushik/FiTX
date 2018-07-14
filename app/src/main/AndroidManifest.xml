@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.brus5.lukaszkrawczak.fitx">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/fitx"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- SetFacebookID -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name=".Login.LoginActivity"
+            android:label="@string/fitx"
+            android:theme="@style/FiTX3theme.noBar"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/fitx"
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity
+            android:name=".Stats.StatsActivity"
+            android:label="@string/fitx"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity
+            android:name=".Diet.DietActivity"
+            android:label="@string/fitx"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity
+            android:name=".Training.TrainingActivity"
+            android:label="@string/fitx"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity
+            android:name=".Diet.DietProductShowActivity"
+            android:label="@string/fitx"
+            android:parentActivityName=".Diet.DietActivity"
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity
+            android:name=".Diet.DietProductSearchActivity"
+            android:label="@string/fitx"
+            android:parentActivityName=".Diet.DietActivity"
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity
+            android:name=".Training.TrainingExerciseShow"
+            android:label="@string/fitx"
+            android:parentActivityName=".Training.TrainingActivity"
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity
+            android:name=".Training.TrainingSearchExercises"
+            android:label="@string/fitx"
+            android:parentActivityName=".Training.TrainingActivity"
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity android:name=".Training.TrainingExcerciseList"
+            android:label="@string/fitx"
+            android:parentActivityName=".Training.TrainingSearchExercises"
+            android:theme="@style/FiTX3theme.noBar" />
+    </application>
+
+</manifest>

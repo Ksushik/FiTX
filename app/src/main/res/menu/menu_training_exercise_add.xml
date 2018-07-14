@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.brus5.lukaszkrawczak.fitx.Training.TrainingExerciseShow">
+    <item
+        android:id="@+id/menu_save_exercise"
+        android:icon="@drawable/icon_accept"
+        android:title="@string/search"
+        app:showAsAction="always" />
+</menu>
