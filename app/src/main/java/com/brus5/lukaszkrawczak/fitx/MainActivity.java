@@ -123,8 +123,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MainActivity.this.startActivity(intent);
     }
     void test2(){}
-    void test(){
 
-    }
 
 }
