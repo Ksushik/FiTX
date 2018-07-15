@@ -1,30 +1,16 @@
 package com.brus5.lukaszkrawczak.fitx;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
+import android.annotation.SuppressLint;
 
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-
-import devs.mulham.horizontalcalendar.HorizontalCalendar;
-import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
 /**
  * Created by lukaszkrawczak on 24.05.2018.
  */
 
 public class Configuration {
-    private static final String TAG = "Configuration";
+
     public static final String BASE_URL = "http://justfitx.xyz/";
 
     public static final String DIET_GET_PRODUCT_INFORMATIONS        = BASE_URL + "Diet/" + "GetProductInformations.php";
@@ -46,12 +32,14 @@ public class Configuration {
 
     public static final String CONNECTION_INTERNET_FAILED = "Błąd połączenia";
 
-    SimpleDateFormat simpleDateDateInside = new SimpleDateFormat("yyyy-MM-dd");
+    @SuppressLint("SimpleDateFormat")
+    private SimpleDateFormat simpleDateDateInside = new SimpleDateFormat("yyyy-MM-dd");
     public SimpleDateFormat getSimpleDateDateInside() {
         return simpleDateDateInside;
     }
 
-    SimpleDateFormat simpleDateTextView = new SimpleDateFormat("dd MMMM yyyy");
+    @SuppressLint("SimpleDateFormat")
+    private SimpleDateFormat simpleDateTextView = new SimpleDateFormat("dd MMMM yyyy");
     public SimpleDateFormat getSimpleDateTextView() {
         return simpleDateTextView;
     }
@@ -66,80 +54,4 @@ public class Configuration {
         startDate.add(Calendar.MONTH, -1);
         return startDate;
     }
-
-//    public void setHorizontalCalendar(final Context ctx, int resId, final TextView tv, final Class<?> cls){
-//        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder((Activity) ctx, resId)
-//                .startDate(generateNextDay().getTime())
-//                .endDate(generateEndDay().getTime())
-//                .datesNumberOnScreen(5)
-//                .dayNameFormat("EE")
-//                .dayNumberFormat("dd")
-//                .showDayName(true)
-//                .showMonthName(false)
-//                .build();
-//
-//        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
-//            @Override
-//            public void onDateSelected(Date date, int position) {
-//                Log.i(TAG, "*********************************************************************");
-//                tv.setText(getSimpleDateTextView().format(date.getTime()));
-//
-//                DTO dto = new DTO();
-//                dto.userName = SaveSharedPreference.getUserName(ctx);
-//                dto.dateToday = getSimpleDateDateInside().format(date.getTime());
-//
-//                Log.i(TAG, "onDateSelected: "+cls.getName());
-//
-////              Reflection used here, with calling asynch method to get data from database
-//
-//                try {
-//
-//                    Class<?> c = Class.forName(cls.getName());
-//
-//                    Object objAsynch = c.newInstance();
-//
-//                    Log.e(TAG, "c: " + c);
-//
-//
-//                    Method loadAsynchTask = c.getDeclaredMethod("loadAsynchTask", DTO.class, Context.class);
-//                    Log.d(TAG, "method: "+loadAsynchTask);
-//
-//                    loadAsynchTask.invoke(objAsynch,dto,ctx);
-//
-////                    Class<?> c = Class.forName(cls.getName());
-////
-////                    Object obj = c.newInstance();
-////
-////                    Log.e(TAG, "c: " + c);
-////
-////                    Method method = c.getDeclaredMethod("say");
-////
-////                    Log.d(TAG, "method: "+method);
-////
-////                    method.invoke(obj);
-//
-//                } catch (ClassNotFoundException e) {
-//                    e.printStackTrace();
-//                } catch (NoSuchMethodException e) {
-//                    e.printStackTrace();
-//                } catch (IllegalAccessException e) {
-//                    e.printStackTrace();
-//                } catch (InstantiationException e) {
-//                    e.printStackTrace();
-//                } catch (InvocationTargetException e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//                Log.i(TAG, "onDateSelected() is called. DTO.userName: " + dto.userName + "; DTO.dateInside: " + dto.dateToday);
-//                Log.i(TAG, "*********************************************************************");
-//            }
-//        });
-//
-//
-//
-//
-//    }
-
-
 }

@@ -2,7 +2,6 @@ package com.brus5.lukaszkrawczak.fitx.Training;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,12 +22,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DTO;
-import com.brus5.lukaszkrawczak.fitx.DTOAdapter;
-import com.brus5.lukaszkrawczak.fitx.Login.LoginActivity;
+
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
-import com.brus5.lukaszkrawczak.fitx.Training.DTO.TrainingShowByUserDTO;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,10 +104,8 @@ public class TrainingActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void onBackButtonPressed() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void loadAsynchTask(final DTO dto, final Context ctx){
