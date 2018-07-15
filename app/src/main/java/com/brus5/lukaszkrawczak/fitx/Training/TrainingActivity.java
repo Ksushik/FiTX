@@ -67,14 +67,7 @@ public class TrainingActivity extends AppCompatActivity {
         onBackButtonPressed();
         loadInput();
 
-//        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
-        weekCalendarTest();
-
-
-                DTO dto = new DTO();
-                dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-                dto.dateToday = dateInsde;
-
+        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
     }
 
     private void loadInput() {
@@ -82,55 +75,45 @@ public class TrainingActivity extends AppCompatActivity {
         listViewTrainingActivity = findViewById(R.id.listViewTrainingActivity);
     }
 
-//    private void weekCalendar(Calendar endDate, Calendar startDate) {
-//        horizontalCalendar = new HorizontalCalendar.Builder(TrainingActivity.this, R.id.calendarViewTrainingActivity)
-//                .startDate(startDate.getTime())
-//                .endDate(endDate.getTime())
-//                .datesNumberOnScreen(5)
-//                .dayNameFormat("EE")
-//                .dayNumberFormat("dd")
-////                .textSize(10f, 16f, 14f)
-//                .showDayName(true)
-//                .showMonthName(false)
-//                .build();
-//
-//        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
-//            @Override
-//            public void onDateSelected(Date date, int position) {
-//                dateInsde = cfg.getSimpleDateDateInside().format(date.getTime());
-//                dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
-//
-//                textViewShowDayTrainingActivity.setText(dateInsideTextView);
-//
-//                trainingArrayList.clear();
-//
-//                DTO dto = new DTO();
-//                dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-//                dto.dateToday = dateInsde;
-//                loadAsynchTask(dto,TrainingActivity.this);
-//
-//                Log.i(TAG, "onDateSelected: "+dateInsde+" position: "+position);
-//            }
-//        });
-//    }
+    private void weekCalendar(Calendar endDate, Calendar startDate) {
+        horizontalCalendar = new HorizontalCalendar.Builder(TrainingActivity.this, R.id.calendarViewTrainingActivity)
+                .startDate(startDate.getTime())
+                .endDate(endDate.getTime())
+                .datesNumberOnScreen(5)
+                .dayNameFormat("EE")
+                .dayNumberFormat("dd")
+//                .textSize(10f, 16f, 14f)
+                .showDayName(true)
+                .showMonthName(false)
+                .build();
 
-    private void weekCalendarTest() {
-        com.brus5.lukaszkrawczak.fitx.Training.DTO.TrainingShowByUserDTO trainingShowByUserDTO = new com.brus5.lukaszkrawczak.fitx.Training.DTO.TrainingShowByUserDTO();
-        trainingShowByUserDTO.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-        trainingShowByUserDTO.dateToday = dateInsde;
+        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+            @Override
+            public void onDateSelected(Date date, int position) {
+                dateInsde = cfg.getSimpleDateDateInside().format(date.getTime());
+                dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
 
-        cfg.setHorizontalCalendar(TrainingActivity.this, R.id.calendarViewTrainingActivity, textViewShowDayTrainingActivity,TrainingActivity.class);
+                textViewShowDayTrainingActivity.setText(dateInsideTextView);
 
+                trainingArrayList.clear();
+
+                DTO dto = new DTO();
+                dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
+                dto.dateToday = dateInsde;
+                loadAsynchTask(dto,TrainingActivity.this);
+
+                Log.i(TAG, "onDateSelected: "+dateInsde+" position: "+position);
+            }
+        });
     }
+
+
 
     private void onBackButtonPressed() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void loadAsynchTask(final DTO dto, final Context ctx){
-
-        // FIXME: 14.07.2018 working here
-        
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
                 new Response.Listener<String>()
                 {

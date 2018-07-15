@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
 
 import java.lang.reflect.InvocationTargetException;
@@ -44,9 +46,6 @@ public class Configuration {
 
     public static final String CONNECTION_INTERNET_FAILED = "Błąd połączenia";
 
-    private String dateInside;
-    private String dateInsideTextView;
-
     SimpleDateFormat simpleDateDateInside = new SimpleDateFormat("yyyy-MM-dd");
     public SimpleDateFormat getSimpleDateDateInside() {
         return simpleDateDateInside;
@@ -68,100 +67,79 @@ public class Configuration {
         return startDate;
     }
 
-    public void setHorizontalCalendar(final Context ctx, int resId, final TextView tv, final Class<?> cls){
-        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder((Activity) ctx, resId)
-                .startDate(generateNextDay().getTime())
-                .endDate(generateEndDay().getTime())
-                .datesNumberOnScreen(5)
-                .dayNameFormat("EE")
-                .dayNumberFormat("dd")
-                .showDayName(true)
-                .showMonthName(false)
-                .build();
-
-        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
-            @Override
-            public void onDateSelected(Date date, int position) {
-                Log.i(TAG, "*********************************************************************");
-                tv.setText(getSimpleDateTextView().format(date.getTime()));
-
-                DTO dto = new DTO();
-                dto.userName = SaveSharedPreference.getUserName(ctx);
-                dto.dateToday = getSimpleDateDateInside().format(date.getTime());
-
-//                DTOAdapter dtoAdapter = new DTOAdapter(ctx);
-//                dtoAdapter.setCtx(ctx);
-//                dtoAdapter.setDto(dto);
-
-//                TrainingActivity tr = new TrainingActivity();
-//                tr.loadAsynchTask(dto, ctx);
-
-
-                Log.i(TAG, "onDateSelected: "+cls.getName());
-
-
-                Method[] methods = cls.getMethods();
-                for (int i = 0; i<methods.length; i++){
-                    Log.i(TAG, "myMethods: " + methods[i].getName());
-                }
-
-
-//              Reflection used here, with calling asynch method to get data from database
-
-                try {
-
-                    Class<?> c = Class.forName(cls.getName());
-
-                    Object obj = c.newInstance();
-
-                    Log.e(TAG, "c: " + c);
-
-                    Method method = c.getDeclaredMethod("loadAsynchTask", DTO.class, Context.class);
-
-// FIXME: 13.07.2018 WORK HERE!
-                    Log.d(TAG, "method: "+method);
-
-
-                    TrainingActivity trainingActivity = new TrainingActivity();
-                    trainingActivity.onCreate();
-
-                    method.invoke(obj,dto,ctx);
-/*
-                    Class<?> c = Class.forName(cls.getName());
-
-                    Object obj = c.newInstance();
-
-                    Log.e(TAG, "c: " + c);
-
-                    Method method = c.getDeclaredMethod("say");
-
-                    Log.d(TAG, "method: "+method);
-
-                    method.invoke(obj);
-*/
-
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-
-
-                Log.i(TAG, "onDateSelected() is called. DTO.userName: " + dto.userName + "; DTO.dateInside: " + dto.dateToday);
-                Log.i(TAG, "*********************************************************************");
-            }
-        });
-
-
-
-
-    }
+//    public void setHorizontalCalendar(final Context ctx, int resId, final TextView tv, final Class<?> cls){
+//        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder((Activity) ctx, resId)
+//                .startDate(generateNextDay().getTime())
+//                .endDate(generateEndDay().getTime())
+//                .datesNumberOnScreen(5)
+//                .dayNameFormat("EE")
+//                .dayNumberFormat("dd")
+//                .showDayName(true)
+//                .showMonthName(false)
+//                .build();
+//
+//        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+//            @Override
+//            public void onDateSelected(Date date, int position) {
+//                Log.i(TAG, "*********************************************************************");
+//                tv.setText(getSimpleDateTextView().format(date.getTime()));
+//
+//                DTO dto = new DTO();
+//                dto.userName = SaveSharedPreference.getUserName(ctx);
+//                dto.dateToday = getSimpleDateDateInside().format(date.getTime());
+//
+//                Log.i(TAG, "onDateSelected: "+cls.getName());
+//
+////              Reflection used here, with calling asynch method to get data from database
+//
+//                try {
+//
+//                    Class<?> c = Class.forName(cls.getName());
+//
+//                    Object objAsynch = c.newInstance();
+//
+//                    Log.e(TAG, "c: " + c);
+//
+//
+//                    Method loadAsynchTask = c.getDeclaredMethod("loadAsynchTask", DTO.class, Context.class);
+//                    Log.d(TAG, "method: "+loadAsynchTask);
+//
+//                    loadAsynchTask.invoke(objAsynch,dto,ctx);
+//
+////                    Class<?> c = Class.forName(cls.getName());
+////
+////                    Object obj = c.newInstance();
+////
+////                    Log.e(TAG, "c: " + c);
+////
+////                    Method method = c.getDeclaredMethod("say");
+////
+////                    Log.d(TAG, "method: "+method);
+////
+////                    method.invoke(obj);
+//
+//                } catch (ClassNotFoundException e) {
+//                    e.printStackTrace();
+//                } catch (NoSuchMethodException e) {
+//                    e.printStackTrace();
+//                } catch (IllegalAccessException e) {
+//                    e.printStackTrace();
+//                } catch (InstantiationException e) {
+//                    e.printStackTrace();
+//                } catch (InvocationTargetException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//                Log.i(TAG, "onDateSelected() is called. DTO.userName: " + dto.userName + "; DTO.dateInside: " + dto.dateToday);
+//                Log.i(TAG, "*********************************************************************");
+//            }
+//        });
+//
+//
+//
+//
+//    }
 
 
 }
