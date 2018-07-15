@@ -56,7 +56,7 @@ public class DietActivity extends AppCompatActivity {
     ListView listViewDietActivity;
     double kcalResult = 0d;
     Configuration cfg = new Configuration();
-    String dateInsde, dateInsideTextView, productTimeStamp;
+    String dateInside, dateInsideTextView, productTimeStamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +109,7 @@ public class DietActivity extends AppCompatActivity {
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Date date, int position) {
-                dateInsde = cfg.getSimpleDateDateInside().format(date.getTime());
+                dateInside = cfg.getSimpleDateDateInside().format(date.getTime());
                 dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
                 textViewShowDayDietActivity.setText(dateInsideTextView);
 
@@ -117,11 +117,11 @@ public class DietActivity extends AppCompatActivity {
 
                 DietUserShowDailyDTO dto = new DietUserShowDailyDTO();
                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
-                dto.dateToday = dateInsde;
+                dto.dateToday = dateInside;
                 dto.printStatus();
                 loadUsersDailyDietAsynchTask(dto,DietActivity.this);
 
-                Log.i(TAG, "onDateSelected: "+dateInsde);
+                Log.i(TAG, "onDateSelected: "+ dateInside);
             }
         });
     }
@@ -255,7 +255,7 @@ public class DietActivity extends AppCompatActivity {
                                 dto.userId = SaveSharedPreference.getUserID(DietActivity.this);
                                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
                                 dto.updateKcalResult = String.format("%.1f",kcalCounted);
-                                dto.dateToday = dateInsde;
+                                dto.dateToday = dateInside;
                                 dto.printStatus();
                                 DietService dietService = new DietService();
                                 dietService.DietUpdateCountedKcal(dto,DietActivity.this);
@@ -264,7 +264,7 @@ public class DietActivity extends AppCompatActivity {
                             else if (getKcalResult() == 0d){
                                 DietDeleteCountedKcalDTO dto = new DietDeleteCountedKcalDTO();
                                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
-                                dto.dateToday = dateInsde;
+                                dto.dateToday = dateInside;
                                 dto.printStatus();
                                 DietService dietService = new DietService();
                                 dietService.DietDeleteCountedKcal(dto,DietActivity.this);
@@ -307,6 +307,7 @@ public class DietActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(DietActivity.this,DietProductShowActivity.class);
                 intent.putExtra("productId",productId.getText().toString());
+                intent.putExtra("dateInside",dateInside);
                 intent.putExtra("productWeight",Double.valueOf(productWeight.getText().toString()));
                 intent.putExtra("productTimeStamp", productTimeStamp);
                 intent.putExtra("previousActivity", "DietActivity");
@@ -429,7 +430,7 @@ public class DietActivity extends AppCompatActivity {
         dietListAdapter.clear();
         DietUserShowDailyDTO dietUserShowDailyDTO = new DietUserShowDailyDTO();
         dietUserShowDailyDTO.userName = SaveSharedPreference.getUserName(DietActivity.this);
-        dietUserShowDailyDTO.dateToday = dateInsde;
+        dietUserShowDailyDTO.dateToday = dateInside;
         loadUsersDailyDietAsynchTask(dietUserShowDailyDTO,DietActivity.this);
     }
 
@@ -445,6 +446,7 @@ public class DietActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_search_product:
             Intent intent = new Intent(DietActivity.this,DietProductSearchActivity.class);
+            intent.putExtra("dateInside", dateInside);
             DietActivity.this.startActivity(intent);
             break;
         }

@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.Diet;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -27,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
+import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietProductDeleteDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietProductInsertDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietProductWeightUpdateDTO;
@@ -50,12 +52,12 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
     TextView textViewProductName, textViewProductProteins, textViewProductFats, textViewProductCarbs, textViewProductCalories, textViewProductSaturatedFats, textViewProductUnsaturatedFats, textViewProductFiber, textViewProductSugars;
     EditText editTextProductWeight;
-    String productId, userName, productTimeStamp, previousActivity;
+    String productId, userName, productTimeStamp, previousActivity, dateToday, newTimeStamp;
     Spinner spinnerChooser;
     Button buttonAcceptChanges, buttonDelete;
     ProgressBar progressBarDietProductShowActivity;
 
-    String timeStamp;
+    String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
     private double productProteins = 0d;
     private double productFats = 0d;
@@ -70,10 +72,6 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
     private double productWeightConverted;
     private double productWeight;
-
-    public DietProductShowActivity() {
-        timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,12 +109,21 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
     private void getIntentFromPreviousActiity() {
         Intent intent = getIntent();
+        dateToday = intent.getStringExtra("dateInside");
+        Log.i(TAG, "getIntentFromPreviousActiity: "+dateToday);
         productId = intent.getStringExtra("productId");
         userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
         productTimeStamp = intent.getStringExtra("productTimeStamp");
         productTimeStamp = timeStampChanger(productTimeStamp);
         productWeight = intent.getDoubleExtra("productWeight",50);
         previousActivity = intent.getStringExtra("previousActivity");
+
+        Log.i(TAG, "informations: " + dateToday + "  " + productId + "  "+ dateToday + "  "+ dateToday + "  "+ dateToday + "  ");
+
+
+        TimeStampReplacer time = new TimeStampReplacer(dateToday, productTimeStamp);
+        newTimeStamp = time.getNewTimeStamp();
+        Log.i(TAG, "getIntentFromPreviousActiity: "+time.getNewTimeStamp());
     }
 
     private String timeStampChanger(String productTimeStamp) {
@@ -387,6 +394,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         this.productWeightConverted = productWeightConverted;
     }
 
+    @SuppressLint("DefaultLocale")
     private String getProductWeightConverted() {
         return String.format("%.0f",productWeightConverted);
     }
@@ -401,20 +409,19 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     dto.productId = productId;
                     dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this) ;
                     dto.productWeight = getProductWeightConverted();
-                    dto.productTimeStamp = productTimeStamp;
+                    dto.productTimeStamp = newTimeStamp;
                     dto.printStatus();
                     DietService service = new DietService();
                     service.DietProductInsert(dto, DietProductShowActivity.this);
                     finish();
                 }
                 else {
-
                     Log.e(TAG, "onClick: " + getProductWeightConverted());
                     DietProductWeightUpdateDTO dto = new DietProductWeightUpdateDTO();
                     dto.productId = productId;
                     dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
                     dto.updateProductWeight = getProductWeightConverted();
-                    dto.productTimeStamp = productTimeStamp;
+                    dto.productTimeStamp = newTimeStamp;
                     dto.printStatus();
                     DietService service = new DietService();
                     service.DietProductWeightUpdate(dto, DietProductShowActivity.this);
@@ -426,7 +433,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 dto1.productId = productId;
                 dto1.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
                 dto1.updateProductWeight = getProductWeightConverted();
-                dto1.productTimeStamp = productTimeStamp;
+                dto1.productTimeStamp = newTimeStamp;
                 dto1.printStatus();
                 DietService service1 = new DietService();
                 service1.DietDeleteProduct(dto1,DietProductShowActivity.this);

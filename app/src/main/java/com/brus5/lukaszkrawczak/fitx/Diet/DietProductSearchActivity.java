@@ -42,6 +42,7 @@ import java.util.TimerTask;
 
 public class DietProductSearchActivity extends AppCompatActivity {
     private static final String TAG = "DietProductSearchActivi";
+    String dateInside;
     EditText editTextSearchProduct;
     ListView listViewShowProducts;
     DietSearchListAdapter dietSearchListAdapter;
@@ -56,6 +57,12 @@ public class DietProductSearchActivity extends AppCompatActivity {
         loadInput();
         searchProduct();
         onListViewItemSelected();
+        getIntentFromPreviousActiity();
+
+    }
+
+    private void getIntentFromPreviousActiity() {
+        dateInside = getIntent().getStringExtra("dateInside");
     }
 
     private void loadInput() {
@@ -174,10 +181,10 @@ public class DietProductSearchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 TextView productId = view.findViewById(R.id.dietMealSearchID);
-
                 Intent intent = new Intent(DietProductSearchActivity.this,DietProductShowActivity.class);
                 intent.putExtra("productId",productId.getText().toString());
                 intent.putExtra("previousActivity","DietProductSearchActivity");
+                intent.putExtra("dateInside",dateInside);
                 startActivity(intent);
 
             }
