@@ -85,17 +85,12 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         loadInput();
         getIntentFromPreviousActiity();
 
-
         String url = "http://justfitx.xyz/images/products/mid/" + productId + ".png";
-
         loadImageFromUrl(url);
-
         loadProductInformationAsynchTask(DietProductShowActivity.this);
 
         editTextProductWeight.setText(String.valueOf(productWeight));
-
         productWeightChangerEditText(false);
-
         hideDeleteButtonIfActivityIsDifferent();
     }
 

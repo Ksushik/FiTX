@@ -24,6 +24,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.brus5.lukaszkrawczak.fitx.Calculator.CarbCalc;
+import com.brus5.lukaszkrawczak.fitx.Calculator.FatCalc;
+import com.brus5.lukaszkrawczak.fitx.Calculator.ProteinCalc;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietDeleteCountedKcalDTO;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
@@ -216,9 +219,12 @@ public class DietActivity extends AppCompatActivity {
 
                             }
 
-                            int proteinGoal = countProteinGoal(totalCalories,proteinRatio);
-                            int fatGoal = countFatsGoal(totalCalories,fatRatio);
-                            int carbsGoal = countCarbsGoal(totalCalories,carbRatio);
+                            ProteinCalc pCalc = new ProteinCalc();
+                            int proteinGoal = pCalc.countProteinGoal(totalCalories,proteinRatio);
+                            FatCalc fCalc = new FatCalc();
+                            int fatGoal = fCalc.countFatsGoal(totalCalories,fatRatio);
+                            CarbCalc cCalc = new CarbCalc();
+                            int carbsGoal = cCalc.countCarbsGoal(totalCalories,carbRatio);
 
                             String wProtein = replaceCommaWithDot(proteinsCounted)+" / "+String.valueOf(proteinGoal);
                             String wFats = replaceCommaWithDot(fatsCounted)+" / "+String.valueOf(fatGoal);
@@ -336,12 +342,9 @@ public class DietActivity extends AppCompatActivity {
         }
     }
     private void progressBarFatsChangeColor(double result, double goal){
-        int intGoal = Integer.valueOf(String.format("%.0f",goal));
-        int intResult = Integer.valueOf(String.format("%.0f",result));
-
         progressBarFats.getProgressDrawable().setColorFilter(0xFFF3AE28, PorterDuff.Mode.SRC_IN);
-        progressBarFats.setMax(intGoal);
-        progressBarFats.setProgress(intResult);
+        progressBarFats.setMax((int) goal);
+        progressBarFats.setProgress((int) result);
 
         if (result > goal){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -353,12 +356,9 @@ public class DietActivity extends AppCompatActivity {
         }
     }
     private void progressBarCarbsChangeColor(double result, double goal){
-        int intGoal = Integer.valueOf(String.format("%.0f",goal));
-        int intResult = Integer.valueOf(String.format("%.0f",result));
-
         progressBarCarbs.getProgressDrawable().setColorFilter(0xFFBD2121, PorterDuff.Mode.SRC_IN);
-        progressBarCarbs.setMax(intGoal);
-        progressBarCarbs.setProgress(intResult);
+        progressBarCarbs.setMax((int) goal);
+        progressBarCarbs.setProgress((int) result);
 
         if (result > goal){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -370,12 +370,9 @@ public class DietActivity extends AppCompatActivity {
         }
     }
     private void progressBarKcalChangeColor(double result, double goal){
-        int intGoal = Integer.valueOf(String.format("%.0f",goal));
-        int intResult = Integer.valueOf(String.format("%.0f",result));
-
         progressBarKcal.getProgressDrawable().setColorFilter(0xFF89C611, PorterDuff.Mode.SRC_IN);
-        progressBarKcal.setMax(intGoal);
-        progressBarKcal.setProgress(intResult);
+        progressBarKcal.setMax((int) goal);
+        progressBarKcal.setProgress((int) result);
 
         if (result > goal){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -388,19 +385,6 @@ public class DietActivity extends AppCompatActivity {
 
     private String replaceCommaWithDot(double value){
         return String.format("%.0f",value).replace(",",".");
-    }
-
-    private int countProteinGoal(double kcalResult, double valueRatio){
-        double result = (kcalResult*valueRatio*0.01)/4;
-        return (int) result;
-    }
-    private int countFatsGoal(double kcalResult, double valueRatio){
-        double result = (kcalResult*valueRatio*0.01)/9;
-        return (int) result;
-    }
-    private int countCarbsGoal(double kcalResult, double valueRatio){
-        double result = (kcalResult*valueRatio*0.01)/4;
-        return (int) result;
     }
 
     private void changeStatusBarColor() {
