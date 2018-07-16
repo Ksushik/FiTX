@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import com.brus5.lukaszkrawczak.fitx.R;
 
 public class TrainingExcerciseList extends AppCompatActivity {
     private static final String TAG = "TrainingExcerciseList";
+    private String excerciseSelect;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,9 +20,19 @@ public class TrainingExcerciseList extends AppCompatActivity {
         loadInput();
         changeStatusBarColor();
         onBackButtonPressed();
+        getIntentFromPreviousActiity();
 
+    }
 
+    private void getIntentFromPreviousActiity() {
+        Intent intent = getIntent();
+        int mExercise = intent.getIntExtra("exercise",-1);
+        Log.e(TAG, "onCreate: "+mExercise);
 
+        TrainingList trainingList = new TrainingList();
+        trainingList.setResId(mExercise);
+        excerciseSelect = trainingList.getResourceName();
+        Log.e(TAG, "getIntentFromPreviousActiity: "+excerciseSelect);
     }
 
 

@@ -1,6 +1,5 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
-import android.content.Intent;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -24,9 +23,6 @@ public class TrainingExerciseShow extends AppCompatActivity {
         onBackButtonPressed();
         loadInput();
 
-        Intent intent = getIntent();
-        String mExercise = intent.getStringExtra("exercise");
-        Log.e(TAG, "onCreate: "+mExercise);
 
     }
 

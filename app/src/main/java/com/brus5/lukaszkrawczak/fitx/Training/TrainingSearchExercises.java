@@ -24,8 +24,6 @@ public class TrainingSearchExercises extends AppCompatActivity implements View.O
 
     TextView textViewButtonChest, textViewButtonAbs, textViewButtonQuads, textViewButtonShoulders, textViewButtonBiceps, textViewButtonForearms, textViewButtonLats, textViewButtonTraps, textViewButtonGlutes, textViewButtonTriceps, textViewButtonHamstrings, textViewButtonCalves;
 
-    Canvas canvas = new Canvas();
-    Paint paint = new Paint();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +32,6 @@ public class TrainingSearchExercises extends AppCompatActivity implements View.O
         changeStatusBarColor();
         loadInputs();
         onBackButtonPressed();
-        drawLine();
         button();
     }
 
@@ -51,12 +48,6 @@ public class TrainingSearchExercises extends AppCompatActivity implements View.O
                 }
             }
         });
-    }
-
-    private void drawLine() {
-        paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(1f);
-        canvas.drawLine(200,1000,1400,300,paint);
     }
 
     private void bodyRotate(int rotation){
@@ -147,50 +138,47 @@ public class TrainingSearchExercises extends AppCompatActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.textViewButtonChest:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_chest));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_chest);
                 break;
             case R.id.textViewButtonAbs:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_abs));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_abs);
                 break;
             case R.id.textViewButtonQuads:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_quads));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_quads);
                 break;
             case R.id.textViewButtonShoulders:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_shoulders));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_shoulders);
                 break;
             case R.id.textViewButtonBiceps:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_biceps));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_biceps);
                 break;
             case R.id.textViewButtonForearms:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_forearms));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_forearms);
                 break;
             case R.id.textViewButtonLats:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_lats));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_lats);
                 break;
             case R.id.textViewButtonTraps:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_trapss));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_trapss);
                 break;
             case R.id.textViewButtonGlutes:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_glutes));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_glutes);
                 break;
             case R.id.textViewButtonTriceps:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_triceps));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_triceps);
                 break;
             case R.id.textViewButtonHamstrings:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_hamstrings));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_hamstrings);
                 break;
             case R.id.textViewButtonCalves:
-                runNextActivity(TrainingSearchExercises.this, String.valueOf(R.string.body_calves));
+                runNextActivity(TrainingSearchExercises.this, R.string.body_calves);
                 break;
         }
     }
 
-    public void runNextActivity(Context context, String exercise){
+    public void runNextActivity(Context context, int resId){
         Intent intent = new Intent(context,TrainingExcerciseList.class);
-        intent.putExtra("exercise",exercise);
+        intent.putExtra("exercise",resId);
         TrainingSearchExercises.this.startActivity(intent);
     }
-
-
-
 }
