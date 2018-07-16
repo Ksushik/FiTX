@@ -118,12 +118,12 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         productWeight = intent.getDoubleExtra("productWeight",50);
         previousActivity = intent.getStringExtra("previousActivity");
 
-        Log.i(TAG, "informations: " + dateToday + "  " + productId + "  "+ dateToday + "  "+ dateToday + "  "+ dateToday + "  ");
-
-
         TimeStampReplacer time = new TimeStampReplacer(dateToday, productTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
-        Log.i(TAG, "getIntentFromPreviousActiity: "+time.getNewTimeStamp());
+
+        Log.i(TAG, "time.getNewTimeStamp(): " +  timeStamp);
+        Log.i(TAG, "time.getNewTimeStamp(): " +  time.toString());
+        Log.i(TAG, "time.getNewTimeStamp(): " +  time.getNewTimeStamp());
     }
 
     private String timeStampChanger(String productTimeStamp) {
