@@ -4,7 +4,6 @@ import android.util.Log;
 
 abstract class Converter {
 
-
     private String dateToday;
     private String oldTimeStamp;
     private static final String TAG = "Converter";

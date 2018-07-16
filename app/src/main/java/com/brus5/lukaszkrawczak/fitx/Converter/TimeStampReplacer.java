@@ -15,6 +15,4 @@ public class TimeStampReplacer extends Converter {
         return "timeStamp replaced with value: " + super.getNewTimeStamp();
     }
 
-
-
 }
