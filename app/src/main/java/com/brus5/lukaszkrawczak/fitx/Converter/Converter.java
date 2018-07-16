@@ -3,15 +3,22 @@ package com.brus5.lukaszkrawczak.fitx.Converter;
 import android.util.Log;
 
 abstract class Converter {
+    private static final String TAG = "Converter";
 
     private String dateToday;
     private String oldTimeStamp;
-    private static final String TAG = "Converter";
+
+    private String covertedWeight;
+    private double weight;
+    private double productWeight;
 
     Converter(String dateToday, String oldTimeStamp){
         this.dateToday = dateToday;
         this.oldTimeStamp = oldTimeStamp;
         Log.i(TAG, "Converter: has been activated " + dateToday + " oldTimeStamp: " + oldTimeStamp);
+    }
+
+    public Converter() {
     }
 
     private String getDayAndMonth(){
@@ -25,5 +32,25 @@ abstract class Converter {
     public String getNewTimeStamp(){
         return this.oldTimeStamp.replace(getDayAndMonthFromTimeStamp(),getDayAndMonth());
     }
+
+    Converter(double weight, double productWeight){
+        this.weight = weight;
+        this.productWeight = productWeight;
+        setProductGrams(productWeight);
+    }
+
+    private void setProductGrams(double productWeight) {
+        double mProductProteins = productWeight*(this.weight*0.01);
+        this.covertedWeight = String.format("%.1f",mProductProteins).replace(",",".");
+    }
+
+    public String getConvertedWeight(){
+        return this.covertedWeight;
+    }
+
+//    public static String convertToDecimals(){
+//
+//    }
+
 
 }

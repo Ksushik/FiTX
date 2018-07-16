@@ -29,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
+import com.brus5.lukaszkrawczak.fitx.Converter.WeightConverter;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietProductDeleteDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietProductInsertDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietProductWeightUpdateDTO;
@@ -45,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class DietProductShowActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     private static final String TAG = "DietProductShowActivity";
@@ -57,12 +59,13 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     Button buttonAcceptChanges, buttonDelete;
     ProgressBar progressBarDietProductShowActivity;
 
+    @SuppressLint("SimpleDateFormat")
     String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
     private double productProteins = 0d;
     private double productFats = 0d;
     private double productCarbs = 0d;
-//    private double productCalories = 0d;
+
     private double productSaturatedFats = 0d;
     private double productUnsaturatedFats = 0d;
     private double productCarbsFiber = 0d;
@@ -70,7 +73,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     private double productMultiplierPiece = 0d;
     private int productVerified = 0;
 
-    private double productWeightConverted;
+    private double productWeightPerItems;
     private double productWeight;
 
     @Override
@@ -103,7 +106,6 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         else {
             buttonDelete.setVisibility(View.VISIBLE);
         }
-
 
     }
 
@@ -238,7 +240,6 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
         switch (position){
             case 0:
                 editTextProductWeight.clearFocus();
@@ -260,27 +261,38 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     }
 
     private void setProductWeight(Double aDouble) {
-        textViewProductProteins.setText(countProteinsGrams(aDouble));
-        textViewProductFats.setText(countFatsGrams(aDouble));
-        textViewProductCarbs.setText(countCarbsGrams(aDouble));
-        textViewProductSaturatedFats.setText(countSaturatedFats(aDouble));
-        textViewProductUnsaturatedFats.setText(countUnsaturatedFats(aDouble));
-        textViewProductFiber.setText(countCarbsFiber(aDouble));
-        textViewProductSugars.setText(countCarbsSugar(aDouble));
+
+        WeightConverter mProteins = new WeightConverter(aDouble,productProteins);
+        WeightConverter mFats = new WeightConverter(aDouble,productFats);
+        WeightConverter mCarbs = new WeightConverter(aDouble,productCarbs);
+        WeightConverter mSaturatedFats = new WeightConverter(aDouble,productSaturatedFats);
+        WeightConverter mUnsaturatedFats = new WeightConverter(aDouble,productUnsaturatedFats);
+        WeightConverter mFiber = new WeightConverter(aDouble,productCarbsFiber);
+        WeightConverter mSugars = new WeightConverter(aDouble,productCarbsSugars);
+
+        textViewProductProteins.setText(mProteins.getConvertedWeight());
+        textViewProductFats.setText(mFats.getConvertedWeight());
+        textViewProductCarbs.setText(mCarbs.getConvertedWeight());
+        textViewProductSaturatedFats.setText(mSaturatedFats.getConvertedWeight());
+        textViewProductUnsaturatedFats.setText(mUnsaturatedFats.getConvertedWeight());
+        textViewProductFiber.setText(mFiber.getConvertedWeight());
+        textViewProductSugars.setText(mSugars.getConvertedWeight());
 
         double proteins = Double.valueOf(textViewProductProteins.getText().toString());
         double fats = Double.valueOf(textViewProductFats.getText().toString());
         double carbs = Double.valueOf(textViewProductCarbs.getText().toString());
 
-        textViewProductCalories.setText(countCalories(proteins,fats,carbs));
+        WeightConverter countCalories = new WeightConverter();
 
-        convertProductWeightFromPieces(aDouble);
-        setProductWeightConverted(aDouble);
+        textViewProductCalories.setText(countCalories.countCalories(proteins,fats,carbs));
+
+//        convertProductPerItem(aDouble);
+        setProductWeightPerItems(aDouble);
     }
 
-    private String convertProductWeightFromPieces(Double aDouble) {
-        return String.format("%.0f", aDouble);
-    }
+//    private String convertProductPerItem(Double aDouble) {
+//        return String.format("%.0f", aDouble);
+//    }
 
     private void productWeightChangerEditText(final boolean productPieces) {
         editTextProductWeight.didTouchFocusSelect();
@@ -343,41 +355,6 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
             Toast.makeText(DietProductShowActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
     }
 
-    // Need to add this kind of conversion because Samsung devices got problems and shows double value with comma (2,9) not with dot (2.9).
-    private String countProteinsGrams(Double weight) {
-        double mProductProteins = productProteins*(weight*0.01);
-        return String.format("%.1f",mProductProteins).replace(",",".");
-    }
-    private String countFatsGrams(Double weight) {
-        double mProductProteins = productFats*(weight*0.01);
-        return String.format("%.1f",mProductProteins).replace(",",".");
-    }
-    private String countCarbsGrams(Double weight) {
-        double mProduct = productCarbs*(weight*0.01);
-        return String.format("%.1f",mProduct).replace(",",".");
-    }
-    private String countSaturatedFats(Double weight) {
-        double mProduct = productSaturatedFats*(weight*0.01);
-        return String.format("%.1f",mProduct).replace(",",".");
-    }
-    private String countUnsaturatedFats(Double weight) {
-        double mProduct = productUnsaturatedFats*(weight*0.01);
-        return String.format("%.1f",mProduct).replace(",",".");
-    }
-    private String countCarbsFiber(Double weight) {
-        double mProduct = productCarbsFiber*(weight*0.01);
-        return String.format("%.1f",mProduct).replace(",",".");
-    }
-    private String countCarbsSugar(Double weight) {
-        double mProduct = productCarbsSugars*(weight*0.01);
-        return String.format("%.1f",mProduct).replace(",",".");
-    }
-
-    private String countCalories(double proteins, double fats, double carbs) {
-        double calories = proteins*4+fats*9+carbs*4;
-        return String.format("%.1f",calories).replace(",",".");
-    }
-
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(DietProductShowActivity.this, R.color.color_main_activity_statusbar));
@@ -387,16 +364,18 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     }
 
     private void onBackButtonPressed() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        }
     }
 
-    private void setProductWeightConverted(double productWeightConverted) {
-        this.productWeightConverted = productWeightConverted;
+    private void setProductWeightPerItems(double productWeightPerItems) {
+        this.productWeightPerItems = productWeightPerItems;
     }
 
     @SuppressLint("DefaultLocale")
-    private String getProductWeightConverted() {
-        return String.format("%.0f",productWeightConverted);
+    private String getProductWeightPerItems() {
+        return String.format("%.0f", productWeightPerItems);
     }
 
     @Override
@@ -404,11 +383,11 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         switch (v.getId()){
             case R.id.buttonAcceptChanges:
                 if (previousActivity.equals("DietProductSearchActivity")){
-                    Log.e(TAG, "onClick: "+getProductWeightConverted() );
+                    Log.e(TAG, "onClick: "+ getProductWeightPerItems() );
                     DietProductInsertDTO dto = new DietProductInsertDTO();
                     dto.productId = productId;
                     dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this) ;
-                    dto.productWeight = getProductWeightConverted();
+                    dto.productWeight = getProductWeightPerItems();
                     dto.productTimeStamp = newTimeStamp;
                     dto.printStatus();
                     DietService service = new DietService();
@@ -416,11 +395,11 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     finish();
                 }
                 else {
-                    Log.e(TAG, "onClick: " + getProductWeightConverted());
+                    Log.e(TAG, "onClick: " + getProductWeightPerItems());
                     DietProductWeightUpdateDTO dto = new DietProductWeightUpdateDTO();
                     dto.productId = productId;
                     dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
-                    dto.updateProductWeight = getProductWeightConverted();
+                    dto.updateProductWeight = getProductWeightPerItems();
                     dto.productTimeStamp = newTimeStamp;
                     dto.printStatus();
                     DietService service = new DietService();
@@ -432,7 +411,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 DietProductDeleteDTO dto1 = new DietProductDeleteDTO();
                 dto1.productId = productId;
                 dto1.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
-                dto1.updateProductWeight = getProductWeightConverted();
+                dto1.updateProductWeight = getProductWeightPerItems();
                 dto1.productTimeStamp = newTimeStamp;
                 dto1.printStatus();
                 DietService service1 = new DietService();
