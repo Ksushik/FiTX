@@ -12,8 +12,8 @@ import android.widget.EditText;
 
 import com.brus5.lukaszkrawczak.fitx.R;
 
-public class TrainingExerciseShow extends AppCompatActivity {
-    private static final String TAG = "TrainingExerciseShow";
+public class TrainingExerciseShowActivity extends AppCompatActivity {
+    private static final String TAG = "TrainingExerciseShowActivity";
     EditText editTextTrainingExerciseShow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class TrainingExerciseShow extends AppCompatActivity {
     }
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingExerciseShow.this, R.color.color_main_activity_statusbar));
+            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingExerciseShowActivity.this, R.color.color_main_activity_statusbar));
         }
         Toolbar toolbar = findViewById(R.id.toolbarTrainingExerciseShow);
         setSupportActionBar(toolbar);

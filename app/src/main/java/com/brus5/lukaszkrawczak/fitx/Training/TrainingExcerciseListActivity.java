@@ -10,8 +10,8 @@ import android.util.Log;
 
 import com.brus5.lukaszkrawczak.fitx.R;
 
-public class TrainingExcerciseList extends AppCompatActivity {
-    private static final String TAG = "TrainingExcerciseList";
+public class TrainingExcerciseListActivity extends AppCompatActivity {
+    private static final String TAG = "TrainingExcerciseListActivity";
     private String excerciseSelect;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class TrainingExcerciseList extends AppCompatActivity {
     }
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingExcerciseList.this, R.color.color_main_activity_statusbar));
+            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingExcerciseListActivity.this, R.color.color_main_activity_statusbar));
         }
         Toolbar toolbar = findViewById(R.id.toolbarTrainingExcerciseList);
         setSupportActionBar(toolbar);

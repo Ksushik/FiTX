@@ -14,15 +14,10 @@ import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
-import com.brus5.lukaszkrawczak.fitx.Training.Training;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
-import com.brus5.lukaszkrawczak.fitx.Training.TrainingExerciseShow;
-
-import junit.framework.Assert;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;

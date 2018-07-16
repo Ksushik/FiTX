@@ -199,7 +199,7 @@ public class TrainingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_search_exercise:
-                Intent intent = new Intent(TrainingActivity.this,TrainingSearchExercises.class);
+                Intent intent = new Intent(TrainingActivity.this,TrainingSearchExercisesActivity.class);
                 TrainingActivity.this.startActivity(intent);
                 break;
         }
