@@ -42,6 +42,19 @@
     <string name="body_front">Ciało przód</string>
     <string name="body_back">Ciało tył</string>
 
+    <string name="exercise_name">Nazwa ćwiczenia</string>
+    <string name="series">Ilość serii</string>
+    <string name="weight">Ciężar</string>
+
+    <string name="series_example">Przykład: 14.12.10.8.8</string>
+    <string name="weight_example">Przykład: 50.60.65.70.70</string>
+
+    <string name="notes">Notes:</string>
+
+
+    <string name="training_details">Opis ćwiczenia:</string>
+
+    <string name="show">Pokaż</string>
 
     <string name="button_register">Rejestracja</string>
     <string name="loading">Ładowanie</string>

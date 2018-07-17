@@ -43,8 +43,9 @@ public class TrainingListAdapter extends ArrayAdapter<Training> {
         String weight = getItem(position).getWeight();
         String reps = getItem(position).getReps();
         String timeStamp = getItem(position).getTimeStamp();
+        String target = getItem(position).getTarget();
 
-        new Training(id, name, restTime,weight, reps, timeStamp);
+        new Training(id, name, restTime,weight, reps, timeStamp, target);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource,parent,false);
@@ -53,11 +54,13 @@ public class TrainingListAdapter extends ArrayAdapter<Training> {
         TextView tvName = convertView.findViewById(R.id.trainingExcerciseTitle);
         TextView tvRest = convertView.findViewById(R.id.trainingExcerciseRestTime);
         TextView tvTimeStamp = convertView.findViewById(R.id.trainingTimeStamp);
+        TextView tvTarget = convertView.findViewById(R.id.trainingTarget);
 
         tvId.setText(String.valueOf(id));
         tvName.setText(name);
         tvRest.setText(String.valueOf(restTime));
         tvTimeStamp.setText(timeStamp);
+        tvTarget.setText(target);
 
         return convertView;
     }

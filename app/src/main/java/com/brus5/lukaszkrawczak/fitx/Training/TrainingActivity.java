@@ -133,6 +133,7 @@ public class TrainingActivity extends AppCompatActivity {
                             int excerciseId = 0;
                             String exerciseName = "";
                             String excerciseDate = "";
+                            String exerciseTarget = "";
 
                             if (trainings_info.length() > 0) {
                                 for (int i = 0; i < trainings_info.length(); i++) {
@@ -142,11 +143,13 @@ public class TrainingActivity extends AppCompatActivity {
                                     exerciseWeight = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_WEIGHT);
                                     excerciseDate = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_DATE);
 
+
                                     JSONObject server_responseObj = server_response.getJSONObject(i);
                                     excerciseId = server_responseObj.getInt(RestApiNames.DB_EXERCISE_ID);
                                     exerciseName = server_responseObj.getString(RestApiNames.DB_EXERCISE_NAME);
+                                    exerciseTarget = server_responseObj.getString(RestApiNames.DB_EXERCISE_TARGET);
 
-                                    Training training = new Training(excerciseId,exerciseName,exerciseRestTime,exerciseWeight,exerciseReps, excerciseDate);
+                                    Training training = new Training(excerciseId,exerciseName,exerciseRestTime,exerciseWeight,exerciseReps, excerciseDate, exerciseTarget);
                                     trainingArrayList.add(training);
                                 }
                             }
@@ -216,10 +219,12 @@ public class TrainingActivity extends AppCompatActivity {
 
                 TextView trainingID = view.findViewById(R.id.trainingExcerciseID);
                 TextView trainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
+                TextView trainingTarget = view.findViewById(R.id.trainingTarget);
 
                 Intent intent = new Intent(TrainingActivity.this,TrainingExerciseShowActivity.class);
                 intent.putExtra("trainingID", Integer.valueOf(trainingID.getText().toString()));
                 intent.putExtra("trainingTimeStamp", trainingTimeStamp.getText().toString());
+                intent.putExtra("trainingTarget", trainingTarget.getText().toString());
                 intent.putExtra("previousActivity", "TrainingActivity");
                 startActivity(intent);
 

@@ -11,14 +11,16 @@ public class Training {
     private String weight;
     private String reps;
     private String timeStamp;
+    private String target;
 
-    public Training(int id, String name, int restTime, String weight, String reps, String timeStamp) {
+    public Training(int id, String name, int restTime, String weight, String reps, String timeStamp, String target) {
         this.id = id;
         this.name = name;
         this.restTime = restTime;
         this.weight = weight;
         this.reps = reps;
         this.timeStamp = timeStamp;
+        this.target = target;
     }
 
     public int getId() {
@@ -43,5 +45,9 @@ public class Training {
 
     public String getTimeStamp() {
         return timeStamp;
+    }
+
+    public String getTarget() {
+        return target;
     }
 }

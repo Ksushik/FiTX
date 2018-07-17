@@ -10,17 +10,23 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.brus5.lukaszkrawczak.fitx.Diet.DietProductShowActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.squareup.picasso.Picasso;
 
 public class TrainingExerciseShowActivity extends AppCompatActivity {
     private static final String TAG = "TrainingExerciseShowActivity";
 
     int trainingID;
-    String trainingTimeStamp;
-
+    String trainingTimeStamp, trainingTarget;
+    ImageView trainingImageView,trainingImageView2;
     EditText editTextTrainingExerciseShow;
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +36,57 @@ public class TrainingExerciseShowActivity extends AppCompatActivity {
         loadInput();
         getIntentFromPreviousActiity();
 
+        String url = "http://justfitx.xyz/images/exercises/" + trainingTarget + "/" + trainingID + "_1" + ".jpg";
+        String url2 = "http://justfitx.xyz/images/exercises/" + trainingTarget + "/" + trainingID + "_2" + ".jpg";
+
+        Log.i(TAG, "onCreate: " + url);
+        Log.i(TAG, "onCreate: " + url2);
+
+        loadImageFromUrl(url);
+        loadImageFromUrl2(url2);
     }
+
+    private void loadImageFromUrl(String url) {
+        Picasso.with(TrainingExerciseShowActivity.this).load(url).placeholder(null)
+                .error(R.mipmap.ic_launcher_round)
+                .into(trainingImageView, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+//                        progressBarDietProductShowActivity.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onError() {
+//                        progressBarDietProductShowActivity.setVisibility(View.VISIBLE);
+                        isError();
+                    }
+                });
+    }
+    private void isError() {
+        Toast.makeText(TrainingExerciseShowActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
+    }
+    private void loadImageFromUrl2(String url) {
+        Picasso.with(TrainingExerciseShowActivity.this).load(url).placeholder(null)
+                .error(R.mipmap.ic_launcher_round)
+                .into(trainingImageView2, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+//                        progressBarDietProductShowActivity.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onError() {
+//                        progressBarDietProductShowActivity.setVisibility(View.VISIBLE);
+                        isError();
+                    }
+                });
+    }
+
 
     private void loadInput() {
         editTextTrainingExerciseShow = findViewById(R.id.editTextTrainingExerciseShow);
+        trainingImageView = findViewById(R.id.trainingImageView);
+        trainingImageView2 = findViewById(R.id.trainingImageView2);
     }
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -73,9 +126,11 @@ public class TrainingExerciseShowActivity extends AppCompatActivity {
         Intent intent = getIntent();
         trainingID = intent.getIntExtra("trainingID",-1);
         trainingTimeStamp = intent.getStringExtra("trainingTimeStamp");
+        trainingTarget = intent.getStringExtra("trainingTarget");
 
         Log.e(TAG, "onCreate: "+trainingID);
         Log.e(TAG, "onCreate: "+trainingTimeStamp);
+        Log.e(TAG, "onCreate: "+trainingTarget);
 
 
     }
