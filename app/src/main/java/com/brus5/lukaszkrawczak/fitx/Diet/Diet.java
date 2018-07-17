@@ -13,8 +13,9 @@ public class Diet {
     private double carbs;
     private double kcal;
     private int verified;
+    private String dateTimeStamp;
 
-    public Diet(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, int verified) {
+    public Diet(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, int verified, String dateTimeStamp) {
         this.id = id;
         this.name = name;
         this.weight = weight;
@@ -23,6 +24,7 @@ public class Diet {
         this.carbs = carbs;
         this.kcal = kcal;
         this.verified = verified;
+        this.dateTimeStamp = dateTimeStamp;
     }
 
     public int getId() {
@@ -87,5 +89,9 @@ public class Diet {
 
     public void setVerified(int verified) {
         this.verified = verified;
+    }
+
+    public String getDateTimeStamp() {
+        return dateTimeStamp;
     }
 }

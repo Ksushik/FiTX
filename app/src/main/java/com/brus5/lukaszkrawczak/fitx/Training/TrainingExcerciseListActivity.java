@@ -58,10 +58,8 @@ public class TrainingExcerciseListActivity extends AppCompatActivity {
         TrainingList trainingList = new TrainingList();
         trainingList.setResId(mExercise);
         excerciseTarget = trainingList.getResourceName();
-        Log.e(TAG, "getIntentFromPreviousActiity: "+ excerciseTarget);
+        Log.e(TAG, "getIntentFromPreviousActiity: " + excerciseTarget);
     }
-
-
 
     private void loadInput() {
         listViewTrainingActivity = findViewById(R.id.listViewTrainingActivity);
@@ -77,7 +75,7 @@ public class TrainingExcerciseListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void asynchTask(final Context ctx){
+    private void asynchTask(final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.TRAINING_SEARCH_BY_TARGET,
                 new Response.Listener<String>()
                 {
@@ -139,4 +137,6 @@ public class TrainingExcerciseListActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(ctx);
         queue.add(strRequest);
     }
+
+
 }

@@ -36,13 +36,14 @@ public class TrainingListAdapter extends ArrayAdapter<Training> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        int task_id = getItem(position).getTask_id();
-        String task_name = getItem(position).getTask_name();
-        int task_rest = getItem(position).getTask_rest();
-        String task_weight = getItem(position).getTask_weight();
-        String task_reps = getItem(position).getTask_reps();
+        int id = getItem(position).getId();
+        String name = getItem(position).getName();
+        int restTime = getItem(position).getRestTime();
+        String weight = getItem(position).getWeight();
+        String reps = getItem(position).getReps();
+        String dateTimeStamp = getItem(position).getDateTimeStamp();
 
-        new Training(task_id,task_name,task_rest,task_weight,task_reps);
+        new Training(id,name,restTime,weight,reps,dateTimeStamp);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource,parent,false);
@@ -52,11 +53,10 @@ public class TrainingListAdapter extends ArrayAdapter<Training> {
         TextView tvName = convertView.findViewById(R.id.trainingExcerciseTitle);
         TextView tvRest = convertView.findViewById(R.id.trainingExcerciseRestTime);
 
-        tvId.setText(String.valueOf(task_id));
-        tvName.setText(task_name);
-        tvRest.setText(String.valueOf(task_rest));
+        tvId.setText(String.valueOf(id));
+        tvName.setText(name);
+        tvRest.setText(String.valueOf(restTime));
 
         return convertView;
-
     }
 }

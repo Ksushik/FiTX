@@ -132,27 +132,24 @@ public class TrainingActivity extends AppCompatActivity {
                             String exerciseWeight = "";
                             int excerciseId = 0;
                             String exerciseName = "";
+                            String excerciseDate = "";
 
                             if (trainings_info.length() > 0) {
                                 for (int i = 0; i < trainings_info.length(); i++) {
-                                    JSONObject trainingInfoJsonObj = trainings_info.getJSONObject(i);
-                                    exerciseRestTime = trainingInfoJsonObj.getInt(RestApiNames.DB_EXERCISE_REST_TIME);
-                                    exerciseReps = trainingInfoJsonObj.getString(RestApiNames.DB_EXERCISE_REPS);
-                                    exerciseWeight = trainingInfoJsonObj.getString(RestApiNames.DB_EXERCISE_WEIGHT);
+                                    JSONObject trainings_infoObj = trainings_info.getJSONObject(i);
+                                    exerciseRestTime = trainings_infoObj.getInt(RestApiNames.DB_EXERCISE_REST_TIME);
+                                    exerciseReps = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_REPS);
+                                    exerciseWeight = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_WEIGHT);
+                                    excerciseDate = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_DATE);
 
-                                    JSONObject trainingNameJsonObj = server_response.getJSONObject(i);
-                                    excerciseId = trainingNameJsonObj.getInt(RestApiNames.DB_EXERCISE_ID);
-                                    exerciseName = trainingNameJsonObj.getString(RestApiNames.DB_EXERCISE_NAME);
+                                    JSONObject server_responseObj = server_response.getJSONObject(i);
+                                    excerciseId = server_responseObj.getInt(RestApiNames.DB_EXERCISE_ID);
+                                    exerciseName = server_responseObj.getString(RestApiNames.DB_EXERCISE_NAME);
 
-                                    Training training = new Training(excerciseId,exerciseName,exerciseRestTime,exerciseWeight,exerciseReps);
-                                    trainingArrayList.add(training);
+//                                    Training training = new Training(excerciseId,exerciseName,exerciseRestTime,exerciseWeight,exerciseReps);
+//                                    trainingArrayList.add(training);
                                 }
                             }
-                            Log.e(TAG, "onResponse: "+exerciseRestTime );
-                            Log.e(TAG, "onResponse: "+exerciseReps );
-                            Log.e(TAG, "onResponse: "+ exerciseWeight);
-                            Log.e(TAG, "onResponse: "+ excerciseId);
-                            Log.e(TAG, "onResponse: "+ exerciseName);
                             trainingListAdapter = new TrainingListAdapter(TrainingActivity.this,R.layout.training_excercise_row,trainingArrayList);
                             listViewTrainingActivity.setAdapter(trainingListAdapter);
                             listViewTrainingActivity.invalidate();
@@ -216,6 +213,9 @@ public class TrainingActivity extends AppCompatActivity {
         listViewTrainingActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                TextView trainingID = view.findViewById(R.id.dietMealID);
+                TextView productWeight = view.findViewById(R.id.dietMealWeight);
 
                 Intent intent = new Intent(TrainingActivity.this,TrainingExerciseShowActivity.class);
                 intent.putExtra("previousActivity", "TrainingActivity");

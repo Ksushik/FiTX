@@ -1,6 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,9 @@ import com.brus5.lukaszkrawczak.fitx.R;
 
 public class TrainingExerciseShowActivity extends AppCompatActivity {
     private static final String TAG = "TrainingExerciseShowActivity";
+
+    int exerciseID;
+
     EditText editTextTrainingExerciseShow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,4 +66,17 @@ public class TrainingExerciseShowActivity extends AppCompatActivity {
 
     private void saveExerciseToDB() {
     }
+
+    @SuppressLint("LongLogTag")
+    private void getIntentFromPreviousActiity() {
+        Intent intent = getIntent();
+        int mExercise = intent.getIntExtra("exercise",-1);
+        Log.e(TAG, "onCreate: "+mExercise);
+
+
+
+
+
+    }
+
 }

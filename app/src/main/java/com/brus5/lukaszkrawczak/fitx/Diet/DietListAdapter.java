@@ -49,8 +49,9 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
         double carbs = getItem(position).getCarbs();
         double kcal = getItem(position).getKcal();
         int verified = getItem(position).getVerified();
+        String dateTimeStamp = getItem(position).getDateTimeStamp();
 
-        new Diet(id, name, weight, proteins, fats, carbs, kcal, verified);
+        new Diet(id, name, weight, proteins, fats, carbs, kcal, verified, dateTimeStamp);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent,false);
@@ -62,6 +63,7 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
         TextView dietMealCarbs = convertView.findViewById(R.id.dietMealCarbs);
         TextView dietMealID = convertView.findViewById(R.id.dietMealID);
         TextView dietMealKcal = convertView.findViewById(R.id.dietMealKcal);
+        TextView dietTimeStamp = convertView.findViewById(R.id.dietTimeStamp);
         ImageView imageViewProductVerified = convertView.findViewById(R.id.imageViewProductVerified);
 
         dietMealID.setText(String.valueOf(id));
@@ -75,6 +77,8 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
         dietMealKcal.setText(replaceCommaWithDotNoFloatingPoint(kcal));
 
         dietMealWeight.setText(replaceCommaWithDotNoFloatingPoint(weight));
+
+        dietTimeStamp.setText(dateTimeStamp);
 
         if (verified == 0){
             imageViewProductVerified.setVisibility(View.INVISIBLE);

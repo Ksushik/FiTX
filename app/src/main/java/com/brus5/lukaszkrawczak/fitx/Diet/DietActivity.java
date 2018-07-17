@@ -211,7 +211,7 @@ public class DietActivity extends AppCompatActivity {
                                     carbsCounted += productCarbs;
                                     kcalCounted += finalkcal;
 
-                                    Diet diet = new Diet(productId, upName, weight, productProteins, productFats, productCarbs,finalkcal, productVerified);
+                                    Diet diet = new Diet(productId, upName, weight, productProteins, productFats, productCarbs,finalkcal, productVerified, productTimeStamp);
                                     dietArrayList.add(diet);
                                 }
 
@@ -310,16 +310,16 @@ public class DietActivity extends AppCompatActivity {
 
                 TextView productId = view.findViewById(R.id.dietMealID);
                 TextView productWeight = view.findViewById(R.id.dietMealWeight);
+                TextView productTimeStamp = view.findViewById(R.id.dietTimeStamp);
 
                 Intent intent = new Intent(DietActivity.this,DietProductShowActivity.class);
                 intent.putExtra("productId",productId.getText().toString());
                 intent.putExtra("dateInside",dateInside);
                 intent.putExtra("productWeight",Double.valueOf(productWeight.getText().toString()));
-                intent.putExtra("productTimeStamp", productTimeStamp);
+                intent.putExtra("productTimeStamp", productTimeStamp.getText().toString());
                 intent.putExtra("previousActivity", "DietActivity");
 
                 startActivity(intent);
-
             }
         });
     }
