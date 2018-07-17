@@ -17,7 +17,8 @@ import com.brus5.lukaszkrawczak.fitx.R;
 public class TrainingExerciseShowActivity extends AppCompatActivity {
     private static final String TAG = "TrainingExerciseShowActivity";
 
-    int exerciseID;
+    int trainingID;
+    String trainingTimeStamp;
 
     EditText editTextTrainingExerciseShow;
     @Override
@@ -27,7 +28,7 @@ public class TrainingExerciseShowActivity extends AppCompatActivity {
         changeStatusBarColor();
         onBackButtonPressed();
         loadInput();
-
+        getIntentFromPreviousActiity();
 
     }
 
@@ -70,11 +71,11 @@ public class TrainingExerciseShowActivity extends AppCompatActivity {
     @SuppressLint("LongLogTag")
     private void getIntentFromPreviousActiity() {
         Intent intent = getIntent();
-        int mExercise = intent.getIntExtra("exercise",-1);
-        Log.e(TAG, "onCreate: "+mExercise);
+        trainingID = intent.getIntExtra("trainingID",-1);
+        trainingTimeStamp = intent.getStringExtra("trainingTimeStamp");
 
-
-
+        Log.e(TAG, "onCreate: "+trainingID);
+        Log.e(TAG, "onCreate: "+trainingTimeStamp);
 
 
     }

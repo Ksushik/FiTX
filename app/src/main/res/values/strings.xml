@@ -8,6 +8,8 @@
     <string name="title_activity_user_login">UserLoginActivity</string>
 
 
+
+
     <string name="fitx">FiTX Fitness Assistant</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_main">FiTX/Main</string>
@@ -85,6 +87,6 @@
     <string name="action_settings">Settings</string>
     <string name="delete">Usuń</string>
     <string name="value_per_100_g">kcal / 100g</string>
-
+    <string name="time_stamp">timeStamp</string>
 
 </resources>

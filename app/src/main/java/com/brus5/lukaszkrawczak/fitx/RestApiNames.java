@@ -30,7 +30,7 @@ public class RestApiNames {
     public static String DB_EXERCISE_REST_TIME = "rest";
     public static String DB_EXERCISE_REPS = "reps";
     public static String DB_EXERCISE_WEIGHT = "weight";
-    public static String DB_EXERCISE_DATE = "weight";
+    public static String DB_EXERCISE_DATE = "date";
     public static String DB_EXERCISE_NOTEPAD = "notepad";
 
     /* Names of db_products */

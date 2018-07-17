@@ -146,8 +146,8 @@ public class TrainingActivity extends AppCompatActivity {
                                     excerciseId = server_responseObj.getInt(RestApiNames.DB_EXERCISE_ID);
                                     exerciseName = server_responseObj.getString(RestApiNames.DB_EXERCISE_NAME);
 
-//                                    Training training = new Training(excerciseId,exerciseName,exerciseRestTime,exerciseWeight,exerciseReps);
-//                                    trainingArrayList.add(training);
+                                    Training training = new Training(excerciseId,exerciseName,exerciseRestTime,exerciseWeight,exerciseReps, excerciseDate);
+                                    trainingArrayList.add(training);
                                 }
                             }
                             trainingListAdapter = new TrainingListAdapter(TrainingActivity.this,R.layout.training_excercise_row,trainingArrayList);
@@ -214,10 +214,12 @@ public class TrainingActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                TextView trainingID = view.findViewById(R.id.dietMealID);
-                TextView productWeight = view.findViewById(R.id.dietMealWeight);
+                TextView trainingID = view.findViewById(R.id.trainingExcerciseID);
+                TextView trainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
 
                 Intent intent = new Intent(TrainingActivity.this,TrainingExerciseShowActivity.class);
+                intent.putExtra("trainingID", Integer.valueOf(trainingID.getText().toString()));
+                intent.putExtra("trainingTimeStamp", trainingTimeStamp.getText().toString());
                 intent.putExtra("previousActivity", "TrainingActivity");
                 startActivity(intent);
 

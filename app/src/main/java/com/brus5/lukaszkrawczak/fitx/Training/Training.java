@@ -10,15 +10,15 @@ public class Training {
     private int restTime;
     private String weight;
     private String reps;
-    private String dateTimeStamp;
+    private String timeStamp;
 
-    public Training(int id, String name, int restTime, String weight, String reps, String dateTimeStamp) {
+    public Training(int id, String name, int restTime, String weight, String reps, String timeStamp) {
         this.id = id;
         this.name = name;
         this.restTime = restTime;
         this.weight = weight;
         this.reps = reps;
-        this.dateTimeStamp = dateTimeStamp;
+        this.timeStamp = timeStamp;
     }
 
     public int getId() {
@@ -41,7 +41,7 @@ public class Training {
         return reps;
     }
 
-    public String getDateTimeStamp() {
-        return dateTimeStamp;
+    public String getTimeStamp() {
+        return timeStamp;
     }
 }

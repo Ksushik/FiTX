@@ -3,6 +3,7 @@ package com.brus5.lukaszkrawczak.fitx.Training;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,21 +42,22 @@ public class TrainingListAdapter extends ArrayAdapter<Training> {
         int restTime = getItem(position).getRestTime();
         String weight = getItem(position).getWeight();
         String reps = getItem(position).getReps();
-        String dateTimeStamp = getItem(position).getDateTimeStamp();
+        String timeStamp = getItem(position).getTimeStamp();
 
-        new Training(id,name,restTime,weight,reps,dateTimeStamp);
+        new Training(id, name, restTime,weight, reps, timeStamp);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource,parent,false);
 
-
         TextView tvId = convertView.findViewById(R.id.trainingExcerciseID);
         TextView tvName = convertView.findViewById(R.id.trainingExcerciseTitle);
         TextView tvRest = convertView.findViewById(R.id.trainingExcerciseRestTime);
+        TextView tvTimeStamp = convertView.findViewById(R.id.trainingTimeStamp);
 
         tvId.setText(String.valueOf(id));
         tvName.setText(name);
         tvRest.setText(String.valueOf(restTime));
+        tvTimeStamp.setText(timeStamp);
 
         return convertView;
     }
