@@ -23,6 +23,7 @@ public class Configuration {
     public static final String DIET_UPDATE_WEIGHT_PRODUCT           = BASE_URL + "Diet/" + "UpdateProductWeight.php";
 
     public static final String SHOW_TRAINING_URL                    = BASE_URL + "Training/" + "ShowByUser.php";
+    public static final String TRAINING_SEARCH_BY_TARGET            = BASE_URL + "Training/" + "SearchByTarget.php";
 
     public static final String USER_CANCEL = "Zakończono przez użytkownika";
     public static final String LOGIN_ERROR = "Nieudana próba połączenia";

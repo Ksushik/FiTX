@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -46,6 +47,7 @@ public class TrainingExerciseShowActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){

@@ -25,6 +25,7 @@ public class RestApiNames {
     public static String DB_EXERCISE_NAME = "name";
 
     /* Names of db_user_exercise */
+    public static String DB_EXERCISE_TARGET = "target";
     public static String DB_EXERCISE_DONE = "done";
     public static String DB_EXERCISE_REST_TIME = "rest";
     public static String DB_EXERCISE_REPS = "reps";

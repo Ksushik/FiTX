@@ -23,9 +23,9 @@
             android:layout_height="12sp"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/dietMealSearchTitle"
-            app:layout_constraintStart_toEndOf="@+id/dietMealSearchTitle"
-            app:layout_constraintTop_toTopOf="@+id/dietMealSearchTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/trainingSearchTitle"
+            app:layout_constraintStart_toEndOf="@+id/trainingSearchTitle"
+            app:layout_constraintTop_toTopOf="@+id/trainingSearchTitle"
             app:srcCompat="@drawable/icon_verified" />
 
         <android.support.constraint.Guideline
@@ -43,7 +43,7 @@
             app:layout_constraintGuide_percent="0.66" />
 
         <TextView
-            android:id="@+id/dietMealSearchTitle"
+            android:id="@+id/trainingSearchTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"

@@ -53,7 +53,7 @@ public class DietSearchListAdapter extends ArrayAdapter<DietSearch>{
         convertView = inflater.inflate(mResource, parent,false);
 
         TextView dietMealID = convertView.findViewById(R.id.dietMealSearchID);
-        TextView dietMealTitle = convertView.findViewById(R.id.dietMealSearchTitle);
+        TextView dietMealTitle = convertView.findViewById(R.id.trainingSearchTitle);
         TextView dietMealKcal = convertView.findViewById(R.id.dietMealSearchKcal);
         ImageView imageViewSearchProductVerified = convertView.findViewById(R.id.imageViewSearchProductVerified);
 

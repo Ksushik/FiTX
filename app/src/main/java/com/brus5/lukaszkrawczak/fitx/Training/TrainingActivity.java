@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,8 @@ import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DTO;
 
+import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
+import com.brus5.lukaszkrawczak.fitx.Diet.DietProductShowActivity;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -65,6 +69,8 @@ public class TrainingActivity extends AppCompatActivity {
         loadInput();
 
         weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
+
+        onListViewItemSelected();
     }
 
     private void loadInput() {
@@ -205,4 +211,18 @@ public class TrainingActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void onListViewItemSelected() {
+        listViewTrainingActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(TrainingActivity.this,TrainingExerciseShowActivity.class);
+                intent.putExtra("previousActivity", "TrainingActivity");
+                startActivity(intent);
+
+            }
+        });
+    }
+
 }

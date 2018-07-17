@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 public class TrainingSearchListAdapter extends ArrayAdapter<TrainingSearch>{
 
-    private static final String TAG = "DietListAdapter";
+    private static final String TAG = "TrainingSearchListAdapter";
 
     private Context mContext;
     int mResource;
@@ -36,57 +37,28 @@ public class TrainingSearchListAdapter extends ArrayAdapter<TrainingSearch>{
 
     // FIXME: 16.07.2018 need to change everything
 
+    @SuppressLint("LongLogTag")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-        RecyclerView.ViewHolder holder;
-
-        final View result;
-
+        Log.e(TAG, "is called");
         int id = getItem(position).getId();
         String name = getItem(position).getName();
-        double kcal = getItem(position).getKcal();
-        int verified = getItem(position).getVerified();
 
-        new DietSearch(id,name,kcal,verified);
+        new TrainingSearch(id,name);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent,false);
 
-        TextView dietMealID = convertView.findViewById(R.id.dietMealSearchID);
-        TextView dietMealTitle = convertView.findViewById(R.id.dietMealSearchTitle);
-        TextView dietMealKcal = convertView.findViewById(R.id.dietMealSearchKcal);
-        ImageView imageViewSearchProductVerified = convertView.findViewById(R.id.imageViewSearchProductVerified);
+        TextView traininglID = convertView.findViewById(R.id.trainingSearchID);
+        TextView trainingTitle = convertView.findViewById(R.id.trainingSearchTitle);
 
-        dietMealID.setText(String.valueOf(id));
+        traininglID.setText(String.valueOf(id));
 
-        dietMealTitle.setText(name);
-
-        dietMealKcal.setText(replaceCommaWithDotNoFloatingPoint(kcal));
-
-
-        ArrayList arrayList = new ArrayList();
-        arrayList.add(kcal);
-
-        if (verified == 0){
-            imageViewSearchProductVerified.setVisibility(View.INVISIBLE);
-        }
-
-        Log.i(TAG, "getView: ArrayList "+arrayList);
+        trainingTitle.setText(name);
 
         return convertView;
     }
-    private String replaceCommaWithDotNoFloatingPoint(double value){
-        return String.format("%.0f",value).replace(",",".");
-    }
-
-    private String replaceCommaWithDotWithFloatingPoint(double value){
-        return String.format("%.1f",value).replace(",",".");
-    }
-
-
-
 
 }
 
