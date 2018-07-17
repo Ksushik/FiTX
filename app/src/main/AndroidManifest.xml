@@ -63,18 +63,18 @@
             android:parentActivityName=".Diet.DietActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Training.TrainingExerciseShowActivity"
+            android:name=".Training.TrainingDetailsActivity"
             android:label="@string/fitx"
             android:parentActivityName=".Training.TrainingActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Training.TrainingSearchExercisesActivity"
+            android:name=".Training.TrainingSearchActivity"
             android:label="@string/fitx"
             android:parentActivityName=".Training.TrainingActivity"
             android:theme="@style/FiTX3theme.noBar" />
-        <activity android:name=".Training.TrainingExcerciseListActivity"
+        <activity android:name=".Training.TrainingListActivity"
             android:label="@string/fitx"
-            android:parentActivityName=".Training.TrainingSearchExercisesActivity"
+            android:parentActivityName=".Training.TrainingSearchActivity"
             android:theme="@style/FiTX3theme.noBar" />
     </application>
 

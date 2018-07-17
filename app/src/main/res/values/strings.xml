@@ -37,6 +37,9 @@
     <string name="body_hamstrings">Dwugłowy</string>
     <string name="body_calves">Łydki</string>
 
+    <string name="reps_short">Powt.</string>
+    <string name="weight_short">Kg</string>
+
 
     <string name="rotate">Obrót</string>
     <string name="body_front">Ciało przód</string>

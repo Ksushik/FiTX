@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TrainingExcerciseListActivity extends AppCompatActivity {
-    private static final String TAG = "TrainingExcerciseListActivity";
+public class TrainingListActivity extends AppCompatActivity {
+    private static final String TAG = "TrainingListActivity";
     ArrayList<TrainingSearch> trainingSearchArrayList = new ArrayList<>();
 
     TrainingSearchListAdapter trainingSearchListAdapter;
@@ -40,12 +40,12 @@ public class TrainingExcerciseListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_training_excercise_list);
+        setContentView(R.layout.activity_training_list);
         loadInput();
         changeStatusBarColor();
         onBackButtonPressed();
         getIntentFromPreviousActiity();
-        asynchTask(TrainingExcerciseListActivity.this);
+        asynchTask(TrainingListActivity.this);
 
     }
 
@@ -66,7 +66,7 @@ public class TrainingExcerciseListActivity extends AppCompatActivity {
     }
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingExcerciseListActivity.this, R.color.color_main_activity_statusbar));
+            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingListActivity.this, R.color.color_main_activity_statusbar));
         }
         Toolbar toolbar = findViewById(R.id.toolbarTrainingExcerciseList);
         setSupportActionBar(toolbar);
@@ -107,7 +107,7 @@ public class TrainingExcerciseListActivity extends AppCompatActivity {
                             }
                             /* End */
 
-                            trainingSearchListAdapter = new TrainingSearchListAdapter(TrainingExcerciseListActivity.this,R.layout.training_exercise_search_row, trainingSearchArrayList);
+                            trainingSearchListAdapter = new TrainingSearchListAdapter(TrainingListActivity.this,R.layout.training_exercise_search_row, trainingSearchArrayList);
                             listViewTrainingActivity.setAdapter(trainingSearchListAdapter);
                             listViewTrainingActivity.invalidate();
                         } catch (JSONException e) {

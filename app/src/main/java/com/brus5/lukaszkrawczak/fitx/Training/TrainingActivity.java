@@ -25,8 +25,6 @@ import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DTO;
 
-import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
-import com.brus5.lukaszkrawczak.fitx.Diet.DietProductShowActivity;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -205,7 +203,7 @@ public class TrainingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_search_exercise:
-                Intent intent = new Intent(TrainingActivity.this,TrainingSearchExercisesActivity.class);
+                Intent intent = new Intent(TrainingActivity.this,TrainingSearchActivity.class);
                 TrainingActivity.this.startActivity(intent);
                 break;
         }
@@ -221,7 +219,7 @@ public class TrainingActivity extends AppCompatActivity {
                 TextView trainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
                 TextView trainingTarget = view.findViewById(R.id.trainingTarget);
 
-                Intent intent = new Intent(TrainingActivity.this,TrainingExerciseShowActivity.class);
+                Intent intent = new Intent(TrainingActivity.this,TrainingDetailsActivity.class);
                 intent.putExtra("trainingID", Integer.valueOf(trainingID.getText().toString()));
                 intent.putExtra("trainingTimeStamp", trainingTimeStamp.getText().toString());
                 intent.putExtra("trainingTarget", trainingTarget.getText().toString());
