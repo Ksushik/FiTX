@@ -241,8 +241,11 @@ public class TrainingDetailsActivity extends AppCompatActivity {
 
                         if (s.length() == 0){
                             textViewNoEmpty1.setVisibility(View.VISIBLE);
+                            mapWeight.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
                         } else {
                             textViewNoEmpty1.setVisibility(View.INVISIBLE);
+                            mapWeight.put(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()),s.toString());
+                            Log.i(TAG, "onClick: " + mapWeight);
                         }
                     }
                 });
