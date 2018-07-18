@@ -374,6 +374,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 generateTrainingSets();
                 break;
 
+
         }
     }
 
