@@ -271,6 +271,10 @@ public class TrainingDetailsActivity extends AppCompatActivity {
                 editTextTrainingRowReps.setText(mapReps.get(clickCounter));
                 editTextTrainingRowWeight.setText(mapWeight.get(clickCounter));
                 Log.i(TAG, "onClick: reps: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowReps)).getText().toString() + " weight: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowWeight)).getText().toString());
+
+                Log.i(TAG, "onClick: " + mapReps);
+                Log.i(TAG, "onClick: " + mapWeight);
+
                 container.addView(addView);
                 clickCounter++;
             }
