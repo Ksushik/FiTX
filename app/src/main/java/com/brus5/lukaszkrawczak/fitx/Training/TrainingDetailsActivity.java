@@ -4,18 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,7 +25,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
-import com.brus5.lukaszkrawczak.fitx.Diet.DietProductSearchActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -39,28 +34,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class TrainingDetailsActivity extends AppCompatActivity {
+public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "TrainingDetailsActivity";
     private LinearLayout container;
-    private Button buttonTrainingDetailsAdd;
     private int trainingID;
     private String trainingTimeStamp, trainingTarget;
-    private ImageView trainingImageView,trainingImageView2;
+    private ImageView imageViewTraining, imageViewTraining2;
     private EditText editTextTrainingExerciseShow;
     private TextView textViewExerciseName;
-    private Map<Integer,String> mapWeight = new HashMap<>();
-    private Map<Integer,String> mapReps = new HashMap<>();
 
-    private int clickCounter = 0;
-
-
+    TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
 
     @SuppressLint("LongLogTag")
     @Override
@@ -81,26 +67,17 @@ public class TrainingDetailsActivity extends AppCompatActivity {
         loadImageFromUrl(url);
         loadImageFromUrl2(url2);
 
-
-
-
         asynchTask(TrainingDetailsActivity.this);
 
     }
 
     private void loadInput() {
-        buttonTrainingDetailsAdd = findViewById(R.id.buttonTrainingDetailsAdd);
-
         container = findViewById(R.id.container);
-
-
-
-
 
         textViewExerciseName = findViewById(R.id.textViewExerciseName);
         editTextTrainingExerciseShow = findViewById(R.id.editTextTrainingExerciseShow);
-        trainingImageView = findViewById(R.id.trainingImageView);
-        trainingImageView2 = findViewById(R.id.trainingImageView2);
+        imageViewTraining = findViewById(R.id.imageViewTraining);
+        imageViewTraining2 = findViewById(R.id.imageViewTraining1);
     }
 
     @SuppressLint("LongLogTag")
@@ -120,7 +97,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     private void loadImageFromUrl(String url) {
         Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null)
                 .error(R.mipmap.ic_launcher_round)
-                .into(trainingImageView, new com.squareup.picasso.Callback() {
+                .into(imageViewTraining, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
 //                        progressBarDietProductShowActivity.setVisibility(View.INVISIBLE);
@@ -136,7 +113,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     private void loadImageFromUrl2(String url) {
         Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null)
                 .error(R.mipmap.ic_launcher_round)
-                .into(trainingImageView2, new com.squareup.picasso.Callback() {
+                .into(imageViewTraining2, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
 //                        progressBarDietProductShowActivity.setVisibility(View.INVISIBLE);
@@ -178,8 +155,8 @@ public class TrainingDetailsActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_save_exercise:
                 saveExerciseToDB();
-                editTextTrainingExerciseShow.getText().toString();
-                Log.e(TAG, "save button pressed: "+editTextTrainingExerciseShow.getText().toString());
+                editTextTrainingExerciseShow.getText();
+                Log.e(TAG, "save button pressed: "+editTextTrainingExerciseShow.getText());
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -188,105 +165,102 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     private void saveExerciseToDB() {
     }
 
-    private void buttonTrigger(final int itemNum) {
-
-        buttonTrainingDetailsAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View addView = layoutInflater.inflate(R.layout.training_details_add_row, null);
-                TextView textViewTrainingDetailsID = addView.findViewById(R.id.textViewTrainingDetailsID);
-
-                EditText editTextTrainingRowReps = addView.findViewById(R.id.editTextTrainingRowReps);
-                editTextTrainingRowReps.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(final Editable s) {
-                        final TextView textViewNoEmpty = addView.findViewById(R.id.textViewNoEmpty);
-
-                        if (s.length() == 0) {
-                            textViewNoEmpty.setVisibility(View.VISIBLE);
-                            mapReps.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-                        } else{
-                            textViewNoEmpty.setVisibility(View.INVISIBLE);
-                            mapReps.put(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()),s.toString());
-                            Log.i(TAG, "onClick: " + mapReps);
-                            }
-                    }
-                });
-                EditText editTextTrainingRowWeight = addView.findViewById(R.id.editTextTrainingRowWeight);
-                editTextTrainingRowWeight.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(final Editable s) {
-                        final TextView textViewNoEmpty1 = addView.findViewById(R.id.textViewNoEmpty1);
-
-                        if (s.length() == 0){
-                            textViewNoEmpty1.setVisibility(View.VISIBLE);
-                            mapWeight.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-                        } else {
-                            textViewNoEmpty1.setVisibility(View.INVISIBLE);
-                            mapWeight.put(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()),s.toString());
-                            Log.i(TAG, "onClick: " + mapWeight);
-                        }
-                    }
-                });
-
-
-
-
-                Button buttonRemove = addView.findViewById(R.id.buttonTrainingRowRemove);
-                buttonRemove.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-
-                        mapReps.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-                        mapWeight.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-
-
-
-                        ((LinearLayout)addView.getParent()).removeView(addView);
-
-                        clickCounter--;
-                        Log.i(TAG, "onClick: " + clickCounter);
-
-                    }});
-
-                textViewTrainingDetailsID.setText(String.valueOf(clickCounter));
-                editTextTrainingRowReps.setText(mapReps.get(clickCounter));
-                editTextTrainingRowWeight.setText(mapWeight.get(clickCounter));
-                Log.i(TAG, "onClick: reps: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowReps)).getText().toString() + " weight: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowWeight)).getText().toString());
-
-                Log.i(TAG, "onClick: " + mapReps);
-                Log.i(TAG, "onClick: " + mapWeight);
-
-                container.addView(addView);
-                clickCounter++;
-            }
-        });
-
-        for (int i = 0; i < itemNum; i++){
-            buttonTrainingDetailsAdd.performClick();
-        }
-    }
+//    private void buttonTrigger(final int itemNum) {
+//
+//        buttonTrainingDetailsAdd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                final View addView = layoutInflater.inflate(R.layout.training_details_add_row, null);
+//                TextView textViewTrainingDetailsID = addView.findViewById(R.id.textViewTrainingDetailsID);
+//
+//
+//                EditText editTextTrainingRowReps = addView.findViewById(R.id.editTextTrainingRowReps);
+//                editTextTrainingRowReps.addTextChangedListener(new TextWatcher() {
+//                    @Override
+//                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                    }
+//
+//                    @Override
+//                    public void afterTextChanged(final Editable s) {
+//                        final TextView textViewNoEmpty = addView.findViewById(R.id.textViewNoEmpty);
+//
+//                        if (s.length() == 0) {
+//                            textViewNoEmpty.setVisibility(View.VISIBLE);
+//                            mapReps.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
+//                        } else{
+//                            textViewNoEmpty.setVisibility(View.INVISIBLE);
+//                            mapReps.put(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()),s.toString());
+//                            Log.i(TAG, "onClick: " + mapReps);
+//                            }
+//                    }
+//                });
+//                EditText editTextTrainingRowWeight = addView.findViewById(R.id.editTextTrainingRowWeight);
+//                editTextTrainingRowWeight.addTextChangedListener(new TextWatcher() {
+//                    @Override
+//                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                    }
+//
+//                    @Override
+//                    public void afterTextChanged(final Editable s) {
+//                        final TextView textViewNoEmpty1 = addView.findViewById(R.id.textViewNoEmpty1);
+//
+//                        if (s.length() == 0){
+//                            textViewNoEmpty1.setVisibility(View.VISIBLE);
+//                            mapWeight.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
+//                        } else {
+//                            textViewNoEmpty1.setVisibility(View.INVISIBLE);
+//                            mapWeight.put(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()),s.toString());
+//                            Log.i(TAG, "onClick: " + mapWeight);
+//                        }
+//                    }
+//                });
+//
+//                Button buttonRemove = addView.findViewById(R.id.buttonTrainingRowRemove);
+//                buttonRemove.setOnClickListener(new View.OnClickListener(){
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                        mapReps.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
+//                        mapWeight.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
+//
+//                        ((LinearLayout)addView.getParent()).removeView(addView);
+//
+//                        clickCounter--;
+//                        Log.i(TAG, "onClick: " + clickCounter);
+//
+//                    }});
+//
+//                textViewTrainingDetailsID.setText(String.valueOf(clickCounter));
+//                editTextTrainingRowReps.setText(mapReps.get(clickCounter));
+//                editTextTrainingRowWeight.setText(mapWeight.get(clickCounter));
+//
+//                Log.i(TAG, "onClick: reps: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowReps)).getText().toString() + " weight: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowWeight)).getText().toString());
+//
+//                Log.i(TAG, "onClick: " + mapReps);
+//                Log.i(TAG, "onClick: " + mapWeight);
+//
+//                container.addView(addView);
+//                clickCounter++;
+//            }
+//        });
+//
+//        for (int i = 0; i < itemNum; i++){
+//            buttonTrainingDetailsAdd.performClick();
+//        }
+//    }
 
     private void asynchTask(final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
@@ -338,31 +312,18 @@ public class TrainingDetailsActivity extends AppCompatActivity {
                                     String mWeight = weight.replaceAll("\\p{Punct}"," ");
                                     String[] mWeight_table = mWeight.split("\\s+");
 
-
-
-
-                                    Training training;
                                     for (int a = 0; a < mReps_table.length; a++){
-                                        mapWeight.put(a,mWeight_table[a]);
-                                        mapReps.put(a,mReps_table[a]);
+                                        inflater.setMapWeight(a,mWeight_table[a]);
+                                        inflater.setMapReps(a,mReps_table[a]);
+                                        inflater.setReps();
+                                        inflater.setWeight();
                                     }
 
+//                                    buttonTrigger(mReps_table.length);
 
 
-                                    buttonTrigger(mReps_table.length);
-
+                                    downloadSeriesNumber(mReps_table.length);
                                     editTextTrainingExerciseShow.setText(notepad);
-
-
-
-
-                                    for (String s : mapWeight.values()){
-                                        Log.i(TAG, "onResponse: " + s);
-                                    }
-                                    for (String s : mapReps.values()){
-                                        Log.i(TAG, "onResponse: " + s);
-                                    }
-
                                 }
                             }
                             /* End */
@@ -398,5 +359,45 @@ public class TrainingDetailsActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(ctx);
         queue.add(strRequest);
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.buttonTrainingShowDetails:
+                if (inflater.isValid()){
+                    Log.i(TAG, "onClick: isValid" + inflater.isValid());
+                }
+                Log.i(TAG, "onClick: " + inflater.getWeight());
+                Log.i(TAG, "onClick: " + inflater.getReps());
+                break;
+            case R.id.buttonTrainingDetailsAdd:
+                generateTrainingSets();
+                break;
+
+        }
+    }
+
+    private void downloadSeriesNumber(int seriesNumber){
+        for (int i = 0; i < seriesNumber; i++) {
+            container.addView(inflater.generateTrainingSets());
+        }
+    }
+
+    void generateTrainingSets(){
+        container.addView(inflater.generateTrainingSets());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

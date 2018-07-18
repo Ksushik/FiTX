@@ -98,7 +98,7 @@
         android:id="@+id/buttonStatsActivity"
         style="@style/com_facebook_loginview_silver_style"
         android:layout_width="0dp"
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="4dp"
         android:layout_marginLeft="4dp"

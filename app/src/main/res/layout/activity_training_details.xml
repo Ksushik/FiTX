@@ -20,7 +20,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainingImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTraining" />
 
     <Button
         android:id="@+id/buttonTrainingDelete"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <ImageView
-        android:id="@+id/trainingImageView"
+        android:id="@+id/imageViewTraining"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginLeft="64dp"
@@ -55,7 +55,7 @@
         app:srcCompat="@drawable/common_google_signin_btn_icon_light_focused" />
 
     <ImageView
-        android:id="@+id/trainingImageView2"
+        android:id="@+id/imageViewTraining1"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginEnd="64dp"
@@ -116,7 +116,7 @@
         app:layout_constraintTop_toBottomOf="@+id/container" />
 
     <Button
-        android:id="@+id/buttonShowTrainingDetails"
+        android:id="@+id/buttonTrainingShowDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -124,6 +124,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:onClick="onClick"
         android:text="@string/show"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -152,6 +153,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:onClick="onClick"
         android:text="Add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
