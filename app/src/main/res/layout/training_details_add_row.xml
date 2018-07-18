@@ -10,12 +10,9 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:text="@string/delete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonChecker"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -64,15 +61,47 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.66" />
 
-    <Button
-        android:id="@+id/buttonChecker"
-        android:layout_width="50dp"
+    <TextView
+        android:id="@+id/textViewTrainingDetailsID"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp"
-        android:text="chc"
-        app:layout_constraintEnd_toStartOf="@+id/buttonTrainingRowRemove"
-        app:layout_constraintStart_toEndOf="@+id/guideline3"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@+id/editTextTrainingRowWeight"
+        tools:layout_editor_absoluteX="48dp" />
+
+    <TextView
+        android:id="@+id/textViewNoEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/no_empty"
+        android:textColor="@color/colorButtonRed"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTrainingRowReps"
+        app:layout_constraintStart_toStartOf="@+id/editTextTrainingRowReps"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTrainingRowReps" />
+
+    <TextView
+        android:id="@+id/textViewNoEmpty1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/no_empty"
+        android:textColor="@color/colorButtonRed"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTrainingRowWeight"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="@+id/editTextTrainingRowWeight"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTrainingRowWeight" />
 
 </android.support.constraint.ConstraintLayout>

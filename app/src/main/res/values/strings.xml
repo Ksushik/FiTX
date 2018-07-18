@@ -55,6 +55,12 @@
     <string name="notes">Notes:</string>
 
 
+
+    <string name="no_empty">Nie może być puste</string>
+
+
+
+
     <string name="training_details">Opis ćwiczenia:</string>
 
     <string name="show">Pokaż</string>

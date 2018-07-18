@@ -1,10 +1,12 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
+import java.util.ArrayList;
+
 /**
  * Created by lukaszkrawczak on 18.03.2018.
  */
 
-public class Training {
+public class Training extends ArrayList{
     private int id;
     private String name;
     private int restTime;

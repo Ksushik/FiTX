@@ -8,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
+import com.brus5.lukaszkrawczak.fitx.Diet.DietProductSearchActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -37,24 +40,28 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TrainingDetailsActivity extends AppCompatActivity {
     private static final String TAG = "TrainingDetailsActivity";
-    LinearLayout container;
-//    RelativeLayout relativeLayoutTrainingDetails;
-    Button buttonTrainingDetailsAdd;
-    int trainingID;
-    String trainingTimeStamp, trainingTarget;
-    ImageView trainingImageView,trainingImageView2;
-    EditText editTextTrainingExerciseShow;
-    TextView textViewExerciseName;
-    Map<Integer,String> mapWeight = new HashMap<>();
-    Map<Integer,String> mapReps = new HashMap<>();
-    List arrayReps = new ArrayList();
+    private LinearLayout container;
+    private Button buttonTrainingDetailsAdd;
+    private int trainingID;
+    private String trainingTimeStamp, trainingTarget;
+    private ImageView trainingImageView,trainingImageView2;
+    private EditText editTextTrainingExerciseShow;
+    private TextView textViewExerciseName;
+    private Map<Integer,String> mapWeight = new HashMap<>();
+    private Map<Integer,String> mapReps = new HashMap<>();
+
+    private int clickCounter = 0;
+
+
+
     @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,38 +188,95 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     private void saveExerciseToDB() {
     }
 
-    private void buttonTrigger(int a) {
+    private void buttonTrigger(final int itemNum) {
 
         buttonTrainingDetailsAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View addView = layoutInflater.inflate(R.layout.training_details_add_row, null);
+                TextView textViewTrainingDetailsID = addView.findViewById(R.id.textViewTrainingDetailsID);
 
                 EditText editTextTrainingRowReps = addView.findViewById(R.id.editTextTrainingRowReps);
+                editTextTrainingRowReps.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-// FIXME: 17.07.2018 workigng hereeeee!!!
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(final Editable s) {
+                        final TextView textViewNoEmpty = addView.findViewById(R.id.textViewNoEmpty);
+
+                        if (s.length() == 0) {
+                            textViewNoEmpty.setVisibility(View.VISIBLE);
+                            mapReps.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
+                        } else{
+                            textViewNoEmpty.setVisibility(View.INVISIBLE);
+                            mapReps.put(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()),s.toString());
+                            Log.i(TAG, "onClick: " + mapReps);
+                            }
+                    }
+                });
+                EditText editTextTrainingRowWeight = addView.findViewById(R.id.editTextTrainingRowWeight);
+                editTextTrainingRowWeight.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(final Editable s) {
+                        final TextView textViewNoEmpty1 = addView.findViewById(R.id.textViewNoEmpty1);
+
+                        if (s.length() == 0){
+                            textViewNoEmpty1.setVisibility(View.VISIBLE);
+                        } else {
+                            textViewNoEmpty1.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
+
+
+
+
                 Button buttonRemove = addView.findViewById(R.id.buttonTrainingRowRemove);
                 buttonRemove.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
+
+                        mapReps.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
+                        mapWeight.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
+
+
+
                         ((LinearLayout)addView.getParent()).removeView(addView);
 
-                        Log.i(TAG, "onClick: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowReps)).getText().toString() + ((EditText)addView.findViewById(R.id.editTextTrainingRowWeight)).getText().toString());
-                    }});
-                Button buttonChecker = addView.findViewById(R.id.buttonChecker);
-                buttonChecker.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        Log.i(TAG, "onClick: reps: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowReps)).getText().toString() + " weight: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowWeight)).getText().toString());
+                        clickCounter--;
+                        Log.i(TAG, "onClick: " + clickCounter);
+
                     }});
 
-
+                textViewTrainingDetailsID.setText(String.valueOf(clickCounter));
+                editTextTrainingRowReps.setText(mapReps.get(clickCounter));
+                editTextTrainingRowWeight.setText(mapWeight.get(clickCounter));
+                Log.i(TAG, "onClick: reps: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowReps)).getText().toString() + " weight: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowWeight)).getText().toString());
                 container.addView(addView);
+                clickCounter++;
             }
         });
 
-        for (int i = 0; i < a; i++){
+        for (int i = 0; i < itemNum; i++){
             buttonTrainingDetailsAdd.performClick();
         }
     }
@@ -270,17 +334,20 @@ public class TrainingDetailsActivity extends AppCompatActivity {
 
 
 
-                                    buttonTrigger(mReps_table.length);
-
+                                    Training training;
                                     for (int a = 0; a < mReps_table.length; a++){
                                         mapWeight.put(a,mWeight_table[a]);
                                         mapReps.put(a,mReps_table[a]);
                                     }
 
+
+
+                                    buttonTrigger(mReps_table.length);
+
                                     editTextTrainingExerciseShow.setText(notepad);
 
-                                    Log.i(TAG, "mReps_table: " + Arrays.toString(mReps_table));
-                                    Log.i(TAG, "mWeight_table: " + Arrays.toString(mWeight_table));
+
+
 
                                     for (String s : mapWeight.values()){
                                         Log.i(TAG, "onResponse: " + s);
