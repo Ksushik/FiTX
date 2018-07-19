@@ -2,7 +2,7 @@ package com.brus5.lukaszkrawczak.fitx.Login.DTO;
 
 import android.util.Log;
 
-import com.brus5.lukaszkrawczak.fitx.DtoStatus;
+import com.brus5.lukaszkrawczak.fitx.DTO.DtoStatus;
 
 /**
  * Created by lukaszkrawczak on 24.05.2018.

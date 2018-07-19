@@ -28,10 +28,8 @@ import com.brus5.lukaszkrawczak.fitx.Calculator.CarbCalc;
 import com.brus5.lukaszkrawczak.fitx.Calculator.FatCalc;
 import com.brus5.lukaszkrawczak.fitx.Calculator.ProteinCalc;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
-import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietDeleteCountedKcalDTO;
+import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
-import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietUpdateKcalResultDTO;
-import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietUserShowDailyDTO;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 
@@ -118,7 +116,7 @@ public class DietActivity extends AppCompatActivity {
 
                 dietArrayList.clear();
 
-                DietUserShowDailyDTO dto = new DietUserShowDailyDTO();
+                DietDTO dto = new DietDTO();
                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
                 dto.dateToday = dateInside;
                 dto.printStatus();
@@ -129,7 +127,7 @@ public class DietActivity extends AppCompatActivity {
         });
     }
 
-    public void loadUsersDailyDietAsynchTask(final DietUserShowDailyDTO dietUserShowDailyDTO, final Context ctx){
+    public void loadUsersDailyDietAsynchTask(final DietDTO dto, final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_USER_SHOW_DAILY_URL,
                 new Response.Listener<String>()
                 {
@@ -257,8 +255,8 @@ public class DietActivity extends AppCompatActivity {
                             listViewDietActivity.invalidate();
 
                             if (getKcalResult() > 0d) {
-                                DietUpdateKcalResultDTO dto = new DietUpdateKcalResultDTO();
-                                dto.userId = SaveSharedPreference.getUserID(DietActivity.this);
+                                DietDTO dto = new DietDTO();
+                                dto.userID = SaveSharedPreference.getUserID(DietActivity.this);
                                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
                                 dto.updateKcalResult = String.format("%.1f",kcalCounted);
                                 dto.dateToday = dateInside;
@@ -268,7 +266,7 @@ public class DietActivity extends AppCompatActivity {
 
                             }
                             else if (getKcalResult() == 0d){
-                                DietDeleteCountedKcalDTO dto = new DietDeleteCountedKcalDTO();
+                                DietDTO dto = new DietDTO();
                                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
                                 dto.dateToday = dateInside;
                                 dto.printStatus();
@@ -294,8 +292,8 @@ public class DietActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 HashMap<String,String> params = new HashMap<>();
-                params.put(RestApiNames.DB_USERNAME, dietUserShowDailyDTO.userName);
-                params.put(RestApiNames.DB_DATE, dietUserShowDailyDTO.dateToday);
+                params.put(RestApiNames.DB_USERNAME, dto.userName);
+                params.put(RestApiNames.DB_DATE, dto.dateToday);
                 return params;
             }
         };
@@ -412,10 +410,10 @@ public class DietActivity extends AppCompatActivity {
         super.onRestart();
         // this backendcall
         dietListAdapter.clear();
-        DietUserShowDailyDTO dietUserShowDailyDTO = new DietUserShowDailyDTO();
-        dietUserShowDailyDTO.userName = SaveSharedPreference.getUserName(DietActivity.this);
-        dietUserShowDailyDTO.dateToday = dateInside;
-        loadUsersDailyDietAsynchTask(dietUserShowDailyDTO,DietActivity.this);
+        DietDTO dto = new DietDTO();
+        dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
+        dto.dateToday = dateInside;
+        loadUsersDailyDietAsynchTask(dto,DietActivity.this);
     }
 
     @Override

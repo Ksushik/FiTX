@@ -28,12 +28,15 @@ import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
+import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +48,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private ImageView imageViewTraining, imageViewTraining2;
     private EditText editTextTrainingExerciseShow;
     private TextView textViewExerciseName;
+
+    @SuppressLint("SimpleDateFormat")
+    String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
     TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
 
@@ -149,119 +155,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         return super.onCreateOptionsMenu(menu);
     }
 
-    @SuppressLint("LongLogTag")
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu_save_exercise:
-                saveExerciseToDB();
-                editTextTrainingExerciseShow.getText();
-                Log.e(TAG, "save button pressed: "+editTextTrainingExerciseShow.getText());
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void saveExerciseToDB() {
-    }
-
-//    private void buttonTrigger(final int itemNum) {
-//
-//        buttonTrainingDetailsAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                final View addView = layoutInflater.inflate(R.layout.training_details_add_row, null);
-//                TextView textViewTrainingDetailsID = addView.findViewById(R.id.textViewTrainingDetailsID);
-//
-//
-//                EditText editTextTrainingRowReps = addView.findViewById(R.id.editTextTrainingRowReps);
-//                editTextTrainingRowReps.addTextChangedListener(new TextWatcher() {
-//                    @Override
-//                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//                    }
-//
-//                    @Override
-//                    public void afterTextChanged(final Editable s) {
-//                        final TextView textViewNoEmpty = addView.findViewById(R.id.textViewNoEmpty);
-//
-//                        if (s.length() == 0) {
-//                            textViewNoEmpty.setVisibility(View.VISIBLE);
-//                            mapReps.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-//                        } else{
-//                            textViewNoEmpty.setVisibility(View.INVISIBLE);
-//                            mapReps.put(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()),s.toString());
-//                            Log.i(TAG, "onClick: " + mapReps);
-//                            }
-//                    }
-//                });
-//                EditText editTextTrainingRowWeight = addView.findViewById(R.id.editTextTrainingRowWeight);
-//                editTextTrainingRowWeight.addTextChangedListener(new TextWatcher() {
-//                    @Override
-//                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//                    }
-//
-//                    @Override
-//                    public void afterTextChanged(final Editable s) {
-//                        final TextView textViewNoEmpty1 = addView.findViewById(R.id.textViewNoEmpty1);
-//
-//                        if (s.length() == 0){
-//                            textViewNoEmpty1.setVisibility(View.VISIBLE);
-//                            mapWeight.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-//                        } else {
-//                            textViewNoEmpty1.setVisibility(View.INVISIBLE);
-//                            mapWeight.put(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()),s.toString());
-//                            Log.i(TAG, "onClick: " + mapWeight);
-//                        }
-//                    }
-//                });
-//
-//                Button buttonRemove = addView.findViewById(R.id.buttonTrainingRowRemove);
-//                buttonRemove.setOnClickListener(new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                        mapReps.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-//                        mapWeight.remove(Integer.valueOf(((TextView)addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-//
-//                        ((LinearLayout)addView.getParent()).removeView(addView);
-//
-//                        clickCounter--;
-//                        Log.i(TAG, "onClick: " + clickCounter);
-//
-//                    }});
-//
-//                textViewTrainingDetailsID.setText(String.valueOf(clickCounter));
-//                editTextTrainingRowReps.setText(mapReps.get(clickCounter));
-//                editTextTrainingRowWeight.setText(mapWeight.get(clickCounter));
-//
-//                Log.i(TAG, "onClick: reps: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowReps)).getText().toString() + " weight: " + ((EditText)addView.findViewById(R.id.editTextTrainingRowWeight)).getText().toString());
-//
-//                Log.i(TAG, "onClick: " + mapReps);
-//                Log.i(TAG, "onClick: " + mapWeight);
-//
-//                container.addView(addView);
-//                clickCounter++;
-//            }
-//        });
-//
-//        for (int i = 0; i < itemNum; i++){
-//            buttonTrainingDetailsAdd.performClick();
-//        }
-//    }
-
     private void asynchTask(final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
                 new Response.Listener<String>()
@@ -309,20 +202,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                                     String mReps = reps.replaceAll("\\p{Punct}"," ");
                                     String[] mReps_table = mReps.split("\\s+");
 
-                                    String mWeight = weight.replaceAll("\\p{Punct}"," ");
-                                    String[] mWeight_table = mWeight.split("\\s+");
+                                    inflater.setReps(reps);
+                                    inflater.setWeight(weight);
 
-                                    for (int a = 0; a < mReps_table.length; a++){
-                                        inflater.setMapWeight(a,mWeight_table[a]);
-                                        inflater.setMapReps(a,mReps_table[a]);
-                                        inflater.setReps();
-                                        inflater.setWeight();
-                                    }
-
-//                                    buttonTrigger(mReps_table.length);
-
-
-                                    downloadSeriesNumber(mReps_table.length);
+                                    trainingSetsGenerator(mReps_table.length);
                                     editTextTrainingExerciseShow.setText(notepad);
                                 }
                             }
@@ -365,38 +248,64 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         switch (v.getId()){
             case R.id.buttonTrainingShowDetails:
                 if (inflater.isValid()){
-                    Log.i(TAG, "onClick: isValid" + inflater.isValid());
+
+                    Log.i(TAG, "onClick: " + "\nisValid: " + inflater.isValid() + inflater.printResult());
+
                 }
-                Log.i(TAG, "onClick: " + inflater.getWeight());
-                Log.i(TAG, "onClick: " + inflater.getReps());
                 break;
             case R.id.buttonTrainingDetailsAdd:
-                generateTrainingSets();
+                trainingGenerateNextSet();
+                break;
+            case R.id.buttonTrainingDelete:
+                TrainingDTO dto = new TrainingDTO();
+                dto.trainingID = String.valueOf(trainingID);
+                dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
+                dto.trainingTimeStamp = trainingTimeStamp;
+                dto.printStatus();
+
+                TrainingService service = new TrainingService();
+                service.TrainingDelete(dto,TrainingDetailsActivity.this);
+                finish();
                 break;
 
-
         }
     }
 
-    private void downloadSeriesNumber(int seriesNumber){
+    private void trainingSetsGenerator(int seriesNumber){
         for (int i = 0; i < seriesNumber; i++) {
-            container.addView(inflater.generateTrainingSets());
+            container.addView(inflater.trainingSetGenerator());
         }
     }
 
-    void generateTrainingSets(){
-        container.addView(inflater.generateTrainingSets());
+    private void trainingGenerateNextSet(){
+        container.addView(inflater.trainingSetGenerator());
     }
 
+    @SuppressLint("LongLogTag")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_save_exercise:
+                Log.i(TAG, "onOptionsItemSelected: ");
+                TrainingDTO dto = new TrainingDTO();
+                dto.trainingID = String.valueOf(trainingID);
+                dto.trainingDone = "0";
+                dto.trainingRestTime = "90";
+                dto.trainingReps = inflater.getReps();
+                dto.trainingWeight = inflater.getWeight();
+                dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
+                dto.trainingTimeStamp = timeStamp;
+                dto.trainingNotepad = editTextTrainingExerciseShow.getText().toString();
+                dto.printStatus();
 
 
+                TrainingService service = new TrainingService();
+                service.TrainingInsert(dto,TrainingDetailsActivity.this);
 
-
-
-
-
-
-
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

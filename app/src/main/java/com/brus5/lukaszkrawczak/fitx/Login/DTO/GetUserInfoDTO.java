@@ -2,7 +2,7 @@ package com.brus5.lukaszkrawczak.fitx.Login.DTO;
 
 import android.util.Log;
 
-import com.brus5.lukaszkrawczak.fitx.DtoStatus;
+import com.brus5.lukaszkrawczak.fitx.DTO.DtoStatus;
 
 public class GetUserInfoDTO implements DtoStatus{
     private static final String TAG = "GetUserInfoDTO";

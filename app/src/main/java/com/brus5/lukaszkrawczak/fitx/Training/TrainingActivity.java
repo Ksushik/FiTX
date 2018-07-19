@@ -23,8 +23,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
-import com.brus5.lukaszkrawczak.fitx.DTO;
 
+import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -98,9 +98,9 @@ public class TrainingActivity extends AppCompatActivity {
 
                 trainingArrayList.clear();
 
-                DTO dto = new DTO();
+                TrainingDTO dto = new TrainingDTO();
                 dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-                dto.dateToday = dateInsde;
+                dto.trainingDate = dateInsde;
                 loadAsynchTask(dto,TrainingActivity.this);
 
                 Log.i(TAG, "onDateSelected: "+dateInsde+" position: "+position);
@@ -112,7 +112,7 @@ public class TrainingActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void loadAsynchTask(final DTO dto, final Context ctx){
+    public void loadAsynchTask(final TrainingDTO dto, final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
                 new Response.Listener<String>()
                 {
@@ -176,7 +176,7 @@ public class TrainingActivity extends AppCompatActivity {
             {
                 HashMap<String,String> params = new HashMap<>();
                 params.put(RestApiNames.DB_USERNAME, dto.userName);
-                params.put(RestApiNames.DB_DATE, dto.dateToday);
+                params.put(RestApiNames.DB_DATE, dto.trainingDate);
                 return params;
             }
         };

@@ -3,19 +3,17 @@ package com.brus5.lukaszkrawczak.fitx.Diet;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
-import com.brus5.lukaszkrawczak.fitx.Diet.DTO.DietSearchProductDTO;
+import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 
@@ -47,7 +45,7 @@ public class DietProductSearchActivity extends AppCompatActivity {
     ListView listViewShowProducts;
     DietSearchListAdapter dietSearchListAdapter;
     ArrayList<DietSearch> dietSearchArrayList = new ArrayList<>();
-    DietSearchProductDTO dto = new DietSearchProductDTO();
+    DietDTO dto = new DietDTO();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +99,7 @@ public class DietProductSearchActivity extends AppCompatActivity {
                         new TimerTask() {
                             @Override
                             public void run() {
-                                dto.name = s.toString();
+                                dto.productName = s.toString();
                                 searchProductsAsynchTask(dto,DietProductSearchActivity.this);
                                 dto.printStatus();
                             }
@@ -111,7 +109,7 @@ public class DietProductSearchActivity extends AppCompatActivity {
             }
         });
     }
-    public void searchProductsAsynchTask(final DietSearchProductDTO dto, final Context ctx){
+    public void searchProductsAsynchTask(final DietDTO dto, final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_SEARCH_PRODUCT,
                 new Response.Listener<String>()
                 {
@@ -168,7 +166,7 @@ public class DietProductSearchActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 HashMap<String,String> params = new HashMap<>();
-                params.put(RestApiNames.DB_PRODUCT_NAME, dto.name);
+                params.put(RestApiNames.DB_PRODUCT_NAME, dto.productName);
                 return params;
             }
         };
