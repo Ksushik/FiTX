@@ -286,7 +286,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_save_exercise:
-                Log.i(TAG, "onOptionsItemSelected: ");
+                Log.i(TAG, "onOptionsItemSelected: save");
                 TrainingDTO dto = new TrainingDTO();
                 dto.trainingID = String.valueOf(trainingID);
                 dto.trainingDone = "0";
@@ -302,6 +302,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 TrainingService service = new TrainingService();
                 service.TrainingInsert(dto,TrainingDetailsActivity.this);
 
+                break;
+            case R.id.menu_delete_exercise:
+                Log.i(TAG, "onOptionsItemSelected: delete");
                 break;
         }
         return super.onOptionsItemSelected(item);
