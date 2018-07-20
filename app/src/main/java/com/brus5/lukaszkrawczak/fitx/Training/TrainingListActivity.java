@@ -9,7 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -36,7 +39,7 @@ public class TrainingListActivity extends AppCompatActivity {
 
     TrainingSearchListAdapter trainingSearchListAdapter;
     ListView listViewTrainingActivity;
-    private String excerciseTarget;
+    private String trainingTarget;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +49,7 @@ public class TrainingListActivity extends AppCompatActivity {
         onBackButtonPressed();
         getIntentFromPreviousActiity();
         asynchTask(TrainingListActivity.this);
-
+        onListViewItemSelected();
     }
 
     @SuppressLint("LongLogTag")
@@ -57,8 +60,8 @@ public class TrainingListActivity extends AppCompatActivity {
 
         TrainingList trainingList = new TrainingList();
         trainingList.setResId(mExercise);
-        excerciseTarget = trainingList.getResourceName();
-        Log.e(TAG, "getIntentFromPreviousActiity: " + excerciseTarget);
+        trainingTarget = trainingList.getResourceName();
+        Log.e(TAG, "getIntentFromPreviousActiity: " + trainingTarget);
     }
 
     private void loadInput() {
@@ -130,12 +133,28 @@ public class TrainingListActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 HashMap<String,String> params = new HashMap<>();
-                params.put(RestApiNames.DB_EXERCISE_TARGET, excerciseTarget);
+                params.put(RestApiNames.DB_EXERCISE_TARGET, trainingTarget);
                 return params;
             }
         };
         RequestQueue queue = Volley.newRequestQueue(ctx);
         queue.add(strRequest);
+    }
+
+    private void onListViewItemSelected() {
+        listViewTrainingActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                TextView trainingID = view.findViewById(R.id.trainingSearchID);
+
+                Intent intent = new Intent(TrainingListActivity.this,TrainingDetailsActivity.class);
+                intent.putExtra("trainingID",Integer.valueOf(trainingID.getText().toString()));
+                intent.putExtra("trainingTarget",trainingTarget);
+                intent.putExtra("previousActivity","TrainingActivityList");
+                startActivity(intent);
+            }
+        });
     }
 
 

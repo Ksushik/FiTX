@@ -30,7 +30,7 @@ import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.Converter.WeightConverter;
-import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
+import com.brus5.lukaszkrawczak.fitx.DTO.DietDTODiet;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -377,7 +377,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
             case R.id.buttonAcceptChanges:
                 if (previousActivity.equals("DietProductSearchActivity")){
                     Log.e(TAG, "onClick: "+ getProductWeightPerItems() );
-                    DietDTO dto = new DietDTO();
+                    DietDTODiet dto = new DietDTODiet();
                     dto.productID = productId;
                     dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this) ;
                     dto.productWeight = getProductWeightPerItems();
@@ -389,7 +389,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 }
                 else {
                     Log.e(TAG, "onClick: " + getProductWeightPerItems());
-                    DietDTO dto = new DietDTO();
+                    DietDTODiet dto = new DietDTODiet();
                     dto.productID = productId;
                     dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
                     dto.updateProductWeight = getProductWeightPerItems();
@@ -401,7 +401,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 }
                 break;
             case R.id.buttonDelete:
-                DietDTO dto1 = new DietDTO();
+                DietDTODiet dto1 = new DietDTODiet();
                 dto1.productID = productId;
                 dto1.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
                 dto1.updateProductWeight = getProductWeightPerItems();

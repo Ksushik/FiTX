@@ -24,7 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
-import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
+import com.brus5.lukaszkrawczak.fitx.DTO.DietDTODiet;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 
@@ -45,7 +45,7 @@ public class DietProductSearchActivity extends AppCompatActivity {
     ListView listViewShowProducts;
     DietSearchListAdapter dietSearchListAdapter;
     ArrayList<DietSearch> dietSearchArrayList = new ArrayList<>();
-    DietDTO dto = new DietDTO();
+    DietDTODiet dto = new DietDTODiet();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +109,7 @@ public class DietProductSearchActivity extends AppCompatActivity {
             }
         });
     }
-    public void searchProductsAsynchTask(final DietDTO dto, final Context ctx){
+    public void searchProductsAsynchTask(final DietDTODiet dto, final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_SEARCH_PRODUCT,
                 new Response.Listener<String>()
                 {

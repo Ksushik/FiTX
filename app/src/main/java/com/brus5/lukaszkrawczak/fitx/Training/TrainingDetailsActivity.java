@@ -44,7 +44,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private static final String TAG = "TrainingDetailsActivity";
     private LinearLayout container;
     private int trainingID;
-    private String trainingTimeStamp, trainingTarget;
+    private String trainingTimeStamp, trainingTarget, previousActivity;
     private ImageView imageViewTraining, imageViewTraining2;
     private EditText editTextTrainingExerciseShow;
     private TextView textViewExerciseName;
@@ -92,14 +92,14 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private void getIntentFromPreviousActiity() {
         Intent intent = getIntent();
         trainingID = intent.getIntExtra("trainingID",-1);
-        trainingTimeStamp = intent.getStringExtra("trainingTimeStamp");
         trainingTarget = intent.getStringExtra("trainingTarget");
+        trainingTimeStamp = intent.getStringExtra("trainingTimeStamp");
+        previousActivity = intent.getStringExtra("previousActivity");
 
         Log.e(TAG, "onCreate: "+trainingID);
         Log.e(TAG, "onCreate: "+trainingTimeStamp);
         Log.e(TAG, "onCreate: "+trainingTarget);
-
-
+        Log.e(TAG, "onCreate: "+previousActivity);
     }
 
     private void loadImageFromUrl(String url) {

@@ -35,8 +35,6 @@ public class TrainingSearchListAdapter extends ArrayAdapter<TrainingSearch>{
         mResource = resource;
     }
 
-    // FIXME: 16.07.2018 need to change everything
-
     @SuppressLint("LongLogTag")
     @NonNull
     @Override
@@ -50,10 +48,10 @@ public class TrainingSearchListAdapter extends ArrayAdapter<TrainingSearch>{
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent,false);
 
-        TextView traininglID = convertView.findViewById(R.id.trainingSearchID);
+        TextView trainingID = convertView.findViewById(R.id.trainingSearchID);
         TextView trainingTitle = convertView.findViewById(R.id.trainingSearchTitle);
 
-        traininglID.setText(String.valueOf(id));
+        trainingID.setText(String.valueOf(id));
 
         trainingTitle.setText(name);
 

@@ -10,7 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
-import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
+import com.brus5.lukaszkrawczak.fitx.DTO.DietDTODiet;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 
@@ -21,7 +21,7 @@ public class DietService {
 
     private static final String TAG = "DietService";
 
-    public void DietUpdateCountedKcal(final DietDTO dto, final Context context){
+    public void DietUpdateCountedKcal(final DietDTODiet dto, final Context context){
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_UPDATE_COUNTED_KCAL_URL,
                 new Response.Listener<String>()
@@ -57,7 +57,7 @@ public class DietService {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
-    public void DietDeleteCountedKcal(final DietDTO dto, Context context){
+    public void DietDeleteCountedKcal(final DietDTODiet dto, Context context){
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_DELETE_COUNTED_KCAL_URL,
                 new Response.Listener<String>()
@@ -90,7 +90,7 @@ public class DietService {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
-    public void DietProductWeightUpdate(final DietDTO dto, Context context){
+    public void DietProductWeightUpdate(final DietDTODiet dto, Context context){
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_UPDATE_WEIGHT_PRODUCT,
                 new Response.Listener<String>()
@@ -125,7 +125,7 @@ public class DietService {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
-    public void DietProductInsert(final DietDTO dto, Context context){
+    public void DietProductInsert(final DietDTODiet dto, Context context){
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_INSERT_PRODUCT,
                 new Response.Listener<String>()
@@ -160,7 +160,7 @@ public class DietService {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
-    public void DietDeleteProduct(final DietDTO dto, Context context){
+    public void DietDeleteProduct(final DietDTODiet dto, Context context){
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_DELETE_PRODUCT,
                 new Response.Listener<String>()

@@ -1,10 +1,9 @@
 package com.brus5.lukaszkrawczak.fitx.Diet;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +20,6 @@ import java.util.ArrayList;
  */
 
 public class DietListAdapter extends ArrayAdapter<Diet>{
-
-    private static final String TAG = "DietListAdapter";
-
     private Context mContext;
     int mResource;
 
@@ -33,13 +29,10 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
         mResource = resource;
     }
 
+    @SuppressLint("ViewHolder")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-        RecyclerView.ViewHolder holder;
-
-        final View result;
 
         int id = getItem(position).getId();
         String name = getItem(position).getName();
@@ -84,23 +77,17 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
             imageViewProductVerified.setVisibility(View.INVISIBLE);
         }
 
-        ArrayList arrayList = new ArrayList();
-        arrayList.add(kcal);
-
-        Log.i(TAG, "getView: ArrayList "+arrayList);
-
         return convertView;
     }
+    @SuppressLint("DefaultLocale")
     private String replaceCommaWithDotNoFloatingPoint(double value){
         return String.format("%.0f",value).replace(",",".");
     }
 
+    @SuppressLint("DefaultLocale")
     private String replaceCommaWithDotWithFloatingPoint(double value){
         return String.format("%.1f",value).replace(",",".");
     }
-
-
-
 
 }
 
