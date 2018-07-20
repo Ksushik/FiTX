@@ -25,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
+import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -51,7 +52,7 @@ public class TrainingActivity extends AppCompatActivity {
 
     /* Gettings DB_DATE */
     Configuration cfg = new Configuration();
-    String dateInsde, dateInsideTextView;
+    String dateInside, dateInsideTextView;
     TextView textViewShowDayTrainingActivity;
 
     ArrayList<Training> trainingArrayList = new ArrayList<>();
@@ -91,7 +92,7 @@ public class TrainingActivity extends AppCompatActivity {
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Date date, int position) {
-                dateInsde = cfg.getSimpleDateDateInside().format(date.getTime());
+                dateInside = cfg.getSimpleDateDateInside().format(date.getTime());
                 dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
 
                 textViewShowDayTrainingActivity.setText(dateInsideTextView);
@@ -100,10 +101,11 @@ public class TrainingActivity extends AppCompatActivity {
 
                 TrainingDTO dto = new TrainingDTO();
                 dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-                dto.trainingDate = dateInsde;
+                dto.trainingDate = dateInside;
+                dto.printStatus();
                 loadAsynchTask(dto,TrainingActivity.this);
 
-                Log.i(TAG, "onDateSelected: "+dateInsde+" position: "+position);
+                Log.i(TAG, "onDateSelected: "+ dateInside +" position: "+position);
             }
         });
     }
@@ -229,5 +231,18 @@ public class TrainingActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        // this backendcall
+        trainingListAdapter.clear();
+        TrainingDTO dto = new TrainingDTO();
+        dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
+        dto.trainingDate = dateInside;
+        dto.printStatus();
+        loadAsynchTask(dto,TrainingActivity.this);
+    }
+
 
 }

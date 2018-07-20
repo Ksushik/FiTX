@@ -413,6 +413,7 @@ public class DietActivity extends AppCompatActivity {
         DietDTODiet dto = new DietDTODiet();
         dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
         dto.dateToday = dateInside;
+        dto.printStatus();
         loadUsersDailyDietAsynchTask(dto,DietActivity.this);
     }
 

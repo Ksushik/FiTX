@@ -24,7 +24,6 @@ public class TrainingDTO extends TrainingStatusDTO implements DtoStatus {
 
     @Override
         public void printStatus() {
-
         new TrainingDTO(trainingID,trainingDone,trainingRestTime,trainingReps,trainingWeight,userName,trainingTimeStamp,trainingNotepad,trainingDate);
         }
     }
