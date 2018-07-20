@@ -121,6 +121,8 @@ public class TrainingInflater {
         });
 
 
+
+
         Button buttonRemove = addView.findViewById(R.id.buttonTrainingRowRemove);
         buttonRemove.setOnClickListener(new View.OnClickListener(){
             @Override

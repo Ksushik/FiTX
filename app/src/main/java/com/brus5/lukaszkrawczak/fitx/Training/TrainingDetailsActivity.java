@@ -82,6 +82,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
         textViewExerciseName = findViewById(R.id.textViewExerciseName);
         editTextTrainingExerciseShow = findViewById(R.id.editTextTrainingExerciseShow);
+        editTextTrainingExerciseShow.clearFocus();
+        editTextTrainingExerciseShow.didTouchFocusSelect();
         imageViewTraining = findViewById(R.id.imageViewTraining);
         imageViewTraining2 = findViewById(R.id.imageViewTraining1);
     }
@@ -256,17 +258,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             case R.id.buttonTrainingDetailsAdd:
                 trainingGenerateNextSet();
                 break;
-            case R.id.buttonTrainingDelete:
-                TrainingDTO dto = new TrainingDTO();
-                dto.trainingID = String.valueOf(trainingID);
-                dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
-                dto.trainingTimeStamp = trainingTimeStamp;
-                dto.printStatus();
-
-                TrainingService service = new TrainingService();
-                service.TrainingDelete(dto,TrainingDetailsActivity.this);
-                finish();
-                break;
 
         }
     }
@@ -287,24 +278,33 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         switch (item.getItemId()){
             case R.id.menu_save_exercise:
                 Log.i(TAG, "onOptionsItemSelected: save");
-                TrainingDTO dto = new TrainingDTO();
-                dto.trainingID = String.valueOf(trainingID);
-                dto.trainingDone = "0";
-                dto.trainingRestTime = "90";
-                dto.trainingReps = inflater.getReps();
-                dto.trainingWeight = inflater.getWeight();
-                dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
-                dto.trainingTimeStamp = timeStamp;
-                dto.trainingNotepad = editTextTrainingExerciseShow.getText().toString();
-                dto.printStatus();
+                TrainingDTO acceptDTO = new TrainingDTO();
+                acceptDTO.trainingID = String.valueOf(trainingID);
+                acceptDTO.trainingDone = "0";
+                acceptDTO.trainingRestTime = "90";
+                acceptDTO.trainingReps = inflater.getReps();
+                acceptDTO.trainingWeight = inflater.getWeight();
+                acceptDTO.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
+                acceptDTO.trainingTimeStamp = timeStamp;
+                acceptDTO.trainingNotepad = editTextTrainingExerciseShow.getText().toString();
+                acceptDTO.printStatus();
 
 
-                TrainingService service = new TrainingService();
-                service.TrainingInsert(dto,TrainingDetailsActivity.this);
+                TrainingService acceptService = new TrainingService();
+                acceptService.TrainingInsert(acceptDTO,TrainingDetailsActivity.this);
 
                 break;
             case R.id.menu_delete_exercise:
                 Log.i(TAG, "onOptionsItemSelected: delete");
+                TrainingDTO deleteDTO = new TrainingDTO();
+                deleteDTO.trainingID = String.valueOf(trainingID);
+                deleteDTO.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
+                deleteDTO.trainingTimeStamp = trainingTimeStamp;
+                deleteDTO.printStatus();
+
+                TrainingService deleteService = new TrainingService();
+                deleteService.TrainingDelete(deleteDTO,TrainingDetailsActivity.this);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
