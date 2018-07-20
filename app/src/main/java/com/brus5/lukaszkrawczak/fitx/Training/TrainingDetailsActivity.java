@@ -73,10 +73,17 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         loadImageFromUrl(url);
         loadImageFromUrl2(url2);
 
+        previousActivity(previousActivity);
 
+    }
 
-        asynchTask(TrainingDetailsActivity.this);
-
+    private void previousActivity(String previousActivity) {
+        if (previousActivity.equals("TrainingActivity")){
+            asynchTask(TrainingDetailsActivity.this);
+        }
+        else if (previousActivity.equals("TrainingListActivity")){
+            Log.i(TAG, "previousActivity: " + previousActivity);
+        }
     }
 
     private void loadInput() {
@@ -247,6 +254,94 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         queue.add(strRequest);
     }
 
+    private void asynchTaskOnlyTrainingInfo(final Context ctx){
+        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
+                new Response.Listener<String>()
+                {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        try {
+                            /* Getting DietRatio from MySQL */
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            Log.d(TAG, "onResponse: "+jsonObject.toString(1));
+
+                            int trainingID;
+                            int done;
+                            int rest;
+                            String reps = "";
+                            String weight = "";
+                            String timeStamp;
+                            String notepad = "";
+
+                            String exerciseName;
+                            String trainingName = "";
+
+                            JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+                            if (jsonArray.length() > 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject object = jsonArray.getJSONObject(i);
+                                    exerciseName = object.getString(RestApiNames.DB_EXERCISE_NAME);
+
+
+                                    trainingName = exerciseName.substring(0,1).toUpperCase() + exerciseName.substring(1);
+                                }
+                            }
+
+                            JSONArray trainings_info_array = jsonObject.getJSONArray("trainings_info");
+                            if (trainings_info_array.length() > 0) {
+                                for (int i = 0; i < trainings_info_array.length(); i++) {
+                                    JSONObject object = trainings_info_array.getJSONObject(i);
+                                    reps = object.getString(RestApiNames.DB_EXERCISE_REPS);
+                                    weight = object.getString(RestApiNames.DB_EXERCISE_WEIGHT);
+                                    notepad = object.getString(RestApiNames.DB_EXERCISE_NOTEPAD);
+
+                                    String mReps = reps.replaceAll("\\p{Punct}"," ");
+                                    String[] mReps_table = mReps.split("\\s+");
+
+                                    inflater.setReps(reps);
+                                    inflater.setWeight(weight);
+
+                                    trainingSetsGenerator(mReps_table.length);
+                                    editTextTrainingExerciseShow.setText(notepad);
+                                }
+                            }
+                            /* End */
+
+                            textViewExerciseName.setText(trainingName);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onErrorResponse: Error"+error);
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                HashMap<String,String> params = new HashMap<>();
+                params.put(RestApiNames.DB_EXERCISE_ID, String.valueOf(trainingID));
+                params.put(RestApiNames.DB_EXERCISE_DATE, trainingTimeStamp);
+                params.put(RestApiNames.DB_USERNAME, SaveSharedPreference.getUserName(ctx));
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(ctx);
+        queue.add(strRequest);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -281,35 +376,15 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             case R.id.menu_save_exercise:
 
                 if (previousActivity.equals("TrainingActivity")) {
-                    TrainingDTO updateDTO = new TrainingDTO();
-                    updateDTO.trainingID = String.valueOf(trainingID);
-                    updateDTO.trainingDone = "0";
-                    updateDTO.trainingRestTime = "90";
-                    updateDTO.trainingReps = inflater.getReps();
-                    updateDTO.trainingWeight = inflater.getWeight();
-                    updateDTO.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
-                    updateDTO.trainingTimeStamp = trainingTimeStamp;
-                    updateDTO.trainingNotepad = editTextTrainingExerciseShow.getText().toString();
-                    updateDTO.printStatus();
-
+                    Log.i(TAG, "onOptionsItemSelected: TrainingActivity");
                     TrainingService updateTraining = new TrainingService();
-                    updateTraining.TrainingUpdate(updateDTO, TrainingDetailsActivity.this);
+                    updateTraining.TrainingUpdate(generateDTO(), TrainingDetailsActivity.this);
                 }
 
                 else if (previousActivity.equals("TrainingListActivity")){
-                    TrainingDTO acceptDTO = new TrainingDTO();
-                    acceptDTO.trainingID = String.valueOf(trainingID);
-                    acceptDTO.trainingDone = "0";
-                    acceptDTO.trainingRestTime = "90";
-                    acceptDTO.trainingReps = inflater.getReps();
-                    acceptDTO.trainingWeight = inflater.getWeight();
-                    acceptDTO.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
-                    acceptDTO.trainingTimeStamp = timeStamp;
-                    acceptDTO.trainingNotepad = editTextTrainingExerciseShow.getText().toString();
-                    acceptDTO.printStatus();
-
+                    Log.i(TAG, "onOptionsItemSelected: TrainingListActivity");
                     TrainingService acceptService = new TrainingService();
-                    acceptService.TrainingInsert(acceptDTO, TrainingDetailsActivity.this);
+                    acceptService.TrainingInsert(generateDTO(), TrainingDetailsActivity.this);
                 }
                 break;
             case R.id.menu_delete_exercise:
@@ -317,7 +392,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 TrainingDTO deleteDTO = new TrainingDTO();
                 deleteDTO.trainingID = String.valueOf(trainingID);
                 deleteDTO.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
-                deleteDTO.trainingTimeStamp = trainingTimeStamp;
+                deleteDTO.trainingTimeStamp = timeStamp();
                 deleteDTO.printStatus();
 
                 TrainingService deleteService = new TrainingService();
@@ -328,7 +403,29 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         return super.onOptionsItemSelected(item);
     }
 
+    private TrainingDTO generateDTO(){
+        TrainingDTO dto = new TrainingDTO();
+        dto.trainingID = String.valueOf(trainingID);
+        dto.trainingDone = "0";
+        dto.trainingRestTime = "90";
+        dto.trainingReps = inflater.getReps();
+        dto.trainingWeight = inflater.getWeight();
+        dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
+        dto.trainingTimeStamp = timeStamp();
+        dto.trainingNotepad = editTextTrainingExerciseShow.getText().toString();
+        dto.printStatus();
+
+        return dto;
+    }
 
 
+    private String timeStamp(){
+        if (previousActivity.equals("TrainingActivity")){
+            return trainingTimeStamp;
+        }
+        else {
+            return timeStamp;
+        }
+    }
 
 }

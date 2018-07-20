@@ -151,7 +151,7 @@ public class TrainingListActivity extends AppCompatActivity {
                 Intent intent = new Intent(TrainingListActivity.this,TrainingDetailsActivity.class);
                 intent.putExtra("trainingID",Integer.valueOf(trainingID.getText().toString()));
                 intent.putExtra("trainingTarget",trainingTarget);
-                intent.putExtra("previousActivity","TrainingActivityList");
+                intent.putExtra("previousActivity","TrainingListActivity");
                 startActivity(intent);
             }
         });
