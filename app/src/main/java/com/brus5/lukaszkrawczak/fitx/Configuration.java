@@ -1,6 +1,10 @@
 package com.brus5.lukaszkrawczak.fitx;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.widget.Toast;
+
+import com.brus5.lukaszkrawczak.fitx.Training.TrainingDetailsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,6 +26,7 @@ public class Configuration {
     public static final String DIET_USER_SHOW_DAILY_URL             = BASE_URL + "Diet/" + "ShowByUser.php";
     public static final String DIET_UPDATE_WEIGHT_PRODUCT           = BASE_URL + "Diet/" + "UpdateProductWeight.php";
 
+    public static final String SHOW_NEW_TRAINING                    = BASE_URL + "Training/" + "ShowNew.php";
     public static final String SHOW_TRAINING_URL                    = BASE_URL + "Training/" + "ShowByUser.php";
     public static final String TRAINING_SEARCH_BY_TARGET            = BASE_URL + "Training/" + "SearchByTarget.php";
     public static final String TRAINING_INSERT                      = BASE_URL + "Training/" + "Insert.php";
@@ -57,5 +62,9 @@ public class Configuration {
         Calendar startDate = Calendar.getInstance();
         startDate.add(Calendar.MONTH, -1);
         return startDate;
+    }
+
+    public void showToastError(Context ctx) {
+        Toast.makeText(ctx, R.string.error, Toast.LENGTH_SHORT).show();
     }
 }

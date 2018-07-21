@@ -1,6 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -82,9 +84,14 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             asynchTask(TrainingDetailsActivity.this);
         }
         else if (previousActivity.equals("TrainingListActivity")){
-            Log.i(TAG, "previousActivity: " + previousActivity);
+            asynchTaskAddNewTraining(TrainingDetailsActivity.this);
+
+
+
         }
     }
+
+
 
     private void loadInput() {
         container = findViewById(R.id.container);
@@ -123,10 +130,12 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     @Override
                     public void onError() {
 //                        progressBarDietProductShowActivity.setVisibility(View.VISIBLE);
-                        isError();
+                        Configuration cfg = new Configuration();
+                        cfg.showToastError(TrainingDetailsActivity.this);
                     }
                 });
     }
+
     private void loadImageFromUrl2(String url) {
         Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null)
                 .error(R.mipmap.ic_launcher_round)
@@ -139,13 +148,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     @Override
                     public void onError() {
 //                        progressBarDietProductShowActivity.setVisibility(View.VISIBLE);
-                        isError();
+                        Configuration cfg = new Configuration();
+                        cfg.showToastError(TrainingDetailsActivity.this);
                     }
                 });
-    }
-
-    private void isError() {
-        Toast.makeText(TrainingDetailsActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
     }
 
     private void changeStatusBarColor() {
@@ -155,6 +161,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         Toolbar toolbar = findViewById(R.id.toolbarTrainingExerciseShow);
         setSupportActionBar(toolbar);
     }
+
     private void onBackButtonPressed() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -163,6 +170,14 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_training_exercise_add, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_delete_exercise);
+        if (previousActivity.equals("TrainingListActivity")){
+            item.setVisible(false);
+        }
+        else {
+            item.setVisible(true);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -254,8 +269,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         queue.add(strRequest);
     }
 
-    private void asynchTaskOnlyTrainingInfo(final Context ctx){
-        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
+    private void asynchTaskAddNewTraining(final Context ctx){
+        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_NEW_TRAINING,
                 new Response.Listener<String>()
                 {
                     @SuppressLint("LongLogTag")
@@ -268,46 +283,18 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
                             Log.d(TAG, "onResponse: "+jsonObject.toString(1));
 
-                            int trainingID;
-                            int done;
-                            int rest;
-                            String reps = "";
-                            String weight = "";
-                            String timeStamp;
-                            String notepad = "";
+                            String exerciseName = "";
 
-                            String exerciseName;
-                            String trainingName = "";
 
                             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                            if (jsonArray.length() > 0) {
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject object = jsonArray.getJSONObject(i);
-                                    exerciseName = object.getString(RestApiNames.DB_EXERCISE_NAME);
 
-
-                                    trainingName = exerciseName.substring(0,1).toUpperCase() + exerciseName.substring(1);
-                                }
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(0);
+                                exerciseName = object.getString(RestApiNames.DB_EXERCISE_NAME);
                             }
 
-                            JSONArray trainings_info_array = jsonObject.getJSONArray("trainings_info");
-                            if (trainings_info_array.length() > 0) {
-                                for (int i = 0; i < trainings_info_array.length(); i++) {
-                                    JSONObject object = trainings_info_array.getJSONObject(i);
-                                    reps = object.getString(RestApiNames.DB_EXERCISE_REPS);
-                                    weight = object.getString(RestApiNames.DB_EXERCISE_WEIGHT);
-                                    notepad = object.getString(RestApiNames.DB_EXERCISE_NOTEPAD);
-
-                                    String mReps = reps.replaceAll("\\p{Punct}"," ");
-                                    String[] mReps_table = mReps.split("\\s+");
-
-                                    inflater.setReps(reps);
-                                    inflater.setWeight(weight);
-
-                                    trainingSetsGenerator(mReps_table.length);
-                                    editTextTrainingExerciseShow.setText(notepad);
-                                }
-                            }
+                                   String trainingName = exerciseName.substring(0,1).toUpperCase() + exerciseName.substring(1);
+                            Log.i(TAG, "trainingName: " + trainingName);
                             /* End */
 
                             textViewExerciseName.setText(trainingName);
@@ -333,8 +320,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             {
                 HashMap<String,String> params = new HashMap<>();
                 params.put(RestApiNames.DB_EXERCISE_ID, String.valueOf(trainingID));
-                params.put(RestApiNames.DB_EXERCISE_DATE, trainingTimeStamp);
-                params.put(RestApiNames.DB_USERNAME, SaveSharedPreference.getUserName(ctx));
                 return params;
             }
         };
@@ -346,11 +331,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.buttonTrainingShowDetails:
-                if (inflater.isValid()){
 
-                    Log.i(TAG, "onClick: " + "\nisValid: " + inflater.isValid() + inflater.printResult());
-
-                }
                 break;
             case R.id.buttonTrainingDetailsAdd:
                 trainingGenerateNextSet();
@@ -369,41 +350,40 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         container.addView(inflater.trainingSetGenerator());
     }
 
+
+
     @SuppressLint("LongLogTag")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_save_exercise:
-
-                if (previousActivity.equals("TrainingActivity")) {
-                    Log.i(TAG, "onOptionsItemSelected: TrainingActivity");
+                if (previousActivity.equals("TrainingActivity") && (inflater.isValid())) {
                     TrainingService updateTraining = new TrainingService();
-                    updateTraining.TrainingUpdate(generateDTO(), TrainingDetailsActivity.this);
+                    updateTraining.TrainingUpdate(saveDTO(), TrainingDetailsActivity.this);
+                    finish();
                 }
 
-                else if (previousActivity.equals("TrainingListActivity")){
-                    Log.i(TAG, "onOptionsItemSelected: TrainingListActivity");
+                else if (previousActivity.equals("TrainingListActivity") && (inflater.isValid())){
                     TrainingService acceptService = new TrainingService();
-                    acceptService.TrainingInsert(generateDTO(), TrainingDetailsActivity.this);
+                    acceptService.TrainingInsert(saveDTO(), TrainingDetailsActivity.this);
+                    finish();
+                }
+                else {
+                    Configuration cfg = new Configuration();
+                    cfg.showToastError(TrainingDetailsActivity.this);
                 }
                 break;
             case R.id.menu_delete_exercise:
-                Log.i(TAG, "onOptionsItemSelected: delete");
-                TrainingDTO deleteDTO = new TrainingDTO();
-                deleteDTO.trainingID = String.valueOf(trainingID);
-                deleteDTO.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
-                deleteDTO.trainingTimeStamp = timeStamp();
-                deleteDTO.printStatus();
-
                 TrainingService deleteService = new TrainingService();
-                deleteService.TrainingDelete(deleteDTO,TrainingDetailsActivity.this);
+                deleteService.TrainingDelete(deleteDto(),TrainingDetailsActivity.this);
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private TrainingDTO generateDTO(){
+    private TrainingDTO saveDTO(){
+        Log.i(TAG, "onClick: " + "\nisValid: " + inflater.isValid() + inflater.printResult());
         TrainingDTO dto = new TrainingDTO();
         dto.trainingID = String.valueOf(trainingID);
         dto.trainingDone = "0";
@@ -414,7 +394,15 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         dto.trainingTimeStamp = timeStamp();
         dto.trainingNotepad = editTextTrainingExerciseShow.getText().toString();
         dto.printStatus();
+        return dto;
+    }
 
+    private TrainingDTO deleteDto(){
+        TrainingDTO dto = new TrainingDTO();
+        dto.trainingID = String.valueOf(trainingID);
+        dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
+        dto.trainingTimeStamp = timeStamp();
+        dto.printStatus();
         return dto;
     }
 

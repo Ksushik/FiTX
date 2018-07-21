@@ -77,7 +77,7 @@
     <string name="saturated_fats">Tłuszcze nasycone</string>
     <string name="un_saturated_fats">Tłuszcze nienasycone</string>
 
-    <string name="error">Błąd</string>
+    <string name="error">Wystąpił problem</string>
 
     <string name="proteins_short_colon">B:</string>
     <string name="fats_short_colon">T:</string>
