@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,7 +50,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private String trainingTimeStamp, trainingTarget, previousActivity;
     private ImageView imageViewTraining, imageViewTraining2;
     private EditText editTextTrainingExerciseShow;
-    private TextView textViewExerciseName;
+    private TextView textViewExerciseName,textViewShowTrainingDetails;
 
     @SuppressLint("SimpleDateFormat")
     String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -95,7 +96,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void loadInput() {
         container = findViewById(R.id.container);
-
+        textViewShowTrainingDetails = findViewById(R.id.textViewShowTrainingDetails);
         textViewExerciseName = findViewById(R.id.textViewExerciseName);
         editTextTrainingExerciseShow = findViewById(R.id.editTextTrainingExerciseShow);
         editTextTrainingExerciseShow.clearFocus();
@@ -284,6 +285,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                             Log.d(TAG, "onResponse: "+jsonObject.toString(1));
 
                             String exerciseName = "";
+                            String description = "";
 
 
                             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
@@ -291,6 +293,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(0);
                                 exerciseName = object.getString(RestApiNames.DB_EXERCISE_NAME);
+                                description = object.getString(RestApiNames.DB_EXERCISE_DESCRITION);
                             }
 
                                    String trainingName = exerciseName.substring(0,1).toUpperCase() + exerciseName.substring(1);
@@ -298,7 +301,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                             /* End */
 
                             textViewExerciseName.setText(trainingName);
-
+                            textViewShowTrainingDetails.setText(description);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -330,11 +333,13 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.buttonTrainingShowDetails:
-
-                break;
             case R.id.buttonTrainingDetailsAdd:
                 trainingGenerateNextSet();
+                break;
+            case R.id.buttonTrainingShowDetails:
+                ((Button)v.findViewById(R.id.buttonTrainingShowDetails)).setVisibility(View.INVISIBLE);
+//                (Button)v.findViewById(R.id.buttonTrainingShowDetails).setVisibility(View.INVISIBLE);
+                textViewShowTrainingDetails.setVisibility(View.VISIBLE);
                 break;
 
         }
@@ -349,7 +354,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private void trainingGenerateNextSet(){
         container.addView(inflater.trainingSetGenerator());
     }
-
 
 
     @SuppressLint("LongLogTag")
@@ -405,7 +409,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         dto.printStatus();
         return dto;
     }
-
 
     private String timeStamp(){
         if (previousActivity.equals("TrainingActivity")){

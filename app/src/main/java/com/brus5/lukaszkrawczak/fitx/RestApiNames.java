@@ -23,6 +23,7 @@ public class RestApiNames {
     /* Names of db_training */
     public static String DB_EXERCISE_ID = "id";
     public static String DB_EXERCISE_NAME = "name";
+    public static String DB_EXERCISE_DESCRITION = "description";
 
     /* Names of db_user_exercise */
     public static String DB_EXERCISE_TARGET = "target";
