@@ -209,7 +209,7 @@ public class TrainingInflater {
     }
 
     public boolean isValid() {
-        if (this.weight.contains("null") || (mapReps.size() != rowsNum) || (mapWeight.size() != rowsNum)) return false;
+        if ((mapReps.size() != rowsNum) || (mapWeight.size() != rowsNum) || this.weight == null || this.reps == null) return false;
         return valid;
     }
 

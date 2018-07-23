@@ -279,6 +279,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
                             textViewExerciseName.setText(trainingName);
                             textViewShowTrainingDetails.setText(description);
+                            trainingDone();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
