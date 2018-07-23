@@ -76,6 +76,7 @@
     <string name="s150">150</string>
     <string name="start">start</string>
     <string name="reset">reset</string>
+    <string name="pause">pause</string>
 
     <string name="training_details">Opis ćwiczenia:</string>
 
@@ -126,5 +127,9 @@
     <string name="delete">Usuń</string>
     <string name="value_per_100_g">kcal / 100g</string>
     <string name="time_stamp">timeStamp</string>
+    <string name="add">Dodaj</string>
+    <string name="type_your_ideas">Napisz co myślisz</string>
+    <string name="image">Obrazek prezentujący początkową fazę ruchu</string>
+    <string name="image1">Obrazek prezentujący końcową fazę ruchu</string>
 
 </resources>

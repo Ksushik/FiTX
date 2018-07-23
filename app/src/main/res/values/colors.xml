@@ -3,8 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#0096f0</color>
+    <color name="colorAccentLighter">#b2e0ef</color>
     <color name="color_main_activity_statusbar">#0078f0</color>
     <color name="colorBackground">#fafafa</color>
     <color name="colorButtonGreen">#79da59</color>
     <color name="colorButtonRed">#be1f1c</color>
+    <color name="colorYellow">#fbff00</color>
+    <color name="colorBlack">#000000</color>
 </resources>

@@ -1,9 +1,9 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +11,17 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.brus5.lukaszkrawczak.fitx.Converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by lukaszkrawczak on 18.03.2018.
  */
 
 public class TrainingListAdapter extends ArrayAdapter<Training> {
-
-    final private static String TAG = "TrainingListAdapter";
-
-    public static final String WEIGHT_UNITS = "kg ";
-    public static final String DIVIDER = "x";
 
     private Context mContext;
     int mResource;
@@ -35,6 +32,7 @@ public class TrainingListAdapter extends ArrayAdapter<Training> {
         mResource = resource;
     }
 
+    @SuppressLint("ViewHolder")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -47,7 +45,7 @@ public class TrainingListAdapter extends ArrayAdapter<Training> {
         String timeStamp = getItem(position).getTimeStamp();
         String target = getItem(position).getTarget();
 
-        new Training(id, done, name, restTime,weight, reps, timeStamp, target);
+        new Training(id, done, name, restTime, weight, reps, timeStamp, target);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource,parent,false);
@@ -66,10 +64,18 @@ public class TrainingListAdapter extends ArrayAdapter<Training> {
         }
 
         tvId.setText(String.valueOf(id));
-        tvName.setText(name);
-        tvRest.setText(String.valueOf(restTime));
+        NameConverter nameConverter = new NameConverter();
+        nameConverter.setName(name);
+        tvName.setText(nameConverter.getName());
         tvTimeStamp.setText(timeStamp);
         tvTarget.setText(target);
+
+        int minutes = restTime / 1000 / 60;
+        int seconds = restTime / 1000 % 60;
+
+        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
+
+        tvRest.setText(timeLeftFormatted);
 
         return convertView;
     }
