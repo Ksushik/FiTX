@@ -63,6 +63,20 @@
     <string name="not_done">Nie ćwiczono</string>
 
 
+    <!-- time in seconds -->
+    <string name="s15">15</string>
+    <string name="s30">30</string>
+    <string name="s45">45</string>
+    <string name="s60">60</string>
+    <string name="s75">75</string>
+    <string name="s90">90</string>
+    <string name="s105">105</string>
+    <string name="s120">120</string>
+    <string name="s135">135</string>
+    <string name="s150">150</string>
+    <string name="start">start</string>
+    <string name="reset">reset</string>
+
     <string name="training_details">Opis ćwiczenia:</string>
 
     <string name="show">Pokaż</string>

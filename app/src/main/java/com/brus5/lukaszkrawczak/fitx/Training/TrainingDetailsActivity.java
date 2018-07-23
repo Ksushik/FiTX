@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,11 +13,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +43,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -49,14 +53,18 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private String trainingTimeStamp, trainingTarget, previousActivity;
     private ImageView imageViewTraining, imageViewTraining2;
     private EditText editTextTrainingExerciseShow;
-    private TextView textViewExerciseName,textViewShowTrainingDetails;
+    private TextView textViewExerciseName,textViewShowTrainingDetails,textViewTime;
     private CheckBox checkBoxDone;
-    Toolbar toolbar;
+    private SeekBar seekBarTimer;
+    private CountDownTimer countDownTimer;
     @SuppressLint("SimpleDateFormat")
     String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
     TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
 
+    private long START_TIME_IN_MILLIS;
+    private long timeLeftInMillis;
+    private boolean timerRunning;
     @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         loadImages(imageViewTraining2, url2);
 
         previousActivity(previousActivity);
+        seekBarTimer();
 
     }
 
@@ -87,8 +96,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     }
 
     private void loadInput() {
+        textViewTime = findViewById(R.id.textViewTime);
+        seekBarTimer = findViewById(R.id.seekBarTimer);
         checkBoxDone = findViewById(R.id.checkBoxDone);
-        toolbar = findViewById(R.id.toolbarTrainingExerciseShow);
         container = findViewById(R.id.container);
         textViewShowTrainingDetails = findViewById(R.id.textViewShowTrainingDetails);
         textViewExerciseName = findViewById(R.id.textViewExerciseName);
@@ -318,8 +328,59 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 (v.findViewById(R.id.buttonTrainingShowDetails)).setVisibility(View.INVISIBLE);
                 textViewShowTrainingDetails.setVisibility(View.VISIBLE);
                 break;
-
+            case R.id.buttonTimer:
+                if (timerRunning){
+                    pauseTimer();
+                }
+                else {
+                    startTimer();
+                }
+                break;
+            case R.id.buttonResetTimer:
+                resetTimer();
+                break;
         }
+    }
+
+    private void resetTimer() {
+        timeLeftInMillis = START_TIME_IN_MILLIS;
+        updateCountDownText();
+    }
+
+    private void startTimer() {
+        countDownTimer = new CountDownTimer(timeLeftInMillis,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+                timerRunning = false;
+                ((Button)findViewById(R.id.buttonTimer)).setText("start");
+                ((Button)findViewById(R.id.buttonTimer)).setVisibility(View.INVISIBLE);
+                ((Button)findViewById(R.id.buttonResetTimer)).setVisibility(View.VISIBLE);
+            }
+        }.start();
+        timerRunning = true;
+        ((Button)findViewById(R.id.buttonTimer)).setText("pause");
+        ((Button)findViewById(R.id.buttonResetTimer)).setVisibility(View.INVISIBLE);
+    }
+
+    private void updateCountDownText() {
+        int minutes = (int) timeLeftInMillis / 1000 / 60;
+        int seconds = (int) timeLeftInMillis / 1000 % 60;
+
+        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
+        textViewTime.setText(timeLeftFormatted);
+    }
+
+    private void pauseTimer() {
+        countDownTimer.cancel();
+        timerRunning = false;
+        ((Button)findViewById(R.id.buttonTimer)).setText("start");
+        ((Button)findViewById(R.id.buttonResetTimer)).setVisibility(View.VISIBLE);
     }
 
     private void trainingSetsGenerator(int seriesNumber){
@@ -429,5 +490,75 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             return 0;
         }
     }
+
+    private void seekBarTimer() {
+
+        seekBarTimer.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                onProgressSetTime(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+
+    }
+
+    private void onProgressSetTime(int progress) {
+        switch (progress){
+            case 0:
+                START_TIME_IN_MILLIS = 1500;
+                textViewTime.setText(R.string.s15);
+                break;
+            case 1:
+                START_TIME_IN_MILLIS = 3000;
+                textViewTime.setText(R.string.s30);
+                break;
+            case 2:
+                START_TIME_IN_MILLIS = 4500;
+                textViewTime.setText(R.string.s45);
+                break;
+            case 3:
+                START_TIME_IN_MILLIS = 6000;
+                textViewTime.setText(R.string.s60);
+                break;
+            case 4:
+                START_TIME_IN_MILLIS = 7500;
+                textViewTime.setText(R.string.s75);
+                break;
+            case 5:
+                START_TIME_IN_MILLIS = 9000;
+                textViewTime.setText(R.string.s90);
+                break;
+            case 6:
+                START_TIME_IN_MILLIS = 10500;
+                textViewTime.setText(R.string.s105);
+                break;
+            case 7:
+                START_TIME_IN_MILLIS = 12000;
+                textViewTime.setText(R.string.s120);
+                break;
+            case 8:
+                START_TIME_IN_MILLIS = 13500;
+                textViewTime.setText(R.string.s135);
+                break;
+            case 9:
+                START_TIME_IN_MILLIS = 15000;
+                textViewTime.setText(R.string.s150);
+                break;
+        }
+        timeLeftInMillis = START_TIME_IN_MILLIS;
+    }
+
 
 }
