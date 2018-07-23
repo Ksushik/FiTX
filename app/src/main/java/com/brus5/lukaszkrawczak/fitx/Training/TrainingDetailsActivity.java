@@ -68,7 +68,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private long timeLeftInMillis;
     private boolean timerRunning;
     private ProgressBar progressBarCircle;
-
+    Timer timer = new Timer(this);
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
@@ -91,6 +91,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         seekBarTimer();
 
         previousActivity(previousActivity);
+
+
+        timer.loadTrainingDetailsActivityInputs();
 
     }
 
@@ -429,13 +432,13 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
+    public void onClick(View view) {
+        switch (view.getId()){
             case R.id.buttonTrainingDetailsAdd:
                 trainingGenerateNextSet();
                 break;
             case R.id.buttonTrainingShowDetails:
-                (v.findViewById(R.id.buttonTrainingShowDetails)).setVisibility(View.INVISIBLE);
+                (view.findViewById(R.id.buttonTrainingShowDetails)).setVisibility(View.INVISIBLE);
                 textViewShowTrainingDetails.setVisibility(View.VISIBLE);
                 break;
             case R.id.buttonStartStopTimer:
@@ -456,6 +459,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         timeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
         buttonStartStopTimer.setVisibility(View.VISIBLE);
+        setProgressBarValues();
     }
 
     private void startTimer() {
