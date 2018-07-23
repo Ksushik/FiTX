@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Training extends ArrayList{
     private int id;
+    private int done;
     private String name;
     private int restTime;
     private String weight;
@@ -15,8 +16,9 @@ public class Training extends ArrayList{
     private String timeStamp;
     private String target;
 
-    public Training(int id, String name, int restTime, String weight, String reps, String timeStamp, String target) {
+    public Training(int id, int done, String name, int restTime, String weight, String reps, String timeStamp, String target) {
         this.id = id;
+        this.done = done;
         this.name = name;
         this.restTime = restTime;
         this.weight = weight;
@@ -27,6 +29,10 @@ public class Training extends ArrayList{
 
     public int getId() {
         return id;
+    }
+
+    public int getDone() {
+        return done;
     }
 
     public String getName() {

@@ -59,6 +59,8 @@
     <string name="no_empty">Nie może być puste</string>
 
 
+    <string name="done">Ćwiczono</string>
+    <string name="not_done">Nie ćwiczono</string>
 
 
     <string name="training_details">Opis ćwiczenia:</string>

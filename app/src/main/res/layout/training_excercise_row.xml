@@ -23,8 +23,8 @@
         android:layout_alignParentStart="true"
         android:text="@string/button_training_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/trainingExcerciseCheckBox"
+        app:layout_constraintStart_toEndOf="@+id/trainingExcerciseCheckBox" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -100,6 +100,16 @@
         android:text="@string/time_stamp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/trainingExcerciseCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:duplicateParentState="false"
+        android:focusable="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

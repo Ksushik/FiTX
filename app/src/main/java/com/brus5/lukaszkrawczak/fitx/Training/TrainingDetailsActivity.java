@@ -1,7 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -11,10 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,10 +27,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
+import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
-import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -51,7 +50,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private ImageView imageViewTraining, imageViewTraining2;
     private EditText editTextTrainingExerciseShow;
     private TextView textViewExerciseName,textViewShowTrainingDetails;
-
+    private CheckBox checkBoxDone;
+    Toolbar toolbar;
     @SuppressLint("SimpleDateFormat")
     String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
@@ -70,11 +70,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         String url = "http://justfitx.xyz/images/exercises/" + trainingTarget + "/" + trainingID + "_1" + ".jpg";
         String url2 = "http://justfitx.xyz/images/exercises/" + trainingTarget + "/" + trainingID + "_2" + ".jpg";
 
-        Log.i(TAG, "onCreate: " + url);
-        Log.i(TAG, "onCreate: " + url2);
-
-        loadImageFromUrl(url);
-        loadImageFromUrl2(url2);
+        loadImages(imageViewTraining, url);
+        loadImages(imageViewTraining2, url2);
 
         previousActivity(previousActivity);
 
@@ -82,19 +79,16 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void previousActivity(String previousActivity) {
         if (previousActivity.equals("TrainingActivity")){
-            asynchTask(TrainingDetailsActivity.this);
+            asynchTaskLoadUserTraining(TrainingDetailsActivity.this);
         }
         else if (previousActivity.equals("TrainingListActivity")){
-            asynchTaskAddNewTraining(TrainingDetailsActivity.this);
-
-
-
+            asynchTaskLoadTrainingInfo(TrainingDetailsActivity.this);
         }
     }
 
-
-
     private void loadInput() {
+        checkBoxDone = findViewById(R.id.checkBoxDone);
+        toolbar = findViewById(R.id.toolbarTrainingExerciseShow);
         container = findViewById(R.id.container);
         textViewShowTrainingDetails = findViewById(R.id.textViewShowTrainingDetails);
         textViewExerciseName = findViewById(R.id.textViewExerciseName);
@@ -119,28 +113,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         Log.e(TAG, "onCreate: "+previousActivity);
     }
 
-    private void loadImageFromUrl(String url) {
+    private void loadImages(ImageView imageView, String url) {
         Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null)
                 .error(R.mipmap.ic_launcher_round)
-                .into(imageViewTraining, new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {
-//                        progressBarDietProductShowActivity.setVisibility(View.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onError() {
-//                        progressBarDietProductShowActivity.setVisibility(View.VISIBLE);
-                        Configuration cfg = new Configuration();
-                        cfg.showToastError(TrainingDetailsActivity.this);
-                    }
-                });
-    }
-
-    private void loadImageFromUrl2(String url) {
-        Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null)
-                .error(R.mipmap.ic_launcher_round)
-                .into(imageViewTraining2, new com.squareup.picasso.Callback() {
+                .into(imageView, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
 //                        progressBarDietProductShowActivity.setVisibility(View.INVISIBLE);
@@ -182,7 +158,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void asynchTask(final Context ctx){
+    private void asynchTaskLoadUserTraining(final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
                 new Response.Listener<String>()
                 {
@@ -197,7 +173,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                             Log.d(TAG, "onResponse: "+jsonObject.toString(1));
 
                             int trainingID;
-                            int done;
+                            int done = 0;
                             int rest;
                             String reps = "";
                             String weight = "";
@@ -222,6 +198,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                             if (trainings_info_array.length() > 0) {
                                 for (int i = 0; i < trainings_info_array.length(); i++) {
                                     JSONObject object = trainings_info_array.getJSONObject(i);
+                                    done = object.getInt(RestApiNames.DB_EXERCISE_DONE);
                                     reps = object.getString(RestApiNames.DB_EXERCISE_REPS);
                                     weight = object.getString(RestApiNames.DB_EXERCISE_WEIGHT);
                                     notepad = object.getString(RestApiNames.DB_EXERCISE_NOTEPAD);
@@ -239,7 +216,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                             /* End */
 
                             textViewExerciseName.setText(trainingName);
-
+                            trainingDone(done);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -270,7 +247,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         queue.add(strRequest);
     }
 
-    private void asynchTaskAddNewTraining(final Context ctx){
+    private void asynchTaskLoadTrainingInfo(final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_NEW_TRAINING,
                 new Response.Listener<String>()
                 {
@@ -337,8 +314,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 trainingGenerateNextSet();
                 break;
             case R.id.buttonTrainingShowDetails:
-                ((Button)v.findViewById(R.id.buttonTrainingShowDetails)).setVisibility(View.INVISIBLE);
-//                (Button)v.findViewById(R.id.buttonTrainingShowDetails).setVisibility(View.INVISIBLE);
+                (v.findViewById(R.id.buttonTrainingShowDetails)).setVisibility(View.INVISIBLE);
                 textViewShowTrainingDetails.setVisibility(View.VISIBLE);
                 break;
 
@@ -354,7 +330,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private void trainingGenerateNextSet(){
         container.addView(inflater.trainingSetGenerator());
     }
-
 
     @SuppressLint("LongLogTag")
     @Override
@@ -390,7 +365,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         Log.i(TAG, "onClick: " + "\nisValid: " + inflater.isValid() + inflater.printResult());
         TrainingDTO dto = new TrainingDTO();
         dto.trainingID = String.valueOf(trainingID);
-        dto.trainingDone = "0";
+        dto.trainingDone = String.valueOf(trainingDone());
         dto.trainingRestTime = "90";
         dto.trainingReps = inflater.getReps();
         dto.trainingWeight = inflater.getWeight();
@@ -416,6 +391,41 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         }
         else {
             return timeStamp;
+        }
+    }
+
+    private int trainingDone(int i){
+        trainingDone();
+        if (i == 0) {
+            checkBoxDone.setChecked(false);
+            checkBoxDone.setText(R.string.not_done);
+            return 0;
+        }
+        else {
+            checkBoxDone.setChecked(true);
+            checkBoxDone.setText(R.string.done);
+            return 1;
+        }
+    }
+
+    private int trainingDone(){
+        checkBoxDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    checkBoxDone.setText(R.string.done);
+                }
+                else {
+                    checkBoxDone.setText(R.string.not_done);
+                }
+            }
+        });
+
+        if (checkBoxDone.isChecked()) {
+            return 1;
+        }
+        else {
+            return 0;
         }
     }
 

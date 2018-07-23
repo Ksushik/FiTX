@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
@@ -38,6 +39,7 @@ public class TrainingListAdapter extends ArrayAdapter<Training> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         int id = getItem(position).getId();
+        int done = getItem(position).getDone();
         String name = getItem(position).getName();
         int restTime = getItem(position).getRestTime();
         String weight = getItem(position).getWeight();
@@ -45,16 +47,23 @@ public class TrainingListAdapter extends ArrayAdapter<Training> {
         String timeStamp = getItem(position).getTimeStamp();
         String target = getItem(position).getTarget();
 
-        new Training(id, name, restTime,weight, reps, timeStamp, target);
+        new Training(id, done, name, restTime,weight, reps, timeStamp, target);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource,parent,false);
 
+        CheckBox cbDone = convertView.findViewById(R.id.trainingExcerciseCheckBox);
         TextView tvId = convertView.findViewById(R.id.trainingExcerciseID);
         TextView tvName = convertView.findViewById(R.id.trainingExcerciseTitle);
         TextView tvRest = convertView.findViewById(R.id.trainingExcerciseRestTime);
         TextView tvTimeStamp = convertView.findViewById(R.id.trainingTimeStamp);
         TextView tvTarget = convertView.findViewById(R.id.trainingTarget);
+
+        if (done == 1){
+            cbDone.setChecked(true);
+        } else {
+            cbDone.setChecked(false);
+        }
 
         tvId.setText(String.valueOf(id));
         tvName.setText(name);

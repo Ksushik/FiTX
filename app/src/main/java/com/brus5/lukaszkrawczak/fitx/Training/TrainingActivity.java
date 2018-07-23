@@ -128,6 +128,7 @@ public class TrainingActivity extends AppCompatActivity {
                             JSONArray server_response = jsonObject.getJSONArray("server_response");
 
                             int exerciseRestTime = 0;
+                            int exerciseDone = 0;
                             String exerciseReps = "";
                             String exerciseWeight = "";
                             int excerciseId = 0;
@@ -139,6 +140,7 @@ public class TrainingActivity extends AppCompatActivity {
                                 for (int i = 0; i < trainings_info.length(); i++) {
                                     JSONObject trainings_infoObj = trainings_info.getJSONObject(i);
                                     exerciseRestTime = trainings_infoObj.getInt(RestApiNames.DB_EXERCISE_REST_TIME);
+                                    exerciseDone = trainings_infoObj.getInt(RestApiNames.DB_EXERCISE_DONE);
                                     exerciseReps = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_REPS);
                                     exerciseWeight = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_WEIGHT);
                                     excerciseDate = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_DATE);
@@ -149,7 +151,7 @@ public class TrainingActivity extends AppCompatActivity {
                                     exerciseName = server_responseObj.getString(RestApiNames.DB_EXERCISE_NAME);
                                     exerciseTarget = server_responseObj.getString(RestApiNames.DB_EXERCISE_TARGET);
 
-                                    Training training = new Training(excerciseId,exerciseName,exerciseRestTime,exerciseWeight,exerciseReps, excerciseDate, exerciseTarget);
+                                    Training training = new Training(excerciseId,exerciseDone,exerciseName,exerciseRestTime,exerciseWeight,exerciseReps, excerciseDate, exerciseTarget);
                                     trainingArrayList.add(training);
                                 }
                             }

@@ -3,9 +3,6 @@ package com.brus5.lukaszkrawczak.fitx;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.Toast;
-
-import com.brus5.lukaszkrawczak.fitx.Training.TrainingDetailsActivity;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -64,7 +61,8 @@ public class Configuration {
         return startDate;
     }
 
-    public void showToastError(Context ctx) {
-        Toast.makeText(ctx, R.string.error, Toast.LENGTH_SHORT).show();
+    public void showToastError(Context context) {
+        Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
     }
+
 }
