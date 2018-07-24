@@ -2,6 +2,8 @@ package com.brus5.lukaszkrawczak.fitx.Converter;
 
 import android.util.Log;
 
+import java.util.Locale;
+
 abstract class Converter {
     private static final String TAG = "Converter";
 
@@ -41,16 +43,11 @@ abstract class Converter {
 
     private void setProductGrams(double productWeight) {
         double mProductProteins = productWeight*(this.weight*0.01);
-        this.covertedWeight = String.format("%.1f",mProductProteins).replace(",",".");
+        this.covertedWeight = String.format(Locale.getDefault(),"%.1f",mProductProteins).replace(",",".");
     }
 
     public String getConvertedWeight(){
         return this.covertedWeight;
     }
-
-//    public static String convertToDecimals(){
-//
-//    }
-
 
 }

@@ -1,15 +1,12 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
 import android.app.Activity;
-import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -17,7 +14,6 @@ import android.widget.TextView;
 import com.brus5.lukaszkrawczak.fitx.R;
 
 import java.util.Locale;
-import java.util.zip.Inflater;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 

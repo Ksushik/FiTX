@@ -57,6 +57,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
+
     @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,7 +181,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private void previousActivity(String previousActivity) {
         if (previousActivity.equals("TrainingActivity")){
             asynchTaskLoadUserTraining(TrainingDetailsActivity.this);
-
+            asynchTaskLoadTrainingInfo(TrainingDetailsActivity.this);
         }
         else if (previousActivity.equals("TrainingListActivity")){
             asynchTaskLoadTrainingInfo(TrainingDetailsActivity.this);
@@ -385,7 +386,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                                 description = object.getString(RestApiNames.DB_EXERCISE_DESCRITION);
                             }
 
-                                   String trainingName = exerciseName.substring(0,1).toUpperCase() + exerciseName.substring(1);
+                            String trainingName = exerciseName.substring(0,1).toUpperCase() + exerciseName.substring(1);
                             Log.i(TAG, "trainingName: " + trainingName);
                             /* End */
 

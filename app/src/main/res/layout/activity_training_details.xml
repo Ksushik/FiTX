@@ -150,7 +150,7 @@
             android:text="@string/add"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seekBarTimer" />
+            app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
 
         <LinearLayout
@@ -178,7 +178,7 @@
             android:layout_marginTop="8dp"
 
             android:text="@string/training_details"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -197,6 +197,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewExerciseName" />
 
+
         <SeekBar
             android:id="@+id/seekBarTimer"
             style="@android:style/Widget.DeviceDefault.Light.SeekBar"
@@ -206,7 +207,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="32dp"
             android:max="10"
             android:progress="1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -215,34 +216,42 @@
 
         <Button
             android:id="@+id/buttonStartStopTimer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/roundButton"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
+            android:background="@drawable/start_button"
             android:onClick="onClick"
             android:text="@string/start"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTime"
+            app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintStart_toEndOf="@+id/textViewTime"
             app:layout_constraintTop_toTopOf="@+id/textViewTime" />
 
         <Button
             android:id="@+id/buttonResetTimer"
+            style="@android:style/Widget.DeviceDefault.Light.Button.Borderless.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="16dp"
             android:onClick="onClick"
             android:text="@string/reset"
-            app:layout_constraintBottom_toBottomOf="@+id/buttonStartStopTimer"
-            app:layout_constraintStart_toEndOf="@+id/buttonStartStopTimer"
-            app:layout_constraintTop_toTopOf="@+id/buttonStartStopTimer" />
+            android:textColor="@color/color_main_activity_statusbar"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/buttonStartStopTimer"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineTrainingDetails2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/buttonStartStopTimer" />
 
 
         <ProgressBar
             android:id="@+id/progressBarCircle"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerInParent="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="4dp"
             android:background="@drawable/drawable_circle_light_blue"
             android:indeterminate="false"
             android:max="100"
@@ -258,18 +267,42 @@
             android:id="@+id/textViewTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="128dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/time_example"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.36"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2"
+            app:layout_constraintVertical_chainStyle="spread" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/s15"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textSize="24sp"
+            android:layout_marginTop="16dp"
+            android:background="@color/light_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxDone"
-            app:layout_constraintVertical_chainStyle="spread" />
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxDone" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBarTimer" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

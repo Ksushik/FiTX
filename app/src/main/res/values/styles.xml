@@ -33,6 +33,22 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    <style name="buttonRowDelete">
+        <item name="android:background">@color/colorButtonRed</item>
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:text">@string/X</item>
+        <item name="android:textColor">#FFF</item>
+    </style>
+
+    <style name="roundButton">
+        <item name="android:layout_width">64dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#FFF</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

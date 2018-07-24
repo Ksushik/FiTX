@@ -46,4 +46,5 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.19'
     compile 'com.wdullaer:swipeactionadapter:2.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+
 }
