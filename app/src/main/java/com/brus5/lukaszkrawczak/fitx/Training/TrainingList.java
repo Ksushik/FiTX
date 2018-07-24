@@ -1,50 +1,68 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
-public class TrainingList {
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
+
+import com.brus5.lukaszkrawczak.fitx.R;
+
+public class TrainingList extends View{
+    private static final String TAG = "TrainingList";
+
     private int resId;
-    public String name;
+    Context mContext;
+    @SuppressLint("ResourceType")
+    private String chest;
+
+    public TrainingList(Context context) {
+        super(context);
+        this.mContext = context;
+        chest = this.mContext.getString(R.string.body_chest);
+    }
 
     public void setResId(int resId) {
         this.resId = resId;
     }
 
     String getResourceName(){
+        Log.i(TAG, "getResourceName: " + chest);
         String excerciseName = "";
-        switch (this.resId) {
-            case 2131623973:
+        switch (resId) {
+            case R.id.textViewButtonChest:
                 excerciseName = "chest";
                 break;
-            case 2131623969:
+            case R.id.textViewButtonAbs:
                 excerciseName = "abs";
                 break;
-            case 2131623979:
+            case R.id.textViewButtonQuads:
                 excerciseName = "quads";
                 break;
-            case 2131623980:
+            case R.id.textViewButtonShoulders:
                 excerciseName = "shoulders";
                 break;
-            case 2131623981:
+            case R.id.textViewButtonTraps:
                 excerciseName = "traps";
                 break;
-            case 2131623978:
+            case R.id.textViewButtonLats:
                 excerciseName = "lats";
                 break;
-            case 2131623976:
+            case R.id.textViewButtonGlutes:
                 excerciseName = "glutes";
                 break;
-            case 2131623982:
+            case R.id.textViewButtonTriceps:
                 excerciseName = "triceps";
                 break;
-            case 2131623977:
+            case R.id.textViewButtonHamstrings:
                 excerciseName = "hamstrings";
                 break;
-            case 2131623972:
+            case R.id.textViewButtonCalves:
                 excerciseName = "calves";
                 break;
-            case 2131623971:
+            case R.id.textViewButtonBiceps:
                 excerciseName = "biceps";
                 break;
-            case 2131623974:
+            case R.id.textViewButtonForearms:
                 excerciseName = "forearms";
                 break;
         }

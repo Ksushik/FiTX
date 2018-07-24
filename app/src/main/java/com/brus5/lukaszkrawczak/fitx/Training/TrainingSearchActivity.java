@@ -136,40 +136,40 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.textViewButtonChest:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_chest);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonChest);
                 break;
             case R.id.textViewButtonAbs:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_abs);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonAbs);
                 break;
             case R.id.textViewButtonQuads:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_quads);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonQuads);
                 break;
             case R.id.textViewButtonShoulders:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_shoulders);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonShoulders);
                 break;
             case R.id.textViewButtonBiceps:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_biceps);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonBiceps);
                 break;
             case R.id.textViewButtonForearms:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_forearms);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonForearms);
                 break;
             case R.id.textViewButtonLats:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_lats);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonLats);
                 break;
             case R.id.textViewButtonTraps:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_trapss);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonTraps);
                 break;
             case R.id.textViewButtonGlutes:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_glutes);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonGlutes);
                 break;
             case R.id.textViewButtonTriceps:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_triceps);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonTriceps);
                 break;
             case R.id.textViewButtonHamstrings:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_hamstrings);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonHamstrings);
                 break;
             case R.id.textViewButtonCalves:
-                runNextActivity(TrainingSearchActivity.this, R.string.body_calves);
+                runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonCalves);
                 break;
         }
     }

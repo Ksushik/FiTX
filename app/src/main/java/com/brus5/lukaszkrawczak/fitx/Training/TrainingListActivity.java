@@ -58,7 +58,7 @@ public class TrainingListActivity extends AppCompatActivity {
         int mExercise = intent.getIntExtra("exercise",-1);
         Log.e(TAG, "onCreate: "+mExercise);
 
-        TrainingList trainingList = new TrainingList();
+        TrainingList trainingList = new TrainingList(TrainingListActivity.this);
         trainingList.setResId(mExercise);
         trainingTarget = trainingList.getResourceName();
         Log.e(TAG, "getIntentFromPreviousActiity: " + trainingTarget);
