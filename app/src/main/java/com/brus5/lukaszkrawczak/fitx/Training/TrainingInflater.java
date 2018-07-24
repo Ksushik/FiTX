@@ -217,4 +217,9 @@ public class TrainingInflater {
         return "\n"+"this.reps: " + this.reps + " mapWeight: " + mapReps + " size: " + mapReps.size() + "\n"
                 + "this.weight: " + this.weight  + " mapWeight: " + mapWeight + " size: " + mapWeight.size();
     }
+
+    public int getSetNumber(){
+        return mapReps.size();
+    }
+
 }

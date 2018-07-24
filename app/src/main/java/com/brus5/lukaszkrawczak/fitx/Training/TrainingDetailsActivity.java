@@ -3,12 +3,8 @@ package com.brus5.lukaszkrawczak.fitx.Training;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,14 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +41,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -58,17 +50,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private String trainingTimeStamp, trainingTarget, previousActivity;
     private ImageView imageViewTraining, imageViewTraining2;
     private EditText editTextTrainingExerciseShow;
-    private TextView textViewExerciseName,textViewShowTrainingDetails,textViewTime;
+    private TextView textViewExerciseName,textViewShowTrainingDetails;
     private CheckBox checkBoxDone;
-    private SeekBar seekBarTimer;
-    private CountDownTimer countDownTimer;
-    private Button buttonStartStopTimer, buttonResetTimer;
     private TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
-    private long START_TIME_IN_MILLIS;
-    private long timeLeftInMillis;
-    private boolean timerRunning;
-    private ProgressBar progressBarCircle;
-    Timer timer = new Timer(this);
+    private Timer timer;
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
@@ -88,12 +73,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         loadImages(imageViewTraining, url);
         loadImages(imageViewTraining2, url2);
 
-        seekBarTimer();
+        timer = new Timer(this);
+
+        timer.seekBarTimer();
 
         previousActivity(previousActivity);
-
-
-        timer.loadTrainingDetailsActivityInputs();
 
     }
 
@@ -131,12 +115,12 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         Log.i(TAG, "onClick: " + "\nisValid: " + inflater.isValid() + inflater.printResult());
         TrainingDTO dto = new TrainingDTO();
         dto.trainingID = String.valueOf(trainingID);
-        dto.trainingDone = String.valueOf(trainingDone());
-        dto.trainingRestTime = String.valueOf(START_TIME_IN_MILLIS);
+        dto.trainingDone = String.valueOf(setOnCheckedChangeListener());
+        dto.trainingRestTime = String.valueOf(timer.START_TIME_IN_MILLIS);
         dto.trainingReps = inflater.getReps();
         dto.trainingWeight = inflater.getWeight();
         dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
-        dto.trainingTimeStamp = timeStamp();
+        dto.trainingTimeStamp = setTimeStamp();
         dto.trainingNotepad = editTextTrainingExerciseShow.getText().toString();
         dto.printStatus();
         return dto;
@@ -146,12 +130,12 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         TrainingDTO dto = new TrainingDTO();
         dto.trainingID = String.valueOf(trainingID);
         dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
-        dto.trainingTimeStamp = timeStamp();
+        dto.trainingTimeStamp = setTimeStamp();
         dto.printStatus();
         return dto;
     }
 
-    private String timeStamp(){
+    private String setTimeStamp(){
         if (previousActivity.equals("TrainingActivity")){
             return trainingTimeStamp;
         }
@@ -160,8 +144,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private void trainingDone(int i){
-        trainingDone();
+    private void onTrainingChangerListener(int i){
+        setOnCheckedChangeListener();
         if (i == 0) {
             checkBoxDone.setChecked(false);
             checkBoxDone.setText(R.string.not_done);
@@ -172,7 +156,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private int trainingDone(){
+    private int setOnCheckedChangeListener(){
         checkBoxDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -200,13 +184,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         }
         else if (previousActivity.equals("TrainingListActivity")){
             asynchTaskLoadTrainingInfo(TrainingDetailsActivity.this);
-            seekBarTimer.setProgress(5);
+            timer.seekBarTimer.setProgress(5);
         }
     }
 
     private void loadInput() {
-        textViewTime = findViewById(R.id.textViewTime);
-        seekBarTimer = findViewById(R.id.seekBarTimer);
         checkBoxDone = findViewById(R.id.checkBoxDone);
         container = findViewById(R.id.container);
         textViewShowTrainingDetails = findViewById(R.id.textViewShowTrainingDetails);
@@ -216,9 +198,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         editTextTrainingExerciseShow.didTouchFocusSelect();
         imageViewTraining = findViewById(R.id.imageViewTraining);
         imageViewTraining2 = findViewById(R.id.imageViewTraining1);
-        buttonStartStopTimer = findViewById(R.id.buttonStartStopTimer);
-        buttonResetTimer = findViewById(R.id.buttonResetTimer);
-        progressBarCircle = findViewById(R.id.progressBarCircle);
     }
 
     @SuppressLint("LongLogTag")
@@ -280,6 +259,16 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         return super.onCreateOptionsMenu(menu);
     }
 
+    private void trainingSetsGenerator(int seriesNumber){
+        for (int i = 0; i < seriesNumber; i++) {
+            container.addView(inflater.trainingSetGenerator());
+        }
+    }
+
+    private void trainingGenerateNextSet(){
+        container.addView(inflater.trainingSetGenerator());
+    }
+
     private void asynchTaskLoadUserTraining(final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
                 new Response.Listener<String>()
@@ -337,9 +326,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                             /* End */
 
                             textViewExerciseName.setText(name.getName());
-                            trainingDone(done);
+                            onTrainingChangerListener(done);
                             editTextTrainingExerciseShow.setText(notepad);
-                            convertSetTime(Integer.valueOf(rest));
+                            timer.convertSetTime(Integer.valueOf(rest));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -387,7 +377,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                             String exerciseName = "";
                             String description = "";
 
-
                             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -402,7 +391,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
                             textViewExerciseName.setText(trainingName);
                             textViewShowTrainingDetails.setText(description);
-                            trainingDone();
+                            setOnCheckedChangeListener();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -442,172 +431,17 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 textViewShowTrainingDetails.setVisibility(View.VISIBLE);
                 break;
             case R.id.buttonStartStopTimer:
-                if (timerRunning){
-                    pauseTimer();
+                if (timer.timerRunning){
+                    timer.pauseTimer();
                 }
                 else {
-                    startTimer();
+                    timer.startTimer();
                 }
                 break;
             case R.id.buttonResetTimer:
-                resetTimer();
+                timer.resetTimer();
                 break;
         }
-    }
-
-    private void resetTimer() {
-        timeLeftInMillis = START_TIME_IN_MILLIS;
-        updateCountDownText();
-        buttonStartStopTimer.setVisibility(View.VISIBLE);
-        setProgressBarValues();
-    }
-
-    private void startTimer() {
-        countDownTimer = new CountDownTimer(timeLeftInMillis,1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-
-                progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
-            }
-
-            @Override
-            public void onFinish() {
-                timerRunning = false;
-                buttonStartStopTimer.setText(R.string.start);
-                buttonStartStopTimer.setVisibility(View.INVISIBLE);
-                buttonResetTimer.setVisibility(View.VISIBLE);
-                setProgressBarValues();
-                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
-                ringtone.play();
-
-            }
-        }.start();
-        timerRunning = true;
-        buttonResetTimer.setVisibility(View.INVISIBLE);
-        buttonStartStopTimer.setText(R.string.pause);
-    }
-
-    private void updateCountDownText() {
-        int minutes = (int) timeLeftInMillis / 1000 / 60;
-        int seconds = (int) timeLeftInMillis / 1000 % 60;
-
-        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
-        textViewTime.setText(timeLeftFormatted);
-    }
-
-    private void pauseTimer() {
-        countDownTimer.cancel();
-        timerRunning = false;
-        buttonStartStopTimer.setText(R.string.start);
-        buttonResetTimer.setVisibility(View.VISIBLE);
-    }
-
-    private void trainingSetsGenerator(int seriesNumber){
-        for (int i = 0; i < seriesNumber; i++) {
-            container.addView(inflater.trainingSetGenerator());
-        }
-    }
-
-    private void trainingGenerateNextSet(){
-        container.addView(inflater.trainingSetGenerator());
-    }
-
-    private void seekBarTimer() {
-        seekBarTimer.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                onProgressSetTime(progress);
-                updateCountDownText();
-                resetTimer();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-    }
-
-    private void onProgressSetTime(int progress) {
-        switch (progress){
-            case 0:
-                START_TIME_IN_MILLIS = 15000;
-                break;
-            case 1:
-                START_TIME_IN_MILLIS = 30000;
-                break;
-            case 2:
-                START_TIME_IN_MILLIS = 45000;
-                break;
-            case 3:
-                START_TIME_IN_MILLIS = 60000;
-                break;
-            case 4:
-                START_TIME_IN_MILLIS = 75000;
-                break;
-            case 5:
-                START_TIME_IN_MILLIS = 90000;
-                break;
-            case 6:
-                START_TIME_IN_MILLIS = 105000;
-                break;
-            case 7:
-                START_TIME_IN_MILLIS = 120000;
-                break;
-            case 8:
-                START_TIME_IN_MILLIS = 135000;
-                break;
-            case 9:
-                START_TIME_IN_MILLIS = 150000;
-                break;
-        }
-    }
-
-    private void convertSetTime(int timeInMillis){
-        switch (timeInMillis){
-            case 15000:
-                seekBarTimer.setProgress(0);
-                break;
-            case 30000:
-                seekBarTimer.setProgress(1);
-                break;
-            case 45000:
-                seekBarTimer.setProgress(2);
-                break;
-            case 60000:
-                seekBarTimer.setProgress(3);
-                break;
-            case 75000:
-                seekBarTimer.setProgress(4);
-                break;
-            case 90000:
-                seekBarTimer.setProgress(5);
-                break;
-            case 105000:
-                seekBarTimer.setProgress(6);
-                break;
-            case 120000:
-                seekBarTimer.setProgress(7);
-                break;
-            case 135000:
-                seekBarTimer.setProgress(8);
-                break;
-            case 150000:
-                seekBarTimer.setProgress(9);
-                break;
-        }
-    }
-    private void setProgressBarValues() {
-        progressBarCircle.setMax((int) START_TIME_IN_MILLIS / 1000);
-        progressBarCircle.setProgress((int) START_TIME_IN_MILLIS / 1000);
     }
 
 }

@@ -25,7 +25,6 @@ import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
-import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -57,7 +56,7 @@ public class TrainingActivity extends AppCompatActivity {
 
     ArrayList<Training> trainingArrayList = new ArrayList<>();
     ListView listViewTrainingActivity;
-    TrainingListAdapter trainingListAdapter;
+    TrainingAdapter trainingAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,8 +154,8 @@ public class TrainingActivity extends AppCompatActivity {
                                     trainingArrayList.add(training);
                                 }
                             }
-                            trainingListAdapter = new TrainingListAdapter(TrainingActivity.this,R.layout.training_excercise_row,trainingArrayList);
-                            listViewTrainingActivity.setAdapter(trainingListAdapter);
+                            trainingAdapter = new TrainingAdapter(TrainingActivity.this,R.layout.training_excercise_row,trainingArrayList);
+                            listViewTrainingActivity.setAdapter(trainingAdapter);
                             listViewTrainingActivity.invalidate();
 
 
@@ -238,7 +237,7 @@ public class TrainingActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         // this backendcall
-        trainingListAdapter.clear();
+        trainingAdapter.clear();
         TrainingDTO dto = new TrainingDTO();
         dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
         dto.trainingDate = dateInside;
