@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -220,6 +221,28 @@ public class TrainingInflater {
 
     public int getSetNumber(){
         return mapReps.size();
+    }
+
+    public int countLiftedWeight(){
+        int rep;
+        int weight;
+        int lifted = 0;
+
+        int[] table = new int[mapReps.size()];
+
+        for (int i = 0; i < mapReps.size(); i++) {
+            rep = Integer.valueOf(mapReps.get(i));
+            weight = Integer.valueOf(mapWeight.get(i));
+
+            lifted = rep * weight;
+            table[i] = lifted;
+        }
+
+        lifted = 0;
+        for (int i: table) {
+            lifted += i;
+        }
+        return lifted;
     }
 
 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import java.util.Locale;
  */
 
 public class TrainingAdapter extends ArrayAdapter<Training> {
-    private static final String TAG = "TrainingAdapter";
     private Context mContext;
     int mResource;
 
@@ -58,6 +56,7 @@ public class TrainingAdapter extends ArrayAdapter<Training> {
         TextView tvTimeStamp = convertView.findViewById(R.id.trainingTimeStamp);
         TextView tvTarget = convertView.findViewById(R.id.trainingTarget);
         TextView tvSeriesNum = convertView.findViewById(R.id.textViewSeriesNum);
+        TextView tvLifted = convertView.findViewById(R.id.textViewSumLiftedWeight);
 
         if (done == 1){
             cbDone.setChecked(true);
@@ -79,10 +78,13 @@ public class TrainingAdapter extends ArrayAdapter<Training> {
 
         tvRest.setText(timeLeftFormatted);
 
-
         TrainingInflater trainingInflater = new TrainingInflater(mContext);
         trainingInflater.setReps(reps);
+        trainingInflater.setWeight(weight);
+
         tvSeriesNum.setText(String.valueOf(trainingInflater.getSetNumber()));
+
+        tvLifted.setText(String.valueOf(trainingInflater.countLiftedWeight()));
 
         return convertView;
     }

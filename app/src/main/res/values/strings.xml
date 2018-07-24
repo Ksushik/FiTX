@@ -38,7 +38,7 @@
     <string name="body_calves">Łydki</string>
 
     <string name="reps_short">Powt.</string>
-    <string name="weight_short">Kg</string>
+    <string name="weight_short">kg</string>
 
 
     <string name="rotate">Obrót</string>
@@ -131,5 +131,6 @@
     <string name="type_your_ideas">Napisz co myślisz</string>
     <string name="image">Obrazek prezentujący początkową fazę ruchu</string>
     <string name="image1">Obrazek prezentujący końcową fazę ruchu</string>
+    <string name="lifted">Podniesiono</string>
 
 </resources>

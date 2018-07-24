@@ -131,6 +131,17 @@
             app:layout_constraintStart_toEndOf="@+id/trainingExcerciseRestTime"
             app:layout_constraintTop_toTopOf="@+id/trainingExcerciseRestTime" />
 
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="2dp"
+            android:layout_height="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="@+id/trainingExcerciseRestTime"
+            app:layout_constraintStart_toEndOf="@+id/textViewSeriesNum"
+            app:layout_constraintTop_toTopOf="@+id/trainingExcerciseRestTime" />
+
         <TextView
             android:id="@+id/textViewSeriesNum"
             android:layout_width="wrap_content"
@@ -140,6 +151,36 @@
             android:text="@string/s15"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
             app:layout_constraintStart_toEndOf="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/lifted"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textViewSeriesNum"
+            app:layout_constraintStart_toEndOf="@+id/divider3" />
+
+        <TextView
+            android:id="@+id/textViewSumLiftedWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:text="@string/s120"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
+            app:layout_constraintStart_toEndOf="@+id/textView8" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
+            android:text="@string/weight_short"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textViewSumLiftedWeight"
+            app:layout_constraintStart_toEndOf="@+id/textViewSumLiftedWeight" />
 
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>
