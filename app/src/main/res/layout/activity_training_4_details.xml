@@ -61,7 +61,7 @@
         <EditText
             android:id="@+id/editTextTrainingExerciseShow"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -74,6 +74,7 @@
             android:hint="@string/type_your_ideas"
             android:inputType="textMultiLine"
             android:selectAllOnFocus="false"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -110,17 +111,18 @@
 
         <Button
             android:id="@+id/buttonTrainingShowDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/roundButtonWithIcon"
+            android:layout_width="80dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:background="@drawable/button_confirm"
+            android:drawableStart="@drawable/ic_read_more_white_12dp"
             android:onClick="onClick"
             android:text="@string/show"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
@@ -137,18 +139,17 @@
 
         <Button
             android:id="@+id/buttonTrainingDetailsAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/roundButtonWithIcon"
+            android:layout_width="76dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/button_confirm"
+
+            android:drawableStart="@drawable/ic_add_white_12dp"
             android:onClick="onClick"
-            android:text="@string/add"
+            android:text="@string/set"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
@@ -161,27 +162,10 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttonTrainingDetailsAdd"></LinearLayout>
-
-        <TextView
-            android:id="@+id/textViewShowTrainingDetails"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-
-            android:text="@string/training_details"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
         <CheckBox
             android:id="@+id/checkBoxDone"
@@ -219,9 +203,10 @@
             style="@style/roundButton"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:background="@drawable/button_start"
+            android:background="@drawable/button_confirm"
             android:onClick="onClick"
             android:text="@string/start"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/textViewTime"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintStart_toEndOf="@+id/textViewTime"
@@ -232,26 +217,27 @@
             style="@android:style/Widget.DeviceDefault.Light.Button.Borderless.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:onClick="onClick"
             android:text="@string/reset"
             android:textColor="@color/colorPrimary"
-            android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/buttonStartStopTimer"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineTrainingDetails2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/buttonStartStopTimer" />
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonStartPause"
+            app:layout_constraintStart_toEndOf="@+id/floatingActionButtonStartPause"
+            app:layout_constraintTop_toTopOf="@+id/floatingActionButtonStartPause" />
 
 
         <ProgressBar
             android:id="@+id/progressBarCircle"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_centerInParent="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/progressbar_circle_light_blue"
             android:indeterminate="false"
             android:max="100"
@@ -269,9 +255,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="@string/time_example"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:typeface="monospace"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.36"
+            app:layout_constraintHorizontal_bias="0.45"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider2"
             app:layout_constraintVertical_chainStyle="spread" />
@@ -303,6 +290,52 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seekBarTimer" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonTrainingShowDetails" />
+
+        <TextView
+            android:id="@+id/textViewShowTrainingDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+
+            android:text="@string/training_details"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButtonStartPause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTime"
+            app:layout_constraintStart_toEndOf="@+id/textViewTime"
+            app:layout_constraintTop_toTopOf="@+id/textViewTime"
+            app:srcCompat="@drawable/ic_play_arrow_white_24dp" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

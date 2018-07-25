@@ -210,7 +210,7 @@ public class TrainingInflater {
 
     public boolean isValid() {
         if ((mapReps.size() != rowsNum) || (mapWeight.size() != rowsNum) || this.weight == null || this.reps == null) return false;
-        return valid;
+        return true;
     }
 
     public String printResult() {

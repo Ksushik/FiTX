@@ -4,12 +4,12 @@
     tools:context="com.brus5.lukaszkrawczak.fitx.Training.TrainingDetailsActivity">
     <item
         android:id="@+id/menu_delete_exercise"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@drawable/ic_delete_white_24dp"
         android:title="@string/delete"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_save_exercise"
-        android:icon="@drawable/image_accept"
+        android:icon="@drawable/ic_send_white_24dp"
         android:title="@string/search"
         app:showAsAction="ifRoom" />
 </menu>

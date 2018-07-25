@@ -431,7 +431,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 (view.findViewById(R.id.buttonTrainingShowDetails)).setVisibility(View.INVISIBLE);
                 textViewShowTrainingDetails.setVisibility(View.VISIBLE);
                 break;
-            case R.id.buttonStartStopTimer:
+            case R.id.floatingActionButtonStartPause:
                 if (timer.timerRunning){
                     timer.pauseTimer();
                 }
@@ -444,5 +444,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 break;
         }
     }
+
 
 }

@@ -5,6 +5,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -27,22 +28,25 @@ public class Timer {
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
     private ProgressBar progressBarCircle;
-    private Button buttonStartStopTimer, buttonResetTimer;
+    private Button /*buttonStartStopTimer,*/ buttonResetTimer;
     private TextView textViewTime;
+    private FloatingActionButton floatingActionButtonStartPause;
 
     public Timer(Activity activity) {
         this.activity = activity;
         seekBarTimer = this.activity.findViewById(R.id.seekBarTimer);
         progressBarCircle = this.activity.findViewById(R.id.progressBarCircle);
-        buttonStartStopTimer = this.activity.findViewById(R.id.buttonStartStopTimer);
+//        buttonStartStopTimer = this.activity.findViewById(R.id.buttonStartStopTimer);
         buttonResetTimer = this.activity.findViewById(R.id.buttonResetTimer);
         textViewTime = this.activity.findViewById(R.id.textViewTime);
+        floatingActionButtonStartPause = this.activity.findViewById(R.id.floatingActionButtonStartPause);
     }
 
     public void resetTimer() {
         timeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
-        buttonStartStopTimer.setVisibility(View.VISIBLE);
+//        buttonStartStopTimer.setVisibility(View.VISIBLE);
+        floatingActionButtonStartPause.setVisibility(View.VISIBLE);
         setProgressBarValues();
     }
 
@@ -59,8 +63,10 @@ public class Timer {
             @Override
             public void onFinish() {
                 timerRunning = false;
-                buttonStartStopTimer.setText(R.string.start);
-                buttonStartStopTimer.setVisibility(View.INVISIBLE);
+//                buttonStartStopTimer.setText(R.string.start);
+//                buttonStartStopTimer.setVisibility(View.INVISIBLE);
+                floatingActionButtonStartPause.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                floatingActionButtonStartPause.setVisibility(View.INVISIBLE);
                 buttonResetTimer.setVisibility(View.VISIBLE);
                 setProgressBarValues();
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -71,7 +77,8 @@ public class Timer {
         }.start();
         timerRunning = true;
         buttonResetTimer.setVisibility(View.INVISIBLE);
-        buttonStartStopTimer.setText(R.string.pause);
+//        buttonStartStopTimer.setText(R.string.pause);
+        floatingActionButtonStartPause.setImageResource(R.drawable.ic_pause_white_24dp);
     }
 
     private void updateCountDownText() {
@@ -85,7 +92,8 @@ public class Timer {
     public void pauseTimer() {
         countDownTimer.cancel();
         timerRunning = false;
-        buttonStartStopTimer.setText(R.string.start);
+//        buttonStartStopTimer.setText(R.string.start);
+        floatingActionButtonStartPause.setImageResource(R.drawable.ic_play_arrow_white_24dp);
         buttonResetTimer.setVisibility(View.VISIBLE);
     }
 

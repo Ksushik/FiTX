@@ -134,5 +134,7 @@
     <string name="lifted">Podniesiono</string>
     <string name="time_example">01:30</string>
     <string name="X">X</string>
+    <string name="set">Seria</string>
+    <string name="reps_long">Powtórzenia</string>
 
 </resources>

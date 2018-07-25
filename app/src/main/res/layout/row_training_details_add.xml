@@ -10,16 +10,16 @@
     <Button
         android:id="@+id/buttonTrainingRowRemove"
         style="@style/buttonRowDelete"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:background="@drawable/button_delete"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/editTextTrainingRowWeight"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/editTextTrainingRowReps"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -30,14 +30,16 @@
         android:inputType="numberSigned"
         android:nextFocusDown="@+id/editTextTrainingRowWeight"
         android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextTrainingRowWeight"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -48,24 +50,12 @@
         android:inputType="numberSigned"
         android:nextFocusRight="@id/editTextTrainingRowReps"
         android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toEndOf="@+id/guideline2"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/buttonTrainingRowRemove"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.33" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.66" />
 
     <TextView
         android:id="@+id/textViewTrainingDetailsID"
