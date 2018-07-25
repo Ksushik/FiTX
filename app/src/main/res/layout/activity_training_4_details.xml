@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".Training.TrainingDetailsActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textViewExerciseName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/exercise_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewTraining" />
+
+        <ImageView
+            android:id="@+id/imageViewTraining"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:contentDescription="@string/image"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineTrainingDetails"
+            app:layout_constraintStart_toStartOf="@+id/guidelineTrainingDetails1"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+            app:srcCompat="@drawable/common_google_signin_btn_icon_light_focused" />
+
+        <ImageView
+            android:id="@+id/imageViewTraining1"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:contentDescription="@string/image1"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineTrainingDetails2"
+            app:layout_constraintStart_toStartOf="@+id/guidelineTrainingDetails"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+            app:srcCompat="@drawable/common_google_signin_btn_icon_light_focused" />
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarTrainingExerciseShow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </android.support.design.widget.AppBarLayout>
+
+        <EditText
+            android:id="@+id/editTextTrainingExerciseShow"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:fadeScrollbars="false"
+            android:gravity="start"
+            android:hint="@string/type_your_ideas"
+            android:inputType="textMultiLine"
+            android:selectAllOnFocus="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guidelineTrainingDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guidelineTrainingDetails1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guidelineTrainingDetails2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/notes"
+            app:layout_constraintStart_toStartOf="@+id/editTextTrainingExerciseShow"
+            app:layout_constraintTop_toBottomOf="@+id/container" />
+
+        <Button
+            android:id="@+id/buttonTrainingShowDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:onClick="onClick"
+            android:text="@string/show"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/training_details"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTrainingExerciseShow" />
+
+        <Button
+            android:id="@+id/buttonTrainingDetailsAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:onClick="onClick"
+            android:text="@string/add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonTrainingDetailsAdd"></LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewShowTrainingDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+
+            android:text="@string/training_details"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <CheckBox
+            android:id="@+id/checkBoxDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/not_done"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewExerciseName" />
+
+
+        <SeekBar
+            android:id="@+id/seekBarTimer"
+            style="@android:style/Widget.DeviceDefault.Light.SeekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:max="10"
+            android:progress="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTime" />
+
+        <Button
+            android:id="@+id/buttonStartStopTimer"
+            style="@style/roundButton"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/button_start"
+            android:onClick="onClick"
+            android:text="@string/start"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTime"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toEndOf="@+id/textViewTime"
+            app:layout_constraintTop_toTopOf="@+id/textViewTime" />
+
+        <Button
+            android:id="@+id/buttonResetTimer"
+            style="@android:style/Widget.DeviceDefault.Light.Button.Borderless.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="16dp"
+            android:onClick="onClick"
+            android:text="@string/reset"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/buttonStartStopTimer"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineTrainingDetails2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/buttonStartStopTimer" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBarCircle"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/progressbar_circle_light_blue"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"
+            android:progressDrawable="@drawable/progressbar_circle_blue"
+            android:rotation="-90"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTime"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTime"
+            app:layout_constraintTop_toBottomOf="@id/textViewTime"
+            app:layout_constraintTop_toTopOf="@id/textViewTime" />
+
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/time_example"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.36"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2"
+            app:layout_constraintVertical_chainStyle="spread" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxDone" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBarTimer" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

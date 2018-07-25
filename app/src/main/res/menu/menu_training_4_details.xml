@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.brus5.lukaszkrawczak.fitx.Training.TrainingDetailsActivity">
+    <item
+        android:id="@+id/menu_delete_exercise"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/delete"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_save_exercise"
+        android:icon="@drawable/image_accept"
+        android:title="@string/search"
+        app:showAsAction="ifRoom" />
+</menu>

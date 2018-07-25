@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.brus5.lukaszkrawczak.fitx.Diet.DietProductShowActivity">
+    <item
+        android:id="@+id/menu_search_product"
+        android:icon="@drawable/image_search"
+        android:title="@string/search"
+        app:showAsAction="always" />
+</menu>
