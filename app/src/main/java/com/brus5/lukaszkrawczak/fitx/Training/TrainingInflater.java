@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +41,7 @@ public class TrainingInflater {
     public View trainingSetGenerator(){
         LayoutInflater layoutInflater = (LayoutInflater) this.ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         @SuppressLint("InflateParams")
-        final View addView = layoutInflater.inflate(R.layout.training_details_add_row, null);
+        final View addView = layoutInflater.inflate(R.layout.row_training_details_add, null);
         TextView textViewTrainingDetailsID = addView.findViewById(R.id.textViewTrainingDetailsID);
 
         final EditText editTextTrainingRowReps = addView.findViewById(R.id.editTextTrainingRowReps);

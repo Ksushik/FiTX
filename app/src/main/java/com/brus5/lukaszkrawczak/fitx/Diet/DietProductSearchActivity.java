@@ -144,7 +144,7 @@ public class DietProductSearchActivity extends AppCompatActivity {
                             }
                             /* End */
 
-                            dietSearchListAdapter = new DietSearchListAdapter(DietProductSearchActivity.this,R.layout.diet_meal_search_row, dietSearchArrayList);
+                            dietSearchListAdapter = new DietSearchListAdapter(DietProductSearchActivity.this,R.layout.row_diet_meal_search, dietSearchArrayList);
                             listViewShowProducts.setAdapter(dietSearchListAdapter);
                             listViewShowProducts.invalidate();
                         } catch (JSONException e) {

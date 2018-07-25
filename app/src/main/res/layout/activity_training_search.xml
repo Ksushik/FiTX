@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:srcCompat="@drawable/body_front" />
+        app:srcCompat="@drawable/image_body_front" />
 
     <TextView
         android:id="@+id/textViewButtonChest"
@@ -136,7 +136,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/icon_rotate" />
+        app:srcCompat="@drawable/image_rotate" />
 
     <!-- BACK IMAGE HIDED -->
 
@@ -156,7 +156,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:srcCompat="@drawable/body_back" />
+        app:srcCompat="@drawable/image_body_back" />
 
     <TextView
         android:id="@+id/textViewButtonLats"

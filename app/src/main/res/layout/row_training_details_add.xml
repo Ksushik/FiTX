@@ -10,7 +10,7 @@
     <Button
         android:id="@+id/buttonTrainingRowRemove"
         style="@style/buttonRowDelete"
-        android:background="@drawable/delete_button"
+        android:background="@drawable/button_delete"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/editTextTrainingRowWeight"

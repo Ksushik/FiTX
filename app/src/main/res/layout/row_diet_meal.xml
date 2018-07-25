@@ -203,7 +203,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/dietMealTitle"
             app:layout_constraintStart_toEndOf="@+id/dietMealTitle"
             app:layout_constraintTop_toTopOf="@+id/dietMealTitle"
-            app:srcCompat="@drawable/icon_verified" />
+            app:srcCompat="@drawable/image_verified" />
 
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

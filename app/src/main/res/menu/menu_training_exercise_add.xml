@@ -9,7 +9,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_save_exercise"
-        android:icon="@drawable/icon_accept"
+        android:icon="@drawable/image_accept"
         android:title="@string/search"
         app:showAsAction="ifRoom" />
 </menu>

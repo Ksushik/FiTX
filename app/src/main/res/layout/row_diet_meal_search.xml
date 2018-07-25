@@ -26,7 +26,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/trainingSearchTitle"
             app:layout_constraintStart_toEndOf="@+id/trainingSearchTitle"
             app:layout_constraintTop_toTopOf="@+id/trainingSearchTitle"
-            app:srcCompat="@drawable/icon_verified" />
+            app:srcCompat="@drawable/image_verified" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guidelineDiet2"

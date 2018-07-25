@@ -250,7 +250,7 @@ public class DietActivity extends AppCompatActivity {
 
                             Log.e(TAG, "getKcalResult(): "+getKcalResult());
 
-                            dietListAdapter = new DietListAdapter(DietActivity.this,R.layout.diet_meal_row,dietArrayList);
+                            dietListAdapter = new DietListAdapter(DietActivity.this,R.layout.row_diet_meal,dietArrayList);
                             listViewDietActivity.setAdapter(dietListAdapter);
                             listViewDietActivity.invalidate();
 

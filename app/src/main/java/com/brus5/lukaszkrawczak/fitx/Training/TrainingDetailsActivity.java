@@ -217,7 +217,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void loadImages(ImageView imageView, String url) {
         Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null)
-                .error(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher_error)
                 .into(imageView, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {

@@ -110,7 +110,7 @@ public class TrainingListActivity extends AppCompatActivity {
                             }
                             /* End */
 
-                            trainingSearchListAdapter = new TrainingSearchListAdapter(TrainingListActivity.this,R.layout.training_exercise_search_row, trainingSearchArrayList);
+                            trainingSearchListAdapter = new TrainingSearchListAdapter(TrainingListActivity.this,R.layout.row_training_exercise_search, trainingSearchArrayList);
                             listViewTrainingActivity.setAdapter(trainingSearchListAdapter);
                             listViewTrainingActivity.invalidate();
                         } catch (JSONException e) {

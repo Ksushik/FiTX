@@ -156,7 +156,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
     private void loadImageFromUrl(String url) {
         Picasso.with(DietProductShowActivity.this).load(url).placeholder(null)
-                .error(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher_error)
                 .into(productImageView, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {

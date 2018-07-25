@@ -154,7 +154,7 @@ public class TrainingActivity extends AppCompatActivity {
                                     trainingArrayList.add(training);
                                 }
                             }
-                            trainingAdapter = new TrainingAdapter(TrainingActivity.this,R.layout.training_excercise_row,trainingArrayList);
+                            trainingAdapter = new TrainingAdapter(TrainingActivity.this,R.layout.row_training_excercise,trainingArrayList);
                             listViewTrainingActivity.setAdapter(trainingAdapter);
                             listViewTrainingActivity.invalidate();
 
