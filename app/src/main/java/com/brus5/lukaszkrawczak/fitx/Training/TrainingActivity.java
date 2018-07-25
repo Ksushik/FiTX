@@ -189,7 +189,7 @@ public class TrainingActivity extends AppCompatActivity {
 
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingActivity.this, R.color.color_main_activity_statusbar));
+            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingActivity.this, R.color.colorPrimaryDark));
         }
         Toolbar toolbar = findViewById(R.id.toolbarTrainingActivity);
         setSupportActionBar(toolbar);

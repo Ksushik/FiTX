@@ -235,7 +235,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingDetailsActivity.this, R.color.color_main_activity_statusbar));
+            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingDetailsActivity.this, R.color.colorPrimaryDark));
         }
         Toolbar toolbar = findViewById(R.id.toolbarTrainingExerciseShow);
         setSupportActionBar(toolbar);

@@ -16,7 +16,7 @@
             android:id="@+id/toolbarTrainingActivity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_main_activity_statusbar"
+            android:background="@color/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
 
@@ -29,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:selectedDateBackground="@color/color_main_activity_statusbar"
+        app:selectedDateBackground="@color/colorPrimary"
         app:selectorColor="@color/colorBackground"
         app:textColorNormal="#bababa"
         app:textColorSelected="@color/colorBackground"

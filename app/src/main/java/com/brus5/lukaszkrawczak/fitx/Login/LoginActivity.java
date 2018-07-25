@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(LoginActivity.this, R.color.color_main_activity_statusbar));
+            getWindow().setStatusBarColor(ContextCompat.getColor(LoginActivity.this, R.color.colorPrimary));
         }
         Toolbar toolbar = findViewById(R.id.toolbarLoginActivity);
         setSupportActionBar(toolbar);

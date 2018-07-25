@@ -54,7 +54,7 @@
                 android:id="@+id/toolbarTrainingExerciseShow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/color_main_activity_statusbar"
+                android:background="@color/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
         </android.support.design.widget.AppBarLayout>
 
@@ -238,7 +238,7 @@
             android:layout_marginStart="16dp"
             android:onClick="onClick"
             android:text="@string/reset"
-            android:textColor="@color/color_main_activity_statusbar"
+            android:textColor="@color/colorPrimary"
             android:textSize="12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/buttonStartStopTimer"
             app:layout_constraintEnd_toStartOf="@+id/guidelineTrainingDetails2"
