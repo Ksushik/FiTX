@@ -61,7 +61,7 @@ public class TrainingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_training);
+        setContentView(R.layout.activity_training_1);
         changeStatusBarColor();
         onBackButtonPressed();
         loadInput();
@@ -198,7 +198,7 @@ public class TrainingActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_training_exercise_search, menu);
+        getMenuInflater().inflate(R.menu.menu_training_1_search, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

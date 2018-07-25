@@ -62,7 +62,7 @@ public class DietActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diet);
+        setContentView(R.layout.activity_diet_1);
 
         changeStatusBarColor();
         onBackButtonPressed();
@@ -420,7 +420,7 @@ public class DietActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_diet_product_search, menu);
+        getMenuInflater().inflate(R.menu.menu_diet_1_search, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

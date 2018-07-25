@@ -43,7 +43,7 @@ public class TrainingListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_training_list);
+        setContentView(R.layout.activity_training_3_choosed_listview);
         loadInput();
         changeStatusBarColor();
         onBackButtonPressed();

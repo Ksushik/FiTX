@@ -77,7 +77,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diet_product_show);
+        setContentView(R.layout.activity_diet_3_details);
         changeStatusBarColor();
         onBackButtonPressed();
         loadInput();

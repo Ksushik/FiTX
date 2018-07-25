@@ -62,7 +62,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_training_details);
+        setContentView(R.layout.activity_training_4_details);
         changeStatusBarColor();
         onBackButtonPressed();
         loadInput();
@@ -248,7 +248,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_training_exercise_add, menu);
+        getMenuInflater().inflate(R.menu.menu_training_4_details, menu);
 
         MenuItem item = menu.findItem(R.id.menu_delete_exercise);
         if (previousActivity.equals("TrainingListActivity")){

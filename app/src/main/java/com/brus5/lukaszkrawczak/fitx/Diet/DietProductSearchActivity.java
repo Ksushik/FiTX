@@ -49,7 +49,7 @@ public class DietProductSearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diet_product_search);
+        setContentView(R.layout.activity_diet_2_search_product);
         changeStatusBarColor();
         onBackButtonPressed();
         loadInput();
