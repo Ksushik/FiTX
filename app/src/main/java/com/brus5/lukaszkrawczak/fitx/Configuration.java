@@ -23,8 +23,10 @@ public class Configuration {
     public static final String DIET_USER_SHOW_DAILY_URL             = BASE_URL + "Diet/" + "ShowByUser.php";
     public static final String DIET_UPDATE_WEIGHT_PRODUCT           = BASE_URL + "Diet/" + "UpdateProductWeight.php";
 
-    public static final String SHOW_NEW_TRAINING                    = BASE_URL + "Training/" + "ShowNew.php";
+    public static final String SHOW_TRAINING_DETAILS                = BASE_URL + "Training/" + "ShowTrainingDetails.php";
     public static final String SHOW_TRAINING_URL                    = BASE_URL + "Training/" + "ShowByUser.php";
+    public static final String SHOW_TRAINING_SHORT_URL              = BASE_URL + "Training/" + "ShowByUserShort.php";
+    public static final String SHOW_TRAINING_DESCRIPTION            = BASE_URL + "Training/" + "ShowTrainingDescription.php";
     public static final String TRAINING_SEARCH_BY_TARGET            = BASE_URL + "Training/" + "SearchByTarget.php";
     public static final String TRAINING_INSERT                      = BASE_URL + "Training/" + "Insert.php";
     public static final String TRAINING_DELETE                      = BASE_URL + "Training/" + "Delete.php";

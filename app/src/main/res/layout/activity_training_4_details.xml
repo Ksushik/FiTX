@@ -97,20 +97,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewExerciseName" />
 
 
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:background="@color/light_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxDone" />
-
         <ProgressBar
             android:id="@+id/progressBarCircle"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -141,7 +127,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.45"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider2"
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxDone"
             app:layout_constraintVertical_chainStyle="spread" />
 
         <android.support.design.widget.FloatingActionButton
@@ -191,20 +177,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewTime" />
 
-        <View
-            android:id="@+id/divider4"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:background="@color/light_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seekBarTimer" />
-
         <Button
             android:id="@+id/buttonStartStopTimer"
             style="@style/roundButton"
@@ -233,7 +205,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider4"
+            app:layout_constraintTop_toBottomOf="@+id/seekBarTimer"
             tools:ignore="RtlCompat" />
 
         <LinearLayout
@@ -251,7 +223,7 @@
             app:layout_constraintTop_toBottomOf="@+id/buttonTrainingDetailsAdd"></LinearLayout>
 
         <EditText
-            android:id="@+id/editTextTrainingExerciseShow"
+            android:id="@+id/editTextNotepad"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -287,7 +259,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTrainingExerciseShow" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextNotepad" />
 
         <Button
             android:id="@+id/buttonTrainingShowDetails"
@@ -297,7 +269,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/button_confirm"
             android:drawableStart="@drawable/ic_read_more_white_12dp"
             android:onClick="onClick"
@@ -305,7 +277,7 @@
             android:text="@string/description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTrainingExerciseShow"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNotepad"
             tools:ignore="RtlCompat" />
 
         <TextView
@@ -337,7 +309,20 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewShowTrainingDetails" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCharsLeft" />
+
+        <TextView
+            android:id="@+id/textViewCharsLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:text="TextView"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/editTextNotepad"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNotepad"
+            tools:text="@string/limit" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

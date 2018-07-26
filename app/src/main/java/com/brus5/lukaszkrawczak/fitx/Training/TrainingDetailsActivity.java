@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.brus5.lukaszkrawczak.fitx.Validator.CharacterLimit;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
@@ -52,13 +53,14 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private int trainingID;
     private String trainingTimeStamp, trainingTarget, previousActivity;
     private ImageView imageViewTraining, imageViewTraining2;
-    private EditText editTextTrainingExerciseShow;
-    private TextView textViewExerciseName,textViewShowTrainingDetails;
+    private EditText editTextNotepad;
+    private TextView textViewExerciseName,textViewShowTrainingDetails,textViewCharsLeft;
     private CheckBox checkBoxDone;
     private TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
     private Timer timer;
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+    private CharacterLimit notepad;
 
     @SuppressLint("LongLogTag")
     @Override
@@ -81,6 +83,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         timer.seekBarTimer();
 
         previousActivity(previousActivity);
+        notepad = new CharacterLimit(editTextNotepad,textViewCharsLeft,1500);
+        editTextNotepad.addTextChangedListener(notepad);
     }
 
     @SuppressLint("LongLogTag")
@@ -88,13 +92,13 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_save_exercise:
-                if (previousActivity.equals("TrainingActivity") && (inflater.isValid())) {
+                if (previousActivity.equals("TrainingActivity") && (inflater.isValid()) && (notepad.isLimit())) {
                     TrainingService updateTraining = new TrainingService();
                     updateTraining.TrainingUpdate(saveDTO(), TrainingDetailsActivity.this);
                     finish();
                 }
 
-                else if (previousActivity.equals("TrainingListActivity") && (inflater.isValid())){
+                else if (previousActivity.equals("TrainingListActivity") && (inflater.isValid()) && (notepad.isLimit())){
                     TrainingService acceptService = new TrainingService();
                     acceptService.TrainingInsert(saveDTO(), TrainingDetailsActivity.this);
                     finish();
@@ -123,7 +127,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         dto.trainingWeight = inflater.getWeight();
         dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
         dto.trainingTimeStamp = setTimeStamp();
-        dto.trainingNotepad = editTextTrainingExerciseShow.getText().toString();
+        dto.trainingNotepad = editTextNotepad.getText().toString();
         dto.printStatus();
         return dto;
     }
@@ -181,11 +185,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void previousActivity(String previousActivity) {
         if (previousActivity.equals("TrainingActivity")){
-            asynchTaskLoadUserTraining(TrainingDetailsActivity.this);
-            asynchTaskLoadTrainingInfo(TrainingDetailsActivity.this);
+            getUserTrainingDetailsAsynch(TrainingDetailsActivity.this);
+            getTrainingNameAsynch(TrainingDetailsActivity.this);
         }
         else if (previousActivity.equals("TrainingListActivity")){
-            asynchTaskLoadTrainingInfo(TrainingDetailsActivity.this);
+            getTrainingNameAsynch(TrainingDetailsActivity.this);
             timer.seekBarTimer.setProgress(5);
         }
     }
@@ -194,10 +198,12 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         checkBoxDone = findViewById(R.id.checkBoxDone);
         container = findViewById(R.id.container);
         textViewShowTrainingDetails = findViewById(R.id.textViewShowTrainingDetails);
+        textViewCharsLeft = findViewById(R.id.textViewCharsLeft);
         textViewExerciseName = findViewById(R.id.textViewExerciseName);
-        editTextTrainingExerciseShow = findViewById(R.id.editTextTrainingExerciseShow);
-        editTextTrainingExerciseShow.clearFocus();
-        editTextTrainingExerciseShow.didTouchFocusSelect();
+        editTextNotepad = findViewById(R.id.editTextNotepad);
+        editTextNotepad.clearFocus();
+        editTextNotepad.didTouchFocusSelect();
+
         imageViewTraining = findViewById(R.id.imageViewTraining);
         imageViewTraining2 = findViewById(R.id.imageViewTraining1);
     }
@@ -282,7 +288,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         container.addView(inflater.trainingSetGenerator());
     }
 
-    private void asynchTaskLoadUserTraining(final Context ctx){
+    private void getUserTrainingDetailsAsynch(final Context ctx){
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
                 new Response.Listener<String>()
                 {
@@ -340,7 +346,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
                             textViewExerciseName.setText(name.getName());
                             onTrainingChangerListener(done);
-                            editTextTrainingExerciseShow.setText(notepad);
+                            editTextNotepad.setText(notepad);
                             timer.convertSetTime(Integer.valueOf(rest));
 
                         } catch (JSONException e) {
@@ -373,8 +379,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         queue.add(strRequest);
     }
 
-    private void asynchTaskLoadTrainingInfo(final Context ctx){
-        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_NEW_TRAINING,
+    private void getTrainingNameAsynch(final Context ctx){
+        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_DETAILS,
                 new Response.Listener<String>()
                 {
                     @SuppressLint("LongLogTag")
@@ -388,14 +394,12 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                             Log.d(TAG, "onResponse: "+jsonObject.toString(1));
 
                             String exerciseName = "";
-                            String description = "";
 
                             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(0);
                                 exerciseName = object.getString(RestApiNames.DB_EXERCISE_NAME);
-                                description = object.getString(RestApiNames.DB_EXERCISE_DESCRITION);
                             }
 
                             String trainingName = exerciseName.substring(0,1).toUpperCase() + exerciseName.substring(1);
@@ -403,6 +407,62 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                             /* End */
 
                             textViewExerciseName.setText(trainingName);
+                            setOnCheckedChangeListener();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onErrorResponse: Error"+error);
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                HashMap<String,String> params = new HashMap<>();
+                params.put(RestApiNames.DB_EXERCISE_ID, String.valueOf(trainingID));
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(ctx);
+        queue.add(strRequest);
+    }
+
+    private void getTrainingDescAsynch(final Context ctx){
+        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_DESCRIPTION,
+                new Response.Listener<String>()
+                {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        try {
+                            /* Getting DietRatio from MySQL */
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            Log.d(TAG, "onResponse: "+jsonObject.toString(1));
+
+
+                            String description = "";
+
+                            JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(0);
+                                description = object.getString(RestApiNames.DB_EXERCISE_DESCRITION);
+                            }
+
+                            Log.i(TAG, "description: " + description);
+                            /* End */
+
                             textViewShowTrainingDetails.setText(description);
                             setOnCheckedChangeListener();
                         } catch (JSONException e) {
@@ -441,6 +501,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 break;
             case R.id.buttonTrainingShowDetails:
                 (view.findViewById(R.id.buttonTrainingShowDetails)).setVisibility(View.INVISIBLE);
+                getTrainingDescAsynch(TrainingDetailsActivity.this);
                 textViewShowTrainingDetails.setVisibility(View.VISIBLE);
                 break;
             case R.id.floatingActionButtonStartPause:
@@ -457,5 +518,34 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         }
     }
 
+
+//    private class CharacterLimit implements TextWatcher {
+//
+//        private View view;
+//
+//        private CharacterLimit(View view) {
+//            this.view = view;
+//        }
+//
+//        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//        }
+//
+//        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//        }
+//
+//        public void afterTextChanged(Editable editable) {
+//            switch (view.getId()) {
+//                case R.id.input_name:
+//                    validateName();
+//                    break;
+//                case R.id.input_email:
+//                    validateEmail();
+//                    break;
+//                case R.id.input_password:
+//                    validatePassword();
+//                    break;
+//            }
+//        }
+//    }
 
 }

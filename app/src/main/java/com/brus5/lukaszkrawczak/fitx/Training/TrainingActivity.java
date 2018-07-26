@@ -114,7 +114,7 @@ public class TrainingActivity extends AppCompatActivity {
     }
 
     public void loadAsynchTask(final TrainingDTO dto, final Context ctx){
-        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
+        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_SHORT_URL,
                 new Response.Listener<String>()
                 {
                     @Override
