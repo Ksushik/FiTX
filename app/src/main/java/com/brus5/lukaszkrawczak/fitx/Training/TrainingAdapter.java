@@ -25,6 +25,8 @@ public class TrainingAdapter extends ArrayAdapter<Training> {
     private Context mContext;
     int mResource;
 
+    private static int KG_ONE_TONE = 1000;
+
     public TrainingAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Training> objects) {
         super(context, resource, objects);
         mContext = context;
@@ -57,6 +59,7 @@ public class TrainingAdapter extends ArrayAdapter<Training> {
         TextView tvTarget = convertView.findViewById(R.id.trainingTarget);
         TextView tvSeriesNum = convertView.findViewById(R.id.textViewSeriesNum);
         TextView tvLifted = convertView.findViewById(R.id.textViewSumLiftedWeight);
+        TextView tvWeightType = convertView.findViewById(R.id.textViewWeightType);
 
         if (done == 1){
             cbDone.setChecked(true);
@@ -84,7 +87,18 @@ public class TrainingAdapter extends ArrayAdapter<Training> {
 
         tvSeriesNum.setText(String.valueOf(trainingInflater.getSetNumber()));
 
-        tvLifted.setText(String.valueOf(trainingInflater.countLiftedWeight()));
+        double mWeight = trainingInflater.countLiftedWeight();
+        double toneConverter;
+        if (mWeight < KG_ONE_TONE) {
+            tvLifted.setText(String.valueOf(trainingInflater.countLiftedWeight()));
+            tvWeightType.setText(R.string.kg_short);
+        }
+        else {
+            toneConverter = mWeight / KG_ONE_TONE;
+            String value = String.format(Locale.getDefault(),"%.2f",toneConverter);
+            tvLifted.setText(value);
+            tvWeightType.setText(R.string.t_short);
+        }
 
         return convertView;
     }

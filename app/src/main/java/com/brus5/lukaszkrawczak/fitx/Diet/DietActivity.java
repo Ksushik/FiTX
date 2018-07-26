@@ -46,8 +46,8 @@ import java.util.Map;
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
-public class DietActivity extends AppCompatActivity {
-
+public class DietActivity extends AppCompatActivity
+{
     private static final String TAG = "DietActivity";
     HorizontalCalendar horizontalCalendar;
     TextView textViewProteins, textViewFats, textViewCarbs, textViewKcal, textViewShowDayDietActivity;
@@ -60,26 +60,25 @@ public class DietActivity extends AppCompatActivity {
     String dateInside, dateInsideTextView, productTimeStamp;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet_1);
-
         changeStatusBarColor();
         onBackButtonPressed();
         loadInput();
-
         weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
-
         onListViewItemSelected();
-
     }
 
-    public void runNextActivity(Context packageContext, Class<?> cls){
+    public void runNextActivity(Context packageContext, Class<?> cls)
+    {
         Intent intent = new Intent(packageContext,cls);
         DietActivity.this.startActivity(intent);
     }
 
-    private void loadInput() {
+    private void loadInput()
+    {
         textViewShowDayDietActivity = findViewById(R.id.textViewShowDayDietActivity);
 
         progressBarProteins = findViewById(R.id.progressBarProteins);
@@ -95,39 +94,42 @@ public class DietActivity extends AppCompatActivity {
         listViewDietActivity = findViewById(R.id.listViewDietActivity);
     }
 
-    private void weekCalendar(Calendar endDate, Calendar startDate) {
+    private void weekCalendar(Calendar endDate, Calendar startDate)
+    {
         horizontalCalendar = new HorizontalCalendar.Builder(DietActivity.this, R.id.calendarViewDietActivity)
-                .startDate(startDate.getTime())
-                .endDate(endDate.getTime())
-                .datesNumberOnScreen(5)
-                .dayNameFormat("EE")
-                .dayNumberFormat("dd")
-//                .textSize(10f, 16f, 14f)
-                .showDayName(true)
-                .showMonthName(false)
-                .build();
+                                 .startDate(startDate.getTime())
+                                 .endDate(endDate.getTime())
+                                 .datesNumberOnScreen(5)
+                                 .dayNameFormat("EE")
+                                 .dayNumberFormat("dd")
+                                 .showDayName(true)
+                                 .showMonthName(false)
+                                 .build();
 
-        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
-            @Override
-            public void onDateSelected(Date date, int position) {
-                dateInside = cfg.getSimpleDateDateInside().format(date.getTime());
-                dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
-                textViewShowDayDietActivity.setText(dateInsideTextView);
+        horizontalCalendar.setCalendarListener(
+            new HorizontalCalendarListener() {
+                @Override
+                public void onDateSelected(Date date, int position) {
+                    dateInside = cfg.getSimpleDateDateInside().format(date.getTime());
+                    dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
+                    textViewShowDayDietActivity.setText(dateInsideTextView);
 
-                dietArrayList.clear();
+                    dietArrayList.clear();
 
-                DietDTODiet dto = new DietDTODiet();
-                dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
-                dto.dateToday = dateInside;
-                dto.printStatus();
-                loadUsersDailyDietAsynchTask(dto,DietActivity.this);
+                    DietDTODiet dto = new DietDTODiet();
+                    dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
+                    dto.dateToday = dateInside;
+                    dto.printStatus();
+                    loadUsersDailyDietAsynchTask(dto, DietActivity.this);
 
-                Log.i(TAG, "onDateSelected: "+ dateInside);
+                    Log.i(TAG, "onDateSelected: " + dateInside);
+                }
             }
-        });
+        );
     }
 
-    public void loadUsersDailyDietAsynchTask(final DietDTODiet dto, final Context ctx){
+    public void loadUsersDailyDietAsynchTask(final DietDTODiet dto, final Context ctx)
+    {
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_USER_SHOW_DAILY_URL,
                 new Response.Listener<String>()
                 {
@@ -145,30 +147,28 @@ public class DietActivity extends AppCompatActivity {
                         double carbRatio = 0d;
                         double totalCalories = 0d;
 
-                        try {
-                            /* Getting DietRatio from MySQL */
+                        try
+                        {
                             JSONObject jsonObject = new JSONObject(response);
 
                             Log.d(TAG, "onResponse: "+jsonObject.toString(1));
 
                             JSONArray dietratio = jsonObject.getJSONArray("dietratio");
-                            if (dietratio.length() > 0) {
-                                for (int i = 0; i < dietratio.length(); i++) {
+                            if (dietratio.length() > 0)
+                            {
+                                for (int i = 0; i < dietratio.length(); i++)
+                                {
                                     JSONObject dietratioJSONObject = dietratio.getJSONObject(i);
                                     proteinRatio = dietratioJSONObject.getDouble(RestApiNames.DB_PROTEIN_RATIO);
                                     fatRatio = dietratioJSONObject.getDouble(RestApiNames.DB_FATS_RATIO);
                                     carbRatio = dietratioJSONObject.getDouble(RestApiNames.DB_CARBS_RATIO);
                                 }
                             }
-                            /* End */
 
-                            /* Getting calorie limit from MySQL */
                             JSONArray RESULT = jsonObject.getJSONArray("RESULT");
                             JSONObject d = RESULT.getJSONObject(0);
                             totalCalories = d.getDouble("RESULT");
-                            /* End */
 
-                            /* Getting product information with weight from MySQL */
                             String productName;
                             int productId;
                             double productProteins = 0d;
@@ -181,8 +181,10 @@ public class DietActivity extends AppCompatActivity {
                             JSONArray product_informations = jsonObject.getJSONArray("server_response");
                             JSONArray product_weight_response = jsonObject.getJSONArray("product_weight_response");
 
-                            if (product_informations.length() > 0){
-                                for (int i = 0; i < product_informations.length(); i++){
+                            if (product_informations.length() > 0)
+                            {
+                                for (int i = 0; i < product_informations.length(); i++)
+                                {
                                     JSONObject productsJsonObj = product_informations.getJSONObject(i);
 
                                     productId = productsJsonObj.getInt(RestApiNames.DB_PRODUCT_ID);
@@ -213,8 +215,6 @@ public class DietActivity extends AppCompatActivity {
                                     dietArrayList.add(diet);
                                 }
 
-                                /* End of getting product information with weight from MySQL */
-
                             }
 
                             ProteinCalc pCalc = new ProteinCalc();
@@ -242,19 +242,12 @@ public class DietActivity extends AppCompatActivity {
 
                             setKcalResult(kcalCounted);
 
-                            Log.i(TAG, "onResponse: RESULT"+RESULT);
-                            Log.i(TAG, "onResponse: ratio " + proteinRatio+":"+ fatRatio+":"+carbRatio);
-                            Log.i(TAG, "onResponse: totalCalories "+totalCalories);
-                            Log.i(TAG, "onResponse: proteinGoal: "+proteinGoal+" fatGoal: "+fatGoal+" carbGoal: "+carbsGoal);
-                            Log.i(TAG, "onResponse: productKcalArrayList: "+kcalCounted+" P: "+proteinsCounted+" F: "+fatsCounted+" C: "+carbsCounted);
-
-                            Log.e(TAG, "getKcalResult(): "+getKcalResult());
-
                             dietListAdapter = new DietListAdapter(DietActivity.this,R.layout.row_diet_meal,dietArrayList);
                             listViewDietActivity.setAdapter(dietListAdapter);
                             listViewDietActivity.invalidate();
 
-                            if (getKcalResult() > 0d) {
+                            if (getKcalResult() > 0d)
+                            {
                                 DietDTODiet dto = new DietDTODiet();
                                 dto.userID = SaveSharedPreference.getUserID(DietActivity.this);
                                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
@@ -265,7 +258,8 @@ public class DietActivity extends AppCompatActivity {
                                 dietService.DietUpdateCountedKcal(dto,DietActivity.this);
 
                             }
-                            else if (getKcalResult() == 0d){
+                            else if (getKcalResult() == 0d)
+                            {
                                 DietDTODiet dto = new DietDTODiet();
                                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
                                 dto.dateToday = dateInside;
@@ -273,7 +267,9 @@ public class DietActivity extends AppCompatActivity {
                                 DietService dietService = new DietService();
                                 dietService.DietDeleteCountedKcal(dto,DietActivity.this);
                             }
-                        } catch (JSONException e) {
+                        }
+                        catch (JSONException e)
+                        {
                             e.printStackTrace();
                         }
                     }
@@ -286,7 +282,8 @@ public class DietActivity extends AppCompatActivity {
                         Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "onErrorResponse: Error"+error);
                     }
-                })
+                }
+                )
         {
             @Override
             protected Map<String, String> getParams()
@@ -301,28 +298,31 @@ public class DietActivity extends AppCompatActivity {
         queue.add(strRequest);
     }
 
-    private void onListViewItemSelected() {
-        listViewDietActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    private void onListViewItemSelected()
+    {
+        listViewDietActivity.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        TextView productId = view.findViewById(R.id.dietMealID);
+                        TextView productWeight = view.findViewById(R.id.dietMealWeight);
+                        TextView productTimeStamp = view.findViewById(R.id.dietTimeStamp);
 
-                TextView productId = view.findViewById(R.id.dietMealID);
-                TextView productWeight = view.findViewById(R.id.dietMealWeight);
-                TextView productTimeStamp = view.findViewById(R.id.dietTimeStamp);
+                        Intent intent = new Intent(DietActivity.this, DietProductShowActivity.class);
+                        intent.putExtra("productId", productId.getText().toString());
+                        intent.putExtra("dateInside", dateInside);
+                        intent.putExtra("productWeight", Double.valueOf(productWeight.getText().toString()));
+                        intent.putExtra("productTimeStamp", productTimeStamp.getText().toString());
+                        intent.putExtra("previousActivity", "DietActivity");
 
-                Intent intent = new Intent(DietActivity.this,DietProductShowActivity.class);
-                intent.putExtra("productId",productId.getText().toString());
-                intent.putExtra("dateInside",dateInside);
-                intent.putExtra("productWeight",Double.valueOf(productWeight.getText().toString()));
-                intent.putExtra("productTimeStamp", productTimeStamp.getText().toString());
-                intent.putExtra("previousActivity", "DietActivity");
-
-                startActivity(intent);
-            }
-        });
+                        startActivity(intent);
+                    }
+                }
+        );
     }
 
-    private void progressBarProteinsChangeColor(double result, double goal){
+    private void progressBarProteinsChangeColor(double result, double goal)
+    {
         int intGoal = Integer.valueOf(String.format("%.0f",goal));
         int intResult = Integer.valueOf(String.format("%.0f",result));
 
@@ -330,83 +330,108 @@ public class DietActivity extends AppCompatActivity {
         progressBarProteins.setMax(intGoal);
         progressBarProteins.setProgress(intResult);
 
-        if (result > goal){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (result > goal)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
                 progressBarProteins.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
             }
-            else {
+            else
+                {
                 progressBarProteins.getProgressDrawable().setColorFilter(0xFF3287C3, PorterDuff.Mode.SRC_IN);
-            }
+                }
         }
     }
-    private void progressBarFatsChangeColor(double result, double goal){
+
+    private void progressBarFatsChangeColor(double result, double goal)
+    {
         progressBarFats.getProgressDrawable().setColorFilter(0xFFF3AE28, PorterDuff.Mode.SRC_IN);
         progressBarFats.setMax((int) goal);
         progressBarFats.setProgress((int) result);
 
-        if (result > goal){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (result > goal)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
                 progressBarFats.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
             }
-            else {
+            else
+                {
                 progressBarFats.getProgressDrawable().setColorFilter(0xFFF3AE28, PorterDuff.Mode.SRC_IN);
-            }
+                }
         }
     }
-    private void progressBarCarbsChangeColor(double result, double goal){
+
+    private void progressBarCarbsChangeColor(double result, double goal)
+    {
         progressBarCarbs.getProgressDrawable().setColorFilter(0xFFBD2121, PorterDuff.Mode.SRC_IN);
         progressBarCarbs.setMax((int) goal);
         progressBarCarbs.setProgress((int) result);
 
-        if (result > goal){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (result > goal)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
                 progressBarCarbs.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
             }
-            else {
+            else
+                {
                 progressBarCarbs.getProgressDrawable().setColorFilter(0xFFBD2121, PorterDuff.Mode.SRC_IN);
-            }
+                }
         }
     }
-    private void progressBarKcalChangeColor(double result, double goal){
+
+    private void progressBarKcalChangeColor(double result, double goal)
+    {
         progressBarKcal.getProgressDrawable().setColorFilter(0xFF89C611, PorterDuff.Mode.SRC_IN);
         progressBarKcal.setMax((int) goal);
         progressBarKcal.setProgress((int) result);
 
-        if (result > goal){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (result > goal)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
                 progressBarKcal.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
-            } else {
+            } else
+                {
                 progressBarKcal.getProgressDrawable().setColorFilter(0xFF89C611, PorterDuff.Mode.SRC_IN);
-            }
+                }
         }
     }
 
-    private String replaceCommaWithDot(double value){
+    private String replaceCommaWithDot(double value)
+    {
         return String.format("%.0f",value).replace(",",".");
     }
 
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    private void changeStatusBarColor()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             getWindow().setStatusBarColor(ContextCompat.getColor(DietActivity.this, R.color.colorPrimaryDark));
         }
         Toolbar toolbar = findViewById(R.id.toolbarDietActivity);
         setSupportActionBar(toolbar);
     }
 
-    public double getKcalResult() {
+    public double getKcalResult()
+    {
         return kcalResult;
     }
 
-    public void setKcalResult(double kcalResult) {
+    public void setKcalResult(double kcalResult)
+    {
         this.kcalResult = kcalResult;
     }
 
-    private void onBackButtonPressed() {
+    private void onBackButtonPressed()
+    {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
-    protected void onRestart() {
+    protected void onRestart()
+    {
         super.onRestart();
         // this backendcall
         dietListAdapter.clear();
@@ -418,15 +443,18 @@ public class DietActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_diet_1_search, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
             case R.id.menu_search_product:
             Intent intent = new Intent(DietActivity.this,DietProductSearchActivity.class);
             intent.putExtra("dateInside", dateInside);

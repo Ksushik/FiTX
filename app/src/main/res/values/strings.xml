@@ -38,7 +38,8 @@
     <string name="body_calves">Łydki</string>
 
     <string name="reps_short">Powt.</string>
-    <string name="weight_short">kg</string>
+    <string name="kg_short">kg</string>
+    <string name="t_short">t</string>
 
 
     <string name="rotate">Obrót</string>

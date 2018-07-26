@@ -83,7 +83,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         timer.seekBarTimer();
 
         previousActivity(previousActivity);
-        notepad = new CharacterLimit(editTextNotepad,textViewCharsLeft,1500);
+        notepad = new CharacterLimit(editTextNotepad,textViewCharsLeft,280);
         editTextNotepad.addTextChangedListener(notepad);
     }
 

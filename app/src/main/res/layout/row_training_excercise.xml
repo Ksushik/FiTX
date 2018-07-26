@@ -132,12 +132,12 @@
             app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/textViewWeightType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginStart="2dp"
-            android:text="@string/weight_short"
+            android:text="@string/kg_short"
             app:layout_constraintBaseline_toBaselineOf="@+id/textViewSumLiftedWeight"
             app:layout_constraintStart_toEndOf="@+id/textViewSumLiftedWeight" />
 
