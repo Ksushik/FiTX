@@ -209,7 +209,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         else if (previousActivity.equals("TrainingListActivity"))
         {
             getTrainingNameAsynch(TrainingDetailsActivity.this);
-            timer.seekBarTimer.setProgress(5);
+            timer.seekBar.setProgress(5);
         }
     }
 

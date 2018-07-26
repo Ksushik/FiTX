@@ -23,35 +23,35 @@ public class Timer
     Activity activity;
     public boolean timerRunning;
     public long START_TIME_IN_MILLIS;
-    public SeekBar seekBarTimer;
-    private CountDownTimer countDownTimer;
+    public SeekBar seekBar;
+    private CountDownTimer timer;
     private long timeLeftInMillis;
-    private ProgressBar progressBarCircle;
-    private Button  buttonResetTimer;
-    private TextView textViewTime;
-    private FloatingActionButton floatingActionButtonStartPause;
+    private ProgressBar progressBar;
+    private Button btnReset;
+    private TextView tvTime;
+    private FloatingActionButton btnStartPause;
 
     public Timer(Activity activity)
     {
         this.activity = activity;
-        seekBarTimer = this.activity.findViewById(R.id.seekBarTimer);
-        progressBarCircle = this.activity.findViewById(R.id.progressBarCircle);
-        buttonResetTimer = this.activity.findViewById(R.id.buttonResetTimer);
-        textViewTime = this.activity.findViewById(R.id.textViewTime);
-        floatingActionButtonStartPause = this.activity.findViewById(R.id.floatingButtonStartPause);
+        seekBar = this.activity.findViewById(R.id.seekBarTimer);
+        progressBar = this.activity.findViewById(R.id.progressBarCircle);
+        btnReset = this.activity.findViewById(R.id.buttonResetTimer);
+        tvTime = this.activity.findViewById(R.id.textViewTime);
+        btnStartPause = this.activity.findViewById(R.id.floatingButtonStartPause);
     }
 
     public void resetTimer()
     {
         timeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
-        floatingActionButtonStartPause.setVisibility(View.VISIBLE);
+        btnStartPause.setVisibility(View.VISIBLE);
         setProgressBarValues();
     }
 
     public void startTimer()
     {
-        countDownTimer = new CountDownTimer(timeLeftInMillis,1000)
+        timer = new CountDownTimer(timeLeftInMillis, 1000)
         {
             @Override
             public void onTick(long millisUntilFinished)
@@ -59,16 +59,16 @@ public class Timer
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
 
-                progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
+                progressBar.setProgress((int) (millisUntilFinished / 1000));
             }
 
             @Override
             public void onFinish()
             {
                 timerRunning = false;
-                floatingActionButtonStartPause.setImageResource(R.drawable.ic_play_arrow_white_24dp);
-                floatingActionButtonStartPause.setVisibility(View.INVISIBLE);
-                buttonResetTimer.setVisibility(View.VISIBLE);
+                btnStartPause.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                btnStartPause.setVisibility(View.INVISIBLE);
+                btnReset.setVisibility(View.VISIBLE);
                 setProgressBarValues();
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
@@ -78,8 +78,8 @@ public class Timer
         }.start();
 
         timerRunning = true;
-        buttonResetTimer.setVisibility(View.INVISIBLE);
-        floatingActionButtonStartPause.setImageResource(R.drawable.ic_pause_white_24dp);
+        btnReset.setVisibility(View.INVISIBLE);
+        btnStartPause.setImageResource(R.drawable.ic_pause_white_24dp);
     }
 
     private void updateCountDownText()
@@ -88,20 +88,20 @@ public class Timer
         int seconds = (int) timeLeftInMillis / 1000 % 60;
 
         String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
-        textViewTime.setText(timeLeftFormatted);
+        tvTime.setText(timeLeftFormatted);
     }
 
     public void pauseTimer()
     {
-        countDownTimer.cancel();
+        timer.cancel();
         timerRunning = false;
-        floatingActionButtonStartPause.setImageResource(R.drawable.ic_play_arrow_white_24dp);
-        buttonResetTimer.setVisibility(View.VISIBLE);
+        btnStartPause.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+        btnReset.setVisibility(View.VISIBLE);
     }
 
     public void seekBarTimer()
     {
-        seekBarTimer.setOnSeekBarChangeListener(
+        seekBar.setOnSeekBarChangeListener(
             new SeekBar.OnSeekBarChangeListener()
             {
                 @Override
@@ -118,7 +118,7 @@ public class Timer
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {}
             }
-        );
+                                          );
     }
 
     private void onProgressSetTime(int progress)
@@ -163,42 +163,42 @@ public class Timer
         switch (timeInMillis)
         {
             case 15000:
-                seekBarTimer.setProgress(0);
+                seekBar.setProgress(0);
                 break;
             case 30000:
-                seekBarTimer.setProgress(1);
+                seekBar.setProgress(1);
                 break;
             case 45000:
-                seekBarTimer.setProgress(2);
+                seekBar.setProgress(2);
                 break;
             case 60000:
-                seekBarTimer.setProgress(3);
+                seekBar.setProgress(3);
                 break;
             case 75000:
-                seekBarTimer.setProgress(4);
+                seekBar.setProgress(4);
                 break;
             case 90000:
-                seekBarTimer.setProgress(5);
+                seekBar.setProgress(5);
                 break;
             case 105000:
-                seekBarTimer.setProgress(6);
+                seekBar.setProgress(6);
                 break;
             case 120000:
-                seekBarTimer.setProgress(7);
+                seekBar.setProgress(7);
                 break;
             case 135000:
-                seekBarTimer.setProgress(8);
+                seekBar.setProgress(8);
                 break;
             case 150000:
-                seekBarTimer.setProgress(9);
+                seekBar.setProgress(9);
                 break;
         }
     }
 
     private void setProgressBarValues()
     {
-        progressBarCircle.setMax((int) START_TIME_IN_MILLIS / 1000);
-        progressBarCircle.setProgress((int) START_TIME_IN_MILLIS / 1000);
+        progressBar.setMax((int) START_TIME_IN_MILLIS / 1000);
+        progressBar.setProgress((int) START_TIME_IN_MILLIS / 1000);
     }
 
 }
