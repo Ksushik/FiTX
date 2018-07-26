@@ -22,30 +22,27 @@ import java.util.Date;
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
+public class MainActivity extends AppCompatActivity implements View.OnClickListener
+{
     private static final String TAG = "MainActivity";
     Button buttonDietActivity, buttonTrainingActivity, buttonSettingsActivity, buttonStatsActivity;
-
     HorizontalCalendar horizontalCalendar;
     ListView listViewMainActivity;
-
-    /* Gettings dateToday */
     Configuration cfg = new Configuration();
     String dateInsde, dateInsideTextView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         changeStatusBarColor();
-        loadInputs(MainActivity.this);
-
-        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
-
+        loadInputs();
+        weekCalendar(cfg.oldestDay(), cfg.newestDay());
     }
-    private void weekCalendar(Calendar endDate, Calendar startDate) {
+
+    private void weekCalendar(Calendar endDate, Calendar startDate)
+    {
         horizontalCalendar = new HorizontalCalendar.Builder(MainActivity.this, R.id.calendarViewMainActivity)
                 .startDate(startDate.getTime())
                 .endDate(endDate.getTime())
@@ -57,26 +54,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .showMonthName(false)
                 .build();
 
-        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener()
+        {
             @Override
-            public void onDateSelected(Date date, int position) {
-                dateInsde = cfg.getSimpleDateDateInside().format(date.getTime());
-                dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
+            public void onDateSelected(Date date, int position)
+            {
+                dateInsde = cfg.getDateFormat().format(date.getTime());
+                dateInsideTextView = cfg.getDateFormatView().format(date.getTime());
 
-                Log.e(TAG, "onDateSelected: "+dateInsde);
+                Log.e(TAG, "onDateSelected: " + dateInsde);
             }
         });
     }
 
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    private void changeStatusBarColor()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimaryDark));
         }
         Toolbar toolbar = findViewById(R.id.toolbarMainActivity);
         setSupportActionBar(toolbar);
     }
 
-    private void loadInputs(Context ctx) {
+    private void loadInputs()
+    {
         buttonDietActivity = findViewById(R.id.buttonDietActivity);
         buttonDietActivity.setOnClickListener(this);
         buttonTrainingActivity = findViewById(R.id.buttonTrainingActivity);
@@ -85,36 +87,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonSettingsActivity.setOnClickListener(this);
         buttonStatsActivity = findViewById(R.id.buttonStatsActivity);
         buttonStatsActivity.setOnClickListener(this);
-
-        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserID(ctx));
-        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserFirstName(ctx));
-        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserName(ctx));
-        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserBirthday(ctx));
-        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserPassword(ctx));
-        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserEmail(ctx));
-        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserGender(ctx));
-        Log.e(TAG, "SaveSharedPreference: "+SaveSharedPreference.getUserAge(ctx));
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.buttonDietActivity:
-                runNextActivity(MainActivity.this,DietActivity.class);
+                runNextActivity(MainActivity.this, DietActivity.class);
                 break;
             case R.id.buttonTrainingActivity:
                 runNextActivity(MainActivity.this, TrainingActivity.class);
                 break;
             case R.id.buttonStatsActivity:
-                runNextActivity(MainActivity.this,StatsActivity.class);
+                runNextActivity(MainActivity.this, StatsActivity.class);
                 break;
             case R.id.buttonSettingsActivity:
                 break;
         }
     }
 
-    public void runNextActivity(Context packageContext, Class<?> cls){
-        Intent intent = new Intent(packageContext,cls);
+    public void runNextActivity(Context packageContext, Class<?> cls)
+    {
+        Intent intent = new Intent(packageContext, cls);
         MainActivity.this.startActivity(intent);
 
     }

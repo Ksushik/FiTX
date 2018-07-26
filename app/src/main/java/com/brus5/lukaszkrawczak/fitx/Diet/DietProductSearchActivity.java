@@ -38,16 +38,18 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class DietProductSearchActivity extends AppCompatActivity {
+public class DietProductSearchActivity extends AppCompatActivity
+{
     private static final String TAG = "DietProductSearchActivi";
-    String dateInside;
-    EditText editTextSearchProduct;
-    ListView listViewShowProducts;
-    DietSearchListAdapter dietSearchListAdapter;
-    ArrayList<DietSearch> dietSearchArrayList = new ArrayList<>();
+    String dateFormat;
+    EditText etSearch;
+    ListView listView;
+    DietSearchListAdapter adapter;
+    ArrayList<DietSearch> arrayList = new ArrayList<>();
     DietDTODiet dto = new DietDTODiet();
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet_2_search_product);
         changeStatusBarColor();
@@ -56,49 +58,63 @@ public class DietProductSearchActivity extends AppCompatActivity {
         searchProduct();
         onListViewItemSelected();
         getIntentFromPreviousActiity();
-
     }
 
-    private void getIntentFromPreviousActiity() {
-        dateInside = getIntent().getStringExtra("dateInside");
+    private void getIntentFromPreviousActiity()
+    {
+        dateFormat = getIntent().getStringExtra("dateFormat");
     }
 
-    private void loadInput() {
-        editTextSearchProduct = findViewById(R.id.editTextSearchProduct);
-        listViewShowProducts = findViewById(R.id.listViewShowProducts);
+    private void loadInput()
+    {
+        etSearch = findViewById(R.id.editTextSearchProduct);
+        listView = findViewById(R.id.listViewShowProducts);
     }
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+    private void changeStatusBarColor()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             getWindow().setStatusBarColor(ContextCompat.getColor(DietProductSearchActivity.this, R.color.colorPrimaryDark));
         }
         Toolbar toolbar = findViewById(R.id.toolbarDietSearchActivity);
         setSupportActionBar(toolbar);
     }
-    private void onBackButtonPressed() {
+
+    private void onBackButtonPressed()
+    {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void searchProduct() {
-        editTextSearchProduct.addTextChangedListener(new TextWatcher() {
+    private void searchProduct()
+    {
+        etSearch.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                dietSearchArrayList.clear();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+                arrayList.clear();
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
 
             }
             private Timer timer=new Timer();
             private final int DELAY = 1500; // milliseconds
+
             @Override
-            public void afterTextChanged(final Editable s) {
+            public void afterTextChanged(final Editable s)
+            {
                 timer.cancel();
                 timer = new Timer();
                 timer.schedule(
-                        new TimerTask() {
+                        new TimerTask()
+                        {
                             @Override
-                            public void run() {
+                            public void run()
+                            {
                                 dto.productName = s.toString();
                                 searchProductsAsynchTask(dto,DietProductSearchActivity.this);
                                 dto.printStatus();
@@ -109,45 +125,50 @@ public class DietProductSearchActivity extends AppCompatActivity {
             }
         });
     }
-    public void searchProductsAsynchTask(final DietDTODiet dto, final Context ctx){
+
+    public void searchProductsAsynchTask(final DietDTODiet dto, final Context ctx)
+    {
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_SEARCH_PRODUCT,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response)
                     {
-                        try {
-                            /* Getting DietRatio from MySQL */
+                        try
+                        {
                             JSONObject jsonObject = new JSONObject(response);
 
                             Log.d(TAG, "onResponse: "+jsonObject.toString(1));
 
-                            int productId = 0;
-                            String productName = "";
-                            double productKcal = 0;
-                            int productVerified = 0;
+                            int id;
+                            String name;
+                            double calories;
+                            int verified;
 
-                            JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                            if (jsonArray.length() > 0) {
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject object = jsonArray.getJSONObject(i);
-                                    productId = object.getInt(RestApiNames.DB_PRODUCT_ID);
-                                    productName = object.getString(RestApiNames.DB_PRODUCT_NAME);
-                                    productKcal = object.getDouble(RestApiNames.DB_PRODUCT_KCAL);
-                                    productVerified = object.getInt(RestApiNames.DB_PRODUCT_VERIFIED);
+                            JSONArray server_response = jsonObject.getJSONArray("server_response");
+                            if (server_response.length() > 0)
+                            {
+                                for (int i = 0; i < server_response.length(); i++)
+                                {
+                                    JSONObject srv_response = server_response.getJSONObject(i);
+                                    id = srv_response.getInt(RestApiNames.DB_PRODUCT_ID);
+                                    name = srv_response.getString(RestApiNames.DB_PRODUCT_NAME);
+                                    calories = srv_response.getDouble(RestApiNames.DB_PRODUCT_KCAL);
+                                    verified = srv_response.getInt(RestApiNames.DB_PRODUCT_VERIFIED);
 
-                                    String upName = productName.substring(0,1).toUpperCase() + productName.substring(1);
+                                    String nameUpperCase = name.substring(0,1).toUpperCase() + name.substring(1);
 
-                                    DietSearch dietSearch = new DietSearch(productId, upName,productKcal,productVerified);
-                                    dietSearchArrayList.add(dietSearch);
+                                    DietSearch dietSearch = new DietSearch(id, nameUpperCase, calories, verified);
+                                    arrayList.add(dietSearch);
                                 }
                             }
                             /* End */
 
-                            dietSearchListAdapter = new DietSearchListAdapter(DietProductSearchActivity.this,R.layout.row_diet_meal_search, dietSearchArrayList);
-                            listViewShowProducts.setAdapter(dietSearchListAdapter);
-                            listViewShowProducts.invalidate();
-                        } catch (JSONException e) {
+                            adapter = new DietSearchListAdapter(DietProductSearchActivity.this, R.layout.row_diet_meal_search, arrayList);
+                            listView.setAdapter(adapter);
+                            listView.invalidate();
+                        } catch (JSONException e)
+                        {
                             e.printStackTrace();
                         }
                     }
@@ -173,21 +194,23 @@ public class DietProductSearchActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(ctx);
         queue.add(strRequest);
     }
-    private void onListViewItemSelected() {
-        listViewShowProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                TextView productId = view.findViewById(R.id.dietMealSearchID);
-                Intent intent = new Intent(DietProductSearchActivity.this,DietProductShowActivity.class);
-                intent.putExtra("productId",productId.getText().toString());
-                intent.putExtra("previousActivity","DietProductSearchActivity");
-                intent.putExtra("dateInside",dateInside);
-                startActivity(intent);
+    private void onListViewItemSelected()
+    {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                {
+                    TextView productId = view.findViewById(R.id.dietMealSearchID);
+                    Intent intent = new Intent(DietProductSearchActivity.this, DietProductShowActivity.class);
+                    intent.putExtra("productID", productId.getText().toString());
+                    intent.putExtra("previousActivity", "DietProductSearchActivity");
+                    intent.putExtra("dateFormat", dateFormat);
+                    startActivity(intent);
 
+                }
             }
-        });
+        );
     }
-
-
 }

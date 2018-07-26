@@ -47,77 +47,79 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "TrainingDetailsActivity";
-    private LinearLayout container;
-    private int trainingID;
-    private String trainingTimeStamp, trainingTarget, previousActivity;
-    private ImageView imageViewTraining, imageViewTraining2;
-    private EditText editTextNotepad;
-    private TextView textViewExerciseName,textViewShowTrainingDetails,textViewCharsLeft;
-    private CheckBox checkBoxDone;
-    private TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
-    private Timer timer;
+public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener
+{
+    private static final String TAG = "TrainingDetailsA";
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-    private CharacterLimit notepad;
+    private String trainingTimeStamp, trainingTarget, previousActivity;
+    private LinearLayout linearLayout;
+    private int trainingID;
+    private ImageView imgTrainingL, imgTrainingR;
+    private EditText etNotepad;
+    private TextView tvName, tvDetails, tvCharsLeft;
+    private CheckBox checkBox;
+    private TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
+    private Timer timer;
+    private CharacterLimit characterLimit;
 
-    @SuppressLint("LongLogTag")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_4_details);
         changeStatusBarColor();
         onBackButtonPressed();
         loadInput();
         getIntentFromPreviousActiity();
-
         String url = "http://justfitx.xyz/images/exercises/" + trainingTarget + "/" + trainingID + "_1" + ".jpg";
         String url2 = "http://justfitx.xyz/images/exercises/" + trainingTarget + "/" + trainingID + "_2" + ".jpg";
-
-        loadImages(imageViewTraining, url);
-        loadImages(imageViewTraining2, url2);
-
+        loadImages(imgTrainingL, url);
+        loadImages(imgTrainingR, url2);
         timer = new Timer(this);
-
         timer.seekBarTimer();
-
-        previousActivity(previousActivity);
-        notepad = new CharacterLimit(editTextNotepad,textViewCharsLeft,280);
-        editTextNotepad.addTextChangedListener(notepad);
+        getPreviousActivity(previousActivity);
+        characterLimit = new CharacterLimit(etNotepad, tvCharsLeft, 280);
+        etNotepad.addTextChangedListener(characterLimit);
     }
 
     @SuppressLint("LongLogTag")
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
             case R.id.menu_save_exercise:
-                if (previousActivity.equals("TrainingActivity") && (inflater.isValid()) && (notepad.isLimit())) {
+                if (previousActivity.equals("TrainingActivity") && (inflater.isValid()) && (characterLimit.isLimit()))
+                {
                     TrainingService updateTraining = new TrainingService();
                     updateTraining.TrainingUpdate(saveDTO(), TrainingDetailsActivity.this);
                     finish();
                 }
 
-                else if (previousActivity.equals("TrainingListActivity") && (inflater.isValid()) && (notepad.isLimit())){
+                else if (previousActivity.equals("TrainingListActivity") && (inflater.isValid()) && (characterLimit.isLimit()))
+                {
                     TrainingService acceptService = new TrainingService();
                     acceptService.TrainingInsert(saveDTO(), TrainingDetailsActivity.this);
                     finish();
                 }
-                else {
+                else
+                {
                     Configuration cfg = new Configuration();
-                    cfg.showToastError(TrainingDetailsActivity.this);
+                    cfg.showError(TrainingDetailsActivity.this);
                 }
                 break;
             case R.id.menu_delete_exercise:
                 TrainingService deleteService = new TrainingService();
-                deleteService.TrainingDelete(deleteDto(),TrainingDetailsActivity.this);
+                deleteService.TrainingDelete(deleteDto(), TrainingDetailsActivity.this);
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private TrainingDTO saveDTO(){
+    private TrainingDTO saveDTO()
+    {
         Log.i(TAG, "onClick: " + "\nisValid: " + inflater.isValid() + inflater.printResult());
         TrainingDTO dto = new TrainingDTO();
         dto.trainingID = String.valueOf(trainingID);
@@ -127,12 +129,13 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         dto.trainingWeight = inflater.getWeight();
         dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
         dto.trainingTimeStamp = setTimeStamp();
-        dto.trainingNotepad = editTextNotepad.getText().toString();
+        dto.trainingNotepad = etNotepad.getText().toString();
         dto.printStatus();
         return dto;
     }
 
-    private TrainingDTO deleteDto(){
+    private TrainingDTO deleteDto()
+    {
         TrainingDTO dto = new TrainingDTO();
         dto.trainingID = String.valueOf(trainingID);
         dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
@@ -141,88 +144,107 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         return dto;
     }
 
-    private String setTimeStamp(){
-        if (previousActivity.equals("TrainingActivity")){
+    private String setTimeStamp()
+    {
+        if (previousActivity.equals("TrainingActivity"))
+        {
             return trainingTimeStamp;
         }
-        else {
+        else
+        {
             return timeStamp;
         }
     }
 
-    private void onTrainingChangerListener(int i){
+    private void onTrainingChangerListener(int i)
+    {
         setOnCheckedChangeListener();
-        if (i == 0) {
-            checkBoxDone.setChecked(false);
-            checkBoxDone.setText(R.string.not_done);
+        if (i == 0)
+        {
+            checkBox.setChecked(false);
+            checkBox.setText(R.string.not_done);
         }
-        else {
-            checkBoxDone.setChecked(true);
-            checkBoxDone.setText(R.string.done);
+        else
+        {
+            checkBox.setChecked(true);
+            checkBox.setText(R.string.done);
         }
     }
 
-    private int setOnCheckedChangeListener(){
-        checkBoxDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    private int setOnCheckedChangeListener()
+    {
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    checkBoxDone.setText(R.string.done);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (isChecked)
+                {
+                    checkBox.setText(R.string.done);
                 }
-                else {
-                    checkBoxDone.setText(R.string.not_done);
+                else
+                {
+                    checkBox.setText(R.string.not_done);
                 }
             }
         });
 
-        if (checkBoxDone.isChecked()) {
+        if (checkBox.isChecked())
+        {
             return 1;
         }
-        else {
+        else
+        {
             return 0;
         }
     }
 
-    private void previousActivity(String previousActivity) {
-        if (previousActivity.equals("TrainingActivity")){
+    private void getPreviousActivity(String previousActivity)
+    {
+        if (previousActivity.equals("TrainingActivity"))
+        {
             getUserTrainingDetailsAsynch(TrainingDetailsActivity.this);
             getTrainingNameAsynch(TrainingDetailsActivity.this);
         }
-        else if (previousActivity.equals("TrainingListActivity")){
+        else if (previousActivity.equals("TrainingListActivity"))
+        {
             getTrainingNameAsynch(TrainingDetailsActivity.this);
             timer.seekBarTimer.setProgress(5);
         }
     }
 
-    private void loadInput() {
-        checkBoxDone = findViewById(R.id.checkBoxDone);
-        container = findViewById(R.id.container);
-        textViewShowTrainingDetails = findViewById(R.id.textViewShowTrainingDetails);
-        textViewCharsLeft = findViewById(R.id.textViewCharsLeft);
-        textViewExerciseName = findViewById(R.id.textViewExerciseName);
-        editTextNotepad = findViewById(R.id.editTextNotepad);
-        editTextNotepad.clearFocus();
-        editTextNotepad.didTouchFocusSelect();
+    private void loadInput()
+    {
+        checkBox = findViewById(R.id.checkBox);
+        linearLayout = findViewById(R.id.container);
+        tvDetails = findViewById(R.id.textViewDetails);
+        tvCharsLeft = findViewById(R.id.textViewCharsLeft);
+        tvName = findViewById(R.id.textViewExerciseName);
+        etNotepad = findViewById(R.id.editTextNotepad);
+        etNotepad.clearFocus();
+        etNotepad.didTouchFocusSelect();
 
-        imageViewTraining = findViewById(R.id.imageViewTraining);
-        imageViewTraining2 = findViewById(R.id.imageViewTraining1);
+        imgTrainingL = findViewById(R.id.imageViewTraining);
+        imgTrainingR = findViewById(R.id.imageViewTraining1);
     }
 
     @SuppressLint("LongLogTag")
-    private void getIntentFromPreviousActiity() {
+    private void getIntentFromPreviousActiity()
+    {
         Intent intent = getIntent();
-        trainingID = intent.getIntExtra("trainingID",-1);
+        trainingID = intent.getIntExtra("trainingID", -1);
         trainingTarget = intent.getStringExtra("trainingTarget");
         trainingTimeStamp = intent.getStringExtra("trainingTimeStamp");
         previousActivity = intent.getStringExtra("previousActivity");
 
-        Log.e(TAG, "onCreate: "+trainingID);
-        Log.e(TAG, "onCreate: "+trainingTimeStamp);
-        Log.e(TAG, "onCreate: "+trainingTarget);
-        Log.e(TAG, "onCreate: "+previousActivity);
+        Log.e(TAG, "onCreate: " + trainingID);
+        Log.e(TAG, "onCreate: " + trainingTimeStamp);
+        Log.e(TAG, "onCreate: " + trainingTarget);
+        Log.e(TAG, "onCreate: " + previousActivity);
     }
 
-    private void loadImages(final ImageView imageView, String url) {
+    private void loadImages(final ImageView imageView, String url)
+    {
         Transformation transformation = new RoundedTransformationBuilder()
                 .borderColor(Color.BLACK)
                 .borderWidthDp(0)
@@ -233,142 +255,151 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
         Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null).transform(transformation)
                 .error(R.mipmap.ic_launcher_error)
-                .into(imageView, new com.squareup.picasso.Callback() {
+                .into(imageView, new com.squareup.picasso.Callback()
+                {
                     @Override
-                    public void onSuccess() {
-//                        progressBarDietProductShowActivity.setVisibility(View.INVISIBLE);
-                    }
+                    public void onSuccess() {}
 
                     @Override
-                    public void onError() {
-//                        progressBarDietProductShowActivity.setVisibility(View.VISIBLE);
+                    public void onError()
+                    {
                         Configuration cfg = new Configuration();
-                        cfg.showToastError(TrainingDetailsActivity.this);
+                        cfg.showError(TrainingDetailsActivity.this);
                     }
                 });
 
 
-
     }
 
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    private void changeStatusBarColor()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             getWindow().setStatusBarColor(ContextCompat.getColor(TrainingDetailsActivity.this, R.color.colorPrimaryDark));
         }
         Toolbar toolbar = findViewById(R.id.toolbarTrainingExerciseShow);
         setSupportActionBar(toolbar);
     }
 
-    private void onBackButtonPressed() {
+    private void onBackButtonPressed()
+    {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_training_4_details, menu);
 
         MenuItem item = menu.findItem(R.id.menu_delete_exercise);
-        if (previousActivity.equals("TrainingListActivity")){
+        if (previousActivity.equals("TrainingListActivity"))
+        {
             item.setVisible(false);
         }
-        else {
+        else
+        {
             item.setVisible(true);
         }
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void trainingSetsGenerator(int seriesNumber){
-        for (int i = 0; i < seriesNumber; i++) {
-            container.addView(inflater.trainingSetGenerator());
+    private void trainingSetsGenerator(int seriesNumber)
+    {
+        for (int i = 0; i < seriesNumber; i++)
+        {
+            linearLayout.addView(inflater.trainingSetGenerator());
         }
     }
 
-    private void trainingGenerateNextSet(){
-        container.addView(inflater.trainingSetGenerator());
+    private void trainingGenerateNextSet()
+    {
+        linearLayout.addView(inflater.trainingSetGenerator());
     }
 
-    private void getUserTrainingDetailsAsynch(final Context ctx){
+    private void getUserTrainingDetailsAsynch(final Context ctx)
+    {
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
-                new Response.Listener<String>()
+            new Response.Listener<String>()
+            {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onResponse(String response)
                 {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onResponse(String response)
+                    try
                     {
-                        try {
-                            /* Getting DietRatio from MySQL */
-                            JSONObject jsonObject = new JSONObject(response);
+                        JSONObject jsonObject = new JSONObject(response);
+                        Log.d(TAG, "onResponse: " + jsonObject.toString(1));
 
-                            Log.d(TAG, "onResponse: "+jsonObject.toString(1));
+                        int done = 0;
+                        String rest = "";
+                        String reps;
+                        String weight;
+                        String notepad = "";
 
+                        String exerciseName;
 
-                            int done = 0;
-                            String rest = "";
-                            String reps;
-                            String weight;
-                            String notepad = "";
+                        NameConverter nameUpperCase = new NameConverter();
 
-                            String exerciseName;
+                        JSONArray jsonArray = jsonObject.getJSONArray("server_response");
 
-                            NameConverter name = new NameConverter();
-
-                            JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                            if (jsonArray.length() > 0) {
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject object = jsonArray.getJSONObject(i);
-                                    exerciseName = object.getString(RestApiNames.DB_EXERCISE_NAME);
-
-                                    name.setName(exerciseName);
-                                }
-                            }
-
-                            JSONArray trainings_info_array = jsonObject.getJSONArray("trainings_info");
-                            if (trainings_info_array.length() > 0) {
-                                for (int i = 0; i < trainings_info_array.length(); i++) {
-                                    JSONObject object = trainings_info_array.getJSONObject(i);
-                                    done = object.getInt(RestApiNames.DB_EXERCISE_DONE);
-                                    rest = object.getString(RestApiNames.DB_EXERCISE_REST_TIME);
-                                    reps = object.getString(RestApiNames.DB_EXERCISE_REPS);
-                                    weight = object.getString(RestApiNames.DB_EXERCISE_WEIGHT);
-                                    notepad = object.getString(RestApiNames.DB_EXERCISE_NOTEPAD);
-
-                                    String mReps = reps.replaceAll("\\p{Punct}"," ");
-                                    String[] mReps_table = mReps.split("\\s+");
-
-                                    inflater.setReps(reps);
-                                    inflater.setWeight(weight);
-
-                                    trainingSetsGenerator(mReps_table.length);
-                                }
-                            }
-                            /* End */
-
-                            textViewExerciseName.setText(name.getName());
-                            onTrainingChangerListener(done);
-                            editTextNotepad.setText(notepad);
-                            timer.convertSetTime(Integer.valueOf(rest));
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        for (int i = 0; i < jsonArray.length(); i++)
+                        {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            exerciseName = object.getString(RestApiNames.DB_EXERCISE_NAME);
+                            nameUpperCase.setName(exerciseName);
                         }
+
+
+                        JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
+
+                        for (int i = 0; i < trainings_info.length(); i++)
+                        {
+                            JSONObject tr_info = trainings_info.getJSONObject(i);
+                            done = tr_info.getInt(RestApiNames.DB_EXERCISE_DONE);
+                            rest = tr_info.getString(RestApiNames.DB_EXERCISE_REST_TIME);
+                            reps = tr_info.getString(RestApiNames.DB_EXERCISE_REPS);
+                            weight = tr_info.getString(RestApiNames.DB_EXERCISE_WEIGHT);
+                            notepad = tr_info.getString(RestApiNames.DB_EXERCISE_NOTEPAD);
+
+                            String mReps = reps.replaceAll("\\p{Punct}", " ");
+                            String[] mReps_table = mReps.split("\\s+");
+
+                            inflater.setReps(reps);
+                            inflater.setWeight(weight);
+
+                            trainingSetsGenerator(mReps_table.length);
+                        }
+
+
+                        tvName.setText(nameUpperCase.getName());
+                        onTrainingChangerListener(done);
+                        etNotepad.setText(notepad);
+                        timer.convertSetTime(Integer.valueOf(rest));
+
                     }
-                },
-                new Response.ErrorListener()
-                {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onErrorResponse(VolleyError error)
+                    catch (JSONException e)
                     {
-                        Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "onErrorResponse: Error"+error);
+                        e.printStackTrace();
                     }
-                })
+                }
+            },
+            new Response.ErrorListener()
+            {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onErrorResponse(VolleyError error)
+                {
+                    Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onErrorResponse: Error" + error);
+                }
+            }
+        )
         {
             @Override
             protected Map<String, String> getParams()
             {
-                HashMap<String,String> params = new HashMap<>();
+                HashMap<String, String> params = new HashMap<>();
                 params.put(RestApiNames.DB_EXERCISE_ID, String.valueOf(trainingID));
                 params.put(RestApiNames.DB_EXERCISE_DATE, trainingTimeStamp);
                 params.put(RestApiNames.DB_USERNAME, SaveSharedPreference.getUserName(ctx));
@@ -379,55 +410,55 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         queue.add(strRequest);
     }
 
-    private void getTrainingNameAsynch(final Context ctx){
+    private void getTrainingNameAsynch(final Context ctx)
+    {
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_DETAILS,
-                new Response.Listener<String>()
+            new Response.Listener<String>()
+            {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onResponse(String response)
                 {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onResponse(String response)
+                    try
                     {
-                        try {
-                            /* Getting DietRatio from MySQL */
-                            JSONObject jsonObject = new JSONObject(response);
-
-                            Log.d(TAG, "onResponse: "+jsonObject.toString(1));
-
-                            String exerciseName = "";
-
-                            JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject object = jsonArray.getJSONObject(0);
-                                exerciseName = object.getString(RestApiNames.DB_EXERCISE_NAME);
-                            }
-
-                            String trainingName = exerciseName.substring(0,1).toUpperCase() + exerciseName.substring(1);
-                            Log.i(TAG, "trainingName: " + trainingName);
-                            /* End */
-
-                            textViewExerciseName.setText(trainingName);
-                            setOnCheckedChangeListener();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        JSONObject jsonObject = new JSONObject(response);
+                        Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+                        String name = "";
+                        JSONArray server_response = jsonObject.getJSONArray("server_response");
+                        NameConverter nameUpperCase = new NameConverter();
+                        for (int i = 0; i < server_response.length(); i++)
+                        {
+                            JSONObject object = server_response.getJSONObject(0);
+                            name = object.getString(RestApiNames.DB_EXERCISE_NAME);
                         }
+
+
+                        nameUpperCase.setName(name);
+                        tvName.setText(nameUpperCase.getName());
+                        setOnCheckedChangeListener();
                     }
-                },
-                new Response.ErrorListener()
-                {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onErrorResponse(VolleyError error)
+                    catch (JSONException e)
                     {
-                        Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "onErrorResponse: Error"+error);
+                        e.printStackTrace();
                     }
-                })
+                }
+            },
+            new Response.ErrorListener()
+            {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onErrorResponse(VolleyError error)
+                {
+                    Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onErrorResponse: Error" + error);
+                }
+            }
+        )
         {
             @Override
             protected Map<String, String> getParams()
             {
-                HashMap<String,String> params = new HashMap<>();
+                HashMap<String, String> params = new HashMap<>();
                 params.put(RestApiNames.DB_EXERCISE_ID, String.valueOf(trainingID));
                 return params;
             }
@@ -436,79 +467,85 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         queue.add(strRequest);
     }
 
-    private void getTrainingDescAsynch(final Context ctx){
+    private void getTrainingDescAsynch(final Context context)
+    {
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_DESCRIPTION,
-                new Response.Listener<String>()
+            new Response.Listener<String>()
+            {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onResponse(String response)
                 {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onResponse(String response)
+                    try
                     {
-                        try {
-                            /* Getting DietRatio from MySQL */
-                            JSONObject jsonObject = new JSONObject(response);
+                        JSONObject jsonObject = new JSONObject(response);
 
-                            Log.d(TAG, "onResponse: "+jsonObject.toString(1));
+                        Log.d(TAG, "onResponse: " + jsonObject.toString(1));
 
 
-                            String description = "";
+                        String description = "";
 
-                            JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+                        JSONArray server_response = jsonObject.getJSONArray("server_response");
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject object = jsonArray.getJSONObject(0);
-                                description = object.getString(RestApiNames.DB_EXERCISE_DESCRITION);
-                            }
-
-                            Log.i(TAG, "description: " + description);
-                            /* End */
-
-                            textViewShowTrainingDetails.setText(description);
-                            setOnCheckedChangeListener();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        for (int i = 0; i < server_response.length(); i++)
+                        {
+                            JSONObject object = server_response.getJSONObject(0);
+                            description = object.getString(RestApiNames.DB_EXERCISE_DESCRITION);
                         }
+
+                        tvDetails.setText(description);
+                        setOnCheckedChangeListener();
                     }
-                },
-                new Response.ErrorListener()
-                {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onErrorResponse(VolleyError error)
+                    catch (JSONException e)
                     {
-                        Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "onErrorResponse: Error"+error);
+                        e.printStackTrace();
                     }
-                })
+                }
+            },
+            new Response.ErrorListener()
+            {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onErrorResponse(VolleyError error)
+                {
+                    Toast.makeText(context, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onErrorResponse: Error" + error);
+                }
+            }
+        )
         {
             @Override
             protected Map<String, String> getParams()
             {
-                HashMap<String,String> params = new HashMap<>();
+                HashMap<String, String> params = new HashMap<>();
                 params.put(RestApiNames.DB_EXERCISE_ID, String.valueOf(trainingID));
                 return params;
             }
         };
-        RequestQueue queue = Volley.newRequestQueue(ctx);
+        RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.buttonTrainingDetailsAdd:
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.buttonAddSeries:
                 trainingGenerateNextSet();
                 break;
-            case R.id.buttonTrainingShowDetails:
-                (view.findViewById(R.id.buttonTrainingShowDetails)).setVisibility(View.INVISIBLE);
+            case R.id.buttonShowDescription:
+                (view.findViewById(R.id.buttonShowDescription)).setVisibility(View.INVISIBLE);
                 getTrainingDescAsynch(TrainingDetailsActivity.this);
-                textViewShowTrainingDetails.setVisibility(View.VISIBLE);
+                tvDetails.setVisibility(View.VISIBLE);
                 break;
-            case R.id.floatingActionButtonStartPause:
-                if (timer.timerRunning){
+            case R.id.floatingButtonStartPause:
+                if (timer.timerRunning)
+                {
                     timer.pauseTimer();
                 }
-                else {
+                else
+                {
                     timer.startTimer();
                 }
                 break;
@@ -517,35 +554,4 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 break;
         }
     }
-
-
-//    private class CharacterLimit implements TextWatcher {
-//
-//        private View view;
-//
-//        private CharacterLimit(View view) {
-//            this.view = view;
-//        }
-//
-//        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//        }
-//
-//        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//        }
-//
-//        public void afterTextChanged(Editable editable) {
-//            switch (view.getId()) {
-//                case R.id.input_name:
-//                    validateName();
-//                    break;
-//                case R.id.input_email:
-//                    validateEmail();
-//                    break;
-//                case R.id.input_password:
-//                    validatePassword();
-//                    break;
-//            }
-//        }
-//    }
-
 }

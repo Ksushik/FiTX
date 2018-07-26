@@ -15,15 +15,19 @@ import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
 
-public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener{
+public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener
+{
     private static final String TAG = "TrainingSearchActivity";
     ImageView imageViewButtonRotate, imageViewBodyBack, imageViewBodyFront;
 
-    TextView textViewButtonChest, textViewButtonAbs, textViewButtonQuads, textViewButtonShoulders, textViewButtonBiceps, textViewButtonForearms, textViewButtonLats, textViewButtonTraps, textViewButtonGlutes, textViewButtonTriceps, textViewButtonHamstrings, textViewButtonCalves;
-
+    TextView textViewButtonChest, textViewButtonAbs, textViewButtonQuads,
+            textViewButtonShoulders, textViewButtonBiceps, textViewButtonForearms,
+            textViewButtonLats, textViewButtonTraps, textViewButtonGlutes,
+            textViewButtonTriceps, textViewButtonHamstrings, textViewButtonCalves;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_2_muscle_choose);
         changeStatusBarColor();
@@ -32,24 +36,31 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         button();
     }
 
-    private void button() {
-        imageViewButtonRotate.setOnClickListener(new View.OnClickListener() {
+    private void button()
+    {
+        imageViewButtonRotate.setOnClickListener(new View.OnClickListener()
+        {
             @SuppressLint("LongLogTag")
             @Override
-            public void onClick(View v) {
-                Log.e(TAG, "onClick: "+v.toString() );
-                if (imageViewBodyBack.getVisibility() == View.INVISIBLE){
+            public void onClick(View v)
+            {
+                Log.e(TAG, "onClick: " + v.toString());
+                if (imageViewBodyBack.getVisibility() == View.INVISIBLE)
+                {
                     bodyRotate(1);
                 }
-                else if (imageViewBodyFront.getVisibility() == View.INVISIBLE){
+                else if (imageViewBodyFront.getVisibility() == View.INVISIBLE)
+                {
                     bodyRotate(0);
                 }
             }
         });
     }
 
-    private void bodyRotate(int rotation){
-        switch (rotation){
+    private void bodyRotate(int rotation)
+    {
+        switch (rotation)
+        {
             case 0:
                 hideBackBody();
                 showFrontBody();
@@ -61,7 +72,8 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         }
     }
 
-    private void showBackBody() {
+    private void showBackBody()
+    {
         imageViewBodyBack.setVisibility(View.VISIBLE);
         textViewButtonLats.setVisibility(View.VISIBLE);
         textViewButtonTraps.setVisibility(View.VISIBLE);
@@ -71,7 +83,8 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         textViewButtonCalves.setVisibility(View.VISIBLE);
     }
 
-    private void hideBackBody() {
+    private void hideBackBody()
+    {
         imageViewBodyBack.setVisibility(View.INVISIBLE);
         textViewButtonLats.setVisibility(View.INVISIBLE);
         textViewButtonTraps.setVisibility(View.INVISIBLE);
@@ -81,7 +94,8 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         textViewButtonCalves.setVisibility(View.INVISIBLE);
     }
 
-    private void hideFrontBody() {
+    private void hideFrontBody()
+    {
         imageViewBodyFront.setVisibility(View.INVISIBLE);
         textViewButtonChest.setVisibility(View.INVISIBLE);
         textViewButtonAbs.setVisibility(View.INVISIBLE);
@@ -91,7 +105,8 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         textViewButtonForearms.setVisibility(View.INVISIBLE);
     }
 
-    private void showFrontBody(){
+    private void showFrontBody()
+    {
         imageViewBodyFront.setVisibility(View.VISIBLE);
         textViewButtonChest.setVisibility(View.VISIBLE);
         textViewButtonAbs.setVisibility(View.VISIBLE);
@@ -101,7 +116,8 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         textViewButtonForearms.setVisibility(View.VISIBLE);
     }
 
-    private void loadInputs() {
+    private void loadInputs()
+    {
         imageViewButtonRotate = findViewById(R.id.imageViewButtonRotate);
         imageViewBodyBack = findViewById(R.id.imageViewBodyBack);
         imageViewBodyFront = findViewById(R.id.imageViewBodyFront);
@@ -120,21 +136,26 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         textViewButtonCalves = findViewById(R.id.textViewButtonCalves);
     }
 
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    private void changeStatusBarColor()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             getWindow().setStatusBarColor(ContextCompat.getColor(TrainingSearchActivity.this, R.color.colorPrimaryDark));
         }
         Toolbar toolbar = findViewById(R.id.toolbarTrainingSearchExercises);
         setSupportActionBar(toolbar);
     }
 
-    private void onBackButtonPressed() {
+    private void onBackButtonPressed()
+    {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.textViewButtonChest:
                 runNextActivity(TrainingSearchActivity.this, R.id.textViewButtonChest);
                 break;
@@ -174,9 +195,10 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         }
     }
 
-    public void runNextActivity(Context context, int resId){
-        Intent intent = new Intent(context,TrainingListActivity.class);
-        intent.putExtra("exercise",resId);
+    public void runNextActivity(Context context, int resId)
+    {
+        Intent intent = new Intent(context, TrainingListActivity.class);
+        intent.putExtra("exercise", resId);
         TrainingSearchActivity.this.startActivity(intent);
     }
 }

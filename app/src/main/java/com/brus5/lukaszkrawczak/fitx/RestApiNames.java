@@ -1,6 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx;
 
-public class RestApiNames {
+public class RestApiNames
+{
 
     /* Names of db_user */
     public static String DB_USER_ID = "id";

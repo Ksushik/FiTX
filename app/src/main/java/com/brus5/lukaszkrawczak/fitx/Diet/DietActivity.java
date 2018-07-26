@@ -49,15 +49,15 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 public class DietActivity extends AppCompatActivity
 {
     private static final String TAG = "DietActivity";
-    HorizontalCalendar horizontalCalendar;
-    TextView textViewProteins, textViewFats, textViewCarbs, textViewKcal, textViewShowDayDietActivity;
-    ProgressBar progressBarProteins, progressBarFats, progressBarCarbs, progressBarKcal;
-    ArrayList<Diet> dietArrayList = new ArrayList<>();
-    DietListAdapter dietListAdapter;
-    ListView listViewDietActivity;
-    double kcalResult = 0d;
+    HorizontalCalendar calendar;
+    TextView tvProteins, tvFats, tvCarbs, tvCalories, tvDate;
+    ProgressBar pBarProteins, pBarFats, pBarCarbs, pBarKcal;
+    ArrayList<Diet> list = new ArrayList<>();
+    DietListAdapter adapter;
+    ListView listView;
     Configuration cfg = new Configuration();
-    String dateInside, dateInsideTextView, productTimeStamp;
+    String dateFormat, dateFormatView, productTimeStamp;
+    double mCalories = 0d;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,68 +67,64 @@ public class DietActivity extends AppCompatActivity
         changeStatusBarColor();
         onBackButtonPressed();
         loadInput();
-        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
+        weekCalendar(cfg.oldestDay(), cfg.newestDay());
         onListViewItemSelected();
     }
 
-    public void runNextActivity(Context packageContext, Class<?> cls)
+    public void runNextActivity(Context context, Class<?> aClass)
     {
-        Intent intent = new Intent(packageContext,cls);
+        Intent intent = new Intent(context, aClass);
         DietActivity.this.startActivity(intent);
     }
 
     private void loadInput()
     {
-        textViewShowDayDietActivity = findViewById(R.id.textViewShowDayDietActivity);
-
-        progressBarProteins = findViewById(R.id.progressBarProteins);
-        progressBarFats = findViewById(R.id.progressBarFats);
-        progressBarCarbs = findViewById(R.id.progressBarCarbs);
-        progressBarKcal = findViewById(R.id.progressBarKcal);
-
-        textViewProteins = findViewById(R.id.textViewProteins);
-        textViewFats = findViewById(R.id.textViewFats);
-        textViewCarbs = findViewById(R.id.textViewCarbs);
-        textViewKcal = findViewById(R.id.textViewKcal);
-
-        listViewDietActivity = findViewById(R.id.listViewDietActivity);
+        tvDate = findViewById(R.id.textViewDay);
+        pBarProteins = findViewById(R.id.progressBarProteins);
+        pBarFats = findViewById(R.id.progressBarFats);
+        pBarCarbs = findViewById(R.id.progressBarCarbs);
+        pBarKcal = findViewById(R.id.progressBarKcal);
+        tvProteins = findViewById(R.id.textViewProteins);
+        tvFats = findViewById(R.id.textViewFats);
+        tvCarbs = findViewById(R.id.textViewCarbs);
+        tvCalories = findViewById(R.id.textViewKcal);
+        listView = findViewById(R.id.listViewDiet);
     }
 
     private void weekCalendar(Calendar endDate, Calendar startDate)
     {
-        horizontalCalendar = new HorizontalCalendar.Builder(DietActivity.this, R.id.calendarViewDietActivity)
-                                 .startDate(startDate.getTime())
-                                 .endDate(endDate.getTime())
-                                 .datesNumberOnScreen(5)
-                                 .dayNameFormat("EE")
-                                 .dayNumberFormat("dd")
-                                 .showDayName(true)
-                                 .showMonthName(false)
-                                 .build();
+        calendar = new HorizontalCalendar.Builder(DietActivity.this, R.id.calendarViewDietActivity)
+                       .startDate(startDate.getTime())
+                       .endDate(endDate.getTime())
+                       .datesNumberOnScreen(5)
+                       .dayNameFormat("EE")
+                       .dayNumberFormat("dd")
+                       .showDayName(true)
+                       .showMonthName(false)
+                       .build();
 
-        horizontalCalendar.setCalendarListener(
+        calendar.setCalendarListener(
             new HorizontalCalendarListener() {
                 @Override
                 public void onDateSelected(Date date, int position) {
-                    dateInside = cfg.getSimpleDateDateInside().format(date.getTime());
-                    dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
-                    textViewShowDayDietActivity.setText(dateInsideTextView);
+                    dateFormat = cfg.getDateFormat().format(date.getTime());
+                    dateFormatView = cfg.getDateFormatView().format(date.getTime());
+                    tvDate.setText(dateFormatView);
 
-                    dietArrayList.clear();
+                    list.clear();
 
                     DietDTODiet dto = new DietDTODiet();
                     dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
-                    dto.dateToday = dateInside;
+                    dto.dateToday = dateFormat;
                     dto.printStatus();
                     loadUsersDailyDietAsynchTask(dto, DietActivity.this);
-
-                    Log.i(TAG, "onDateSelected: " + dateInside);
+                    Log.i(TAG, "onDateSelected: " + dateFormat);
                 }
             }
-        );
+                                    );
     }
 
-    public void loadUsersDailyDietAsynchTask(final DietDTODiet dto, final Context ctx)
+    public void loadUsersDailyDietAsynchTask(final DietDTODiet dto, final Context context)
     {
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_USER_SHOW_DAILY_URL,
                 new Response.Listener<String>()
@@ -212,7 +208,7 @@ public class DietActivity extends AppCompatActivity
                                     kcalCounted += finalkcal;
 
                                     Diet diet = new Diet(productId, upName, weight, productProteins, productFats, productCarbs,finalkcal, productVerified, productTimeStamp);
-                                    dietArrayList.add(diet);
+                                    list.add(diet);
                                 }
 
                             }
@@ -230,39 +226,39 @@ public class DietActivity extends AppCompatActivity
 
                             String wKcal = "Kcal: "+replaceCommaWithDot(kcalCounted)+" / "+replaceCommaWithDot(totalCalories);
 
-                            textViewProteins.setText(wProtein);
-                            textViewFats.setText(wFats);
-                            textViewCarbs.setText(wCarbs);
-                            textViewKcal.setText(wKcal);
+                            tvProteins.setText(wProtein);
+                            tvFats.setText(wFats);
+                            tvCarbs.setText(wCarbs);
+                            tvCalories.setText(wKcal);
 
                             progressBarProteinsChangeColor(proteinsCounted, proteinGoal);
                             progressBarFatsChangeColor(fatsCounted, fatGoal);
                             progressBarCarbsChangeColor(carbsCounted,carbsGoal);
                             progressBarKcalChangeColor(kcalCounted,totalCalories);
 
-                            setKcalResult(kcalCounted);
+                            setmCalories(kcalCounted);
 
-                            dietListAdapter = new DietListAdapter(DietActivity.this,R.layout.row_diet_meal,dietArrayList);
-                            listViewDietActivity.setAdapter(dietListAdapter);
-                            listViewDietActivity.invalidate();
+                            adapter = new DietListAdapter(DietActivity.this, R.layout.row_diet_meal, list);
+                            listView.setAdapter(adapter);
+                            listView.invalidate();
 
-                            if (getKcalResult() > 0d)
+                            if (getmCalories() > 0d)
                             {
                                 DietDTODiet dto = new DietDTODiet();
                                 dto.userID = SaveSharedPreference.getUserID(DietActivity.this);
                                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
                                 dto.updateKcalResult = String.format("%.1f",kcalCounted);
-                                dto.dateToday = dateInside;
+                                dto.dateToday = dateFormat;
                                 dto.printStatus();
                                 DietService dietService = new DietService();
                                 dietService.DietUpdateCountedKcal(dto,DietActivity.this);
 
                             }
-                            else if (getKcalResult() == 0d)
+                            else if (getmCalories() == 0d)
                             {
                                 DietDTODiet dto = new DietDTODiet();
                                 dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
-                                dto.dateToday = dateInside;
+                                dto.dateToday = dateFormat;
                                 dto.printStatus();
                                 DietService dietService = new DietService();
                                 dietService.DietDeleteCountedKcal(dto,DietActivity.this);
@@ -279,7 +275,7 @@ public class DietActivity extends AppCompatActivity
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
-                        Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "onErrorResponse: Error"+error);
                     }
                 }
@@ -294,13 +290,13 @@ public class DietActivity extends AppCompatActivity
                 return params;
             }
         };
-        RequestQueue queue = Volley.newRequestQueue(ctx);
+        RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
 
     private void onListViewItemSelected()
     {
-        listViewDietActivity.setOnItemClickListener(
+        listView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -309,8 +305,8 @@ public class DietActivity extends AppCompatActivity
                         TextView productTimeStamp = view.findViewById(R.id.dietTimeStamp);
 
                         Intent intent = new Intent(DietActivity.this, DietProductShowActivity.class);
-                        intent.putExtra("productId", productId.getText().toString());
-                        intent.putExtra("dateInside", dateInside);
+                        intent.putExtra("productID", productId.getText().toString());
+                        intent.putExtra("dateFormat", dateFormat);
                         intent.putExtra("productWeight", Double.valueOf(productWeight.getText().toString()));
                         intent.putExtra("productTimeStamp", productTimeStamp.getText().toString());
                         intent.putExtra("previousActivity", "DietActivity");
@@ -318,7 +314,7 @@ public class DietActivity extends AppCompatActivity
                         startActivity(intent);
                     }
                 }
-        );
+                                       );
     }
 
     private void progressBarProteinsChangeColor(double result, double goal)
@@ -326,75 +322,75 @@ public class DietActivity extends AppCompatActivity
         int intGoal = Integer.valueOf(String.format("%.0f",goal));
         int intResult = Integer.valueOf(String.format("%.0f",result));
 
-        progressBarProteins.getProgressDrawable().setColorFilter(0xFF3287C3, PorterDuff.Mode.SRC_IN);
-        progressBarProteins.setMax(intGoal);
-        progressBarProteins.setProgress(intResult);
+        pBarProteins.getProgressDrawable().setColorFilter(0xFF3287C3, PorterDuff.Mode.SRC_IN);
+        pBarProteins.setMax(intGoal);
+        pBarProteins.setProgress(intResult);
 
         if (result > goal)
         {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             {
-                progressBarProteins.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
+                pBarProteins.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
             }
             else
                 {
-                progressBarProteins.getProgressDrawable().setColorFilter(0xFF3287C3, PorterDuff.Mode.SRC_IN);
+                pBarProteins.getProgressDrawable().setColorFilter(0xFF3287C3, PorterDuff.Mode.SRC_IN);
                 }
         }
     }
 
     private void progressBarFatsChangeColor(double result, double goal)
     {
-        progressBarFats.getProgressDrawable().setColorFilter(0xFFF3AE28, PorterDuff.Mode.SRC_IN);
-        progressBarFats.setMax((int) goal);
-        progressBarFats.setProgress((int) result);
+        pBarFats.getProgressDrawable().setColorFilter(0xFFF3AE28, PorterDuff.Mode.SRC_IN);
+        pBarFats.setMax((int) goal);
+        pBarFats.setProgress((int) result);
 
         if (result > goal)
         {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             {
-                progressBarFats.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
+                pBarFats.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
             }
             else
                 {
-                progressBarFats.getProgressDrawable().setColorFilter(0xFFF3AE28, PorterDuff.Mode.SRC_IN);
+                pBarFats.getProgressDrawable().setColorFilter(0xFFF3AE28, PorterDuff.Mode.SRC_IN);
                 }
         }
     }
 
     private void progressBarCarbsChangeColor(double result, double goal)
     {
-        progressBarCarbs.getProgressDrawable().setColorFilter(0xFFBD2121, PorterDuff.Mode.SRC_IN);
-        progressBarCarbs.setMax((int) goal);
-        progressBarCarbs.setProgress((int) result);
+        pBarCarbs.getProgressDrawable().setColorFilter(0xFFBD2121, PorterDuff.Mode.SRC_IN);
+        pBarCarbs.setMax((int) goal);
+        pBarCarbs.setProgress((int) result);
 
         if (result > goal)
         {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             {
-                progressBarCarbs.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
+                pBarCarbs.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
             }
             else
                 {
-                progressBarCarbs.getProgressDrawable().setColorFilter(0xFFBD2121, PorterDuff.Mode.SRC_IN);
+                pBarCarbs.getProgressDrawable().setColorFilter(0xFFBD2121, PorterDuff.Mode.SRC_IN);
                 }
         }
     }
 
     private void progressBarKcalChangeColor(double result, double goal)
     {
-        progressBarKcal.getProgressDrawable().setColorFilter(0xFF89C611, PorterDuff.Mode.SRC_IN);
-        progressBarKcal.setMax((int) goal);
-        progressBarKcal.setProgress((int) result);
+        pBarKcal.getProgressDrawable().setColorFilter(0xFF89C611, PorterDuff.Mode.SRC_IN);
+        pBarKcal.setMax((int) goal);
+        pBarKcal.setProgress((int) result);
 
         if (result > goal)
         {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             {
-                progressBarKcal.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
+                pBarKcal.getProgressDrawable().setColorFilter(0xFFFF001A, PorterDuff.Mode.SRC_IN);
             } else
                 {
-                progressBarKcal.getProgressDrawable().setColorFilter(0xFF89C611, PorterDuff.Mode.SRC_IN);
+                pBarKcal.getProgressDrawable().setColorFilter(0xFF89C611, PorterDuff.Mode.SRC_IN);
                 }
         }
     }
@@ -414,14 +410,14 @@ public class DietActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
     }
 
-    public double getKcalResult()
+    public double getmCalories()
     {
-        return kcalResult;
+        return mCalories;
     }
 
-    public void setKcalResult(double kcalResult)
+    public void setmCalories(double mCalories)
     {
-        this.kcalResult = kcalResult;
+        this.mCalories = mCalories;
     }
 
     private void onBackButtonPressed()
@@ -434,10 +430,10 @@ public class DietActivity extends AppCompatActivity
     {
         super.onRestart();
         // this backendcall
-        dietListAdapter.clear();
+        adapter.clear();
         DietDTODiet dto = new DietDTODiet();
         dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
-        dto.dateToday = dateInside;
+        dto.dateToday = dateFormat;
         dto.printStatus();
         loadUsersDailyDietAsynchTask(dto,DietActivity.this);
     }
@@ -457,7 +453,7 @@ public class DietActivity extends AppCompatActivity
         {
             case R.id.menu_search_product:
             Intent intent = new Intent(DietActivity.this,DietProductSearchActivity.class);
-            intent.putExtra("dateInside", dateInside);
+            intent.putExtra("dateFormat", dateFormat);
             DietActivity.this.startActivity(intent);
             break;
         }

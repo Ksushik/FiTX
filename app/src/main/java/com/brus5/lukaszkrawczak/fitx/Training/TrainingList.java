@@ -7,7 +7,8 @@ import android.view.View;
 
 import com.brus5.lukaszkrawczak.fitx.R;
 
-public class TrainingList extends View{
+public class TrainingList extends View
+{
     private static final String TAG = "TrainingList";
 
     private int resId;
@@ -15,20 +16,24 @@ public class TrainingList extends View{
     @SuppressLint("ResourceType")
     private String chest;
 
-    public TrainingList(Context context) {
+    public TrainingList(Context context)
+    {
         super(context);
         this.mContext = context;
         chest = this.mContext.getString(R.string.body_chest);
     }
 
-    public void setResId(int resId) {
+    public void setResId(int resId)
+    {
         this.resId = resId;
     }
 
-    String getResourceName(){
+    String getResourceName()
+    {
         Log.i(TAG, "getResourceName: " + chest);
         String excerciseName = "";
-        switch (resId) {
+        switch (resId)
+        {
             case R.id.textViewButtonChest:
                 excerciseName = "chest";
                 break;
@@ -68,9 +73,6 @@ public class TrainingList extends View{
         }
         return excerciseName;
     }
-
-
-
 
 
 }

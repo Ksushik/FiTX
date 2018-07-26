@@ -1,17 +1,21 @@
 package com.brus5.lukaszkrawczak.fitx.Converter;
 
-public class TimeStampReplacer extends Converter {
+public class TimeStampReplacer extends Converter
+{
 
-    public TimeStampReplacer(String dateToday, String oldTimeStamp) {
+    public TimeStampReplacer(String dateToday, String oldTimeStamp)
+    {
         super(dateToday, oldTimeStamp);
     }
 
     @Override
-    public String getNewTimeStamp(){
+    public String getNewTimeStamp()
+    {
         return super.getNewTimeStamp();
     }
 
-    public String toString(){
+    public String toString()
+    {
         return "timeStamp replaced with value: " + super.getNewTimeStamp();
     }
 

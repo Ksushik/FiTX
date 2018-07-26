@@ -83,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageViewTraining" />
 
         <CheckBox
-            android:id="@+id/checkBoxDone"
+            android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -127,11 +127,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.45"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxDone"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox"
             app:layout_constraintVertical_chainStyle="spread" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButtonStartPause"
+            android:id="@+id/floatingButtonStartPause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -157,9 +157,9 @@
             android:text="@string/reset"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonStartPause"
-            app:layout_constraintStart_toEndOf="@+id/floatingActionButtonStartPause"
-            app:layout_constraintTop_toTopOf="@+id/floatingActionButtonStartPause" />
+            app:layout_constraintBottom_toBottomOf="@+id/floatingButtonStartPause"
+            app:layout_constraintStart_toEndOf="@+id/floatingButtonStartPause"
+            app:layout_constraintTop_toTopOf="@+id/floatingButtonStartPause" />
 
         <SeekBar
             android:id="@+id/seekBarTimer"
@@ -193,7 +193,7 @@
 
 
         <Button
-            android:id="@+id/buttonTrainingDetailsAdd"
+            android:id="@+id/buttonAddSeries"
             style="@style/roundButtonWithIcon"
             android:layout_width="76dp"
             android:layout_alignParentEnd="true"
@@ -220,7 +220,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonTrainingDetailsAdd"></LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/buttonAddSeries"></LinearLayout>
 
         <EditText
             android:id="@+id/editTextNotepad"
@@ -245,7 +245,7 @@
             app:layout_constraintTop_toBottomOf="@+id/container" />
 
         <TextView
-            android:id="@+id/textViewShowTrainingDetails"
+            android:id="@+id/textViewDetails"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -254,7 +254,7 @@
             android:layout_marginStart="8dp"
 
             android:layout_marginTop="16dp"
-            android:padding="8dp"
+            android:padding="16dp"
             android:text="@string/training_details"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -262,7 +262,7 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextNotepad" />
 
         <Button
-            android:id="@+id/buttonTrainingShowDetails"
+            android:id="@+id/buttonShowDescription"
             style="@style/roundButtonWithIcon"
             android:layout_width="70dp"
             android:layout_marginEnd="8dp"
@@ -293,7 +293,7 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonTrainingShowDetails"
+            app:layout_constraintTop_toBottomOf="@+id/buttonShowDescription"
             tools:ignore="HardcodedText" />
 
         <TextView

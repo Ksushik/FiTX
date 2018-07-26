@@ -18,42 +18,44 @@ import java.util.Locale;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class Timer {
+public class Timer
+{
     Activity activity;
-
     public boolean timerRunning;
     public long START_TIME_IN_MILLIS;
-
     public SeekBar seekBarTimer;
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
     private ProgressBar progressBarCircle;
-    private Button /*buttonStartStopTimer,*/ buttonResetTimer;
+    private Button  buttonResetTimer;
     private TextView textViewTime;
     private FloatingActionButton floatingActionButtonStartPause;
 
-    public Timer(Activity activity) {
+    public Timer(Activity activity)
+    {
         this.activity = activity;
         seekBarTimer = this.activity.findViewById(R.id.seekBarTimer);
         progressBarCircle = this.activity.findViewById(R.id.progressBarCircle);
-//        buttonStartStopTimer = this.activity.findViewById(R.id.buttonStartStopTimer);
         buttonResetTimer = this.activity.findViewById(R.id.buttonResetTimer);
         textViewTime = this.activity.findViewById(R.id.textViewTime);
-        floatingActionButtonStartPause = this.activity.findViewById(R.id.floatingActionButtonStartPause);
+        floatingActionButtonStartPause = this.activity.findViewById(R.id.floatingButtonStartPause);
     }
 
-    public void resetTimer() {
+    public void resetTimer()
+    {
         timeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
-//        buttonStartStopTimer.setVisibility(View.VISIBLE);
         floatingActionButtonStartPause.setVisibility(View.VISIBLE);
         setProgressBarValues();
     }
 
-    public void startTimer() {
-        countDownTimer = new CountDownTimer(timeLeftInMillis,1000) {
+    public void startTimer()
+    {
+        countDownTimer = new CountDownTimer(timeLeftInMillis,1000)
+        {
             @Override
-            public void onTick(long millisUntilFinished) {
+            public void onTick(long millisUntilFinished)
+            {
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
 
@@ -61,10 +63,9 @@ public class Timer {
             }
 
             @Override
-            public void onFinish() {
+            public void onFinish()
+            {
                 timerRunning = false;
-//                buttonStartStopTimer.setText(R.string.start);
-//                buttonStartStopTimer.setVisibility(View.INVISIBLE);
                 floatingActionButtonStartPause.setImageResource(R.drawable.ic_play_arrow_white_24dp);
                 floatingActionButtonStartPause.setVisibility(View.INVISIBLE);
                 buttonResetTimer.setVisibility(View.VISIBLE);
@@ -75,13 +76,14 @@ public class Timer {
 
             }
         }.start();
+
         timerRunning = true;
         buttonResetTimer.setVisibility(View.INVISIBLE);
-//        buttonStartStopTimer.setText(R.string.pause);
         floatingActionButtonStartPause.setImageResource(R.drawable.ic_pause_white_24dp);
     }
 
-    private void updateCountDownText() {
+    private void updateCountDownText()
+    {
         int minutes = (int) timeLeftInMillis / 1000 / 60;
         int seconds = (int) timeLeftInMillis / 1000 % 60;
 
@@ -89,37 +91,40 @@ public class Timer {
         textViewTime.setText(timeLeftFormatted);
     }
 
-    public void pauseTimer() {
+    public void pauseTimer()
+    {
         countDownTimer.cancel();
         timerRunning = false;
-//        buttonStartStopTimer.setText(R.string.start);
         floatingActionButtonStartPause.setImageResource(R.drawable.ic_play_arrow_white_24dp);
         buttonResetTimer.setVisibility(View.VISIBLE);
     }
 
-    public void seekBarTimer() {
-        seekBarTimer.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                onProgressSetTime(progress);
-                updateCountDownText();
-                resetTimer();
+    public void seekBarTimer()
+    {
+        seekBarTimer.setOnSeekBarChangeListener(
+            new SeekBar.OnSeekBarChangeListener()
+            {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+                {
+                    onProgressSetTime(progress);
+                    updateCountDownText();
+                    resetTimer();
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {}
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {}
             }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+        );
     }
 
-    private void onProgressSetTime(int progress) {
-        switch (progress){
+    private void onProgressSetTime(int progress)
+    {
+        switch (progress)
+        {
             case 0:
                 START_TIME_IN_MILLIS = 15000;
                 break;
@@ -153,8 +158,10 @@ public class Timer {
         }
     }
 
-    public void convertSetTime(int timeInMillis){
-        switch (timeInMillis){
+    public void convertSetTime(int timeInMillis)
+    {
+        switch (timeInMillis)
+        {
             case 15000:
                 seekBarTimer.setProgress(0);
                 break;
@@ -188,7 +195,8 @@ public class Timer {
         }
     }
 
-    private void setProgressBarValues() {
+    private void setProgressBarValues()
+    {
         progressBarCircle.setMax((int) START_TIME_IN_MILLIS / 1000);
         progressBarCircle.setProgress((int) START_TIME_IN_MILLIS / 1000);
     }

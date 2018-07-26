@@ -6,7 +6,8 @@ import java.util.ArrayList;
  * Created by lukaszkrawczak on 18.03.2018.
  */
 
-public class Training extends ArrayList{
+public class Training extends ArrayList
+{
     private int id;
     private int done;
     private String name;
@@ -16,7 +17,8 @@ public class Training extends ArrayList{
     private String timeStamp;
     private String target;
 
-    public Training(int id, int done, String name, int restTime, String weight, String reps, String timeStamp, String target) {
+    public Training(int id, int done, String name, int restTime, String weight, String reps, String timeStamp, String target)
+    {
         this.id = id;
         this.done = done;
         this.name = name;
@@ -27,35 +29,43 @@ public class Training extends ArrayList{
         this.target = target;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public int getDone() {
+    public int getDone()
+    {
         return done;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public int getRestTime() {
+    public int getRestTime()
+    {
         return restTime;
     }
 
-    public String getWeight() {
+    public String getWeight()
+    {
         return weight;
     }
 
-    public String getReps() {
+    public String getReps()
+    {
         return reps;
     }
 
-    public String getTimeStamp() {
+    public String getTimeStamp()
+    {
         return timeStamp;
     }
 
-    public String getTarget() {
+    public String getTarget()
+    {
         return target;
     }
 }

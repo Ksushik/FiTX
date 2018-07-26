@@ -33,15 +33,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TrainingListActivity extends AppCompatActivity {
+public class TrainingListActivity extends AppCompatActivity
+{
     private static final String TAG = "TrainingListActivity";
     ArrayList<TrainingSearch> trainingSearchArrayList = new ArrayList<>();
-
     TrainingSearchListAdapter trainingSearchListAdapter;
     ListView listViewTrainingActivity;
     private String trainingTarget;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_3_choosed_listview);
         loadInput();
@@ -53,86 +55,97 @@ public class TrainingListActivity extends AppCompatActivity {
     }
 
     @SuppressLint("LongLogTag")
-    private void getIntentFromPreviousActiity() {
+    private void getIntentFromPreviousActiity()
+    {
         Intent intent = getIntent();
-        int mExercise = intent.getIntExtra("exercise",-1);
-        Log.e(TAG, "onCreate: "+mExercise);
-
+        int mExercise = intent.getIntExtra("exercise", -1);
         TrainingList trainingList = new TrainingList(TrainingListActivity.this);
         trainingList.setResId(mExercise);
         trainingTarget = trainingList.getResourceName();
-        Log.e(TAG, "getIntentFromPreviousActiity: " + trainingTarget);
     }
 
-    private void loadInput() {
-        listViewTrainingActivity = findViewById(R.id.listViewTrainingActivity);
+    private void loadInput()
+    {
+        listViewTrainingActivity = findViewById(R.id.listViewTraining);
     }
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+    private void changeStatusBarColor()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             getWindow().setStatusBarColor(ContextCompat.getColor(TrainingListActivity.this, R.color.colorPrimaryDark));
         }
         Toolbar toolbar = findViewById(R.id.toolbarTrainingExcerciseList);
         setSupportActionBar(toolbar);
     }
-    private void onBackButtonPressed() {
+
+    private void onBackButtonPressed()
+    {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void asynchTask(final Context ctx){
+    private void asynchTask(final Context ctx)
+    {
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.TRAINING_SEARCH_BY_TARGET,
-                new Response.Listener<String>()
+            new Response.Listener<String>()
+            {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onResponse(String response)
                 {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onResponse(String response)
+                    try
                     {
-                        try {
-                            /* Getting DietRatio from MySQL */
-                            JSONObject jsonObject = new JSONObject(response);
+                        /* Getting DietRatio from MySQL */
+                        JSONObject jsonObject = new JSONObject(response);
 
-                            Log.d(TAG, "onResponse: "+jsonObject.toString(1));
+                        Log.d(TAG, "onResponse: " + jsonObject.toString(1));
 
-                            int trainingID;
-                            String productName;
+                        int trainingID;
+                        String productName;
 
-                            JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                            if (jsonArray.length() > 0) {
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject object = jsonArray.getJSONObject(i);
-                                    trainingID = object.getInt(RestApiNames.DB_EXERCISE_ID);
-                                    productName = object.getString(RestApiNames.DB_EXERCISE_NAME);
+                        JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+                        if (jsonArray.length() > 0)
+                        {
+                            for (int i = 0; i < jsonArray.length(); i++)
+                            {
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                trainingID = object.getInt(RestApiNames.DB_EXERCISE_ID);
+                                productName = object.getString(RestApiNames.DB_EXERCISE_NAME);
 
-                                    String trainingName = productName.substring(0,1).toUpperCase() + productName.substring(1);
+                                String trainingName = productName.substring(0, 1).toUpperCase() + productName.substring(1);
 
-                                    TrainingSearch trainingSearch = new TrainingSearch(trainingID, trainingName);
-                                    trainingSearchArrayList.add(trainingSearch);
-                                }
+                                TrainingSearch trainingSearch = new TrainingSearch(trainingID, trainingName);
+                                trainingSearchArrayList.add(trainingSearch);
                             }
-                            /* End */
-
-                            trainingSearchListAdapter = new TrainingSearchListAdapter(TrainingListActivity.this,R.layout.row_training_exercise_search, trainingSearchArrayList);
-                            listViewTrainingActivity.setAdapter(trainingSearchListAdapter);
-                            listViewTrainingActivity.invalidate();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                        /* End */
+
+                        trainingSearchListAdapter = new TrainingSearchListAdapter(TrainingListActivity.this, R.layout.row_training_exercise_search, trainingSearchArrayList);
+                        listViewTrainingActivity.setAdapter(trainingSearchListAdapter);
+                        listViewTrainingActivity.invalidate();
                     }
-                },
-                new Response.ErrorListener()
-                {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onErrorResponse(VolleyError error)
+                    catch (JSONException e)
                     {
-                        Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "onErrorResponse: Error"+error);
+                        e.printStackTrace();
                     }
-                })
+                }
+            },
+            new Response.ErrorListener()
+            {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onErrorResponse(VolleyError error)
+                {
+                    Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onErrorResponse: Error" + error);
+                }
+            }
+        )
         {
             @Override
             protected Map<String, String> getParams()
             {
-                HashMap<String,String> params = new HashMap<>();
+                HashMap<String, String> params = new HashMap<>();
                 params.put(RestApiNames.DB_EXERCISE_TARGET, trainingTarget);
                 return params;
             }
@@ -141,17 +154,20 @@ public class TrainingListActivity extends AppCompatActivity {
         queue.add(strRequest);
     }
 
-    private void onListViewItemSelected() {
-        listViewTrainingActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void onListViewItemSelected()
+    {
+        listViewTrainingActivity.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
 
                 TextView trainingID = view.findViewById(R.id.trainingSearchID);
 
-                Intent intent = new Intent(TrainingListActivity.this,TrainingDetailsActivity.class);
-                intent.putExtra("trainingID",Integer.valueOf(trainingID.getText().toString()));
-                intent.putExtra("trainingTarget",trainingTarget);
-                intent.putExtra("previousActivity","TrainingListActivity");
+                Intent intent = new Intent(TrainingListActivity.this, TrainingDetailsActivity.class);
+                intent.putExtra("trainingID", Integer.valueOf(trainingID.getText().toString()));
+                intent.putExtra("trainingTarget", trainingTarget);
+                intent.putExtra("previousActivity", "TrainingListActivity");
                 startActivity(intent);
             }
         });

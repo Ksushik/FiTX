@@ -42,142 +42,144 @@ import java.util.Map;
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
-public class TrainingActivity extends AppCompatActivity {
-
-
+public class TrainingActivity extends AppCompatActivity
+{
     private static final String TAG = "TrainingActivity";
-
-    HorizontalCalendar horizontalCalendar;
-
-    /* Gettings DB_DATE */
+    HorizontalCalendar calendar;
     Configuration cfg = new Configuration();
-    String dateInside, dateInsideTextView;
-    TextView textViewShowDayTrainingActivity;
-
-    ArrayList<Training> trainingArrayList = new ArrayList<>();
-    ListView listViewTrainingActivity;
-    TrainingAdapter trainingAdapter;
+    String dateFormat, dateFormatView;
+    TextView tvDate;
+    ArrayList<Training> list = new ArrayList<>();
+    ListView listView;
+    TrainingAdapter adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_1);
         changeStatusBarColor();
         onBackButtonPressed();
         loadInput();
-
-        weekCalendar(cfg.generateEndDay(),cfg.generateNextDay());
-
+        weekCalendar(cfg.oldestDay(), cfg.newestDay());
         onListViewItemSelected();
     }
 
-    private void loadInput() {
-        textViewShowDayTrainingActivity = findViewById(R.id.textViewShowDayTrainingActivity);
-        listViewTrainingActivity = findViewById(R.id.listViewTrainingActivity);
+    private void loadInput()
+    {
+        tvDate = findViewById(R.id.textViewDate);
+        listView = findViewById(R.id.listViewTraining);
     }
 
-    private void weekCalendar(Calendar endDate, Calendar startDate) {
-        horizontalCalendar = new HorizontalCalendar.Builder(TrainingActivity.this, R.id.calendarViewTrainingActivity)
+    private void weekCalendar(Calendar endDate, Calendar startDate)
+    {
+        calendar = new HorizontalCalendar.Builder(TrainingActivity.this, R.id.calendarViewTraining)
                 .startDate(startDate.getTime())
                 .endDate(endDate.getTime())
                 .datesNumberOnScreen(5)
                 .dayNameFormat("EE")
                 .dayNumberFormat("dd")
-//                .textSize(10f, 16f, 14f)
                 .showDayName(true)
                 .showMonthName(false)
                 .build();
 
-        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+        calendar.setCalendarListener(new HorizontalCalendarListener()
+        {
             @Override
-            public void onDateSelected(Date date, int position) {
-                dateInside = cfg.getSimpleDateDateInside().format(date.getTime());
-                dateInsideTextView = cfg.getSimpleDateTextView().format(date.getTime());
-
-                textViewShowDayTrainingActivity.setText(dateInsideTextView);
-
-                trainingArrayList.clear();
-
+            public void onDateSelected(Date date, int position)
+            {
+                dateFormat = cfg.getDateFormat().format(date.getTime());
+                dateFormatView = cfg.getDateFormatView().format(date.getTime());
+                tvDate.setText(dateFormatView);
+                list.clear();
                 TrainingDTO dto = new TrainingDTO();
                 dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-                dto.trainingDate = dateInside;
+                dto.trainingDate = dateFormat;
                 dto.printStatus();
-                loadAsynchTask(dto,TrainingActivity.this);
+                loadAsynchTask(dto, TrainingActivity.this);
 
-                Log.i(TAG, "onDateSelected: "+ dateInside +" position: "+position);
+                Log.i(TAG, "onDateSelected: " + dateFormat + " position: " + position);
             }
         });
     }
 
-    private void onBackButtonPressed() {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private void onBackButtonPressed()
+    {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void loadAsynchTask(final TrainingDTO dto, final Context ctx){
+    public void loadAsynchTask(final TrainingDTO dto, final Context ctx)
+    {
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_SHORT_URL,
-                new Response.Listener<String>()
+            new Response.Listener<String>()
+            {
+                @Override
+                public void onResponse(String response)
                 {
-                    @Override
-                    public void onResponse(String response)
+                    try
                     {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Log.d(TAG, "onResponse: "+jsonObject.toString(1));
-                            JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
-                            JSONArray server_response = jsonObject.getJSONArray("server_response");
+                        JSONObject jsonObject = new JSONObject(response);
+                        Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+                        JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
+                        JSONArray server_response = jsonObject.getJSONArray("server_response");
 
-                            int exerciseRestTime = 0;
-                            int exerciseDone = 0;
-                            String exerciseReps = "";
-                            String exerciseWeight = "";
-                            int excerciseId = 0;
-                            String exerciseName = "";
-                            String excerciseDate = "";
-                            String exerciseTarget = "";
+                        int exerciseRestTime;
+                        int exerciseDone;
+                        String exerciseReps;
+                        String exerciseWeight;
+                        int excerciseId;
+                        String exerciseName;
+                        String excerciseDate;
+                        String exerciseTarget;
 
-                            if (trainings_info.length() > 0) {
-                                for (int i = 0; i < trainings_info.length(); i++) {
-                                    JSONObject trainings_infoObj = trainings_info.getJSONObject(i);
-                                    exerciseRestTime = trainings_infoObj.getInt(RestApiNames.DB_EXERCISE_REST_TIME);
-                                    exerciseDone = trainings_infoObj.getInt(RestApiNames.DB_EXERCISE_DONE);
-                                    exerciseReps = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_REPS);
-                                    exerciseWeight = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_WEIGHT);
-                                    excerciseDate = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_DATE);
+                        if (trainings_info.length() > 0)
+                        {
+                            for (int i = 0; i < trainings_info.length(); i++)
+                            {
+                                JSONObject            trainings_infoObj = trainings_info.getJSONObject(i);
+                                exerciseRestTime    = trainings_infoObj.getInt(RestApiNames.DB_EXERCISE_REST_TIME);
+                                exerciseDone        = trainings_infoObj.getInt(RestApiNames.DB_EXERCISE_DONE);
+                                exerciseReps        = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_REPS);
+                                exerciseWeight      = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_WEIGHT);
+                                excerciseDate       = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_DATE);
 
 
-                                    JSONObject server_responseObj = server_response.getJSONObject(i);
-                                    excerciseId = server_responseObj.getInt(RestApiNames.DB_EXERCISE_ID);
-                                    exerciseName = server_responseObj.getString(RestApiNames.DB_EXERCISE_NAME);
-                                    exerciseTarget = server_responseObj.getString(RestApiNames.DB_EXERCISE_TARGET);
+                                JSONObject            server_responseObj = server_response.getJSONObject(i);
+                                excerciseId         = server_responseObj.getInt(RestApiNames.DB_EXERCISE_ID);
+                                exerciseName        = server_responseObj.getString(RestApiNames.DB_EXERCISE_NAME);
+                                exerciseTarget      = server_responseObj.getString(RestApiNames.DB_EXERCISE_TARGET);
 
-                                    Training training = new Training(excerciseId,exerciseDone,exerciseName,exerciseRestTime,exerciseWeight,exerciseReps, excerciseDate, exerciseTarget);
-                                    trainingArrayList.add(training);
-                                }
+                                Training training = new Training(excerciseId, exerciseDone, exerciseName, exerciseRestTime, exerciseWeight, exerciseReps, excerciseDate, exerciseTarget);
+                                list.add(training);
                             }
-                            trainingAdapter = new TrainingAdapter(TrainingActivity.this,R.layout.row_training_excercise,trainingArrayList);
-                            listViewTrainingActivity.setAdapter(trainingAdapter);
-                            listViewTrainingActivity.invalidate();
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                        adapter = new TrainingAdapter(TrainingActivity.this, R.layout.row_training_excercise, list);
+                        listView.setAdapter(adapter);
+                        listView.invalidate();
+
+
                     }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
+                    catch (JSONException e)
                     {
-                        Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "onErrorResponse: Error"+error);
+                        e.printStackTrace();
                     }
-                })
+                }
+            },
+            new Response.ErrorListener()
+            {
+                @Override
+                public void onErrorResponse(VolleyError error)
+                {
+                    Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onErrorResponse: Error" + error);
+                }
+            }
+        )
         {
             @Override
             protected Map<String, String> getParams()
             {
-                HashMap<String,String> params = new HashMap<>();
+                HashMap<String, String> params = new HashMap<>();
                 params.put(RestApiNames.DB_USERNAME, dto.userName);
                 params.put(RestApiNames.DB_DATE, dto.trainingDate);
                 return params;
@@ -187,62 +189,68 @@ public class TrainingActivity extends AppCompatActivity {
         queue.add(strRequest);
     }
 
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    private void changeStatusBarColor()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             getWindow().setStatusBarColor(ContextCompat.getColor(TrainingActivity.this, R.color.colorPrimaryDark));
         }
-        Toolbar toolbar = findViewById(R.id.toolbarTrainingActivity);
+        Toolbar toolbar = findViewById(R.id.toolbarTraining);
         setSupportActionBar(toolbar);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_training_1_search, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
             case R.id.menu_search_exercise:
-                Intent intent = new Intent(TrainingActivity.this,TrainingSearchActivity.class);
+                Intent intent = new Intent(TrainingActivity.this, TrainingSearchActivity.class);
                 TrainingActivity.this.startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void onListViewItemSelected() {
-        listViewTrainingActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void onListViewItemSelected()
+    {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                TextView tvTrainingID           = view.findViewById(R.id.trainingID);
+                TextView tvTrainingTimeStamp    = view.findViewById(R.id.trainingTimeStamp);
+                TextView tvTrainingTarget       = view.findViewById(R.id.trainingTarget);
 
-                TextView trainingID = view.findViewById(R.id.trainingExcerciseID);
-                TextView trainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
-                TextView trainingTarget = view.findViewById(R.id.trainingTarget);
-
-                Intent intent = new Intent(TrainingActivity.this,TrainingDetailsActivity.class);
-                intent.putExtra("trainingID", Integer.valueOf(trainingID.getText().toString()));
-                intent.putExtra("trainingTimeStamp", trainingTimeStamp.getText().toString());
-                intent.putExtra("trainingTarget", trainingTarget.getText().toString());
-                intent.putExtra("previousActivity", "TrainingActivity");
+                Intent intent = new Intent(TrainingActivity.this, TrainingDetailsActivity.class);
+                intent.putExtra("trainingID"        , Integer.valueOf(tvTrainingID.getText().toString()));
+                intent.putExtra("trainingTimeStamp" , tvTrainingTimeStamp.getText().toString());
+                intent.putExtra("trainingTarget"    , tvTrainingTarget.getText().toString());
+                intent.putExtra("previousActivity"  , "TrainingActivity");
                 startActivity(intent);
-
             }
         });
     }
 
     @Override
-    protected void onRestart() {
+    protected void onRestart()
+    {
         super.onRestart();
-        // this backendcall
-        trainingAdapter.clear();
+        adapter.clear();
         TrainingDTO dto = new TrainingDTO();
         dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-        dto.trainingDate = dateInside;
+        dto.trainingDate = dateFormat;
         dto.printStatus();
-        loadAsynchTask(dto,TrainingActivity.this);
+        loadAsynchTask(dto, TrainingActivity.this);
     }
 
 

@@ -14,16 +14,19 @@ import android.widget.TextView;
 import com.brus5.lukaszkrawczak.fitx.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by lukaszkrawczak on 18.03.2018.
  */
 
-public class DietListAdapter extends ArrayAdapter<Diet>{
+public class DietListAdapter extends ArrayAdapter<Diet>
+{
     private Context mContext;
     int mResource;
 
-    public DietListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Diet> objects) {
+    public DietListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Diet> objects)
+    {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -32,7 +35,8 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
     @SuppressLint("ViewHolder")
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    {
 
         int id = getItem(position).getId();
         String name = getItem(position).getName();
@@ -73,20 +77,21 @@ public class DietListAdapter extends ArrayAdapter<Diet>{
 
         dietTimeStamp.setText(dateTimeStamp);
 
-        if (verified == 0){
+        if (verified == 0)
+        {
             imageViewProductVerified.setVisibility(View.INVISIBLE);
         }
 
         return convertView;
     }
-    @SuppressLint("DefaultLocale")
-    private String replaceCommaWithDotNoFloatingPoint(double value){
-        return String.format("%.0f",value).replace(",",".");
+    private String replaceCommaWithDotNoFloatingPoint(double value)
+    {
+        return String.format(Locale.getDefault(),"%.0f",value).replace(",",".");
     }
 
-    @SuppressLint("DefaultLocale")
-    private String replaceCommaWithDotWithFloatingPoint(double value){
-        return String.format("%.1f",value).replace(",",".");
+    private String replaceCommaWithDotWithFloatingPoint(double value)
+    {
+        return String.format(Locale.getDefault(),"%.1f",value).replace(",",".");
     }
 
 }

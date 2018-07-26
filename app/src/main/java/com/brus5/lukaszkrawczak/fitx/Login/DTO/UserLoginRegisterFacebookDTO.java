@@ -8,7 +8,8 @@ import com.brus5.lukaszkrawczak.fitx.DTO.DtoStatus;
  * Created by lukaszkrawczak on 24.05.2018.
  */
 
-public class UserLoginRegisterFacebookDTO implements DtoStatus {
+public class UserLoginRegisterFacebookDTO implements DtoStatus
+{
     private static final String TAG = "UserLoginRegisterFacebo";
     public String userFirstName;
     public String userName;
@@ -18,14 +19,15 @@ public class UserLoginRegisterFacebookDTO implements DtoStatus {
     public String userEmail;
 
     @Override
-    public void printStatus() {
+    public void printStatus()
+    {
         Log.i(TAG, "printStatus: " +
                 " * userFirstName: " + userFirstName +
-                " * userName: "+ userName +
-                " * userBirthday: "+ userBirthday +
-                " * userPassword: "+ userPassword +
-                " * userGender: "+ userGender +
-                " * userEmail: "+ userEmail +
+                " * userName: " + userName +
+                " * userBirthday: " + userBirthday +
+                " * userPassword: " + userPassword +
+                " * userGender: " + userGender +
+                " * userEmail: " + userEmail +
                 " *");
     }
 }

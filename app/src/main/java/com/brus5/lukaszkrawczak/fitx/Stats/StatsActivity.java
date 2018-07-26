@@ -10,30 +10,36 @@ import android.support.v7.widget.Toolbar;
 
 import com.brus5.lukaszkrawczak.fitx.R;
 
-public class StatsActivity extends AppCompatActivity {
+public class StatsActivity extends AppCompatActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
         changeStatusBarColor();
         onBackButtonPressed();
     }
 
-    private void onBackButtonPressed() {
+    private void onBackButtonPressed()
+    {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    private void changeStatusBarColor()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             getWindow().setStatusBarColor(ContextCompat.getColor(StatsActivity.this, R.color.colorPrimary));
         }
         Toolbar toolbar = findViewById(R.id.toolbarStatsActivity);
         setSupportActionBar(toolbar);
     }
 
-    public void runNextActivity(Context packageContext, Class<?> cls){
-        Intent intent = new Intent(packageContext,cls);
+    public void runNextActivity(Context packageContext, Class<?> cls)
+    {
+        Intent intent = new Intent(packageContext, cls);
         StatsActivity.this.startActivity(intent);
         finish();
     }

@@ -1,8 +1,10 @@
 package com.brus5.lukaszkrawczak.fitx.Calculator;
 
-public class FatCalc extends Calculator {
+public class FatCalc extends Calculator
+{
     @Override
-    public int countFatsGoal(double kcalResult, double valueRatio) {
+    public int countFatsGoal(double kcalResult, double valueRatio)
+    {
         return super.countFatsGoal(kcalResult, valueRatio);
     }
 }

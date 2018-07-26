@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageViewShowProductVerified"
+            android:id="@+id/imageViewVerified"
             android:layout_width="12sp"
             android:layout_height="12sp"
             android:layout_marginLeft="8dp"
@@ -39,7 +39,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <ImageView
-            android:id="@+id/productImageView"
+            android:id="@+id/imageViewProduct"
             android:layout_width="180dp"
             android:layout_height="180dp"
             android:layout_marginEnd="32dp"
@@ -59,8 +59,8 @@
             android:layout_marginStart="8dp"
             android:text="@string/proteins"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productImageView"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductProteins" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewProduct"
+            app:layout_constraintTop_toTopOf="@+id/textViewProteins" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
             android:layout_marginStart="8dp"
             android:text="@string/fats"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductFats" />
+            app:layout_constraintTop_toTopOf="@+id/textViewFats" />
 
         <View
             android:layout_width="match_parent"
@@ -82,7 +82,7 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductFats" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewFats" />
 
         <View
             android:layout_width="match_parent"
@@ -95,7 +95,7 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductSaturatedFats" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewFatsSaturated" />
 
         <View
             android:layout_width="match_parent"
@@ -108,7 +108,7 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductUnsaturatedFats" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewFatsUnsaturated" />
 
         <View
             android:layout_width="match_parent"
@@ -122,7 +122,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductSugars" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCarbsSugars" />
 
         <View
             android:id="@+id/view"
@@ -136,7 +136,7 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductCarbs" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCarbs" />
 
         <View
             android:layout_width="match_parent"
@@ -149,7 +149,7 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductFiber" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCarbsFiber" />
 
 
         <View
@@ -163,7 +163,7 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductProteins" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewProteins" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -172,10 +172,10 @@
             android:layout_marginStart="8dp"
             android:text="@string/carbs"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductCarbs" />
+            app:layout_constraintTop_toTopOf="@+id/textViewCarbs" />
 
         <TextView
-            android:id="@+id/textViewProductProteins"
+            android:id="@+id/textViewProteins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -183,10 +183,10 @@
             android:layout_marginTop="8dp"
             android:text="@string/zero"
             app:layout_constraintEnd_toStartOf="@+id/textViewGrams1"
-            app:layout_constraintTop_toBottomOf="@+id/editTextProductWeight" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextWeight" />
 
         <TextView
-            android:id="@+id/textViewProductFats"
+            android:id="@+id/textViewFats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -194,10 +194,10 @@
             android:layout_marginTop="8dp"
             android:text="@string/zero"
             app:layout_constraintEnd_toStartOf="@+id/textViewGrams2"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductProteins" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewProteins" />
 
         <TextView
-            android:id="@+id/textViewProductCarbs"
+            android:id="@+id/textViewCarbs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -205,7 +205,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/zero"
             app:layout_constraintEnd_toStartOf="@+id/textViewGrams3"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductUnsaturatedFats" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewFatsUnsaturated" />
 
         <TextView
             android:id="@+id/textViewProductName"
@@ -216,7 +216,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewProduct" />
 
         <TextView
             android:id="@+id/textViewGrams3"
@@ -226,7 +226,7 @@
             android:layout_marginRight="8dp"
             android:text="@string/grams_short"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductCarbs" />
+            app:layout_constraintTop_toTopOf="@+id/textViewCarbs" />
 
         <TextView
             android:id="@+id/textViewGrams2"
@@ -236,7 +236,7 @@
             android:layout_marginRight="8dp"
             android:text="@string/grams_short"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductFats" />
+            app:layout_constraintTop_toTopOf="@+id/textViewFats" />
 
         <TextView
             android:id="@+id/textViewGrams1"
@@ -246,10 +246,10 @@
             android:layout_marginRight="8dp"
             android:text="@string/grams_short"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductProteins" />
+            app:layout_constraintTop_toTopOf="@+id/textViewProteins" />
 
         <EditText
-            android:id="@+id/editTextProductWeight"
+            android:id="@+id/editTextWeight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -277,10 +277,10 @@
             android:layout_marginStart="8dp"
             android:text="@string/calories"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductCalories" />
+            app:layout_constraintTop_toTopOf="@+id/textViewCalories" />
 
         <TextView
-            android:id="@+id/textViewProductCalories"
+            android:id="@+id/textViewCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -288,7 +288,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/zero"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductSugars" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCarbsSugars" />
 
         <TextView
             android:id="@+id/textView6"
@@ -298,10 +298,10 @@
             android:layout_marginStart="24dp"
             android:text="@string/fiber"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductFiber" />
+            app:layout_constraintTop_toTopOf="@+id/textViewCarbsFiber" />
 
         <TextView
-            android:id="@+id/textViewProductFiber"
+            android:id="@+id/textViewCarbsFiber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -309,7 +309,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/zero"
             app:layout_constraintEnd_toStartOf="@+id/textViewGrams4"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductCarbs" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCarbs" />
 
         <TextView
             android:id="@+id/textViewGrams4"
@@ -319,7 +319,7 @@
             android:layout_marginRight="8dp"
             android:text="@string/grams_short"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductFiber" />
+            app:layout_constraintTop_toTopOf="@+id/textViewCarbsFiber" />
 
         <TextView
             android:id="@+id/textView12"
@@ -329,10 +329,10 @@
             android:layout_marginStart="24dp"
             android:text="@string/sugars"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductSugars" />
+            app:layout_constraintTop_toTopOf="@+id/textViewCarbsSugars" />
 
         <TextView
-            android:id="@+id/textViewProductSugars"
+            android:id="@+id/textViewCarbsSugars"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -340,7 +340,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/zero"
             app:layout_constraintEnd_toStartOf="@+id/textViewGrams5"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductFiber" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCarbsFiber" />
 
         <TextView
             android:id="@+id/textViewGrams5"
@@ -350,7 +350,7 @@
             android:layout_marginRight="8dp"
             android:text="@string/grams_short"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductSugars" />
+            app:layout_constraintTop_toTopOf="@+id/textViewCarbsSugars" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -359,10 +359,10 @@
             android:layout_marginStart="24dp"
             android:text="@string/saturated_fats"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductSaturatedFats" />
+            app:layout_constraintTop_toTopOf="@+id/textViewFatsSaturated" />
 
         <TextView
-            android:id="@+id/textViewProductSaturatedFats"
+            android:id="@+id/textViewFatsSaturated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -370,7 +370,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/zero"
             app:layout_constraintEnd_toStartOf="@+id/textViewGrams10"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductFats" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewFats" />
 
         <TextView
             android:id="@+id/textViewGrams10"
@@ -380,10 +380,10 @@
             android:layout_marginRight="8dp"
             android:text="@string/grams_short"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductSaturatedFats" />
+            app:layout_constraintTop_toTopOf="@+id/textViewFatsSaturated" />
 
         <TextView
-            android:id="@+id/textViewProductUnsaturatedFats"
+            android:id="@+id/textViewFatsUnsaturated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -391,7 +391,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/zero"
             app:layout_constraintEnd_toStartOf="@+id/textViewGrams11"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProductSaturatedFats" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewFatsSaturated" />
 
         <TextView
             android:id="@+id/textViewGrams11"
@@ -401,7 +401,7 @@
             android:layout_marginRight="8dp"
             android:text="@string/grams_short"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductUnsaturatedFats" />
+            app:layout_constraintTop_toTopOf="@+id/textViewFatsUnsaturated" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -410,21 +410,21 @@
             android:layout_marginStart="24dp"
             android:text="@string/un_saturated_fats"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewProductUnsaturatedFats" />
+            app:layout_constraintTop_toTopOf="@+id/textViewFatsUnsaturated" />
 
         <Spinner
-            android:id="@+id/spinnerChooser"
+            android:id="@+id/spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:entries="@array/product_value_choice"
             android:prompt="@string/options"
             android:spinnerMode="dialog"
-            app:layout_constraintBottom_toBottomOf="@+id/editTextProductWeight"
-            app:layout_constraintStart_toStartOf="@+id/editTextProductWeight" />
+            app:layout_constraintBottom_toBottomOf="@+id/editTextWeight"
+            app:layout_constraintStart_toStartOf="@+id/editTextWeight" />
 
         <Button
-            android:id="@+id/buttonAcceptChanges"
+            android:id="@+id/buttonAccept"
             style="@style/ButtonAcceptGreen"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
@@ -444,7 +444,7 @@
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
         <ProgressBar
-            android:id="@+id/progressBarDietProductShowActivity"
+            android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -454,10 +454,10 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/productImageView"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewProduct"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/productImageView" />
+            app:layout_constraintTop_toTopOf="@+id/imageViewProduct" />
 
     </android.support.constraint.ConstraintLayout>
 

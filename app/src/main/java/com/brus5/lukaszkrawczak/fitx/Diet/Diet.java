@@ -4,7 +4,8 @@ package com.brus5.lukaszkrawczak.fitx.Diet;
  * Created by lukaszkrawczak on 18.03.2018.
  */
 
-public class Diet {
+public class Diet
+{
     private int id;
     private String name;
     private double weight;
@@ -15,7 +16,8 @@ public class Diet {
     private int verified;
     private String dateTimeStamp;
 
-    public Diet(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, int verified, String dateTimeStamp) {
+    public Diet(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, int verified, String dateTimeStamp)
+    {
         this.id = id;
         this.name = name;
         this.weight = weight;
@@ -27,71 +29,88 @@ public class Diet {
         this.dateTimeStamp = dateTimeStamp;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public double getWeight() {
+    public double getWeight()
+    {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(double weight)
+    {
         this.weight = weight;
     }
 
-    public double getProteins() {
+    public double getProteins()
+    {
         return proteins;
     }
 
-    public void setProteins(double proteins) {
+    public void setProteins(double proteins)
+    {
         this.proteins = proteins;
     }
 
-    public double getFats() {
+    public double getFats()
+    {
         return fats;
     }
 
-    public void setFats(double fats) {
+    public void setFats(double fats)
+    {
         this.fats = fats;
     }
 
-    public double getCarbs() {
+    public double getCarbs()
+    {
         return carbs;
     }
 
-    public void setCarbs(double carbs) {
+    public void setCarbs(double carbs)
+    {
         this.carbs = carbs;
     }
 
-    public double getKcal() {
+    public double getKcal()
+    {
         return kcal;
     }
 
-    public void setKcal(double kcal) {
+    public void setKcal(double kcal)
+    {
         this.kcal = kcal;
     }
 
-    public int getVerified() {
+    public int getVerified()
+    {
         return verified;
     }
 
-    public void setVerified(int verified) {
+    public void setVerified(int verified)
+    {
         this.verified = verified;
     }
 
-    public String getDateTimeStamp() {
+    public String getDateTimeStamp()
+    {
         return dateTimeStamp;
     }
 }

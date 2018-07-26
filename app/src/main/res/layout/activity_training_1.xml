@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarTrainingActivity"
+            android:id="@+id/toolbarTraining"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
@@ -21,7 +21,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <devs.mulham.horizontalcalendar.HorizontalCalendarView
-        android:id="@+id/calendarViewTrainingActivity"
+        android:id="@+id/calendarViewTraining"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/colorBackground"
@@ -37,24 +37,24 @@
         app:textSizeDayNumber="20dp" />
 
     <TextView
-        android:id="@+id/textViewShowDayTrainingActivity"
+        android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="3dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarViewTrainingActivity" />
+        app:layout_constraintTop_toBottomOf="@+id/calendarViewTraining" />
 
     <ListView
-        android:id="@+id/listViewTrainingActivity"
+        android:id="@+id/listViewTraining"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@color/colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewShowDayTrainingActivity"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDate"
         app:layout_constraintVertical_bias="0.0"></ListView>
 
 

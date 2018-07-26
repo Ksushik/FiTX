@@ -17,39 +17,42 @@ import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DietService {
+public class DietService
+{
 
     private static final String TAG = "DietService";
 
-    public void DietUpdateCountedKcal(final DietDTODiet dto, final Context context){
+    public void DietUpdateCountedKcal(final DietDTODiet dto, final Context context)
+    {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_UPDATE_COUNTED_KCAL_URL,
-                new Response.Listener<String>()
+            new Response.Listener<String>()
+            {
+                @Override
+                public void onResponse(String response)
                 {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        Log.e(TAG, "onResponse: "+response);
-                    }
-                },
-                new Response.ErrorListener()
+                    Log.e(TAG, "onResponse: " + response);
+                }
+            },
+            new Response.ErrorListener()
+            {
+                @Override
+                public void onErrorResponse(VolleyError error)
                 {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
 
-                    }
-                })
+                }
+            }
+        )
         {
             @Override
             protected Map<String, String> getParams()
             {
-                HashMap<String,String> params = new HashMap<>();
+                HashMap<String, String> params = new HashMap<>();
                 params.put(RestApiNames.DB_USER_ID, String.valueOf(SaveSharedPreference.getUserID(context)));
                 params.put(RestApiNames.DB_UPDATE_RESULT, dto.updateKcalResult);
                 params.put(RestApiNames.DB_USERNAME, dto.userName);
                 params.put(RestApiNames.DB_DATE, dto.dateToday);
-                Log.e(TAG, "getParams: "+params );
+                Log.e(TAG, "getParams: " + params);
                 return params;
             }
         };
@@ -57,30 +60,33 @@ public class DietService {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
-    public void DietDeleteCountedKcal(final DietDTODiet dto, Context context){
+
+    public void DietDeleteCountedKcal(final DietDTODiet dto, Context context)
+    {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_DELETE_COUNTED_KCAL_URL,
-                new Response.Listener<String>()
+            new Response.Listener<String>()
+            {
+                @Override
+                public void onResponse(String response)
                 {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        Log.e(TAG, "onResponse: "+response );
-                    }
-                },
-                new Response.ErrorListener()
+                    Log.e(TAG, "onResponse: " + response);
+                }
+            },
+            new Response.ErrorListener()
+            {
+                @Override
+                public void onErrorResponse(VolleyError error)
                 {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
 
-                    }
-                })
+                }
+            }
+        )
         {
             @Override
             protected Map<String, String> getParams()
             {
-                HashMap<String,String> params = new HashMap<>();
+                HashMap<String, String> params = new HashMap<>();
                 params.put(RestApiNames.DB_USERNAME, dto.userName);
                 params.put(RestApiNames.DB_DATE, dto.dateToday);
                 return params;
@@ -90,34 +96,37 @@ public class DietService {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
-    public void DietProductWeightUpdate(final DietDTODiet dto, Context context){
+
+    public void DietProductWeightUpdate(final DietDTODiet dto, Context context)
+    {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_UPDATE_WEIGHT_PRODUCT,
-                new Response.Listener<String>()
+            new Response.Listener<String>()
+            {
+                @Override
+                public void onResponse(String response)
                 {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        Log.e(TAG, "onResponse: "+response );
-                    }
-                },
-                new Response.ErrorListener()
+                    Log.e(TAG, "onResponse: " + response);
+                }
+            },
+            new Response.ErrorListener()
+            {
+                @Override
+                public void onErrorResponse(VolleyError error)
                 {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
 
-                    }
-                })
+                }
+            }
+        )
         {
             @Override
             protected Map<String, String> getParams()
             {
-                HashMap<String,String> params = new HashMap<>();
-                params.put(RestApiNames.DB_USER_DIET_ID,                    dto.productID);
-                params.put(RestApiNames.DB_USER_DIET_USERNAME,              dto.userName);
-                params.put(RestApiNames.DB_PRODUCT_DIET_WEIGHT_UPDATE,      dto.updateProductWeight);
-                params.put(RestApiNames.DB_USER_DIET_DATE,                  dto.productTimeStamp);
+                HashMap<String, String> params = new HashMap<>();
+                params.put(RestApiNames.DB_USER_DIET_ID, dto.productID);
+                params.put(RestApiNames.DB_USER_DIET_USERNAME, dto.userName);
+                params.put(RestApiNames.DB_PRODUCT_DIET_WEIGHT_UPDATE, dto.updateProductWeight);
+                params.put(RestApiNames.DB_USER_DIET_DATE, dto.productTimeStamp);
                 return params;
             }
         };
@@ -125,34 +134,37 @@ public class DietService {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
-    public void DietProductInsert(final DietDTODiet dto, Context context){
+
+    public void DietProductInsert(final DietDTODiet dto, Context context)
+    {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_INSERT_PRODUCT,
-                new Response.Listener<String>()
+            new Response.Listener<String>()
+            {
+                @Override
+                public void onResponse(String response)
                 {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        Log.e(TAG, "onResponse: "+response );
-                    }
-                },
-                new Response.ErrorListener()
+                    Log.e(TAG, "onResponse: " + response);
+                }
+            },
+            new Response.ErrorListener()
+            {
+                @Override
+                public void onErrorResponse(VolleyError error)
                 {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
 
-                    }
-                })
+                }
+            }
+        )
         {
             @Override
             protected Map<String, String> getParams()
             {
-                HashMap<String,String> params = new HashMap<>();
-                params.put(RestApiNames.DB_USER_DIET_ID,            dto.productID);
-                params.put(RestApiNames.DB_USER_DIET_USERNAME,      dto.userName);
-                params.put(RestApiNames.DB_PRODUCT_WEIGHT,          dto.productWeight);
-                params.put(RestApiNames.DB_USER_DIET_DATE,          dto.productTimeStamp);
+                HashMap<String, String> params = new HashMap<>();
+                params.put(RestApiNames.DB_USER_DIET_ID, dto.productID);
+                params.put(RestApiNames.DB_USER_DIET_USERNAME, dto.userName);
+                params.put(RestApiNames.DB_PRODUCT_WEIGHT, dto.productWeight);
+                params.put(RestApiNames.DB_USER_DIET_DATE, dto.productTimeStamp);
                 return params;
             }
         };
@@ -160,34 +172,37 @@ public class DietService {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
-    public void DietDeleteProduct(final DietDTODiet dto, Context context){
+
+    public void DietDeleteProduct(final DietDTODiet dto, Context context)
+    {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_DELETE_PRODUCT,
-                new Response.Listener<String>()
+            new Response.Listener<String>()
+            {
+                @Override
+                public void onResponse(String response)
                 {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        Log.e(TAG, "onResponse: "+response );
-                    }
-                },
-                new Response.ErrorListener()
+                    Log.e(TAG, "onResponse: " + response);
+                }
+            },
+            new Response.ErrorListener()
+            {
+                @Override
+                public void onErrorResponse(VolleyError error)
                 {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
 
-                    }
-                })
+                }
+            }
+        )
         {
             @Override
             protected Map<String, String> getParams()
             {
-                HashMap<String,String> params = new HashMap<>();
-                params.put(RestApiNames.DB_USER_DIET_ID,            dto.productID);
-                params.put(RestApiNames.DB_USER_DIET_USERNAME,      dto.userName);
-                params.put(RestApiNames.DB_USER_WEIGHT,             dto.updateProductWeight);
-                params.put(RestApiNames.DB_USER_DIET_DATE,          dto.productTimeStamp);
+                HashMap<String, String> params = new HashMap<>();
+                params.put(RestApiNames.DB_USER_DIET_ID, dto.productID);
+                params.put(RestApiNames.DB_USER_DIET_USERNAME, dto.userName);
+                params.put(RestApiNames.DB_USER_WEIGHT, dto.updateProductWeight);
+                params.put(RestApiNames.DB_USER_DIET_DATE, dto.productTimeStamp);
                 return params;
             }
         };
@@ -195,6 +210,4 @@ public class DietService {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
-
-
 }

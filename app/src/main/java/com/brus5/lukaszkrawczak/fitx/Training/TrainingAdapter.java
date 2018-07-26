@@ -21,13 +21,15 @@ import java.util.Locale;
  * Created by lukaszkrawczak on 18.03.2018.
  */
 
-public class TrainingAdapter extends ArrayAdapter<Training> {
+public class TrainingAdapter extends ArrayAdapter<Training>
+{
     private Context mContext;
     int mResource;
 
     private static int KG_ONE_TONE = 1000;
 
-    public TrainingAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Training> objects) {
+    public TrainingAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Training> objects)
+    {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -36,7 +38,8 @@ public class TrainingAdapter extends ArrayAdapter<Training> {
     @SuppressLint("ViewHolder")
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    {
         int id = getItem(position).getId();
         int done = getItem(position).getDone();
         String name = getItem(position).getName();
@@ -49,10 +52,10 @@ public class TrainingAdapter extends ArrayAdapter<Training> {
         new Training(id, done, name, restTime, weight, reps, timeStamp, target);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        convertView = inflater.inflate(mResource,parent,false);
+        convertView = inflater.inflate(mResource, parent, false);
 
         CheckBox cbDone = convertView.findViewById(R.id.trainingExcerciseCheckBox);
-        TextView tvId = convertView.findViewById(R.id.trainingExcerciseID);
+        TextView tvId = convertView.findViewById(R.id.trainingID);
         TextView tvName = convertView.findViewById(R.id.trainingExcerciseTitle);
         TextView tvRest = convertView.findViewById(R.id.trainingExcerciseRestTime);
         TextView tvTimeStamp = convertView.findViewById(R.id.trainingTimeStamp);
@@ -61,9 +64,12 @@ public class TrainingAdapter extends ArrayAdapter<Training> {
         TextView tvLifted = convertView.findViewById(R.id.textViewSumLiftedWeight);
         TextView tvWeightType = convertView.findViewById(R.id.textViewWeightType);
 
-        if (done == 1){
+        if (done == 1)
+        {
             cbDone.setChecked(true);
-        } else {
+        }
+        else
+        {
             cbDone.setChecked(false);
         }
 
@@ -77,7 +83,7 @@ public class TrainingAdapter extends ArrayAdapter<Training> {
         int minutes = restTime / 1000 / 60;
         int seconds = restTime / 1000 % 60;
 
-        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
+        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
 
         tvRest.setText(timeLeftFormatted);
 
@@ -89,17 +95,21 @@ public class TrainingAdapter extends ArrayAdapter<Training> {
 
         double mWeight = trainingInflater.countLiftedWeight();
         double toneConverter;
-        if (mWeight < KG_ONE_TONE) {
+
+        if (mWeight < KG_ONE_TONE)
+        {
             tvLifted.setText(String.valueOf(trainingInflater.countLiftedWeight()));
             tvWeightType.setText(R.string.kg_short);
         }
-        else {
+        else
+        {
             toneConverter = mWeight / KG_ONE_TONE;
-            String value = String.format(Locale.getDefault(),"%.2f",toneConverter);
+            String value = String.format(Locale.getDefault(), "%.2f", toneConverter);
             tvLifted.setText(value);
             tvWeightType.setText(R.string.t_short);
         }
 
         return convertView;
+
     }
 }

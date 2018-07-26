@@ -131,7 +131,7 @@
         app:layout_constraintStart_toStartOf="@+id/guidelineDiet2" />
 
     <TextView
-        android:id="@+id/textViewShowDayDietActivity"
+        android:id="@+id/textViewDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="3dp"
@@ -155,7 +155,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineDiet1"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewShowDayDietActivity" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDay" />
 
     <ProgressBar
         android:id="@+id/progressBarFats"
@@ -173,7 +173,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineDiet3"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineDiet1"
-        app:layout_constraintTop_toBottomOf="@+id/textViewShowDayDietActivity" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDay" />
 
     <ProgressBar
         android:id="@+id/progressBarCarbs"
@@ -190,7 +190,7 @@
         android:progressTint="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineDiet3"
-        app:layout_constraintTop_toBottomOf="@+id/textViewShowDayDietActivity" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDay" />
 
     <ProgressBar
         android:id="@+id/progressBarKcal"
@@ -229,7 +229,7 @@
         app:layout_constraintGuide_percent="0.6666667" />
 
     <ListView
-        android:id="@+id/listViewDietActivity"
+        android:id="@+id/listViewDiet"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/colorBackground"
