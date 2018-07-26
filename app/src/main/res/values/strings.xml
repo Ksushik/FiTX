@@ -136,5 +136,6 @@
     <string name="X">X</string>
     <string name="set">Seria</string>
     <string name="reps_long">Powtórzenia</string>
+    <string name="description">Opis</string>
 
 </resources>

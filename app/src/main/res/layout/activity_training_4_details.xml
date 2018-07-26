@@ -13,16 +13,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textViewExerciseName"
+        <android.support.constraint.Guideline
+            android:id="@+id/guidelineTrainingDetails1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/exercise_name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewTraining" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guidelineTrainingDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guidelineTrainingDetails2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarTrainingExerciseShow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </android.support.design.widget.AppBarLayout>
 
         <ImageView
             android:id="@+id/imageViewTraining"
@@ -47,130 +71,16 @@
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
             app:srcCompat="@drawable/common_google_signin_btn_icon_light_focused" />
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbarTrainingExerciseShow"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
-        </android.support.design.widget.AppBarLayout>
-
-        <EditText
-            android:id="@+id/editTextTrainingExerciseShow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
-            android:ems="10"
-            android:fadeScrollbars="false"
-            android:gravity="start"
-            android:hint="@string/type_your_ideas"
-            android:inputType="textMultiLine"
-            android:selectAllOnFocus="false"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guidelineTrainingDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guidelineTrainingDetails1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.15" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guidelineTrainingDetails2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.85" />
-
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/textViewExerciseName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/notes"
-            app:layout_constraintStart_toStartOf="@+id/editTextTrainingExerciseShow"
-            app:layout_constraintTop_toBottomOf="@+id/container" />
-
-        <Button
-            android:id="@+id/buttonTrainingShowDetails"
-            style="@style/roundButtonWithIcon"
-            android:layout_width="80dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/button_confirm"
-            android:drawableStart="@drawable/ic_read_more_white_12dp"
-            android:onClick="onClick"
-            android:text="@string/show"
+            android:text="@string/exercise_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11"
-            tools:ignore="RtlCompat" />
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/training_details"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTrainingExerciseShow" />
-
-        <Button
-            android:id="@+id/buttonTrainingDetailsAdd"
-            style="@style/roundButtonWithIcon"
-            android:layout_width="76dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/button_confirm"
-            android:drawableStart="@drawable/ic_add_white_12dp"
-            android:onClick="onClick"
-            android:text="@string/set"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider4"
-            tools:ignore="RtlCompat" />
-
-
-        <LinearLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonTrainingDetailsAdd"></LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/imageViewTraining" />
 
         <CheckBox
             android:id="@+id/checkBoxDone"
@@ -187,53 +97,19 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewExerciseName" />
 
 
-        <SeekBar
-            android:id="@+id/seekBarTimer"
-            style="@android:style/Widget.DeviceDefault.Light.SeekBar"
+        <View
+            android:id="@+id/divider2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="1dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
-            android:max="10"
-            android:progress="1"
+            android:background="@color/light_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTime" />
-
-        <Button
-            android:id="@+id/buttonStartStopTimer"
-            style="@style/roundButton"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/button_confirm"
-            android:onClick="onClick"
-            android:text="@string/start"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewTime"
-            app:layout_constraintDimensionRatio="w,1:1"
-            app:layout_constraintStart_toEndOf="@+id/textViewTime"
-            app:layout_constraintTop_toTopOf="@+id/textViewTime" />
-
-        <Button
-            android:id="@+id/buttonResetTimer"
-            style="@android:style/Widget.DeviceDefault.Light.Button.Borderless.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:onClick="onClick"
-            android:text="@string/reset"
-            android:textColor="@color/colorPrimary"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonStartPause"
-            app:layout_constraintStart_toEndOf="@+id/floatingActionButtonStartPause"
-            app:layout_constraintTop_toTopOf="@+id/floatingActionButtonStartPause" />
-
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxDone" />
 
         <ProgressBar
             android:id="@+id/progressBarCircle"
@@ -268,19 +144,52 @@
             app:layout_constraintTop_toBottomOf="@+id/divider2"
             app:layout_constraintVertical_chainStyle="spread" />
 
-        <View
-            android:id="@+id/divider2"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButtonStartPause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:onClick="onClick"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTime"
+            app:layout_constraintStart_toEndOf="@+id/textViewTime"
+            app:layout_constraintTop_toTopOf="@+id/textViewTime"
+            app:srcCompat="@drawable/ic_play_arrow_white_24dp" />
+
+        <Button
+            android:id="@+id/buttonResetTimer"
+            style="@android:style/Widget.DeviceDefault.Light.Button.Borderless.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:onClick="onClick"
+            android:text="@string/reset"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonStartPause"
+            app:layout_constraintStart_toEndOf="@+id/floatingActionButtonStartPause"
+            app:layout_constraintTop_toTopOf="@+id/floatingActionButtonStartPause" />
+
+        <SeekBar
+            android:id="@+id/seekBarTimer"
+            style="@android:style/Widget.DeviceDefault.Light.SeekBar"
             android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
-            android:background="@color/light_gray"
+            android:max="10"
+            android:progress="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxDone" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewTime" />
 
         <View
             android:id="@+id/divider4"
@@ -296,21 +205,72 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seekBarTimer" />
 
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/buttonStartStopTimer"
+            style="@style/roundButton"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/button_confirm"
+            android:onClick="onClick"
+            android:text="@string/start"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTime"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toEndOf="@+id/textViewTime"
+            app:layout_constraintTop_toTopOf="@+id/textViewTime" />
+
+
+        <Button
+            android:id="@+id/buttonTrainingDetailsAdd"
+            style="@style/roundButtonWithIcon"
+            android:layout_width="76dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/button_confirm"
+            android:drawableStart="@drawable/ic_add_white_12dp"
+            android:onClick="onClick"
+            android:text="@string/set"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider4"
+            tools:ignore="RtlCompat" />
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-            android:visibility="invisible"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonTrainingShowDetails"
-            tools:ignore="HardcodedText" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonTrainingDetailsAdd"></LinearLayout>
+
+        <EditText
+            android:id="@+id/editTextTrainingExerciseShow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edittext_rounded_grey"
+            android:ems="10"
+            android:fadeScrollbars="false"
+            android:gravity="start"
+            android:hint="@string/type_your_ideas"
+            android:inputType="textMultiLine"
+            android:padding="8dp"
+            android:selectAllOnFocus="false"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/container" />
 
         <TextView
             android:id="@+id/textViewShowTrainingDetails"
@@ -320,28 +280,64 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
 
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
             android:text="@string/training_details"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextTrainingExerciseShow" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButtonStartPause"
+        <Button
+            android:id="@+id/buttonTrainingShowDetails"
+            style="@style/roundButtonWithIcon"
+            android:layout_width="70dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_confirm"
+            android:drawableStart="@drawable/ic_read_more_white_12dp"
+            android:onClick="onClick"
+            android:padding="8dp"
+            android:text="@string/description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTrainingExerciseShow"
+            tools:ignore="RtlCompat" />
+
+        <TextView
+            android:id="@+id/textViewHelper1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:onClick="onClick"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewTime"
-            app:layout_constraintStart_toEndOf="@+id/textViewTime"
-            app:layout_constraintTop_toTopOf="@+id/textViewTime"
-            app:srcCompat="@drawable/ic_play_arrow_white_24dp"
-             />
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/done"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonTrainingShowDetails"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/textViewHelper2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/done"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewShowTrainingDetails" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

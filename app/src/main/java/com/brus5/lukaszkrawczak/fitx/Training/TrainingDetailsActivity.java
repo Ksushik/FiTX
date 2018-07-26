@@ -220,7 +220,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         Transformation transformation = new RoundedTransformationBuilder()
                 .borderColor(Color.BLACK)
                 .borderWidthDp(0)
-                .cornerRadiusDp(3)
+                .cornerRadiusDp(5)
                 .oval(false)
                 .build();
 
