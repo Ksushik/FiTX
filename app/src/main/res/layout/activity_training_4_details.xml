@@ -17,7 +17,7 @@
             android:id="@+id/textViewExerciseName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="@string/exercise_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,9 @@
             android:id="@+id/imageViewTraining"
             android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_marginTop="16dp"
             android:contentDescription="@string/image"
+            android:src="@drawable/image_frame"
             app:layout_constraintEnd_toStartOf="@+id/guidelineTrainingDetails"
             app:layout_constraintStart_toStartOf="@+id/guidelineTrainingDetails1"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
@@ -38,6 +40,7 @@
             android:id="@+id/imageViewTraining1"
             android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_marginTop="16dp"
             android:contentDescription="@string/image1"
             app:layout_constraintEnd_toStartOf="@+id/guidelineTrainingDetails2"
             app:layout_constraintStart_toStartOf="@+id/guidelineTrainingDetails"
@@ -104,7 +107,7 @@
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:text="@string/notes"
             app:layout_constraintStart_toStartOf="@+id/editTextTrainingExerciseShow"
             app:layout_constraintTop_toBottomOf="@+id/container" />
@@ -117,14 +120,15 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/button_confirm"
             android:drawableStart="@drawable/ic_read_more_white_12dp"
             android:onClick="onClick"
             android:text="@string/show"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintTop_toBottomOf="@+id/textView11"
+            tools:ignore="RtlCompat" />
 
         <TextView
             android:id="@+id/textView11"
@@ -132,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:text="@string/training_details"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextTrainingExerciseShow" />
@@ -142,16 +146,16 @@
             style="@style/roundButtonWithIcon"
             android:layout_width="76dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/button_confirm"
-
             android:drawableStart="@drawable/ic_add_white_12dp"
             android:onClick="onClick"
             android:text="@string/set"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+            app:layout_constraintTop_toBottomOf="@+id/divider4"
+            tools:ignore="RtlCompat" />
 
 
         <LinearLayout
@@ -162,6 +166,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -271,7 +276,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:background="@color/light_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -304,7 +309,8 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonTrainingShowDetails" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonTrainingShowDetails"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/textViewShowTrainingDetails"
@@ -330,12 +336,12 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:clickable="true"
             android:onClick="onClick"
             app:layout_constraintBottom_toBottomOf="@+id/textViewTime"
             app:layout_constraintStart_toEndOf="@+id/textViewTime"
             app:layout_constraintTop_toTopOf="@+id/textViewTime"
-            app:srcCompat="@drawable/ic_play_arrow_white_24dp" />
+            app:srcCompat="@drawable/ic_play_arrow_white_24dp"
+             />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

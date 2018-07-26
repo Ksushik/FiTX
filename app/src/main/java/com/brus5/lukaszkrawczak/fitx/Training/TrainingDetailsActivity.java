@@ -3,6 +3,7 @@ package com.brus5.lukaszkrawczak.fitx.Training;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -32,7 +33,9 @@ import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,7 +60,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
-
     @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         timer.seekBarTimer();
 
         previousActivity(previousActivity);
-
     }
 
     @SuppressLint("LongLogTag")
@@ -215,8 +216,16 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         Log.e(TAG, "onCreate: "+previousActivity);
     }
 
-    private void loadImages(ImageView imageView, String url) {
-        Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null)
+    private void loadImages(final ImageView imageView, String url) {
+        Transformation transformation = new RoundedTransformationBuilder()
+                .borderColor(Color.BLACK)
+                .borderWidthDp(0)
+                .cornerRadiusDp(3)
+                .oval(false)
+                .build();
+
+
+        Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null).transform(transformation)
                 .error(R.mipmap.ic_launcher_error)
                 .into(imageView, new com.squareup.picasso.Callback() {
                     @Override
@@ -231,6 +240,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                         cfg.showToastError(TrainingDetailsActivity.this);
                     }
                 });
+
+
+
     }
 
     private void changeStatusBarColor() {
