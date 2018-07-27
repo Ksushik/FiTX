@@ -12,131 +12,139 @@ import java.util.Calendar;
 
 public class SaveSharedPreference
 {
-    private static final String PREF_USER_ID = "userID";
-    private static final String PREF_USER_NAME = "userName";
-    private static final String DEF_LOGIN = "defaultLogin";
-    private static final String PREF_USER_FIRST_NAME = "userFirstName";
-    private static final String PREF_USER_BIRTHDAY = "userBirthday";
-    private static final String PREF_USER_EMAIL = "userEmail";
-    private static final String PREF_USER_GENDER = "userGender";
-    private static final String PREF_USER_AGE = "userAge";
-    private static final String PREF_USER_PASSWORD = "userPassword";
-    private static final String TAG = "SaveSharedPreference";
+    private static final String USER_ID = "userID";
+    private static final String USER_NAME = "userName";
+    private static final String DEFAULT_LOGIN = "defaultLogin";
+    private static final String USER_FIRST_NAME = "userFirstName";
+    private static final String USER_BIRTHDAY = "userBirthday";
+    private static final String USER_EMAIL = "userEmail";
+    private static final String USER_GENDER = "userGender";
+    private static final String USER_AGE = "userAge";
+    private static final String USER_PASSWORD = "userPassword";
 
-    static SharedPreferences getSharedPreferences(Context ctx)
+    static SharedPreferences getSharedPreferences(Context context)
     {
-        return PreferenceManager.getDefaultSharedPreferences(ctx);
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static void setUserName(Context ctx, String userName)
+    public static void setUserName(Context context, String userName)
     {
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putString(PREF_USER_NAME, userName);
-        editor.commit();
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(USER_NAME, userName);
+//        editor.commit();
+        editor.apply();
     }
 
-    public static void setDefLogin(Context ctx, boolean defaultLogin)
+    public static void setDefLogin(Context context, boolean defaultLogin)
     {
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putBoolean(DEF_LOGIN, true);
-        editor.commit();
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putBoolean(DEFAULT_LOGIN, true);
+//        editor.commit();
+        editor.apply();
     }
 
-    public static String getUserName(Context ctx)
+    public static String getUserName(Context context)
     {
-        return getSharedPreferences(ctx).getString(PREF_USER_NAME, "");
+        return getSharedPreferences(context).getString(USER_NAME, "");
     }
 
-    public static Boolean getDefLogin(Context ctx)
+    public static Boolean getDefLogin(Context context)
     {
-        return getSharedPreferences(ctx).getBoolean(DEF_LOGIN, false);
+        return getSharedPreferences(context).getBoolean(DEFAULT_LOGIN, false);
     }
 
-    public static void clearUserName(Context ctx)
+    public static void clearUserName(Context context)
     {
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.clear(); //clear all stored data
-        editor.commit();
+//        editor.commit();
+        editor.apply();
     }
 
-    public static void setUserFirstName(Context ctx, String userFirstName)
+    public static void setUserFirstName(Context context, String userFirstName)
     {
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putString(PREF_USER_FIRST_NAME, userFirstName);
-        editor.commit();
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(USER_FIRST_NAME, userFirstName);
+//        editor.commit();
+        editor.apply();
     }
 
-    public static String getUserFirstName(Context ctx)
+    public static String getUserFirstName(Context context)
     {
-        return getSharedPreferences(ctx).getString(PREF_USER_FIRST_NAME, "");
+        return getSharedPreferences(context).getString(USER_FIRST_NAME, "");
     }
 
-    public static void setUserBirthday(Context ctx, String userBirthday)
+    public static void setUserBirthday(Context context, String userBirthday)
     {
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         int mDay = Integer.valueOf(userBirthday.substring(0, 2));
         int mMonth = Integer.valueOf(userBirthday.substring(3, 5));
         int mYear = Integer.valueOf(userBirthday.substring(6, 10));
-        int userAgeint = Integer.valueOf(getAge(mYear, mMonth, mDay, null));
-        setUserAge(ctx, Integer.valueOf(getAge(mYear, mMonth, mDay, null)));
-        editor.putString(PREF_USER_BIRTHDAY, userBirthday);
-        editor.commit();
+        int userAgeint = Integer.valueOf(getAge(mYear, mMonth, mDay));
+        setUserAge(context, Integer.valueOf(getAge(mYear, mMonth, mDay)));
+        editor.putString(USER_BIRTHDAY, userBirthday);
+//        editor.commit();
+        editor.apply();
     }
 
-    public static String getUserBirthday(Context ctx)
+    public static String getUserBirthday(Context context)
     {
-        return getSharedPreferences(ctx).getString(PREF_USER_BIRTHDAY, "");
+        return getSharedPreferences(context).getString(USER_BIRTHDAY, "");
     }
 
-    public static void setUserEmail(Context ctx, String userEmail)
+    public static void setUserEmail(Context context, String userEmail)
     {
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putString(PREF_USER_EMAIL, userEmail);
-        editor.commit();
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(USER_EMAIL, userEmail);
+//        editor.commit();
+        editor.apply();
     }
 
-    public static String getUserEmail(Context ctx)
+    public static String getUserEmail(Context context)
     {
-        return getSharedPreferences(ctx).getString(PREF_USER_EMAIL, "");
+        return getSharedPreferences(context).getString(USER_EMAIL, "");
     }
 
-    public static void setUserGender(Context ctx, String userGender)
+    public static void setUserGender(Context context, String userGender)
     {
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putString(PREF_USER_GENDER, userGender);
-        editor.commit();
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(USER_GENDER, userGender);
+//        editor.commit();
+        editor.apply();
     }
 
-    public static String getUserGender(Context ctx)
+    public static String getUserGender(Context context)
     {
-        return getSharedPreferences(ctx).getString(PREF_USER_GENDER, "");
+        return getSharedPreferences(context).getString(USER_GENDER, "");
     }
 
-    public static void setUserID(Context ctx, int userID)
+    public static void setUserID(Context context, int userID)
     {
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putInt(PREF_USER_ID, userID);
-        editor.commit();
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putInt(USER_ID, userID);
+//        editor.commit();
+        editor.apply();
     }
 
-    public static int getUserID(Context ctx)
+    public static int getUserID(Context context)
     {
-        return getSharedPreferences(ctx).getInt(PREF_USER_ID, 0);
+        return getSharedPreferences(context).getInt(USER_ID, 0);
     }
 
-    public static void setUserAge(Context ctx, int userAge)
+    public static void setUserAge(Context context, int userAge)
     {
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putInt(PREF_USER_AGE, userAge);
-        editor.commit();
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putInt(USER_AGE, userAge);
+//        editor.commit();
+        editor.apply();
     }
 
-    public static int getUserAge(Context ctx)
+    public static int getUserAge(Context context)
     {
-        return getSharedPreferences(ctx).getInt(PREF_USER_AGE, 0);
+        return getSharedPreferences(context).getInt(USER_AGE, 0);
     }
 
-    private static String getAge(int year, int month, int day, Context ctx)
+    private static String getAge(int year, int month, int day)
     {
         Calendar calendar = Calendar.getInstance();
         Calendar calendarToday = Calendar.getInstance();
@@ -148,21 +156,20 @@ public class SaveSharedPreference
         {
             userAge--;
         }
-        Integer ageInt = new Integer(userAge);
-        String ageString = ageInt.toString();
-        return ageString;
+        return String.valueOf(userAge);
     }
 
-    public static void setUserPassword(Context ctx, String userPassword)
+    public static void setUserPassword(Context context, String userPassword)
     {
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putString(PREF_USER_PASSWORD, userPassword);
-        editor.commit();
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(USER_PASSWORD, userPassword);
+//        editor.commit();
+        editor.apply();
     }
 
-    public static String getUserPassword(Context ctx)
+    public static String getUserPassword(Context context)
     {
-        return getSharedPreferences(ctx).getString(PREF_USER_PASSWORD, "");
+        return getSharedPreferences(context).getString(USER_PASSWORD, "");
     }
 
 

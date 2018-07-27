@@ -9,12 +9,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.GetUserInfoDTO;
-import com.brus5.lukaszkrawczak.fitx.RestApiNames;
+import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginNormalDTO;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginRegisterFacebookDTO;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
@@ -30,9 +29,9 @@ import java.util.Map;
 public class LoginService
 {
     private static final String TAG = "ActivityService";
-    private static final String FACEBOOK_REGISTER = Configuration.BASE_URL + "Facebook/FacebookRegisterRequest.php";
-    private static final String LOGIN_REQUEST = Configuration.BASE_URL + "User/UserLoginRequest.php";
-    private static final String GET_USER_INFO = Configuration.BASE_URL + "User/UserInfoShowRequest.php";
+    private static final String FACEBOOK_REGISTER = RestAPI.URL + "Facebook/FacebookRegisterRequest.php";
+    private static final String LOGIN_REQUEST = RestAPI.URL + "User/UserLoginRequest.php";
+    private static final String GET_USER_INFO = RestAPI.URL + "User/UserInfoShowRequest.php";
 
     public void LoginWithFacebook(final UserLoginRegisterFacebookDTO dto, final Context ctx)
     {
@@ -50,7 +49,7 @@ public class LoginService
                         boolean success = jsonObject.getBoolean("success");
                         if (success)
                         {
-                            Toast.makeText(ctx, Configuration.NEW_ACCOUNT, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ctx, RestAPI.NEW_ACCOUNT, Toast.LENGTH_LONG).show();
                         }
                     }
                     catch (JSONException e)
@@ -63,7 +62,7 @@ public class LoginService
                             boolean userused = jsonObject.getBoolean("userused");
                             if (userused)
                             {
-                                Toast.makeText(ctx, Configuration.EXISTING_ACCOUNT, Toast.LENGTH_LONG).show();
+                                Toast.makeText(ctx, RestAPI.EXISTING_ACCOUNT, Toast.LENGTH_LONG).show();
                             }
                         }
                         catch (JSONException e1)
@@ -89,12 +88,12 @@ public class LoginService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestApiNames.DB_USER_FIRSTNAME, dto.userFirstName);
-                params.put(RestApiNames.DB_USERNAME, dto.userName);
-                params.put(RestApiNames.DB_PASSWORD, dto.userPassword);
-                params.put(RestApiNames.DB_USER_BIRTHDAY, dto.userBirthday);
-                params.put(RestApiNames.DB_USER_GENDER, dto.userGender);
-                params.put(RestApiNames.DB_USER_EMAIL, dto.userEmail);
+                params.put(RestAPI.DB_USER_FIRSTNAME, dto.userFirstName);
+                params.put(RestAPI.DB_USERNAME, dto.userName);
+                params.put(RestAPI.DB_PASSWORD, dto.userPassword);
+                params.put(RestAPI.DB_USER_BIRTHDAY, dto.userBirthday);
+                params.put(RestAPI.DB_USER_GENDER, dto.userGender);
+                params.put(RestAPI.DB_USER_EMAIL, dto.userEmail);
                 return params;
             }
         };
@@ -132,7 +131,7 @@ public class LoginService
                         }
                         else
                         {
-                            Toast.makeText(ctx, Configuration.LOGIN_ERROR, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ctx, RestAPI.LOGIN_ERROR, Toast.LENGTH_LONG).show();
                         }
                     }
                     catch (JSONException e)
@@ -156,8 +155,8 @@ public class LoginService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestApiNames.DB_USERNAME, dto.userName);
-                params.put(RestApiNames.DB_PASSWORD, dto.userPassword);
+                params.put(RestAPI.DB_USERNAME, dto.userName);
+                params.put(RestAPI.DB_PASSWORD, dto.userPassword);
                 Log.e(TAG, "getParams: " + params);
                 return params;
             }
@@ -224,7 +223,7 @@ public class LoginService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestApiNames.DB_USERNAME, dto.userName);
+                params.put(RestAPI.DB_USERNAME, dto.userName);
                 return params;
             }
         };
@@ -255,7 +254,7 @@ public class LoginService
                         }
                         else
                         {
-                            Toast.makeText(ctx, Configuration.LOGIN_ERROR, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ctx, RestAPI.LOGIN_ERROR, Toast.LENGTH_LONG).show();
                         }
                     }
                     catch (JSONException e)
@@ -279,8 +278,8 @@ public class LoginService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestApiNames.DB_USERNAME, dto.userName);
-                params.put(RestApiNames.DB_PASSWORD, dto.userPassword);
+                params.put(RestAPI.DB_USERNAME, dto.userName);
+                params.put(RestAPI.DB_PASSWORD, dto.userPassword);
 
                 return params;
             }

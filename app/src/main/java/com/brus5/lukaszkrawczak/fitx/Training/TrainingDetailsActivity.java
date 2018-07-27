@@ -32,7 +32,7 @@ import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.RestApiNames;
+import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
@@ -319,7 +319,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getUserTrainingDetailsAsynch(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_URL,
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING,
             new Response.Listener<String>()
             {
                 @SuppressLint("LongLogTag")
@@ -346,7 +346,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                         for (int i = 0; i < jsonArray.length(); i++)
                         {
                             JSONObject object = jsonArray.getJSONObject(i);
-                            exerciseName = object.getString(RestApiNames.DB_EXERCISE_NAME);
+                            exerciseName = object.getString(RestAPI.DB_EXERCISE_NAME);
                             nameUpperCase.setName(exerciseName);
                         }
 
@@ -356,11 +356,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                         for (int i = 0; i < trainings_info.length(); i++)
                         {
                             JSONObject tr_info = trainings_info.getJSONObject(i);
-                            done = tr_info.getInt(RestApiNames.DB_EXERCISE_DONE);
-                            rest = tr_info.getString(RestApiNames.DB_EXERCISE_REST_TIME);
-                            reps = tr_info.getString(RestApiNames.DB_EXERCISE_REPS);
-                            weight = tr_info.getString(RestApiNames.DB_EXERCISE_WEIGHT);
-                            notepad = tr_info.getString(RestApiNames.DB_EXERCISE_NOTEPAD);
+                            done = tr_info.getInt(RestAPI.DB_EXERCISE_DONE);
+                            rest = tr_info.getString(RestAPI.DB_EXERCISE_REST_TIME);
+                            reps = tr_info.getString(RestAPI.DB_EXERCISE_REPS);
+                            weight = tr_info.getString(RestAPI.DB_EXERCISE_WEIGHT);
+                            notepad = tr_info.getString(RestAPI.DB_EXERCISE_NOTEPAD);
 
                             String mReps = reps.replaceAll("\\p{Punct}", " ");
                             String[] mReps_table = mReps.split("\\s+");
@@ -390,7 +390,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 @Override
                 public void onErrorResponse(VolleyError error)
                 {
-                    Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "onErrorResponse: Error" + error);
                 }
             }
@@ -400,9 +400,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestApiNames.DB_EXERCISE_ID, String.valueOf(trainingID));
-                params.put(RestApiNames.DB_EXERCISE_DATE, trainingTimeStamp);
-                params.put(RestApiNames.DB_USERNAME, SaveSharedPreference.getUserName(ctx));
+                params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
+                params.put(RestAPI.DB_EXERCISE_DATE, trainingTimeStamp);
+                params.put(RestAPI.DB_USERNAME, SaveSharedPreference.getUserName(ctx));
                 return params;
             }
         };
@@ -412,7 +412,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getTrainingNameAsynch(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_DETAILS,
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DETAILS,
             new Response.Listener<String>()
             {
                 @SuppressLint("LongLogTag")
@@ -429,7 +429,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                         for (int i = 0; i < server_response.length(); i++)
                         {
                             JSONObject object = server_response.getJSONObject(0);
-                            name = object.getString(RestApiNames.DB_EXERCISE_NAME);
+                            name = object.getString(RestAPI.DB_EXERCISE_NAME);
                         }
 
 
@@ -449,7 +449,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 @Override
                 public void onErrorResponse(VolleyError error)
                 {
-                    Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "onErrorResponse: Error" + error);
                 }
             }
@@ -459,7 +459,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestApiNames.DB_EXERCISE_ID, String.valueOf(trainingID));
+                params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
                 return params;
             }
         };
@@ -469,7 +469,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getTrainingDescAsynch(final Context context)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_DESCRIPTION,
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DESCRIPTION,
             new Response.Listener<String>()
             {
                 @SuppressLint("LongLogTag")
@@ -490,7 +490,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                         for (int i = 0; i < server_response.length(); i++)
                         {
                             JSONObject object = server_response.getJSONObject(0);
-                            description = object.getString(RestApiNames.DB_EXERCISE_DESCRITION);
+                            description = object.getString(RestAPI.DB_EXERCISE_DESCRITION);
                         }
 
                         tvDetails.setText(description);
@@ -508,7 +508,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 @Override
                 public void onErrorResponse(VolleyError error)
                 {
-                    Toast.makeText(context, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "onErrorResponse: Error" + error);
                 }
             }
@@ -518,7 +518,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestApiNames.DB_EXERCISE_ID, String.valueOf(trainingID));
+                params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
                 return params;
             }
         };

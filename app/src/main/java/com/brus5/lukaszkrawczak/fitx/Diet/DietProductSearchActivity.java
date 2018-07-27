@@ -26,7 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTODiet;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.RestApiNames;
+import com.brus5.lukaszkrawczak.fitx.RestAPI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -128,7 +128,7 @@ public class DietProductSearchActivity extends AppCompatActivity
 
     public void searchProductsAsynchTask(final DietDTODiet dto, final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_SEARCH_PRODUCT,
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_SEARCH_PRODUCT,
                 new Response.Listener<String>()
                 {
                     @Override
@@ -151,10 +151,10 @@ public class DietProductSearchActivity extends AppCompatActivity
                                 for (int i = 0; i < server_response.length(); i++)
                                 {
                                     JSONObject srv_response = server_response.getJSONObject(i);
-                                    id = srv_response.getInt(RestApiNames.DB_PRODUCT_ID);
-                                    name = srv_response.getString(RestApiNames.DB_PRODUCT_NAME);
-                                    calories = srv_response.getDouble(RestApiNames.DB_PRODUCT_KCAL);
-                                    verified = srv_response.getInt(RestApiNames.DB_PRODUCT_VERIFIED);
+                                    id = srv_response.getInt(RestAPI.DB_PRODUCT_ID);
+                                    name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
+                                    calories = srv_response.getDouble(RestAPI.DB_PRODUCT_KCAL);
+                                    verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
 
                                     String nameUpperCase = name.substring(0,1).toUpperCase() + name.substring(1);
 
@@ -178,7 +178,7 @@ public class DietProductSearchActivity extends AppCompatActivity
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
-                        Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "onErrorResponse: Error"+error);
                     }
                 })
@@ -187,7 +187,7 @@ public class DietProductSearchActivity extends AppCompatActivity
             protected Map<String, String> getParams()
             {
                 HashMap<String,String> params = new HashMap<>();
-                params.put(RestApiNames.DB_PRODUCT_NAME, dto.productName);
+                params.put(RestAPI.DB_PRODUCT_NAME, dto.productName);
                 return params;
             }
         };
