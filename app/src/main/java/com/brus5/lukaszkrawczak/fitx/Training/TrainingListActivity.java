@@ -23,7 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.RestApiNames;
+import com.brus5.lukaszkrawczak.fitx.RestAPI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,7 +86,7 @@ public class TrainingListActivity extends AppCompatActivity
 
     private void asynchTask(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.TRAINING_SEARCH_BY_TARGET,
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_SEARCH_BY_TARGET,
             new Response.Listener<String>()
             {
                 @SuppressLint("LongLogTag")
@@ -109,8 +109,8 @@ public class TrainingListActivity extends AppCompatActivity
                             for (int i = 0; i < jsonArray.length(); i++)
                             {
                                 JSONObject object = jsonArray.getJSONObject(i);
-                                trainingID = object.getInt(RestApiNames.DB_EXERCISE_ID);
-                                productName = object.getString(RestApiNames.DB_EXERCISE_NAME);
+                                trainingID = object.getInt(RestAPI.DB_EXERCISE_ID);
+                                productName = object.getString(RestAPI.DB_EXERCISE_NAME);
 
                                 String trainingName = productName.substring(0, 1).toUpperCase() + productName.substring(1);
 
@@ -136,7 +136,7 @@ public class TrainingListActivity extends AppCompatActivity
                 @Override
                 public void onErrorResponse(VolleyError error)
                 {
-                    Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "onErrorResponse: Error" + error);
                 }
             }
@@ -146,7 +146,7 @@ public class TrainingListActivity extends AppCompatActivity
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestApiNames.DB_EXERCISE_TARGET, trainingTarget);
+                params.put(RestAPI.DB_EXERCISE_TARGET, trainingTarget);
                 return params;
             }
         };

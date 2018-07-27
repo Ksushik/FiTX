@@ -32,7 +32,7 @@ import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.Converter.WeightConverter;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTODiet;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.RestApiNames;
+import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.squareup.picasso.Picasso;
 
@@ -171,7 +171,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
     public void loadProductInformationAsynchTask(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_GET_PRODUCT_INFORMATIONS,
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_GET_PRODUCT_INFORMATIONS,
             new Response.Listener<String>()
             {
                 @Override
@@ -187,16 +187,16 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                         {
                             JSONObject srv_response = server_response.getJSONObject(i);
 
-                            name = srv_response.getString(RestApiNames.DB_PRODUCT_NAME);
-                            proteins = srv_response.getDouble(RestApiNames.DB_PRODUCT_PROTEINS);
-                            fats = srv_response.getDouble(RestApiNames.DB_PRODUCT_FATS);
-                            carbs = srv_response.getDouble(RestApiNames.DB_PRODUCT_CARBS);
-                            saturatedFats = srv_response.getDouble(RestApiNames.DB_PRODUCT_SATURATED_FATS);
-                            unsaturatedFats = srv_response.getDouble(RestApiNames.DB_PRODUCT_UNSATURATED_FATS);
-                            carbsFiber = srv_response.getDouble(RestApiNames.DB_PRODUCT_CARBS_FIBER);
-                            carbsSugars = srv_response.getDouble(RestApiNames.DB_PRODUCT_CARBS_SUGAR);
-                            multiplier = srv_response.getDouble(RestApiNames.DB_PRODUCT_MULTIPLIER_PIECE);
-                            verified = srv_response.getInt(RestApiNames.DB_PRODUCT_VERIFIED);
+                            name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
+                            proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
+                            fats = srv_response.getDouble(RestAPI.DB_PRODUCT_FATS);
+                            carbs = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS);
+                            saturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_SATURATED_FATS);
+                            unsaturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_UNSATURATED_FATS);
+                            carbsFiber = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_FIBER);
+                            carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
+                            multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
+                            verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
 
                             if (verified == 1)
                             {
@@ -219,7 +219,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 @Override
                 public void onErrorResponse(VolleyError error)
                 {
-                    Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                 }
             }
         )
@@ -228,7 +228,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestApiNames.DB_PRODUCT_ID, productID);
+                params.put(RestAPI.DB_PRODUCT_ID, productID);
                 return params;
             }
         };

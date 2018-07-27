@@ -26,6 +26,7 @@ import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginRegisterFacebookDTO;
 
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -254,13 +255,13 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onCancel()
             {
-                toastError(Configuration.USER_CANCEL);
+                toastError(RestAPI.USER_CANCEL);
             }
 
             @Override
             public void onError(FacebookException error)
             {
-                toastError(Configuration.LOGIN_ERROR);
+                toastError(RestAPI.LOGIN_ERROR);
             }
         });
 

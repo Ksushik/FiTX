@@ -25,7 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
-import com.brus5.lukaszkrawczak.fitx.RestApiNames;
+import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 
@@ -110,7 +110,7 @@ public class TrainingActivity extends AppCompatActivity
 
     public void loadAsynchTask(final TrainingDTO dto, final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.SHOW_TRAINING_SHORT_URL,
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_SHORT,
             new Response.Listener<String>()
             {
                 @Override
@@ -137,17 +137,17 @@ public class TrainingActivity extends AppCompatActivity
                             for (int i = 0; i < trainings_info.length(); i++)
                             {
                                 JSONObject            trainings_infoObj = trainings_info.getJSONObject(i);
-                                exerciseRestTime    = trainings_infoObj.getInt(RestApiNames.DB_EXERCISE_REST_TIME);
-                                exerciseDone        = trainings_infoObj.getInt(RestApiNames.DB_EXERCISE_DONE);
-                                exerciseReps        = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_REPS);
-                                exerciseWeight      = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_WEIGHT);
-                                excerciseDate       = trainings_infoObj.getString(RestApiNames.DB_EXERCISE_DATE);
+                                exerciseRestTime    = trainings_infoObj.getInt(RestAPI.DB_EXERCISE_REST_TIME);
+                                exerciseDone        = trainings_infoObj.getInt(RestAPI.DB_EXERCISE_DONE);
+                                exerciseReps        = trainings_infoObj.getString(RestAPI.DB_EXERCISE_REPS);
+                                exerciseWeight      = trainings_infoObj.getString(RestAPI.DB_EXERCISE_WEIGHT);
+                                excerciseDate       = trainings_infoObj.getString(RestAPI.DB_EXERCISE_DATE);
 
 
                                 JSONObject            server_responseObj = server_response.getJSONObject(i);
-                                excerciseId         = server_responseObj.getInt(RestApiNames.DB_EXERCISE_ID);
-                                exerciseName        = server_responseObj.getString(RestApiNames.DB_EXERCISE_NAME);
-                                exerciseTarget      = server_responseObj.getString(RestApiNames.DB_EXERCISE_TARGET);
+                                excerciseId         = server_responseObj.getInt(RestAPI.DB_EXERCISE_ID);
+                                exerciseName        = server_responseObj.getString(RestAPI.DB_EXERCISE_NAME);
+                                exerciseTarget      = server_responseObj.getString(RestAPI.DB_EXERCISE_TARGET);
 
                                 Training training = new Training(excerciseId, exerciseDone, exerciseName, exerciseRestTime, exerciseWeight, exerciseReps, excerciseDate, exerciseTarget);
                                 list.add(training);
@@ -170,7 +170,7 @@ public class TrainingActivity extends AppCompatActivity
                 @Override
                 public void onErrorResponse(VolleyError error)
                 {
-                    Toast.makeText(ctx, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "onErrorResponse: Error" + error);
                 }
             }
@@ -180,8 +180,8 @@ public class TrainingActivity extends AppCompatActivity
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestApiNames.DB_USERNAME, dto.userName);
-                params.put(RestApiNames.DB_DATE, dto.trainingDate);
+                params.put(RestAPI.DB_USERNAME, dto.userName);
+                params.put(RestAPI.DB_DATE, dto.trainingDate);
                 return params;
             }
         };

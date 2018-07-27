@@ -37,7 +37,7 @@
         app:textSizeDayNumber="20dp" />
 
     <Button
-        android:id="@+id/buttonSettingsActivity"
+        android:id="@+id/buttonSettings"
         style="@style/com_facebook_loginview_silver_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline86proc" />
 
     <Button
-        android:id="@+id/buttonDietActivity"
+        android:id="@+id/buttonDiet"
         style="@style/com_facebook_loginview_silver_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline86proc" />
 
     <Button
-        android:id="@+id/buttonTrainingActivity"
+        android:id="@+id/buttonTraining"
         style="@style/com_facebook_loginview_silver_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline86proc" />
 
     <Button
-        android:id="@+id/buttonStatsActivity"
+        android:id="@+id/buttonStats"
         style="@style/com_facebook_loginview_silver_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
