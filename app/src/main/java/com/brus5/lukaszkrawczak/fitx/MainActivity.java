@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
@@ -23,10 +22,8 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
-    private static final String TAG = "MainActivity";
     Button btnDiet, btnTraining, btnSettings, btnStats;
     HorizontalCalendar calendar;
-    ListView listView;
     Configuration cfg = new Configuration();
     String dateFormat, dateFormatView;
 
