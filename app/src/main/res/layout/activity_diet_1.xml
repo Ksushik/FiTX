@@ -51,73 +51,76 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:text="@string/fats_short_colon"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/textViewFats"
-        app:layout_constraintTop_toTopOf="@+id/textViewFats" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewProteins"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineDiet3"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="@+id/guidelineDiet1" />
 
     <TextView
+        android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:text="@string/proteins_short_colon"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/textViewProteins"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineDiet1"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBarProteins" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:text="@string/carbs_short_colon"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/textViewCarbs"
-        app:layout_constraintTop_toTopOf="@+id/textViewCarbs" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewProteins"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="@+id/guidelineDiet3" />
 
     <TextView
         android:id="@+id/textViewCarbs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         android:elevation="2dp"
-        android:text="Carbs"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guidelineDiet3"
-        app:layout_constraintTop_toBottomOf="@+id/progressBarCarbs" />
+        android:text="@string/s75"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewProteins"
+        app:layout_constraintStart_toEndOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textViewFats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         android:elevation="2dp"
-        android:text="Fats"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/guidelineDiet2"
-        app:layout_constraintTop_toBottomOf="@+id/progressBarFats" />
+        android:text="@string/s30"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewProteins"
+        app:layout_constraintStart_toEndOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textViewProteins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         android:elevation="2dp"
-        android:text="Proteins"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDiet1"
-        app:layout_constraintStart_toStartOf="@+id/toolbar5"
-        app:layout_constraintTop_toBottomOf="@+id/progressBarProteins" />
+        android:text="@string/s75"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
+        app:layout_constraintStart_toEndOf="@+id/textView7" />
 
     <TextView
         android:id="@+id/textViewKcal"
@@ -125,10 +128,9 @@
         android:layout_height="wrap_content"
         android:elevation="2dp"
         android:text="Kcal"
-        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/progressBarKcal"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDiet2"
-        app:layout_constraintStart_toStartOf="@+id/guidelineDiet2" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewDay"
@@ -144,7 +146,7 @@
         android:id="@+id/progressBarProteins"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
-        android:layout_height="5dp"
+        android:layout_height="3dp"
         android:layout_marginEnd="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="8dp"
@@ -161,7 +163,7 @@
         android:id="@+id/progressBarFats"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
-        android:layout_height="5dp"
+        android:layout_height="3dp"
         android:layout_marginEnd="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginStart="2dp"
@@ -179,7 +181,7 @@
         android:id="@+id/progressBarCarbs"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
-        android:layout_height="5dp"
+        android:layout_height="3dp"
         android:layout_marginEnd="2dp"
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
@@ -196,7 +198,7 @@
         android:id="@+id/progressBarKcal"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
-        android:layout_height="5dp"
+        android:layout_height="3dp"
         android:layout_marginEnd="2dp"
         android:layout_marginStart="2dp"
         android:elevation="2dp"
