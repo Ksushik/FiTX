@@ -54,8 +54,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDate"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
         app:layout_constraintVertical_bias="0.0"></ListView>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewDate"
+        app:srcCompat="@drawable/container_gray" />
 
 
 </android.support.constraint.ConstraintLayout>
