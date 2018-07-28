@@ -31,8 +31,8 @@ import com.brus5.lukaszkrawczak.fitx.Calculator.Protein;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTODiet;
-import com.brus5.lukaszkrawczak.fitx.RestApiNames;
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 
 import org.json.JSONArray;
@@ -129,7 +129,7 @@ public class DietActivity extends AppCompatActivity
 
     public void loadUsersDailyDietAsynchTask(final DietDTODiet dto, final Context context)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, Configuration.DIET_USER_SHOW_DAILY_URL,
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_SHOW_BY_USER,
                 new Response.Listener<String>()
                 {
                     @Override
@@ -160,9 +160,9 @@ public class DietActivity extends AppCompatActivity
                                 {
                                     JSONObject rRatio  = response_ratio.getJSONObject(i);
 
-                                    ratioProteins       = rRatio.getDouble(RestApiNames.DB_PROTEIN_RATIO);
-                                    ratioFats           = rRatio.getDouble(RestApiNames.DB_FATS_RATIO);
-                                    ratioCarbs          = rRatio.getDouble(RestApiNames.DB_CARBS_RATIO);
+                                    ratioProteins       = rRatio.getDouble(RestAPI.DB_PROTEIN_RATIO);
+                                    ratioFats           = rRatio.getDouble(RestAPI.DB_FATS_RATIO);
+                                    ratioCarbs          = rRatio.getDouble(RestAPI.DB_CARBS_RATIO);
                                 }
                             }
 
@@ -192,19 +192,19 @@ public class DietActivity extends AppCompatActivity
                                 {
                                     JSONObject rJSON = response.getJSONObject(i);
 
-                                    productId           = rJSON.getInt(RestApiNames.DB_PRODUCT_ID);
-                                    productName         = rJSON.getString(RestApiNames.DB_PRODUCT_NAME);
-                                    proteins            = rJSON.getDouble(RestApiNames.DB_PRODUCT_PROTEINS);
-                                    fats                = rJSON.getDouble(RestApiNames.DB_PRODUCT_FATS);
-                                    carbs               = rJSON.getDouble(RestApiNames.DB_PRODUCT_CARBS);
-                                    calories            = rJSON.getDouble(RestApiNames.DB_PRODUCT_KCAL);
-                                    productVerified     = rJSON.getInt(RestApiNames.DB_PRODUCT_VERIFIED);
+                                    productId           = rJSON.getInt(RestAPI.DB_PRODUCT_ID);
+                                    productName         = rJSON.getString(RestAPI.DB_PRODUCT_NAME);
+                                    proteins            = rJSON.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
+                                    fats                = rJSON.getDouble(RestAPI.DB_PRODUCT_FATS);
+                                    carbs               = rJSON.getDouble(RestAPI.DB_PRODUCT_CARBS);
+                                    calories            = rJSON.getDouble(RestAPI.DB_PRODUCT_KCAL);
+                                    productVerified     = rJSON.getInt(RestAPI.DB_PRODUCT_VERIFIED);
 
 
                                     JSONObject rWeight  = response_weight.getJSONObject(i);
 
-                                    weight              = rWeight.getDouble(RestApiNames.DB_PRODUCT_WEIGHT);
-                                    productTimeStamp    = rWeight.getString(RestApiNames.DB_DATE);
+                                    weight              = rWeight.getDouble(RestAPI.DB_PRODUCT_WEIGHT);
+                                    productTimeStamp    = rWeight.getString(RestAPI.DB_DATE);
 
                                     Protein protein = new Protein();
                                     protein.setProteins(proteins, weight);
@@ -305,7 +305,7 @@ public class DietActivity extends AppCompatActivity
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
-                        Toast.makeText(context, Configuration.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "onErrorResponse: Error"+error);
                     }
                 }
@@ -315,8 +315,8 @@ public class DietActivity extends AppCompatActivity
             protected Map<String, String> getParams()
             {
                 HashMap<String,String> params = new HashMap<>();
-                params.put(RestApiNames.DB_USERNAME, dto.userName);
-                params.put(RestApiNames.DB_DATE, dto.dateToday);
+                params.put(RestAPI.DB_USERNAME, dto.userName);
+                params.put(RestAPI.DB_DATE, dto.dateToday);
                 return params;
             }
         };
