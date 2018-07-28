@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
@@ -71,12 +72,6 @@ public class DietActivity extends AppCompatActivity
         loadInput();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
         onListViewItemSelected();
-    }
-
-    public void runNextActivity(Context context, Class<?> aClass)
-    {
-        Intent intent = new Intent(context, aClass);
-        DietActivity.this.startActivity(intent);
     }
 
     private void loadInput()
@@ -144,7 +139,7 @@ public class DietActivity extends AppCompatActivity
                         double ratioProteins = 0d;
                         double ratioFats = 0d;
                         double ratioCarbs = 0d;
-                        double totalCalories = 0d;
+                        double totalCalories;
 
                         try
                         {
@@ -174,13 +169,13 @@ public class DietActivity extends AppCompatActivity
 
                             String productName;
                             int productId;
-                            double proteins = 0d;
-                            double fats = 0d;
-                            double carbs = 0d;
+                            double proteins;
+                            double fats;
+                            double carbs;
                             double calories;
                             double weight;
 
-                            int productVerified = 0;
+                            int productVerified;
 
                             JSONArray response = jsonObject.getJSONArray("response");
 
@@ -277,7 +272,7 @@ public class DietActivity extends AppCompatActivity
                                 DietDTODiet dto = new DietDTODiet();
                                 dto.userID              = SaveSharedPreference.getUserID(DietActivity.this);
                                 dto.userName            = SaveSharedPreference.getUserName(DietActivity.this);
-                                dto.updateKcalResult    = String.format("%.1f",countCalories);
+                                dto.updateKcalResult    = String.format(Locale.getDefault(),"%.1f",countCalories);
                                 dto.dateToday           = dateFormat;
                                 dto.printStatus();
                                 DietService dietService = new DietService();
@@ -349,8 +344,8 @@ public class DietActivity extends AppCompatActivity
 
     private void progressBarProteinsChangeColor(double result, double goal)
     {
-        int intGoal = Integer.valueOf(String.format("%.0f",goal));
-        int intResult = Integer.valueOf(String.format("%.0f",result));
+        int intGoal = Integer.valueOf(String.format(Locale.getDefault(),"%.0f",goal));
+        int intResult = Integer.valueOf(String.format(Locale.getDefault(),"%.0f",result));
 
         pBarProteins.getProgressDrawable().setColorFilter(0xFF3287C3, PorterDuff.Mode.SRC_IN);
         pBarProteins.setMax(intGoal);
@@ -427,7 +422,7 @@ public class DietActivity extends AppCompatActivity
 
     private String doubleFormatter(double value)
     {
-        return String.format("%.0f",value).replace(",",".");
+        return String.format(Locale.getDefault(),"%.0f",value).replace(",",".");
     }
 
     private void changeStatusBarColor()
