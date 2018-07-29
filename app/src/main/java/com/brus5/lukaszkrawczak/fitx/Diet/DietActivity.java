@@ -271,18 +271,16 @@ public class DietActivity extends AppCompatActivity
                             {
                                 DietDTODiet dto = new DietDTODiet();
                                 dto.userID              = SaveSharedPreference.getUserID(DietActivity.this);
-                                dto.userName            = SaveSharedPreference.getUserName(DietActivity.this);
                                 dto.updateKcalResult    = String.format(Locale.getDefault(),"%.1f",countCalories);
                                 dto.dateToday           = dateFormat;
                                 dto.printStatus();
                                 DietService dietService = new DietService();
                                 dietService.DietUpdateCountedKcal(dto,DietActivity.this);
-
                             }
                             else if (getMaxCalories() == 0d)
                             {
                                 DietDTODiet dto = new DietDTODiet();
-                                dto.userName        = SaveSharedPreference.getUserName(DietActivity.this);
+                                dto.userID          = SaveSharedPreference.getUserID(DietActivity.this);
                                 dto.dateToday       = dateFormat;
                                 dto.printStatus();
                                 DietService dietService = new DietService();
@@ -311,6 +309,7 @@ public class DietActivity extends AppCompatActivity
             {
                 HashMap<String,String> params = new HashMap<>();
                 params.put(RestAPI.DB_USERNAME, dto.userName);
+                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(context)));
                 params.put(RestAPI.DB_DATE, dto.dateToday);
                 return params;
             }

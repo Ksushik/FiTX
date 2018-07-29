@@ -99,4 +99,7 @@ public class RestAPI
 
     public final static String DB_UPDATE_RESULT = "updateresult";
 
+
+    public final static String DB_USER_ID_NO_PRIMARY_KEY = "user_id";
+
 }

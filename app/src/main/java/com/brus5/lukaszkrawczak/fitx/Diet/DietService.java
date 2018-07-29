@@ -47,10 +47,9 @@ public class DietService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USER_ID, String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_UPDATE_RESULT, dto.updateKcalResult);
-                params.put(RestAPI.DB_USERNAME, dto.userName);
-                params.put(RestAPI.DB_DATE, dto.dateToday);
+                params.put(RestAPI.DB_USER_ID,          String.valueOf(SaveSharedPreference.getUserID(context)));
+                params.put(RestAPI.DB_UPDATE_RESULT,    dto.updateKcalResult);
+                params.put(RestAPI.DB_DATE,             dto.dateToday);
                 Log.e(TAG, "getParams: " + params);
                 return params;
             }
@@ -60,7 +59,7 @@ public class DietService
         queue.add(strRequest);
     }
 
-    public void DietDeleteCountedKcal(final DietDTODiet dto, Context context)
+    public void DietDeleteCountedKcal(final DietDTODiet dto, final Context context)
     {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_COUNTED_KCAL,
@@ -86,8 +85,8 @@ public class DietService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USERNAME, dto.userName);
-                params.put(RestAPI.DB_DATE, dto.dateToday);
+                params.put(RestAPI.DB_USER_ID,  String.valueOf(SaveSharedPreference.getUserID(context)));
+                params.put(RestAPI.DB_DATE,     dto.dateToday);
                 return params;
             }
         };
@@ -134,7 +133,7 @@ public class DietService
         queue.add(strRequest);
     }
 
-    public void DietProductInsert(final DietDTODiet dto, Context context)
+    public void DietProductInsert(final DietDTODiet dto, final Context context)
     {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_INSERT_PRODUCT,
@@ -160,10 +159,10 @@ public class DietService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USER_DIET_ID, dto.productID);
-                params.put(RestAPI.DB_USER_DIET_USERNAME, dto.userName);
-                params.put(RestAPI.DB_PRODUCT_WEIGHT, dto.productWeight);
-                params.put(RestAPI.DB_USER_DIET_DATE, dto.productTimeStamp);
+                params.put(RestAPI.DB_USER_DIET_ID,             dto.productID);
+                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
+                params.put(RestAPI.DB_PRODUCT_WEIGHT,           dto.productWeight);
+                params.put(RestAPI.DB_USER_DIET_DATE,           dto.productTimeStamp);
                 return params;
             }
         };
@@ -172,7 +171,7 @@ public class DietService
         queue.add(strRequest);
     }
 
-    public void DietDeleteProduct(final DietDTODiet dto, Context context)
+    public void DietDeleteProduct(final DietDTODiet dto, final Context context)
     {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_PRODUCT,
@@ -198,10 +197,10 @@ public class DietService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USER_DIET_ID, dto.productID);
-                params.put(RestAPI.DB_USER_DIET_USERNAME, dto.userName);
-                params.put(RestAPI.DB_USER_WEIGHT, dto.updateProductWeight);
-                params.put(RestAPI.DB_USER_DIET_DATE, dto.productTimeStamp);
+                params.put(RestAPI.DB_USER_DIET_ID,             dto.productID);
+                params.put(RestAPI.DB_USER_WEIGHT,              dto.updateProductWeight);
+                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
+                params.put(RestAPI.DB_USER_DIET_DATE,           dto.productTimeStamp);
                 return params;
             }
         };
