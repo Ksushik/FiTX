@@ -121,10 +121,10 @@ public class DietService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USER_DIET_ID, dto.productID);
-                params.put(RestAPI.DB_USER_DIET_USERNAME, dto.userName);
-                params.put(RestAPI.DB_PRODUCT_DIET_WEIGHT_UPDATE, dto.updateProductWeight);
-                params.put(RestAPI.DB_USER_DIET_DATE, dto.productTimeStamp);
+                params.put(RestAPI.DB_USER_DIET_ID,                 dto.productID);
+                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,       String.valueOf(dto.userID));
+                params.put(RestAPI.DB_PRODUCT_DIET_WEIGHT_UPDATE,   dto.updateProductWeight);
+                params.put(RestAPI.DB_USER_DIET_DATE,               dto.productTimeStamp);
                 return params;
             }
         };

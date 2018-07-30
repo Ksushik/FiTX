@@ -409,7 +409,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     Log.e(TAG, "onClick: " + getProductWeightPerItems());
                     DietDTODiet dto = new DietDTODiet();
                     dto.productID = productID;
-                    dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
+                    dto.userID = SaveSharedPreference.getUserID(DietProductShowActivity.this);
                     dto.updateProductWeight = getProductWeightPerItems();
                     dto.productTimeStamp = newTimeStamp;
                     dto.printStatus();
