@@ -35,17 +35,28 @@ public class MainAdapter extends ArrayAdapter<Main>
     {
         int kcal = getItem(position).getKcal();
         int kcalLimit = getItem(position).getKcalLimit();
+        int lifted = getItem(position).getLifted();
+        int rest = getItem(position).getRestTime();
 
-        new Main(kcal, kcalLimit);
+//        new Main(kcal, kcalLimit);
+        new Main();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
         TextView tvCalories = convertView.findViewById(R.id.textViewCalories);
         TextView tvCaloriesLimit = convertView.findViewById(R.id.textViewCaloriesLimit);
+        TextView tvLifted = convertView.findViewById(R.id.textViewLifted);
+        TextView tvRest = convertView.findViewById(R.id.textViewTrainingRest);
 
         tvCalories.setText(String.valueOf(kcal));
         tvCaloriesLimit.setText(String.valueOf(kcalLimit));
+
+
+// TODO: 30.07.2018 zrobić
+//        tvLifted.setText("1t");
+//        tvRest.setText("75 min");
+
 
         return convertView;
     }

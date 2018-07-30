@@ -11,29 +11,69 @@ public class Main extends ArrayList
     private int id;
     private int done;
     private String name;
-    private int restTime;
     private String weight;
-    private String reps;
     private String timeStamp;
-    private String target;
+    private int reps;
+    private int restTime;
     private int kcal;
     private int kcalLimit;
+    private int lifted;
+
+    public Main(){}
 
 
-
-    public Main(int kcal, int kcalLimit)
-    {
+    public void setKcal(int kcal) {
         this.kcal = kcal;
-        this.kcalLimit = kcalLimit;
     }
 
     public int getKcal() {
         return kcal;
     }
 
-    public int getKcalLimit() {
+    public void setKcalLimit(int kcalLimit) {
+        this.kcalLimit = kcalLimit;
+    }
+
+    public int getKcalLimit()
+    {
         return kcalLimit;
     }
+
+    public void setReps(int reps)
+    {
+        this.reps = reps;
+    }
+
+    public int getReps() {
+        return reps;
+    }
+
+    public void setRestTime(int restTime)
+    {
+        this.restTime = restTime;
+    }
+
+    public int getRestTime()
+    {
+        return restTime;
+    }
+
+    public void setLifted(int lifted)
+    {
+        this.lifted = lifted;
+    }
+
+    public int getLifted() {
+        return lifted;
+    }
+
+
+
+
+
+
+
+
 
     public int getId()
     {
@@ -50,19 +90,9 @@ public class Main extends ArrayList
         return name;
     }
 
-    public int getRestTime()
-    {
-        return restTime;
-    }
-
     public String getWeight()
     {
         return weight;
-    }
-
-    public String getReps()
-    {
-        return reps;
     }
 
     public String getTimeStamp()
@@ -70,8 +100,5 @@ public class Main extends ArrayList
         return timeStamp;
     }
 
-    public String getTarget()
-    {
-        return target;
-    }
+
 }

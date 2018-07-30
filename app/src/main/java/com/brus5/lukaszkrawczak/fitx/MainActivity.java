@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<Main> list = new ArrayList<>();
     ListView listView;
     MainAdapter adapter;
-
+    Main main;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changeStatusBarColor();
         loadInputs();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
+        main = new Main();
     }
 
     private void weekCalendar(Calendar endDate, Calendar startDate)
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dto.date        = dateFormat;
                 dto.printStatus();
                 loadAsynchTask(dto,MainActivity.this);
+//                loadAsynchTaskGym(dto,MainActivity.this);
 
             }
         });
@@ -126,9 +128,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             int kcal = 0;
                             int kcalLimit = 0;
 
-                                    JSONObject jsonObject = new JSONObject(response);
+                            JSONObject jsonObject = new JSONObject(response);
                             Log.d(TAG, "onResponse: " + jsonObject.toString(1));
                             JSONArray response1 = jsonObject.getJSONArray("response");
+
 
                             JSONObject kcalObj = response1.getJSONObject(0);
                             JSONObject kcalLimitObj = response1.getJSONObject(1);
@@ -141,10 +144,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     kcal = kcalObj.getInt("kcal");
                                     kcalLimit = kcalLimitObj.getInt("kcal_limit");
 
+                                    main.setKcal(kcal);
+                                    main.setKcalLimit(kcalLimit);
+
                                 }
                             }
 
-                            Main main = new Main(kcal, kcalLimit);
                             list.add(main);
 
                             if (kcalObj.length() > 0 )
@@ -154,8 +159,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             listView.setDividerHeight(0);
                             listView.setAdapter(adapter);
                             listView.invalidate();
-
-
                         }
                         catch (JSONException e)
                         {
@@ -187,6 +190,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         queue.add(strRequest);
     }
 
+//    public void loadAsynchTaskGym(final MainDTO dto, final Context context)
+//    {
+//        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_MAIN_DIET,
+//                new Response.Listener<String>()
+//                {
+//                    @Override
+//                    public void onResponse(String response)
+//                    {
+//                        try
+//                        {
+//                            int kcal = 0;
+//                            int kcalLimit = 0;
+//
+//                            JSONObject jsonObject = new JSONObject(response);
+//
+//
+////                            if (response1.length() > 0)
+////                            {
+////                                for (int i = 0; i < response1.length(); i++)
+////                                {
+////
+////                                    kcal = kcalObj.getInt("kcal");
+////                                    kcalLimit = kcalLimitObj.getInt("kcal_limit");
+////
+////                                }
+////                            }
+//
+//
+//
+//
+//                            list.add(main);
+//
+//                            if (kcalObj.length() > 0 )
+//                            {
+//                                adapter = new MainAdapter(MainActivity.this, R.layout.row_main_training, list);
+//                            }
+//
+//                            listView.setDividerHeight(0);
+//                            listView.setAdapter(adapter);
+//                            listView.invalidate();
+//                        }
+//                        catch (JSONException e)
+//                        {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener()
+//                {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error)
+//                    {
+//                        Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+//                        Log.e(TAG, "onErrorResponse: Error" + error);
+//                    }
+//                }
+//        )
+//        {
+//            @Override
+//            protected Map<String, String> getParams()
+//            {
+//                HashMap<String, String> params = new HashMap<>();
+//                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
+//                params.put(RestAPI.DB_DATE,                     dto.date);
+//                return params;
+//            }
+//        };
+//        RequestQueue queue = Volley.newRequestQueue(context);
+//        queue.add(strRequest);
+//    }
 
     @Override
     public void onClick(View v)
