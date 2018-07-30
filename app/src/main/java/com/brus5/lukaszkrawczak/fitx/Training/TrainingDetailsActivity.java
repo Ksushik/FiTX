@@ -122,14 +122,15 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     {
         Log.i(TAG, "onClick: " + "\nisValid: " + inflater.isValid() + inflater.printResult());
         TrainingDTO dto = new TrainingDTO();
-        dto.trainingID = String.valueOf(trainingID);
-        dto.trainingDone = String.valueOf(setOnCheckedChangeListener());
-        dto.trainingRestTime = String.valueOf(timer.START_TIME_IN_MILLIS);
-        dto.trainingReps = inflater.getReps();
-        dto.trainingWeight = inflater.getWeight();
-        dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
-        dto.trainingTimeStamp = setTimeStamp();
-        dto.trainingNotepad = etNotepad.getText().toString();
+        dto.trainingID =            String.valueOf(trainingID);
+        dto.trainingDone =          String.valueOf(setOnCheckedChangeListener());
+        dto.trainingRestTime =      String.valueOf(timer.START_TIME_IN_MILLIS);
+        dto.trainingReps =          inflater.getReps();
+        dto.trainingWeight =        inflater.getWeight();
+        dto.userID =                String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
+        dto.userID =                String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
+        dto.trainingNotepad =       etNotepad.getText().toString();
+        dto.trainingTimeStamp =     setTimeStamp();
         dto.printStatus();
         return dto;
     }
@@ -137,9 +138,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private TrainingDTO deleteDto()
     {
         TrainingDTO dto = new TrainingDTO();
-        dto.trainingID = String.valueOf(trainingID);
-        dto.userName = SaveSharedPreference.getUserName(TrainingDetailsActivity.this);
-        dto.trainingTimeStamp = setTimeStamp();
+        dto.trainingID =            String.valueOf(trainingID);
+        dto.userID =                String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
+        dto.trainingTimeStamp =     setTimeStamp();
         dto.printStatus();
         return dto;
     }
@@ -400,9 +401,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
-                params.put(RestAPI.DB_EXERCISE_DATE, trainingTimeStamp);
-                params.put(RestAPI.DB_USERNAME, SaveSharedPreference.getUserName(ctx));
+                params.put(RestAPI.DB_EXERCISE_DATE,            trainingTimeStamp);
+                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(ctx)));
                 return params;
             }
         };

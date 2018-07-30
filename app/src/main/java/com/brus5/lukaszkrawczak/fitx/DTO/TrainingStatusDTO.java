@@ -14,12 +14,13 @@ public abstract class TrainingStatusDTO
     private String trainingTimeStamp;
     private String trainingNotepad;
     private String trainingDate;
+    private String userID;
 
     public TrainingStatusDTO()
     {
     }
 
-    public TrainingStatusDTO(String trainingID, String trainingDone, String trainingRestTime, String trainingReps, String trainingWeight, String userName, String trainingTimeStamp, String trainingNotepad, String trainingDate)
+    public TrainingStatusDTO(String trainingID, String trainingDone, String trainingRestTime, String trainingReps, String trainingWeight, String userName, String userID, String trainingTimeStamp, String trainingNotepad, String trainingDate)
     {
         this.trainingID = trainingID;
         this.trainingDone = trainingDone;
@@ -27,6 +28,7 @@ public abstract class TrainingStatusDTO
         this.trainingReps = trainingReps;
         this.trainingWeight = trainingWeight;
         this.userName = userName;
+        this.userID = userID;
         this.trainingTimeStamp = trainingTimeStamp;
         this.trainingNotepad = trainingNotepad;
         this.trainingDate = trainingDate;

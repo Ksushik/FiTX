@@ -108,7 +108,7 @@ public class TrainingActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void loadAsynchTask(final TrainingDTO dto, final Context ctx)
+    public void loadAsynchTask(final TrainingDTO dto, final Context context)
     {
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_SHORT,
             new Response.Listener<String>()
@@ -170,7 +170,7 @@ public class TrainingActivity extends AppCompatActivity
                 @Override
                 public void onErrorResponse(VolleyError error)
                 {
-                    Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "onErrorResponse: Error" + error);
                 }
             }
@@ -180,12 +180,12 @@ public class TrainingActivity extends AppCompatActivity
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USERNAME, dto.userName);
-                params.put(RestAPI.DB_DATE, dto.trainingDate);
+                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
+                params.put(RestAPI.DB_DATE,                     dto.trainingDate);
                 return params;
             }
         };
-        RequestQueue queue = Volley.newRequestQueue(ctx);
+        RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
 
