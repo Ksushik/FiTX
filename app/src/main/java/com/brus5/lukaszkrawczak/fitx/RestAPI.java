@@ -6,6 +6,11 @@ public class RestAPI
 
     public static final String URL_DIET = URL + "Diet/";
     public static final String URL_TRAINING = URL + "Training/";
+    public static final String URL_MAIN = URL + "Main/";
+
+
+
+    public static final String URL_MAIN_DIET = URL_MAIN + "Diet.php";
 
     public static final String URL_DIET_GET_PRODUCT_INFORMATIONS = URL_DIET + "GetProductInformations.php";
     public static final String URL_DIET_DELETE_COUNTED_KCAL = URL_DIET + "KcalResultDelete.php";
@@ -89,7 +94,9 @@ public class RestAPI
     public final static String DB_USER_DIET_DATE_UPDATE = "updatedate";
 
     /* Names of db_kcalres */
-    public final static String DB_KCAL_LIMIT = "RESULT";
+//    public final static String DB_KCAL_LIMIT = "RESULT";
+    public final static String DB_KCAL = "kcal";
+    public final static String DB_KCAL_LIMIT = "kcal_limit";
 
     /* Names of db_dietres */
     public final static String DB_KCAL_DAILY_RESULT = "RESULT";

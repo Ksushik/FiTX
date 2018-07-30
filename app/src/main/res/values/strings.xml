@@ -139,5 +139,6 @@
     <string name="reps_long">Powtórzenia</string>
     <string name="description">Opis</string>
     <string name="limit">Limit</string>
+    <string name="calories_main">kalorii</string>
 
 </resources>

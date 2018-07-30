@@ -68,7 +68,7 @@ public abstract class TrainingStatusDTO
         }
         if (this.trainingDate != null)
         {
-            Log.i(TAG, "trainingDate: " + this.trainingDate);
+            Log.i(TAG, "date: " + this.trainingDate);
         }
 
 

@@ -15,5 +15,6 @@
     <color name="colorYellow">#fbff00</color>
     <color name="colorBlack">#000000</color>
     <color name="light_gray">#dbdbdb</color>
+    <color name="white_transparent">#90ffffff</color>
     <drawable name="colorAccentTransparent">#960096f0</drawable>
 </resources>
