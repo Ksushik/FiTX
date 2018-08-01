@@ -23,6 +23,7 @@ import com.brus5.lukaszkrawczak.fitx.DTO.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
+import com.brus5.lukaszkrawczak.fitx.Training.TrainingInflater;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,14 +41,20 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private static final String TAG = "MainActivity";
-    Button btnDiet, btnTraining, btnSettings, btnStats;
-    HorizontalCalendar calendar;
-    Configuration cfg = new Configuration();
-    String dateFormat, dateFormatView;
-    ArrayList<Main> list = new ArrayList<>();
-    ListView listView;
-    MainAdapter adapter;
-    Main main;
+    private Button btnDiet, btnTraining, btnSettings, btnStats;
+    private HorizontalCalendar calendar;
+    private Configuration cfg = new Configuration();
+    private String dateFormat, dateFormatView;
+    private ArrayList<Main> list = new ArrayList<>();
+    private ArrayList<MainTraining> listTraining = new ArrayList<>();
+    private ListView listView;
+    private MainAdapter adapterMain;
+    private MainAdapterTraining adapterTraining;
+    private Main main;
+    MainTraining mainTr;
+
+    private TrainingInflater inflater = new TrainingInflater(MainActivity.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadInputs();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
         main = new Main();
+        mainTr = new MainTraining();
     }
 
     private void weekCalendar(Calendar endDate, Calendar startDate)
@@ -86,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dto.date        = dateFormat;
                 dto.printStatus();
                 loadAsynchTask(dto,MainActivity.this);
-//                loadAsynchTaskGym(dto,MainActivity.this);
+                loadAsynchTaskGym(dto,MainActivity.this);
 
             }
         });
@@ -128,13 +136,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             int kcal = 0;
                             int kcalLimit = 0;
 
+                            String lifted;
+                            String repetitions;
+
                             JSONObject jsonObject = new JSONObject(response);
                             Log.d(TAG, "onResponse: " + jsonObject.toString(1));
                             JSONArray response1 = jsonObject.getJSONArray("response");
 
+// TODO: 31.07.2018 zrobić json object
 
                             JSONObject kcalObj = response1.getJSONObject(0);
                             JSONObject kcalLimitObj = response1.getJSONObject(1);
+                            JSONObject repetitionsObj = response1.getJSONObject(2);
+                            JSONObject liftedObj = response1.getJSONObject(3);
 
                             if (response1.length() > 0)
                             {
@@ -144,21 +158,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     kcal = kcalObj.getInt("kcal");
                                     kcalLimit = kcalLimitObj.getInt("kcal_limit");
 
-                                    main.setKcal(kcal);
-                                    main.setKcalLimit(kcalLimit);
+
+                                    repetitions = repetitionsObj.getString("repetitions");
+                                    lifted = liftedObj.getString("lifted");
+
+
+                                    inflater.setReps(repetitions);
+                                    inflater.setWeight(lifted);
+
+
+
+                                    mainTr.setLifted(inflater.countLiftedWeight());
+
 
                                 }
                             }
 
                             list.add(main);
-
+                            listTraining.add(mainTr);
                             if (kcalObj.length() > 0 )
                             {
-                                adapter = new MainAdapter(MainActivity.this, R.layout.row_main_diet, list);
+                                adapterMain = new MainAdapter(MainActivity.this, R.layout.row_main_diet, list);
+                                adapterTraining = new MainAdapterTraining(MainActivity.this, R.layout.row_main_training,listTraining);
                             }
                             listView.setDividerHeight(0);
-                            listView.setAdapter(adapter);
+                            listView.setAdapter(adapterMain);
+                            listView.setAdapter(adapterTraining);
+
                             listView.invalidate();
+                            // TODO: 31.07.2018 zrobic if listview is empty to pokazuj wiadomość "Brak danych z dnia: xx.XX.xxxx"
                         }
                         catch (JSONException e)
                         {
@@ -190,76 +218,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         queue.add(strRequest);
     }
 
-//    public void loadAsynchTaskGym(final MainDTO dto, final Context context)
-//    {
-//        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_MAIN_DIET,
-//                new Response.Listener<String>()
-//                {
-//                    @Override
-//                    public void onResponse(String response)
-//                    {
-//                        try
-//                        {
-//                            int kcal = 0;
-//                            int kcalLimit = 0;
+    public void loadAsynchTaskGym(final MainDTO dto, final Context context)
+    {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_MAIN_DIET,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        try
+                        {
+                            int kcal = 0;
+                            int kcalLimit = 0;
+
+                            JSONObject jsonObject = new JSONObject(response);
+
+
+//                            if (response1.length() > 0)
+//                            {
+//                                for (int i = 0; i < response1.length(); i++)
+//                                {
 //
-//                            JSONObject jsonObject = new JSONObject(response);
+//                                    kcal = kcalObj.getInt("kcal");
+//                                    kcalLimit = kcalLimitObj.getInt("kcal_limit");
 //
-//
-////                            if (response1.length() > 0)
-////                            {
-////                                for (int i = 0; i < response1.length(); i++)
-////                                {
-////
-////                                    kcal = kcalObj.getInt("kcal");
-////                                    kcalLimit = kcalLimitObj.getInt("kcal_limit");
-////
-////                                }
-////                            }
-//
-//
-//
+//                                }
+//                            }
+
+// TODO: 30.07.2018 zrobić asynchtask z Diet.php
+
 //
 //                            list.add(main);
 //
 //                            if (kcalObj.length() > 0 )
 //                            {
-//                                adapter = new MainAdapter(MainActivity.this, R.layout.row_main_training, list);
+//                                adapterMain = new MainAdapter(MainActivity.this, R.layout.row_main_training, list);
 //                            }
 //
 //                            listView.setDividerHeight(0);
-//                            listView.setAdapter(adapter);
+//                            listView.setAdapter(adapterMain);
 //                            listView.invalidate();
-//                        }
-//                        catch (JSONException e)
-//                        {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener()
-//                {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error)
-//                    {
-//                        Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-//                        Log.e(TAG, "onErrorResponse: Error" + error);
-//                    }
-//                }
-//        )
-//        {
-//            @Override
-//            protected Map<String, String> getParams()
-//            {
-//                HashMap<String, String> params = new HashMap<>();
-//                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
-//                params.put(RestAPI.DB_DATE,                     dto.date);
-//                return params;
-//            }
-//        };
-//        RequestQueue queue = Volley.newRequestQueue(context);
-//        queue.add(strRequest);
-//    }
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onErrorResponse: Error" + error);
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                HashMap<String, String> params = new HashMap<>();
+                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
+                params.put(RestAPI.DB_DATE,                     dto.date);
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(strRequest);
+    }
 
     @Override
     public void onClick(View v)

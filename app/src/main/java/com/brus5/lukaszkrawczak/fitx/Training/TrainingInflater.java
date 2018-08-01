@@ -31,7 +31,7 @@ public class TrainingInflater
     private int clickCounter = 0;
     private int rowsNum = 0;
 
-    TrainingInflater(Context ctx)
+    public TrainingInflater(Context ctx)
     {
         this.ctx = ctx;
     }

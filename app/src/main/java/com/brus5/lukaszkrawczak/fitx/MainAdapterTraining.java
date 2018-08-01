@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import java.util.ArrayList;
 
@@ -17,12 +16,12 @@ import java.util.ArrayList;
  * Created by lukaszkrawczak on 18.03.2018.
  */
 
-public class MainAdapter extends ArrayAdapter<Main>
+public class MainAdapterTraining extends ArrayAdapter<MainTraining>
 {
     private Context mContext;
     int mResource;
 
-    public MainAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Main> objects)
+    public MainAdapterTraining(@NonNull Context context, int resource, @NonNull ArrayList<MainTraining> objects)
     {
         super(context, resource, objects);
         mContext = context;
@@ -34,29 +33,18 @@ public class MainAdapter extends ArrayAdapter<Main>
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
     {
-        int kcal = getItem(position).getKcal();
-        int kcalLimit = getItem(position).getKcalLimit();
         int lifted = getItem(position).getLifted();
-        int rest = getItem(position).getRestTime();
+        int reps = getItem(position).getReps();
 
-//        new Main(kcal, kcalLimit);
-        new Main();
+        new MainTraining(reps,lifted);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-        TextView tvCalories = convertView.findViewById(R.id.textViewCalories);
-        TextView tvCaloriesLimit = convertView.findViewById(R.id.textViewCaloriesLimit);
         TextView tvLifted = convertView.findViewById(R.id.textViewLifted);
-        TextView tvRest = convertView.findViewById(R.id.textViewTrainingRest);
-
-        tvCalories.setText(String.valueOf(kcal));
-        tvCaloriesLimit.setText(String.valueOf(kcalLimit));
 
 
-//    Toolbar toolbar = convertView.findViewById(R.id.toolbar);
-//    toolbar.setBackgroundResource(R.drawable.container_red);
-//    tvLifted.setText(String.valueOf(lifted));
+        tvLifted.setText(String.valueOf(lifted));
 
 
 
