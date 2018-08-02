@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 public class MainAdapter extends ArrayAdapter<Main>
 {
     private Context mContext;
-    int mResource;
+    private int mResource;
 
     public MainAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Main> objects)
     {
@@ -34,30 +35,35 @@ public class MainAdapter extends ArrayAdapter<Main>
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
     {
-        int kcal = getItem(position).getKcal();
-        int kcalLimit = getItem(position).getKcalLimit();
-        int lifted = getItem(position).getLifted();
-        int rest = getItem(position).getRestTime();
-
-//        new Main(kcal, kcalLimit);
-        new Main();
+        int textViewBig = getItem(position).getTextViewBig();
+        int textViewSmall = getItem(position).getTextViewSmall();
+        int viewType = getItem(position).getViewType();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-        TextView tvCalories = convertView.findViewById(R.id.textViewCalories);
-        TextView tvCaloriesLimit = convertView.findViewById(R.id.textViewCaloriesLimit);
-        TextView tvLifted = convertView.findViewById(R.id.textViewLifted);
-        TextView tvRest = convertView.findViewById(R.id.textViewTrainingRest);
 
-        tvCalories.setText(String.valueOf(kcal));
-        tvCaloriesLimit.setText(String.valueOf(kcalLimit));
+        if (viewType == 1)
+        {
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_diet, parent, false);
 
+            TextView tvCalories = convertView.findViewById(R.id.textViewCalories);
+            TextView tvCaloriesLimit = convertView.findViewById(R.id.textViewCaloriesLimit);
 
-//    Toolbar toolbar = convertView.findViewById(R.id.toolbar);
-//    toolbar.setBackgroundResource(R.drawable.container_red);
-//    tvLifted.setText(String.valueOf(lifted));
+            tvCalories.setText(String.valueOf(textViewBig));
+            tvCaloriesLimit.setText(String.valueOf(textViewSmall));
+        }
 
+        if (viewType == 2)
+        {
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_training, parent, false);
+
+            TextView textViewLifted = convertView.findViewById(R.id.textViewLifted);
+            TextView textViewTrainingRest = convertView.findViewById(R.id.textViewTrainingRest);
+
+            textViewLifted.setText(String.valueOf(textViewBig));
+            textViewTrainingRest.setText(String.valueOf(textViewSmall));
+        }
 
 
         return convertView;

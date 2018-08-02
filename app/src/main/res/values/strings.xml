@@ -142,5 +142,6 @@
     <string name="calories_main">kalorii</string>
     <string name="gym">Siłownia</string>
     <string name="time_on_gym">Czas na siłowni</string>
+    <string name="lifted_1">podniesiono</string>
 
 </resources>

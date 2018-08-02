@@ -8,97 +8,49 @@ import java.util.ArrayList;
 
 public class Main extends ArrayList
 {
-    private int id;
-    private int done;
-    private String name;
-    private String weight;
-    private String timeStamp;
-    private int reps;
-    private int restTime;
-    private int kcal;
-    private int kcalLimit;
-    private int lifted;
+
+    private int textViewBig;
+    private int textViewSmall;
+
+    private int viewType; /* 1: for Diet; 2: for Training */
 
     public Main(){}
 
 
-    public void setKcal(int kcal) {
-        this.kcal = kcal;
-    }
-
-    public int getKcal() {
-        return kcal;
-    }
-
-    public void setKcalLimit(int kcalLimit) {
-        this.kcalLimit = kcalLimit;
-    }
-
-    public int getKcalLimit()
+    public Main(int textViewBig, int textViewSmall, int viewType)
     {
-        return kcalLimit;
+        this.textViewBig = textViewBig;
+        this.textViewSmall = textViewSmall;
+        this.viewType = viewType;
     }
 
-    public void setReps(int reps)
+    public int getTextViewBig()
     {
-        this.reps = reps;
+        return textViewBig;
     }
 
-    public int getReps() {
-        return reps;
-    }
-
-    public void setRestTime(int restTime)
+    public void setTextViewBig(int textViewBig)
     {
-        this.restTime = restTime;
+        this.textViewBig = textViewBig;
     }
 
-    public int getRestTime()
+    public int getTextViewSmall()
     {
-        return restTime;
+        return textViewSmall;
     }
 
-    public void setLifted(int lifted)
+    public void setTextViewSmall(int textViewSmall)
     {
-        this.lifted = lifted;
+        this.textViewSmall = textViewSmall;
     }
 
-    public int getLifted() {
-        return lifted;
-    }
-
-
-
-
-
-
-
-
-
-    public int getId()
+    public void setViewType(int viewType)
     {
-        return id;
+        this.viewType = viewType;
     }
 
-    public int getDone()
+    public int getViewType()
     {
-        return done;
+        return viewType;
     }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public String getWeight()
-    {
-        return weight;
-    }
-
-    public String getTimeStamp()
-    {
-        return timeStamp;
-    }
-
-
 }
