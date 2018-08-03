@@ -9,6 +9,12 @@ public class WeightConverter extends Converter
         super(weight,productWeight);
     }
 
+    @Override
+    public double convertWeight(double weight)
+    {
+        return super.convertWeight(weight);
+    }
+
     public WeightConverter() {}
 
     @Override

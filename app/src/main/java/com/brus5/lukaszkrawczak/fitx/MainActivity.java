@@ -15,8 +15,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.DTO.MainDTO;
@@ -46,13 +44,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Configuration cfg = new Configuration();
     private String dateFormat, dateFormatView;
     private ArrayList<Main> list = new ArrayList<>();
-    private ArrayList<MainTraining> listTraining = new ArrayList<>();
     private ListView listView;
     private MainAdapter adapter;
-    private MainAdapterTraining adapterTraining;
     private Main main;
-    MainTraining mainTr;
-    private TrainingInflater inflater = new TrainingInflater(MainActivity.this);
+
 
 
     @Override
@@ -64,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadInputs();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
         main = new Main();
-        mainTr = new MainTraining();
     }
 
     private void weekCalendar(Calendar endDate, Calendar startDate)
@@ -86,16 +80,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 dateFormat = cfg.getDateFormat().format(date.getTime());
                 dateFormatView = cfg.getDateFormatView().format(date.getTime());
-                Log.e(TAG, "onDateSelected: "+dateFormat);
+                Log.e(TAG, "onDateSelected: " + dateFormat);
                 // TODO: 30.07.2018 add tvDate.setText
-                list.clear();
-                MainDTO dto = new MainDTO();
-                dto.userID      = String.valueOf(SaveSharedPreference.getUserID(MainActivity.this));
-                dto.date        = dateFormat;
-                dto.printStatus();
-                loadAsynchTask(dto,MainActivity.this);
+                asynchPreparator();
             }
         });
+    }
+
+    private void asynchPreparator()
+    {
+        list.clear();
+        MainDTO dto = new MainDTO();
+        dto.userID = String.valueOf(SaveSharedPreference.getUserID(MainActivity.this));
+        dto.date = dateFormat;
+        dto.printStatus();
+        loadAsynchTask(dto, MainActivity.this);
     }
 
     private void changeStatusBarColor()
@@ -123,194 +122,114 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void loadAsynchTask(final MainDTO dto, final Context context)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_MAIN_DIET,
-                new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_MAIN_DIET, globalResponse -> {
+
+            try
+            {
+                int kcal = 0;
+                int kcalLimit;
+
+                JSONObject jsonObject = new JSONObject(globalResponse);
+
+                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+
+                JSONArray response = jsonObject.getJSONArray("response");
+
+                JSONObject kcalObj = response.getJSONObject(0);
+                JSONObject kcalLimitObj = response.getJSONObject(1);
+
+                if (response.length() > 0)
                 {
-                    @Override
-                    public void onResponse(String response)
+                    for (int i = 0; i < response.length(); i++)
                     {
-                        try
-                        {
-                            int kcal = 0;
-                            int kcalLimit = 0;
+                        kcal = kcalObj.getInt("kcal");
+                        kcalLimit = kcalLimitObj.getInt("kcal_limit");
 
-                            String lifted;
-                            String repetitions;
+                        main = new Main(kcal, kcalLimit, 1);
 
-                            JSONObject jsonObject = new JSONObject(response);
-                            Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-                            JSONArray response1 = jsonObject.getJSONArray("response");
-
-// TODO: 31.07.2018 zrobić json object
-
-                            JSONObject kcalObj = response1.getJSONObject(0);
-                            JSONObject kcalLimitObj = response1.getJSONObject(1);
-                            JSONObject repetitionsObj = response1.getJSONObject(2);
-                            JSONObject liftedObj = response1.getJSONObject(3);
-
-
-
-
-
-
-                            if (response1.length() > 0)
-                            {
-                                for (int i = 0; i < response1.length(); i++)
-                                {
-
-                                    kcal = kcalObj.getInt("kcal");
-                                    kcalLimit = kcalLimitObj.getInt("kcal_limit");
-
-                                    main = new Main(kcal, kcalLimit, 1);
-
-                                    adapter = new MainAdapter(MainActivity.this, R.layout.row_main_diet, list);
-                                }
-                                list.add(main);
-
-
-
-
-
-                                for (int i = 0; i < response1.length(); i++)
-                                {
-                                    repetitions = repetitionsObj.getString("repetitions");
-                                    lifted = liftedObj.getString("lifted");
-
-                                    inflater.setWeight(lifted);
-                                    inflater.setReps(repetitions);
-
-                                    int weight = 0;
-                                    // TODO: 01.08.2018 ogarnać to 
-                                    if (!inflater.getWeight().isEmpty())
-                                    {
-                                        weight = inflater.countLiftedWeight();
-                                    }
-                                    Log.e(TAG, "weightASD: "+weight);
-
-                                    main = new Main(weight,123,2);
-
-                                    adapter = new MainAdapter(MainActivity.this, R.layout.row_main_diet, list);
-                                }
-                            }
-                            list.add(main);
-
-
-
-
-
-//                            if (kcalObj.length() > 0 )
-//                            {
-//                                adapter = new MainAdapter(MainActivity.this, R.layout.row_main_training, list);
-//
-//                            }
-
-                            listView.setDividerHeight(0);
-                            listView.setAdapter(adapter);
-                            // TODO: 01.08.2018 work here
-
-                            listView.invalidate();
-                            // TODO: 31.07.2018 zrobic if listview is empty to pokazuj wiadomość "Brak danych z dnia: xx.XX.xxxx"
-                        }
-                        catch (JSONException e)
-                        {
-                            e.printStackTrace();
-                        }
+                        adapter = new MainAdapter(MainActivity.this, R.layout.row_main_diet, list);
                     }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
+                    if (kcal > 0)
                     {
-                        Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "onErrorResponse: Error" + error);
+                        list.add(main);
                     }
                 }
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+
+
+
+
+            try
+            {
+                JSONObject jsonObject1 = new JSONObject(globalResponse);
+                JSONArray response = jsonObject1.getJSONArray("response");
+
+                JSONObject repetitionsObj = response.getJSONObject(2);
+                JSONObject liftedObj = response.getJSONObject(3);
+                JSONObject restObj = response.getJSONObject(4);
+
+                String weight = "0";
+                String rest;
+                String reps;
+
+                TrainingInflater inflater = new TrainingInflater(MainActivity.this);
+
+                for (int i = 0; i < response.length(); i++)
+                {
+                    reps = repetitionsObj.getString("repetitions");
+                    weight = liftedObj.getString("lifted");
+                    rest = restObj.getString("rest");
+
+                    inflater.setWeight(weight);
+                    inflater.setReps(reps);
+
+                    adapter = new MainAdapter(MainActivity.this, R.layout.row_main_diet, list);
+
+                    main = new Main(rest, reps, weight, 2);
+                }
+
+                if (!weight.equals("0"))
+                {
+                    list.add(main);
+                }
+
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+            listView.setDividerHeight(0);
+            listView.setAdapter(adapter);
+            // TODO: 01.08.2018 work here
+
+            listView.invalidate();
+            // TODO: 31.07.2018 zrobic if listview is empty to pokazuj wiadomość "Brak danych z dnia: xx.XX.xxxx"
+
+        },
+                error -> {
+                    Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onErrorResponse: Error" + error);
+                }
         )
+
         {
             @Override
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_DATE,                     dto.date);
+                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(context)));
+                params.put(RestAPI.DB_DATE, dto.date);
                 return params;
             }
         };
+
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
-
-//    public void loadAsynchTaskGym(final MainDTO dto, final Context context)
-//    {
-//        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_MAIN_DIET,
-//                new Response.Listener<String>()
-//                {
-//                    @Override
-//                    public void onResponse(String response)
-//                    {
-//                        try
-//                        {
-//                            int kcal = 0;
-//                            int kcalLimit = 0;
-//
-//                            JSONObject jsonObject = new JSONObject(response);
-//
-//
-////                            if (response1.length() > 0)
-////                            {
-////                                for (int i = 0; i < response1.length(); i++)
-////                                {
-////
-////                                    kcal = kcalObj.getInt("kcal");
-////                                    kcalLimit = kcalLimitObj.getInt("kcal_limit");
-////
-////                                }
-////                            }
-//
-//// TODO: 30.07.2018 zrobić asynchtask z Diet.php
-//
-////
-////                            list.add(main);
-////
-////                            if (kcalObj.length() > 0 )
-////                            {
-////                                adapter = new MainAdapter(MainActivity.this, R.layout.row_main_training, list);
-////                            }
-////
-////                            listView.setDividerHeight(0);
-////                            listView.setAdapter(adapter);
-////                            listView.invalidate();
-//                        }
-//                        catch (JSONException e)
-//                        {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener()
-//                {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error)
-//                    {
-//                        Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-//                        Log.e(TAG, "onErrorResponse: Error" + error);
-//                    }
-//                }
-//        )
-//        {
-//            @Override
-//            protected Map<String, String> getParams()
-//            {
-//                HashMap<String, String> params = new HashMap<>();
-//                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
-//                params.put(RestAPI.DB_DATE,                     dto.date);
-//                return params;
-//            }
-//        };
-//        RequestQueue queue = Volley.newRequestQueue(context);
-//        queue.add(strRequest);
-//    }
 
     @Override
     public void onClick(View v)
@@ -329,6 +248,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonSettings:
                 break;
         }
+    }
+
+    @Override
+    protected void onRestart()
+    {
+        super.onRestart();
+        asynchPreparator();
     }
 
     public void runNextActivity(Context packageContext, Class<?> cls)

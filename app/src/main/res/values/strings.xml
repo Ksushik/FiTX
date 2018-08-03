@@ -143,5 +143,9 @@
     <string name="gym">Siłownia</string>
     <string name="time_on_gym">Czas na siłowni</string>
     <string name="lifted_1">podniesiono</string>
+    <string name="minutes_on_gym">Minuty na siłowni</string>
+    <string name="cardio">Cardio</string>
+    <string name="burned">spalono</string>
+    <string name="minutes_on_cardio">Minuty</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
@@ -69,13 +70,11 @@ public class TrainingInflater
                     repsConverter();
                     valid = false;
                 }
-
                 else if (s.length() > 3)
                 {
                     editTextTrainingRowReps.getText().clear();
                     valid = false;
                 }
-
                 else
                 {
                     textViewNoEmpty.setVisibility(View.INVISIBLE);
@@ -114,14 +113,11 @@ public class TrainingInflater
                     weightConverter();
                     valid = false;
                 }
-
                 else if (s.length() > 3)
                 {
                     editTextTrainingRowWeight.getText().clear();
                     valid = false;
                 }
-
-
                 else
                 {
                     textViewNoEmpty1.setVisibility(View.INVISIBLE);
@@ -134,23 +130,18 @@ public class TrainingInflater
 
 
         Button buttonRemove = addView.findViewById(R.id.buttonTrainingRowRemove);
-        buttonRemove.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
+        buttonRemove.setOnClickListener(v -> {
 
-                mapReps.remove(Integer.valueOf(((TextView) addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-                mapWeight.remove(Integer.valueOf(((TextView) addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-                ((LinearLayout) addView.getParent()).removeView(addView);
-                repsConverter();
-                weightConverter();
+            mapReps.remove(Integer.valueOf(((TextView) addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
+            mapWeight.remove(Integer.valueOf(((TextView) addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
+            ((LinearLayout) addView.getParent()).removeView(addView);
+            repsConverter();
+            weightConverter();
 
-                rowsNum--;
+            rowsNum--;
 
-                Log.i(TAG, "onClick: mapReps: " + mapReps + " size: " + mapReps.size() + " mapWeight: " + mapWeight + " size: " + mapWeight.size() + " rowsNum: " + rowsNum);
+            Log.i(TAG, "onClick: mapReps: " + mapReps + " size: " + mapReps.size() + " mapWeight: " + mapWeight + " size: " + mapWeight.size() + " rowsNum: " + rowsNum);
 
-            }
         });
 
         textViewTrainingDetailsID.setText(String.valueOf(clickCounter));
@@ -242,8 +233,7 @@ public class TrainingInflater
 
     public String printResult()
     {
-        return "\n" + "this.reps: " + this.reps + " mapWeight: " + mapReps + " size: " + mapReps.size() + "\n"
-                + "this.weight: " + this.weight + " mapWeight: " + mapWeight + " size: " + mapWeight.size();
+        return "\n" + "this.reps: " + this.reps + " mapWeight: " + mapReps + " size: " + mapReps.size() + "\n" + "this.weight: " + this.weight + " mapWeight: " + mapWeight + " size: " + mapWeight.size();
     }
 
     public int getSetNumber()
@@ -274,6 +264,35 @@ public class TrainingInflater
             lifted += i;
         }
         return lifted;
+    }
+
+    public int countRepsTime(String reps)
+    {
+        final int REP_TIME = 3;
+
+        String mReps = reps.replaceAll("\\p{Punct}", " ");
+        String[] strings = mReps.split("\\s+");
+
+        int[] iReps = new int[strings.length];
+
+
+        int k = 0;
+
+        for (String string : strings)
+        {
+            iReps[k] = Integer.valueOf(string);
+            k++;
+        }
+
+
+        int time = 0;
+
+        for (int i = 0; i < iReps.length; i++)
+        {
+            time += iReps[i] * REP_TIME;
+        }
+
+        return time;
     }
 
 }

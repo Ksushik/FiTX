@@ -2,11 +2,16 @@ package com.brus5.lukaszkrawczak.fitx.Converter;
 
 import android.util.Log;
 
+import com.brus5.lukaszkrawczak.fitx.R;
+
 import java.util.Locale;
 
 abstract class Converter
 {
     private static final String TAG = "Converter";
+
+    private static final int KG_ONE_TONE = 1000;
+
     private String dateToday;
     private String oldTimeStamp;
     private String covertedWeight;
@@ -18,6 +23,22 @@ abstract class Converter
         this.dateToday = dateToday;
         this.oldTimeStamp = oldTimeStamp;
         Log.i(TAG, "Converter: has been activated " + dateToday + " oldTimeStamp: " + oldTimeStamp);
+    }
+
+    public double convertWeight(double weight)
+    {
+
+        double toneConverter;
+
+        if (weight < KG_ONE_TONE)
+        {
+            return weight;
+        }
+        else
+        {
+            toneConverter = weight / KG_ONE_TONE;
+            return toneConverter;
+        }
     }
 
     public Converter() {}

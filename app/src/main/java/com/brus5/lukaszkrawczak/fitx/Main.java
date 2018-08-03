@@ -9,22 +9,32 @@ import java.util.ArrayList;
 public class Main extends ArrayList
 {
 
-    private int textViewBig;
+    private double textViewBig;
     private int textViewSmall;
+    private int viewType; /* 1: for Diet; 2: for Training; 3: for Cardio; 4: for UserWeight */
 
-    private int viewType; /* 1: for Diet; 2: for Training */
+    private String weight;
+    private String reps;
+    private String rest;
 
     public Main(){}
 
-
-    public Main(int textViewBig, int textViewSmall, int viewType)
+    public Main(double textViewBig, int textViewSmall, int viewType)
     {
         this.textViewBig = textViewBig;
         this.textViewSmall = textViewSmall;
         this.viewType = viewType;
     }
 
-    public int getTextViewBig()
+    public Main(String rest, String reps, String weight, int viewType)
+    {
+        this.rest = rest;
+        this.reps = reps;
+        this.weight = weight;
+        this.viewType = viewType;
+    }
+
+    public double getTextViewBig()
     {
         return textViewBig;
     }
@@ -52,5 +62,35 @@ public class Main extends ArrayList
     public int getViewType()
     {
         return viewType;
+    }
+
+    public String getWeight()
+    {
+        return weight;
+    }
+
+    public void setWeight(String weight)
+    {
+        this.weight = weight;
+    }
+
+    public String getReps()
+    {
+        return reps;
+    }
+
+    public void setReps(String reps)
+    {
+        this.reps = reps;
+    }
+
+    public String getRest()
+    {
+        return rest;
+    }
+
+    public void setRest(String rest)
+    {
+        this.rest = rest;
     }
 }
