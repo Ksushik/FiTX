@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MainAdapter adapter;
     private Main main;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -173,8 +171,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 JSONObject restObj = response.getJSONObject(4);
 
                 String weight = "0";
-                String rest;
-                String reps;
+                String rest = "0";
+                String reps = "0";
 
                 TrainingInflater inflater = new TrainingInflater(MainActivity.this);
 

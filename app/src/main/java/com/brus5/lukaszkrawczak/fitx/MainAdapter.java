@@ -84,7 +84,7 @@ public class MainAdapter extends ArrayAdapter<Main>
             trainingInflater.setWeight(weight);
 
 
-            int mRest = (Integer.valueOf(rest) + trainingInflater.countRepsTime(reps)) / 60;
+            int mRest = Integer.valueOf(rest) + (trainingInflater.countRepsTime(reps) / 60);
 
 
             double mWeight = trainingInflater.countLiftedWeight();
