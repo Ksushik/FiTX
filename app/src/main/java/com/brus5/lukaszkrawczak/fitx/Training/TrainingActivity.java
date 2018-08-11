@@ -95,41 +95,43 @@ public class TrainingActivity extends AppCompatActivity
 
     public void loadAsynchTask(final TrainingDTO dto, final Context context)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_SHORT, response -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_SHORT, globalResponse -> {
             try
             {
-                JSONObject jsonObject = new JSONObject(response);
+                JSONObject jsonObject = new JSONObject(globalResponse);
                 Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+
                 JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
                 JSONArray server_response = jsonObject.getJSONArray("server_response");
 
-                int exerciseRestTime;
-                int exerciseDone;
-                String exerciseReps;
-                String exerciseWeight;
-                int excerciseId;
-                String exerciseName;
-                String excerciseDate;
-                String exerciseTarget;
+                int id;
+                String name;
+                String target;
+
+                int restTime;
+                int done;
+                String reps;
+                String weight;
+                String date;
 
                 if (trainings_info.length() > 0)
                 {
                     for (int i = 0; i < trainings_info.length(); i++)
                     {
                         JSONObject trainings_infoObj = trainings_info.getJSONObject(i);
-                        exerciseRestTime = trainings_infoObj.getInt(RestAPI.DB_EXERCISE_REST_TIME);
-                        exerciseDone = trainings_infoObj.getInt(RestAPI.DB_EXERCISE_DONE);
-                        exerciseReps = trainings_infoObj.getString(RestAPI.DB_EXERCISE_REPS);
-                        exerciseWeight = trainings_infoObj.getString(RestAPI.DB_EXERCISE_WEIGHT);
-                        excerciseDate = trainings_infoObj.getString(RestAPI.DB_EXERCISE_DATE);
+                        restTime = trainings_infoObj.getInt(RestAPI.DB_EXERCISE_REST_TIME);
+                        done = trainings_infoObj.getInt(RestAPI.DB_EXERCISE_DONE);
+                        reps = trainings_infoObj.getString(RestAPI.DB_EXERCISE_REPS);
+                        weight = trainings_infoObj.getString(RestAPI.DB_EXERCISE_WEIGHT);
+                        date = trainings_infoObj.getString(RestAPI.DB_EXERCISE_DATE);
 
 
                         JSONObject server_responseObj = server_response.getJSONObject(i);
-                        excerciseId = server_responseObj.getInt(RestAPI.DB_EXERCISE_ID);
-                        exerciseName = server_responseObj.getString(RestAPI.DB_EXERCISE_NAME);
-                        exerciseTarget = server_responseObj.getString(RestAPI.DB_EXERCISE_TARGET);
+                        id = server_responseObj.getInt(RestAPI.DB_EXERCISE_ID);
+                        name = server_responseObj.getString(RestAPI.DB_EXERCISE_NAME);
+                        target = server_responseObj.getString(RestAPI.DB_EXERCISE_TARGET);
 
-                        Training training = new Training(excerciseId, exerciseDone, exerciseName, exerciseRestTime, exerciseWeight, exerciseReps, excerciseDate, exerciseTarget);
+                        Training training = new Training(id, done, name, restTime, weight, reps, date, target);
                         list.add(training);
                     }
                 }
@@ -194,15 +196,18 @@ public class TrainingActivity extends AppCompatActivity
     private void onListViewItemSelected()
     {
         listView.setOnItemClickListener((parent, view, position, id) -> {
+
             TextView tvTrainingID = view.findViewById(R.id.trainingID);
             TextView tvTrainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
             TextView tvTrainingTarget = view.findViewById(R.id.trainingTarget);
 
             Intent intent = new Intent(TrainingActivity.this, TrainingDetailsActivity.class);
-            intent.putExtra("trainingID", Integer.valueOf(tvTrainingID.getText().toString()));
-            intent.putExtra("trainingTimeStamp", tvTrainingTimeStamp.getText().toString());
-            intent.putExtra("trainingTarget", tvTrainingTarget.getText().toString());
-            intent.putExtra("previousActivity", "TrainingActivity");
+
+            intent.putExtra("trainingID",               Integer.valueOf(tvTrainingID.getText().toString()));
+            intent.putExtra("trainingTimeStamp",        tvTrainingTimeStamp.getText().toString());
+            intent.putExtra("trainingTarget",           tvTrainingTarget.getText().toString());
+            intent.putExtra("previousActivity",   "TrainingActivity");
+
             startActivity(intent);
         });
     }
