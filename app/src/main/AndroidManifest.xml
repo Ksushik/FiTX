@@ -72,10 +72,12 @@
             android:label="@string/fitx"
             android:parentActivityName=".Training.TrainingActivity"
             android:theme="@style/FiTX3theme.noBar" />
-        <activity android:name=".Training.TrainingListActivity"
+        <activity
+            android:name=".Training.TrainingListActivity"
             android:label="@string/fitx"
             android:parentActivityName=".Training.TrainingSearchActivity"
             android:theme="@style/FiTX3theme.noBar" />
+        <activity android:name=".Training.CardioActivity"></activity>
     </application>
 
 </manifest>

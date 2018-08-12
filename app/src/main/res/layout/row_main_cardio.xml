@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/activity_listview_vertical_margin"
     android:paddingLeft="@dimen/activity_listview_horizontal_margin"
     android:paddingRight="@dimen/activity_listview_horizontal_margin"
-    tools:context="com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity">
+    tools:context="com.brus5.lukaszkrawczak.fitx.MainActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,6 +28,7 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/container_yellow"
             android:elevation="0dp"
+            android:onClick="onClickCardio"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

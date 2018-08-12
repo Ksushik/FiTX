@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -21,6 +22,7 @@ import com.brus5.lukaszkrawczak.fitx.DTO.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
+import com.brus5.lukaszkrawczak.fitx.Training.TrainingDetailsActivity;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingInflater;
 
 import org.json.JSONArray;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadInputs();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
         main = new Main();
+        onListViewItemSelected();
     }
 
     private void weekCalendar(Calendar endDate, Calendar startDate)
@@ -147,10 +150,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         adapter = new MainAdapter(MainActivity.this, R.layout.row_main_diet, list);
                     }
+
                     if (kcal > 0)
                     {
                         list.add(main);
                     }
+
                 }
             } catch (JSONException e)
             {
@@ -191,6 +196,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 if (!weight.equals("0"))
+                {
+                    list.add(main);
+                }
+
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+
+
+
+
+            try
+            {
+                JSONObject jsonObject1 = new JSONObject(globalResponse);
+                JSONArray response = jsonObject1.getJSONArray("response");
+
+                JSONObject cardio_counted = response.getJSONObject(5);
+                JSONObject cardio_time = response.getJSONObject(6);
+
+
+                double kcalBurned = 0;
+                int time = 0;
+
+                TrainingInflater inflater = new TrainingInflater(MainActivity.this);
+
+                for (int i = 0; i < response.length(); i++)
+                {
+                    kcalBurned = cardio_counted.getDouble("cardio_counted");
+                    time = cardio_time.getInt("cardio_time");
+
+                    adapter = new MainAdapter(MainActivity.this, R.layout.row_main_diet, list);
+
+                    main = new Main(kcalBurned, time, 3);
+                }
+
+                if (kcalBurned != 0)
                 {
                     list.add(main);
                 }
@@ -259,6 +302,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         Intent intent = new Intent(packageContext, cls);
         MainActivity.this.startActivity(intent);
+    }
 
+    private void onListViewItemSelected()
+    {
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+
+//            TextView tvTrainingID = view.findViewById(R.id.trainingID);
+//            TextView tvTrainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
+//            TextView tvTrainingTarget = view.findViewById(R.id.trainingTarget);
+//            TextView tvDiet = view.findViewById(R.id.textViewRowDiet);
+
+//            Intent intent = new Intent(TrainingActivity.this, TrainingDetailsActivity.class);
+//
+//            intent.putExtra("trainingID",               Integer.valueOf(tvTrainingID.getText().toString()));
+//            intent.putExtra("trainingTimeStamp",        tvTrainingTimeStamp.getText().toString());
+//            intent.putExtra("trainingTarget",           tvTrainingTarget.getText().toString());
+//            intent.putExtra("previousActivity",   "MainActivity");
+
+//            startActivity(intent);
+
+
+            Log.e(TAG, "onListViewItemSelected: "+position);
+
+
+//            Log.e(TAG, "trainingID: "+ tvTrainingID.getText().toString());
+//            Log.e(TAG, "trainingTimeStamp: "+ tvTrainingTimeStamp.getText().toString());
+//            Log.e(TAG, "trainingTarget: "+ tvTrainingTarget.getText().toString());
+//            Log.e(TAG, "Diet: "+ tvDiet.getText().toString());
+
+
+        });
+    }
+
+    public void onClickDiet(View view)
+    {
+        runNextActivity(MainActivity.this,DietActivity.class);
+    }
+
+    public void onClickTraining(View view)
+    {
+        runNextActivity(MainActivity.this,TrainingActivity.class);
+    }
+
+    public void onClickCardio(View view)
+    {
+        runNextActivity(MainActivity.this,TrainingActivity.class);
     }
 }

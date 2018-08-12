@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Training extends ArrayList
 {
+    private int viewType; /* 1: for Gym; 2: for Cardio */
     private int id;
     private int done;
     private String name;
@@ -16,8 +17,10 @@ public class Training extends ArrayList
     private String reps;
     private String timeStamp;
     private String target;
+    private String time;
+    private String kcalPerMin;
 
-    public Training(int id, int done, String name, int restTime, String weight, String reps, String timeStamp, String target)
+    public Training(int id, int done, String name, int restTime, String weight, String reps, String timeStamp, String target, int viewType)
     {
         this.id = id;
         this.done = done;
@@ -27,6 +30,21 @@ public class Training extends ArrayList
         this.reps = reps;
         this.timeStamp = timeStamp;
         this.target = target;
+        this.viewType = viewType;
+    }
+
+    public Training(){}
+
+
+    public Training(int id, int done, String name, String time, String timeStamp, String kcalPerMin, int viewType)
+    {
+        this.id = id;
+        this.done = done;
+        this.name = name;
+        this.time = time;
+        this.timeStamp = timeStamp;
+        this.kcalPerMin = kcalPerMin;
+        this.viewType = viewType;
     }
 
     public int getId()
@@ -67,5 +85,20 @@ public class Training extends ArrayList
     public String getTarget()
     {
         return target;
+    }
+
+    public int getViewType()
+    {
+        return viewType;
+    }
+
+    public String getTime()
+    {
+        return time;
+    }
+
+    public String getKcalPerMin()
+    {
+        return kcalPerMin;
     }
 }

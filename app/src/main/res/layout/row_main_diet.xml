@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/activity_listview_vertical_margin"
     android:paddingLeft="@dimen/activity_listview_horizontal_margin"
     android:paddingRight="@dimen/activity_listview_horizontal_margin"
-    tools:context="com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity">
+    tools:context="com.brus5.lukaszkrawczak.fitx.MainActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,6 +26,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
+            android:onClick="onClickDiet"
             android:background="@drawable/container_blue"
             android:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,6 +94,23 @@
             android:textColor="@color/white_transparent"
             app:layout_constraintEnd_toStartOf="@+id/textViewCaloriesLimit"
             app:layout_constraintTop_toBottomOf="@+id/textViewType" />
+
+        <TextView
+            android:id="@+id/textViewRowDiet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/row_diet"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toStartOf="@+id/textViewCalories"
+            app:layout_constraintStart_toEndOf="@+id/textView8"
+            app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

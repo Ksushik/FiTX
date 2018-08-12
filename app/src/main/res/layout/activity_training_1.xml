@@ -70,5 +70,4 @@
         app:layout_constraintTop_toTopOf="@+id/textViewDate"
         app:srcCompat="@drawable/container_gray" />
 
-
 </android.support.constraint.ConstraintLayout>

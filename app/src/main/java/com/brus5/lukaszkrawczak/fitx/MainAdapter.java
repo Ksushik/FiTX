@@ -84,6 +84,9 @@ public class MainAdapter extends ArrayAdapter<Main>
             trainingInflater.setWeight(weight);
 
 
+            //            int mRest = ((Integer.valueOf(rest) / 1000) + trainingInflater.countRepsTime(reps)) / 60;
+
+
             int mRest = Integer.valueOf(rest) + (trainingInflater.countRepsTime(reps) / 60);
 
 
@@ -106,6 +109,20 @@ public class MainAdapter extends ArrayAdapter<Main>
 
             tvTime.setText(String.valueOf(mRest));
 
+
+            return convertView;
+        }
+
+
+        if (viewType == 3)
+        {
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_cardio, parent, false);
+
+            TextView tvBurned = convertView.findViewById(R.id.textViewBurned);
+            TextView tvTrainingTime = convertView.findViewById(R.id.textViewTrainingTime);
+
+            tvBurned.setText(String.valueOf((int)textViewBig));
+            tvTrainingTime.setText(String.valueOf(textViewSmall));
 
             return convertView;
         }

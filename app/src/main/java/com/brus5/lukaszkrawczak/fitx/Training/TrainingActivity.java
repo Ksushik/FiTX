@@ -20,6 +20,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
+import com.brus5.lukaszkrawczak.fitx.Main;
+import com.brus5.lukaszkrawczak.fitx.MainActivity;
+import com.brus5.lukaszkrawczak.fitx.MainAdapter;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -47,6 +50,7 @@ public class TrainingActivity extends AppCompatActivity
     ArrayList<Training> list = new ArrayList<>();
     ListView listView;
     TrainingAdapter adapter;
+    Training training;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,6 +62,7 @@ public class TrainingActivity extends AppCompatActivity
         loadInput();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
         onListViewItemSelected();
+        training = new Training();
     }
 
     private void loadInput()
@@ -96,13 +101,17 @@ public class TrainingActivity extends AppCompatActivity
     public void loadAsynchTask(final TrainingDTO dto, final Context context)
     {
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_SHORT, globalResponse -> {
+
+
+
             try
             {
                 JSONObject jsonObject = new JSONObject(globalResponse);
                 Log.d(TAG, "onResponse: " + jsonObject.toString(1));
 
+                JSONArray training_types = jsonObject.getJSONArray("training_types");
+
                 JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
-                JSONArray server_response = jsonObject.getJSONArray("server_response");
 
                 int id;
                 String name;
@@ -119,6 +128,7 @@ public class TrainingActivity extends AppCompatActivity
                     for (int i = 0; i < trainings_info.length(); i++)
                     {
                         JSONObject trainings_infoObj = trainings_info.getJSONObject(i);
+
                         restTime = trainings_infoObj.getInt(RestAPI.DB_EXERCISE_REST_TIME);
                         done = trainings_infoObj.getInt(RestAPI.DB_EXERCISE_DONE);
                         reps = trainings_infoObj.getString(RestAPI.DB_EXERCISE_REPS);
@@ -126,24 +136,100 @@ public class TrainingActivity extends AppCompatActivity
                         date = trainings_infoObj.getString(RestAPI.DB_EXERCISE_DATE);
 
 
-                        JSONObject server_responseObj = server_response.getJSONObject(i);
+
+
+
+                        JSONObject server_responseObj = training_types.getJSONObject(i);
+
                         id = server_responseObj.getInt(RestAPI.DB_EXERCISE_ID);
                         name = server_responseObj.getString(RestAPI.DB_EXERCISE_NAME);
                         target = server_responseObj.getString(RestAPI.DB_EXERCISE_TARGET);
 
-                        Training training = new Training(id, done, name, restTime, weight, reps, date, target);
+                        training = new Training(id, done, name, restTime, weight, reps, date, target, 1);
                         list.add(training);
+                        adapter = new TrainingAdapter(TrainingActivity.this, R.layout.row_training_excercise, list);
+
                     }
+
+
                 }
-                adapter = new TrainingAdapter(TrainingActivity.this, R.layout.row_training_excercise, list);
-                listView.setAdapter(adapter);
-                listView.invalidate();
+
 
 
             } catch (JSONException e)
             {
                 e.printStackTrace();
             }
+
+
+
+
+
+
+
+            try
+            {
+                JSONObject jsonObject = new JSONObject(globalResponse);
+                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+
+                JSONArray cardio_types = jsonObject.getJSONArray("cardio_types");
+
+                JSONArray cardio_info = jsonObject.getJSONArray("cardio_info");
+
+                int id;
+                String name;
+                String kcalPerMin;
+
+                int done;
+                String time;
+                String date;
+
+                if (cardio_info.length() > 0)
+                {
+                    for (int i = 0; i < cardio_info.length(); i++)
+                    {
+                        JSONObject cardio = cardio_info.getJSONObject(i);
+
+                        done = cardio.getInt(            RestAPI.DB_CARDIO_DONE);
+                        time = cardio.getString(         RestAPI.DB_CARDIO_TIME);
+                        date = cardio.getString(         RestAPI.DB_DATE);
+
+
+
+
+
+                        JSONObject cardioType = cardio_types.getJSONObject(i);
+
+                        id = cardioType.getInt(                             RestAPI.DB_CARDIO_ID);
+                        name = cardioType.getString(                        RestAPI.DB_CARDIO_NAME);
+                        kcalPerMin = cardioType.getString(                  RestAPI.DB_CARDIO_CALORIES);
+
+                        training = new Training(id, done, name, time, date, kcalPerMin, 2);
+                        list.add(training);
+                        adapter = new TrainingAdapter(TrainingActivity.this, R.layout.row_training_excercise, list);
+
+                    }
+
+
+                }
+
+
+
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+
+
+
+
+
+
+            listView.setAdapter(adapter);
+            listView.invalidate();
+
+
         }, error -> {
             Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
             Log.e(TAG, "onErrorResponse: Error" + error);
@@ -197,18 +283,32 @@ public class TrainingActivity extends AppCompatActivity
     {
         listView.setOnItemClickListener((parent, view, position, id) -> {
 
-            TextView tvTrainingID = view.findViewById(R.id.trainingID);
-            TextView tvTrainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
-            TextView tvTrainingTarget = view.findViewById(R.id.trainingTarget);
+            TextView tvTrainingType = view.findViewById(R.id.textViewTrainingType);
 
-            Intent intent = new Intent(TrainingActivity.this, TrainingDetailsActivity.class);
+            boolean isGym = tvTrainingType.getText().toString().equals(getResources().getString(R.string.training_gym));
+            boolean isCardio = tvTrainingType.getText().toString().equals(getResources().getString(R.string.training_cardio));
 
-            intent.putExtra("trainingID",               Integer.valueOf(tvTrainingID.getText().toString()));
-            intent.putExtra("trainingTimeStamp",        tvTrainingTimeStamp.getText().toString());
-            intent.putExtra("trainingTarget",           tvTrainingTarget.getText().toString());
-            intent.putExtra("previousActivity",   "TrainingActivity");
+            if (isGym)
+            {
+                TextView tvTrainingID = view.findViewById(R.id.trainingID);
+                TextView tvTrainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
+                TextView tvTrainingTarget = view.findViewById(R.id.trainingTarget);
 
-            startActivity(intent);
+                Intent intent = new Intent(TrainingActivity.this, TrainingDetailsActivity.class);
+
+                intent.putExtra("trainingID",               Integer.valueOf(tvTrainingID.getText().toString()));
+                intent.putExtra("trainingTimeStamp",        tvTrainingTimeStamp.getText().toString());
+                intent.putExtra("trainingTarget",           tvTrainingTarget.getText().toString());
+                intent.putExtra("previousActivity",   "TrainingActivity");
+
+                startActivity(intent);
+            }
+            if (isCardio)
+            {
+                TextView tvCardioID = view.findViewById(R.id.cardioID);
+                TextView tvCardioTimeStamp = view.findViewById(R.id.cardioTimeStamp);
+            }
+
         });
     }
 

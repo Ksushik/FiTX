@@ -62,6 +62,16 @@ public class RestAPI
     public final static String DB_EXERCISE_NAME = "name";
     public final static String DB_EXERCISE_DESCRITION = "description";
 
+    /* Names of db_list_cardio */
+    public final static String DB_CARDIO_ID = "id";
+    public final static String DB_CARDIO_NAME = "name";
+    public final static String DB_CARDIO_CALORIES = "calories";
+
+    /* Names of db_user_cardio */
+    public final static String DB_CARDIO_DONE = "done";
+    public final static String DB_CARDIO_TIME = "time";
+    public final static String DB_CARDIO_NOTEPAD = "notepad";
+
     /* Names of db_user_exercise */
     public final static String DB_EXERCISE_TARGET = "target";
     public final static String DB_EXERCISE_DONE = "done";
