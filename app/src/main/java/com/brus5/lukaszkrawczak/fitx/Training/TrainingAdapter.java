@@ -141,7 +141,7 @@ public class TrainingAdapter extends ArrayAdapter<Training>
             TextView tvTimeStamp = convertView.findViewById(R.id.cardioTimeStamp);
             TextView tvTarget = convertView.findViewById(R.id.cardioTarget);
             TextView tvTime = convertView.findViewById(R.id.cardioTime);
-            TextView tvType = convertView.findViewById(R.id.cardioType);
+            TextView tvType = convertView.findViewById(R.id.textViewTrainingType);
             TextView tvKcalBurned = convertView.findViewById(R.id.cardioKcalBurned);
 
             tvId.setText(String.valueOf(id));

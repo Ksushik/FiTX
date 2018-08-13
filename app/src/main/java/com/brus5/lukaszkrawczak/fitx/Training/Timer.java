@@ -6,6 +6,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -20,6 +21,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Timer
 {
+    private static final String TAG = "Timer";
     Activity activity;
     public boolean timerRunning;
     public long START_TIME_IN_MILLIS;
@@ -107,7 +109,16 @@ public class Timer
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
                 {
-                    onProgressSetTime(progress);
+
+                    if (activity.getClass().getSimpleName().equals(TrainingDetailsActivity.class.getSimpleName()))
+                    {
+                        onProgressSetTime(progress);
+                    }
+                    else if (activity.getClass().getSimpleName().equals(CardioDetailsActivity.class.getSimpleName()))
+                    {
+                        onProgressSetTimeBig(progress);
+                    }
+
                     updateCountDownText();
                     resetTimer();
                 }
@@ -118,7 +129,7 @@ public class Timer
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {}
             }
-                                          );
+        );
     }
 
     private void onProgressSetTime(int progress)
@@ -126,34 +137,37 @@ public class Timer
         switch (progress)
         {
             case 0:
-                START_TIME_IN_MILLIS = 15000;
+                START_TIME_IN_MILLIS = 15_000;
                 break;
             case 1:
-                START_TIME_IN_MILLIS = 30000;
+                START_TIME_IN_MILLIS = 30_000;
                 break;
             case 2:
-                START_TIME_IN_MILLIS = 45000;
+                START_TIME_IN_MILLIS = 45_000;
                 break;
             case 3:
-                START_TIME_IN_MILLIS = 60000;
+                START_TIME_IN_MILLIS = 60_000;
                 break;
             case 4:
-                START_TIME_IN_MILLIS = 75000;
+                START_TIME_IN_MILLIS = 75_000;
                 break;
             case 5:
-                START_TIME_IN_MILLIS = 90000;
+                START_TIME_IN_MILLIS = 90_000;
                 break;
             case 6:
-                START_TIME_IN_MILLIS = 105000;
+                START_TIME_IN_MILLIS = 105_000;
                 break;
             case 7:
-                START_TIME_IN_MILLIS = 120000;
+                START_TIME_IN_MILLIS = 120_000;
                 break;
             case 8:
-                START_TIME_IN_MILLIS = 135000;
+                START_TIME_IN_MILLIS = 135_000;
                 break;
             case 9:
-                START_TIME_IN_MILLIS = 150000;
+                START_TIME_IN_MILLIS = 150_000;
+                break;
+            case 10:
+                START_TIME_IN_MILLIS = 165_000;
                 break;
         }
     }
@@ -162,35 +176,78 @@ public class Timer
     {
         switch (timeInMillis)
         {
-            case 15000:
+            case 15_000:
                 seekBar.setProgress(0);
                 break;
-            case 30000:
+            case 30_000:
                 seekBar.setProgress(1);
                 break;
-            case 45000:
+            case 45_000:
                 seekBar.setProgress(2);
                 break;
-            case 60000:
+            case 60_000:
                 seekBar.setProgress(3);
                 break;
-            case 75000:
+            case 75_000:
                 seekBar.setProgress(4);
                 break;
-            case 90000:
+            case 90_000:
                 seekBar.setProgress(5);
                 break;
-            case 105000:
+            case 105_000:
                 seekBar.setProgress(6);
                 break;
-            case 120000:
+            case 120_000:
                 seekBar.setProgress(7);
                 break;
-            case 135000:
+            case 135_000:
                 seekBar.setProgress(8);
                 break;
-            case 150000:
+            case 150_000:
                 seekBar.setProgress(9);
+                break;
+            case 165_000:
+                seekBar.setProgress(10);
+                break;
+        }
+    }
+
+    private void onProgressSetTimeBig(int progress)
+    {
+        switch (progress)
+        {
+            case 0:
+                START_TIME_IN_MILLIS = 3_00000;
+                break;
+            case 1:
+                START_TIME_IN_MILLIS = 6_00000;
+                break;
+            case 2:
+                START_TIME_IN_MILLIS = 9_00000;
+                break;
+            case 3:
+                START_TIME_IN_MILLIS = 12_00000;
+                break;
+            case 4:
+                START_TIME_IN_MILLIS = 15_00000;
+                break;
+            case 5:
+                START_TIME_IN_MILLIS = 18_00000;
+                break;
+            case 6:
+                START_TIME_IN_MILLIS = 21_00000;
+                break;
+            case 7:
+                START_TIME_IN_MILLIS = 24_00000;
+                break;
+            case 8:
+                START_TIME_IN_MILLIS = 27_00000;
+                break;
+            case 9:
+                START_TIME_IN_MILLIS = 30_00000;
+                break;
+            case 10:
+                START_TIME_IN_MILLIS = 33_00000;
                 break;
         }
     }

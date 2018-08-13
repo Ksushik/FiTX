@@ -38,6 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.29000002"
         app:srcCompat="@drawable/image_body_front" />
 
     <TextView
@@ -123,26 +124,30 @@
     <!-- END OF FRONT IMAGE SHOWED -->
 
 
-    <ImageView
-        android:id="@+id/imageViewButtonRotate"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
+    <Button
+        android:id="@+id/buttonRotate"
+        style="@android:style/Widget.DeviceDefault.Light.Button.Borderless.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:contentDescription="@string/rotate"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
+        android:onClick="onClick"
+        android:text="@string/rotate_body"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewBodyFront"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/image_rotate" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <!-- BACK IMAGE HIDED -->
 
     <ImageView
         android:id="@+id/imageViewBodyBack"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="400sp"
         android:layout_marginBottom="8dp"
@@ -152,10 +157,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/body_back"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.29000002"
         app:srcCompat="@drawable/image_body_back" />
 
     <TextView
@@ -184,6 +191,8 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/imageViewBodyBack"
         app:layout_constraintTop_toTopOf="@+id/imageViewBodyBack" />
+
+
 
     <TextView
         android:id="@+id/textViewButtonGlutes"
@@ -236,6 +245,24 @@
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/imageViewBodyBack"
         app:layout_constraintTop_toTopOf="@+id/imageViewBodyBack" />
+
+    <Button
+        android:id="@+id/buttonCardio"
+        style="@style/roundButtonWithIcon"
+        android:layout_width="84dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_confirm"
+        android:drawableStart="@drawable/ic_cardio_white_12dp"
+        android:onClick="onClick"
+        android:text="@string/cardio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewBodyBack"
+        tools:ignore="RtlCompat" />
 
     <!-- END OF FRONT IMAGE HIDED -->
 

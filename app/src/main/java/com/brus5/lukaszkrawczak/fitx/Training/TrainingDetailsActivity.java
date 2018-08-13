@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,17 +22,15 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.Validator.CharacterLimit;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
+import com.brus5.lukaszkrawczak.fitx.Validator.CharacterLimit;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -72,8 +69,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         onBackButtonPressed();
         loadInput();
         getIntentFromPreviousActiity();
-        String url = "http://justfitx.xyz/images/exercises/" + trainingTarget + "/" + trainingID + "_1" + ".jpg";
-        String url2 = "http://justfitx.xyz/images/exercises/" + trainingTarget + "/" + trainingID + "_2" + ".jpg";
+        String url = RestAPI.URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_1" + ".jpg";
+        String url2 = RestAPI.URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_2" + ".jpg";
         loadImages(imgTrainingL, url);
         loadImages(imgTrainingR, url2);
         timer = new Timer(this);
@@ -83,6 +80,24 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         etNotepad.addTextChangedListener(characterLimit);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_training_4_details, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_delete_exercise);
+        if (previousActivity.equals( TrainingListActivity.class.getSimpleName() ))
+        {
+            item.setVisible(false);
+        }
+        else
+        {
+            item.setVisible(true);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @SuppressLint("LongLogTag")
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -90,14 +105,14 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         switch (item.getItemId())
         {
             case R.id.menu_save_exercise:
-                if (previousActivity.equals("TrainingActivity") && (inflater.isValid()) && (characterLimit.isLimit()))
+                if (previousActivity.equals( TrainingActivity.class.getSimpleName() ) && ( inflater.isValid()) && characterLimit.isLimit() )
                 {
                     TrainingService updateTraining = new TrainingService();
                     updateTraining.TrainingUpdate(saveDTO(), TrainingDetailsActivity.this);
                     finish();
                 }
 
-                else if (previousActivity.equals("TrainingListActivity") && (inflater.isValid()) && (characterLimit.isLimit()))
+                else if (previousActivity.equals( TrainingListActivity.class.getSimpleName() ) && (inflater.isValid()) && characterLimit.isLimit() )
                 {
                     TrainingService acceptService = new TrainingService();
                     acceptService.TrainingInsert(saveDTO(), TrainingDetailsActivity.this);
@@ -147,7 +162,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private String setTimeStamp()
     {
-        if (previousActivity.equals("TrainingActivity"))
+        if (previousActivity.equals(TrainingActivity.class.getSimpleName()))
         {
             return trainingTimeStamp;
         }
@@ -174,19 +189,14 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private int setOnCheckedChangeListener()
     {
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked)
             {
-                if (isChecked)
-                {
-                    checkBox.setText(R.string.done);
-                }
-                else
-                {
-                    checkBox.setText(R.string.not_done);
-                }
+                checkBox.setText(R.string.done);
+            }
+            else
+            {
+                checkBox.setText(R.string.not_done);
             }
         });
 
@@ -202,12 +212,12 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getPreviousActivity(String previousActivity)
     {
-        if (previousActivity.equals("TrainingActivity"))
+        if (previousActivity.equals( TrainingActivity.class.getSimpleName() ))
         {
             getUserTrainingDetailsAsynch(TrainingDetailsActivity.this);
             getTrainingNameAsynch(TrainingDetailsActivity.this);
         }
-        else if (previousActivity.equals("TrainingListActivity"))
+        else if (previousActivity.equals( TrainingListActivity.class.getSimpleName() ))
         {
             getTrainingNameAsynch(TrainingDetailsActivity.this);
             timer.seekBar.setProgress(5);
@@ -287,24 +297,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_training_4_details, menu);
-
-        MenuItem item = menu.findItem(R.id.menu_delete_exercise);
-        if (previousActivity.equals("TrainingListActivity"))
-        {
-            item.setVisible(false);
-        }
-        else
-        {
-            item.setVisible(true);
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
     private void trainingSetsGenerator(int seriesNumber)
     {
         for (int i = 0; i < seriesNumber; i++)
@@ -320,82 +312,67 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getUserTrainingDetailsAsynch(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING,
-            new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING, response -> {
+            try
             {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onResponse(String response)
+                JSONObject jsonObject = new JSONObject(response);
+                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+
+                int done = 0;
+                String rest = "";
+                String reps;
+                String weight;
+                String notepad = "";
+
+                String exerciseName;
+
+                NameConverter nameUpperCase = new NameConverter();
+
+                JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+
+                for (int i = 0; i < jsonArray.length(); i++)
                 {
-                    try
-                    {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-
-                        int done = 0;
-                        String rest = "";
-                        String reps;
-                        String weight;
-                        String notepad = "";
-
-                        String exerciseName;
-
-                        NameConverter nameUpperCase = new NameConverter();
-
-                        JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-
-                        for (int i = 0; i < jsonArray.length(); i++)
-                        {
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            exerciseName = object.getString(RestAPI.DB_EXERCISE_NAME);
-                            nameUpperCase.setName(exerciseName);
-                        }
-
-
-                        JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
-
-                        for (int i = 0; i < trainings_info.length(); i++)
-                        {
-                            JSONObject tr_info = trainings_info.getJSONObject(i);
-                            done = tr_info.getInt(RestAPI.DB_EXERCISE_DONE);
-                            rest = tr_info.getString(RestAPI.DB_EXERCISE_REST_TIME);
-                            reps = tr_info.getString(RestAPI.DB_EXERCISE_REPS);
-                            weight = tr_info.getString(RestAPI.DB_EXERCISE_WEIGHT);
-                            notepad = tr_info.getString(RestAPI.DB_EXERCISE_NOTEPAD);
-
-                            String mReps = reps.replaceAll("\\p{Punct}", " ");
-                            String[] mReps_table = mReps.split("\\s+");
-
-                            inflater.setReps(reps);
-                            inflater.setWeight(weight);
-
-                            trainingSetsGenerator(mReps_table.length);
-                        }
-
-
-                        tvName.setText(nameUpperCase.getName());
-                        onTrainingChangerListener(done);
-                        etNotepad.setText(notepad);
-                        timer.convertSetTime(Integer.valueOf(rest));
-
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
+                    JSONObject object = jsonArray.getJSONObject(i);
+                    exerciseName = object.getString(RestAPI.DB_EXERCISE_NAME);
+                    nameUpperCase.setName(exerciseName);
                 }
-            },
-            new Response.ErrorListener()
-            {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onErrorResponse(VolleyError error)
+
+
+                JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
+
+                for (int i = 0; i < trainings_info.length(); i++)
                 {
-                    Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onErrorResponse: Error" + error);
+                    JSONObject tr_info = trainings_info.getJSONObject(i);
+                    done = tr_info.getInt(RestAPI.DB_EXERCISE_DONE);
+                    rest = tr_info.getString(RestAPI.DB_EXERCISE_REST_TIME);
+                    reps = tr_info.getString(RestAPI.DB_EXERCISE_REPS);
+                    weight = tr_info.getString(RestAPI.DB_EXERCISE_WEIGHT);
+                    notepad = tr_info.getString(RestAPI.DB_EXERCISE_NOTEPAD);
+
+                    String mReps = reps.replaceAll("\\p{Punct}", " ");
+                    String[] mReps_table = mReps.split("\\s+");
+
+                    inflater.setReps(reps);
+                    inflater.setWeight(weight);
+
+                    trainingSetsGenerator(mReps_table.length);
                 }
+
+
+                tvName.setText(nameUpperCase.getName());
+                onTrainingChangerListener(done);
+                etNotepad.setText(notepad);
+                timer.convertSetTime(Integer.valueOf(rest));
+
             }
-        )
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }, error -> {
+                Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onErrorResponse: Error" + error);
+            })
         {
             @Override
             protected Map<String, String> getParams()
@@ -412,48 +389,32 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getTrainingNameAsynch(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DETAILS,
-            new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DETAILS, response -> {
+            try
             {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onResponse(String response)
+                JSONObject jsonObject = new JSONObject(response);
+                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+                String name = "";
+                JSONArray server_response = jsonObject.getJSONArray("server_response");
+                NameConverter nameUpperCase = new NameConverter();
+                for (int i = 0; i < server_response.length(); i++)
                 {
-                    try
-                    {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-                        String name = "";
-                        JSONArray server_response = jsonObject.getJSONArray("server_response");
-                        NameConverter nameUpperCase = new NameConverter();
-                        for (int i = 0; i < server_response.length(); i++)
-                        {
-                            JSONObject object = server_response.getJSONObject(0);
-                            name = object.getString(RestAPI.DB_EXERCISE_NAME);
-                        }
+                    JSONObject object = server_response.getJSONObject(0);
+                    name = object.getString(RestAPI.DB_EXERCISE_NAME);
+                }
 
 
-                        nameUpperCase.setName(name);
-                        tvName.setText(nameUpperCase.getName());
-                        setOnCheckedChangeListener();
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            },
-            new Response.ErrorListener()
-            {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
-                    Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onErrorResponse: Error" + error);
-                }
+                nameUpperCase.setName(name);
+                tvName.setText(nameUpperCase.getName());
             }
-        )
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }, error -> {
+                Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onErrorResponse: Error" + error);
+            })
         {
             @Override
             protected Map<String, String> getParams()
@@ -469,50 +430,34 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getTrainingDescAsynch(final Context context)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DESCRIPTION,
-            new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DESCRIPTION, response -> {
+            try
             {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onResponse(String response)
+                JSONObject jsonObject = new JSONObject(response);
+
+                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+
+
+                String description = "";
+
+                JSONArray server_response = jsonObject.getJSONArray("server_response");
+
+                for (int i = 0; i < server_response.length(); i++)
                 {
-                    try
-                    {
-                        JSONObject jsonObject = new JSONObject(response);
-
-                        Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-
-
-                        String description = "";
-
-                        JSONArray server_response = jsonObject.getJSONArray("server_response");
-
-                        for (int i = 0; i < server_response.length(); i++)
-                        {
-                            JSONObject object = server_response.getJSONObject(0);
-                            description = object.getString(RestAPI.DB_EXERCISE_DESCRITION);
-                        }
-
-                        tvDetails.setText(description);
-                        setOnCheckedChangeListener();
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
+                    JSONObject object = server_response.getJSONObject(0);
+                    description = object.getString(RestAPI.DB_EXERCISE_DESCRITION);
                 }
-            },
-            new Response.ErrorListener()
-            {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
-                    Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onErrorResponse: Error" + error);
-                }
+
+                tvDetails.setText(description);
             }
-        )
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }, error -> {
+                Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onErrorResponse: Error" + error);
+            })
         {
             @Override
             protected Map<String, String> getParams()

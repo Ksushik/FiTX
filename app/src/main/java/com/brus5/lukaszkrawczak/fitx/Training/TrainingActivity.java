@@ -20,9 +20,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
-import com.brus5.lukaszkrawczak.fitx.Main;
-import com.brus5.lukaszkrawczak.fitx.MainActivity;
-import com.brus5.lukaszkrawczak.fitx.MainAdapter;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -299,14 +296,22 @@ public class TrainingActivity extends AppCompatActivity
                 intent.putExtra("trainingID",               Integer.valueOf(tvTrainingID.getText().toString()));
                 intent.putExtra("trainingTimeStamp",        tvTrainingTimeStamp.getText().toString());
                 intent.putExtra("trainingTarget",           tvTrainingTarget.getText().toString());
-                intent.putExtra("previousActivity",   "TrainingActivity");
+                intent.putExtra("previousActivity",         TrainingActivity.class.getSimpleName());
 
                 startActivity(intent);
             }
             if (isCardio)
             {
                 TextView tvCardioID = view.findViewById(R.id.cardioID);
-                TextView tvCardioTimeStamp = view.findViewById(R.id.cardioTimeStamp);
+//                TextView tvCardioTimeStamp = view.findViewById(R.id.cardioTimeStamp);
+                Log.e(TAG, "onListViewItemSelected: " + isCardio + " " + tvCardioID.getText().toString());
+
+                Intent intent = new Intent(TrainingActivity.this, CardioDetailsActivity.class);
+                intent.putExtra("previousActivity",         TrainingActivity.class.getSimpleName());
+
+                startActivity(intent);
+
+
             }
 
         });

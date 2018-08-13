@@ -1,6 +1,5 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -8,8 +7,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,12 +17,14 @@ import com.brus5.lukaszkrawczak.fitx.R;
 public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener
 {
     private static final String TAG = "TrainingSearchActivity";
-    ImageView imageViewButtonRotate, imageViewBodyBack, imageViewBodyFront;
+    ImageView imageViewBodyBack, imageViewBodyFront;
 
-    TextView textViewButtonChest, textViewButtonAbs, textViewButtonQuads,
-            textViewButtonShoulders, textViewButtonBiceps, textViewButtonForearms,
-            textViewButtonLats, textViewButtonTraps, textViewButtonGlutes,
-            textViewButtonTriceps, textViewButtonHamstrings, textViewButtonCalves;
+    TextView tvButtonChest, tvButtonAbs, tvButtonQuads,
+            tvButtonShoulders, tvButtonBiceps, tvButtonForearms,
+            tvButtonLats, tvButtonTraps, tvButtonGlutes,
+            tvButtonTriceps, tvButtonHamstrings, tvButtonCalves;
+
+    Button btRotate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,21 +39,14 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
 
     private void button()
     {
-        imageViewButtonRotate.setOnClickListener(new View.OnClickListener()
-        {
-            @SuppressLint("LongLogTag")
-            @Override
-            public void onClick(View v)
+        btRotate.setOnClickListener(v -> {
+            if (imageViewBodyBack.getVisibility() == View.INVISIBLE)
             {
-                Log.e(TAG, "onClick: " + v.toString());
-                if (imageViewBodyBack.getVisibility() == View.INVISIBLE)
-                {
-                    bodyRotate(1);
-                }
-                else if (imageViewBodyFront.getVisibility() == View.INVISIBLE)
-                {
-                    bodyRotate(0);
-                }
+                bodyRotate(1);
+            }
+            else if (imageViewBodyFront.getVisibility() == View.INVISIBLE)
+            {
+                bodyRotate(0);
             }
         });
     }
@@ -75,65 +69,67 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
     private void showBackBody()
     {
         imageViewBodyBack.setVisibility(View.VISIBLE);
-        textViewButtonLats.setVisibility(View.VISIBLE);
-        textViewButtonTraps.setVisibility(View.VISIBLE);
-        textViewButtonGlutes.setVisibility(View.VISIBLE);
-        textViewButtonTriceps.setVisibility(View.VISIBLE);
-        textViewButtonHamstrings.setVisibility(View.VISIBLE);
-        textViewButtonCalves.setVisibility(View.VISIBLE);
+        tvButtonLats.setVisibility(View.VISIBLE);
+        tvButtonTraps.setVisibility(View.VISIBLE);
+        tvButtonGlutes.setVisibility(View.VISIBLE);
+        tvButtonTriceps.setVisibility(View.VISIBLE);
+        tvButtonHamstrings.setVisibility(View.VISIBLE);
+        tvButtonCalves.setVisibility(View.VISIBLE);
     }
 
     private void hideBackBody()
     {
         imageViewBodyBack.setVisibility(View.INVISIBLE);
-        textViewButtonLats.setVisibility(View.INVISIBLE);
-        textViewButtonTraps.setVisibility(View.INVISIBLE);
-        textViewButtonGlutes.setVisibility(View.INVISIBLE);
-        textViewButtonTriceps.setVisibility(View.INVISIBLE);
-        textViewButtonHamstrings.setVisibility(View.INVISIBLE);
-        textViewButtonCalves.setVisibility(View.INVISIBLE);
+        tvButtonLats.setVisibility(View.INVISIBLE);
+        tvButtonTraps.setVisibility(View.INVISIBLE);
+        tvButtonGlutes.setVisibility(View.INVISIBLE);
+        tvButtonTriceps.setVisibility(View.INVISIBLE);
+        tvButtonHamstrings.setVisibility(View.INVISIBLE);
+        tvButtonCalves.setVisibility(View.INVISIBLE);
     }
 
     private void hideFrontBody()
     {
         imageViewBodyFront.setVisibility(View.INVISIBLE);
-        textViewButtonChest.setVisibility(View.INVISIBLE);
-        textViewButtonAbs.setVisibility(View.INVISIBLE);
-        textViewButtonQuads.setVisibility(View.INVISIBLE);
-        textViewButtonShoulders.setVisibility(View.INVISIBLE);
-        textViewButtonBiceps.setVisibility(View.INVISIBLE);
-        textViewButtonForearms.setVisibility(View.INVISIBLE);
+        tvButtonChest.setVisibility(View.INVISIBLE);
+        tvButtonAbs.setVisibility(View.INVISIBLE);
+        tvButtonQuads.setVisibility(View.INVISIBLE);
+        tvButtonShoulders.setVisibility(View.INVISIBLE);
+        tvButtonBiceps.setVisibility(View.INVISIBLE);
+        tvButtonForearms.setVisibility(View.INVISIBLE);
     }
 
     private void showFrontBody()
     {
         imageViewBodyFront.setVisibility(View.VISIBLE);
-        textViewButtonChest.setVisibility(View.VISIBLE);
-        textViewButtonAbs.setVisibility(View.VISIBLE);
-        textViewButtonQuads.setVisibility(View.VISIBLE);
-        textViewButtonShoulders.setVisibility(View.VISIBLE);
-        textViewButtonBiceps.setVisibility(View.VISIBLE);
-        textViewButtonForearms.setVisibility(View.VISIBLE);
+        tvButtonChest.setVisibility(View.VISIBLE);
+        tvButtonAbs.setVisibility(View.VISIBLE);
+        tvButtonQuads.setVisibility(View.VISIBLE);
+        tvButtonShoulders.setVisibility(View.VISIBLE);
+        tvButtonBiceps.setVisibility(View.VISIBLE);
+        tvButtonForearms.setVisibility(View.VISIBLE);
     }
 
     private void loadInputs()
     {
-        imageViewButtonRotate = findViewById(R.id.imageViewButtonRotate);
         imageViewBodyBack = findViewById(R.id.imageViewBodyBack);
         imageViewBodyFront = findViewById(R.id.imageViewBodyFront);
 
-        textViewButtonChest = findViewById(R.id.textViewButtonChest);
-        textViewButtonAbs = findViewById(R.id.textViewButtonAbs);
-        textViewButtonQuads = findViewById(R.id.textViewButtonQuads);
-        textViewButtonShoulders = findViewById(R.id.textViewButtonShoulders);
-        textViewButtonBiceps = findViewById(R.id.textViewButtonBiceps);
-        textViewButtonForearms = findViewById(R.id.textViewButtonForearms);
-        textViewButtonLats = findViewById(R.id.textViewButtonLats);
-        textViewButtonTraps = findViewById(R.id.textViewButtonTraps);
-        textViewButtonGlutes = findViewById(R.id.textViewButtonGlutes);
-        textViewButtonTriceps = findViewById(R.id.textViewButtonTriceps);
-        textViewButtonHamstrings = findViewById(R.id.textViewButtonHamstrings);
-        textViewButtonCalves = findViewById(R.id.textViewButtonCalves);
+        tvButtonChest = findViewById(R.id.textViewButtonChest);
+        tvButtonAbs = findViewById(R.id.textViewButtonAbs);
+        tvButtonQuads = findViewById(R.id.textViewButtonQuads);
+        tvButtonShoulders = findViewById(R.id.textViewButtonShoulders);
+        tvButtonBiceps = findViewById(R.id.textViewButtonBiceps);
+        tvButtonForearms = findViewById(R.id.textViewButtonForearms);
+        tvButtonLats = findViewById(R.id.textViewButtonLats);
+        tvButtonTraps = findViewById(R.id.textViewButtonTraps);
+        tvButtonGlutes = findViewById(R.id.textViewButtonGlutes);
+        tvButtonTriceps = findViewById(R.id.textViewButtonTriceps);
+        tvButtonHamstrings = findViewById(R.id.textViewButtonHamstrings);
+        tvButtonCalves = findViewById(R.id.textViewButtonCalves);
+
+        btRotate = findViewById(R.id.buttonRotate);
+        btRotate.setOnClickListener(this);
     }
 
     private void changeStatusBarColor()
