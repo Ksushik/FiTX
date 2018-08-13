@@ -24,7 +24,7 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
             tvButtonLats, tvButtonTraps, tvButtonGlutes,
             tvButtonTriceps, tvButtonHamstrings, tvButtonCalves;
 
-    Button btRotate;
+    Button btRotate, btSearchCardio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

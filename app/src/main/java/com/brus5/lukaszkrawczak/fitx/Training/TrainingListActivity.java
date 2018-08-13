@@ -40,7 +40,7 @@ public class TrainingListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_training_3_choosed_listview);
+        setContentView(R.layout.activity_training_3_listview);
         loadInput();
         changeStatusBarColor();
         onBackButtonPressed();
