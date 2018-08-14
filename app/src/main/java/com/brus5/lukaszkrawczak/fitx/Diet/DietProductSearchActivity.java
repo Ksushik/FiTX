@@ -57,10 +57,6 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
         method();
     }
 
-    private void method()
-    {
-    }
-
     private void getIntentFromPreviousActiity()
     {
         dateFormat = getIntent().getStringExtra("dateFormat");
