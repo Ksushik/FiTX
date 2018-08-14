@@ -6,7 +6,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -21,7 +20,6 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Timer
 {
-    private static final String TAG = "Timer";
     Activity activity;
     public boolean timerRunning;
     public long START_TIME_IN_MILLIS;
@@ -30,8 +28,9 @@ public class Timer
     private long timeLeftInMillis;
     private ProgressBar progressBar;
     private Button btnReset;
-    private TextView tvTime;
+    private TextView tvTime, tvBurned;
     private FloatingActionButton btnStartPause;
+    private double burned;
 
     public Timer(Activity activity)
     {
@@ -41,6 +40,7 @@ public class Timer
         btnReset = this.activity.findViewById(R.id.buttonResetTimer);
         tvTime = this.activity.findViewById(R.id.textViewTime);
         btnStartPause = this.activity.findViewById(R.id.floatingButtonStartPause);
+        tvBurned = this.activity.findViewById(R.id.textViewBurned);
     }
 
     public void resetTimer()
@@ -110,13 +110,16 @@ public class Timer
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
                 {
 
-                    if (activity.getClass().getSimpleName().equals(TrainingDetailsActivity.class.getSimpleName()))
+                    if (        activity.getClass().getSimpleName().equals( TrainingDetailsActivity     .class.getSimpleName()   ))
                     {
                         onProgressSetTime(progress);
                     }
-                    else if (activity.getClass().getSimpleName().equals(CardioDetailsActivity.class.getSimpleName()))
+                    else if (   activity.getClass().getSimpleName().equals( CardioDetailsActivity       .class.getSimpleName() ))
                     {
                         onProgressSetTimeBig(progress);
+
+                        double kcal = burned * (START_TIME_IN_MILLIS / 1000 / 60);
+                        tvBurned.setText(String.valueOf((int)kcal));
                     }
 
                     updateCountDownText();
@@ -217,37 +220,78 @@ public class Timer
         switch (progress)
         {
             case 0:
-                START_TIME_IN_MILLIS = 3_00000;
+                START_TIME_IN_MILLIS = 300_000;
                 break;
             case 1:
-                START_TIME_IN_MILLIS = 6_00000;
+                START_TIME_IN_MILLIS = 600_000;
                 break;
             case 2:
-                START_TIME_IN_MILLIS = 9_00000;
+                START_TIME_IN_MILLIS = 900_000;
                 break;
             case 3:
-                START_TIME_IN_MILLIS = 12_00000;
+                START_TIME_IN_MILLIS = 1_200_000;
                 break;
             case 4:
-                START_TIME_IN_MILLIS = 15_00000;
+                START_TIME_IN_MILLIS = 1_500_000;
                 break;
             case 5:
-                START_TIME_IN_MILLIS = 18_00000;
+                START_TIME_IN_MILLIS = 1_800_000;
                 break;
             case 6:
-                START_TIME_IN_MILLIS = 21_00000;
+                START_TIME_IN_MILLIS = 2_100_000;
                 break;
             case 7:
-                START_TIME_IN_MILLIS = 24_00000;
+                START_TIME_IN_MILLIS = 2_400_000;
                 break;
             case 8:
-                START_TIME_IN_MILLIS = 27_00000;
+                START_TIME_IN_MILLIS = 2_700_000;
                 break;
             case 9:
-                START_TIME_IN_MILLIS = 30_00000;
+                START_TIME_IN_MILLIS = 3_000_000;
                 break;
             case 10:
-                START_TIME_IN_MILLIS = 33_00000;
+                START_TIME_IN_MILLIS = 3_300_000;
+                break;
+        }
+    }
+
+
+    public void convertSetTimeBig(int timeInMillis)
+    {
+        switch (timeInMillis)
+        {
+            case 300_000:
+                seekBar.setProgress(0);
+                break;
+            case 600_000:
+                seekBar.setProgress(1);
+                break;
+            case 900_000:
+                seekBar.setProgress(2);
+                break;
+            case 1_200_000:
+                seekBar.setProgress(3);
+                break;
+            case 1_500_000:
+                seekBar.setProgress(4);
+                break;
+            case 1_800_000:
+                seekBar.setProgress(5);
+                break;
+            case 2_100_000:
+                seekBar.setProgress(6);
+                break;
+            case 2_700_000:
+                seekBar.setProgress(7);
+                break;
+            case 3_000_000:
+                seekBar.setProgress(8);
+                break;
+            case 2_900_000:
+                seekBar.setProgress(9);
+                break;
+            case 3_300_000:
+                seekBar.setProgress(10);
                 break;
         }
     }
@@ -258,4 +302,11 @@ public class Timer
         progressBar.setProgress((int) START_TIME_IN_MILLIS / 1000);
     }
 
+
+    public void setBurned(double value)
+    {
+        this.burned = value;
+        double iBurned = value * (START_TIME_IN_MILLIS / 1000 / 60);
+        tvBurned.setText(String.valueOf((int)iBurned));
+    }
 }

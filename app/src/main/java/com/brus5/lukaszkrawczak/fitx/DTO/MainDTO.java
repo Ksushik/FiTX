@@ -2,7 +2,6 @@ package com.brus5.lukaszkrawczak.fitx.DTO;
 
 public class MainDTO extends TrainingStatusDTO implements DtoStatus
 {
-    private static final String TAG = "TrainingShowByUserDTO";
     public String trainingID;
     public String trainingDone;
     public String trainingRestTime;
@@ -13,11 +12,12 @@ public class MainDTO extends TrainingStatusDTO implements DtoStatus
     public String trainingTimeStamp;
     public String trainingNotepad;
     public String date;
+    public String trainingTime;
 
 
-    public MainDTO(String trainingID, String trainingDone, String trainingRestTime, String trainingReps, String trainingWeight, String userName, String userID, String trainingTimeStamp, String trainingNotepad, String trainingDate)
+    public MainDTO(String trainingID, String trainingDone, String trainingRestTime, String trainingReps, String trainingWeight, String userName, String userID, String trainingTimeStamp, String trainingNotepad, String trainingDate, String trainingTime)
     {
-        super(trainingID, trainingDone, trainingRestTime, trainingReps, trainingWeight, userName, userID,trainingTimeStamp, trainingNotepad, trainingDate);
+        super(trainingID, trainingDone, trainingRestTime, trainingReps, trainingWeight, userName, userID,trainingTimeStamp, trainingNotepad, trainingDate, trainingTime);
     }
 
     public MainDTO()
@@ -27,7 +27,7 @@ public class MainDTO extends TrainingStatusDTO implements DtoStatus
     @Override
     public void printStatus()
     {
-        new MainDTO(trainingID, trainingDone, trainingRestTime, trainingReps, trainingWeight, userName, userID, trainingTimeStamp, trainingNotepad, date);
+        new MainDTO(trainingID, trainingDone, trainingRestTime, trainingReps, trainingWeight, userName, userID, trainingTimeStamp, trainingNotepad, date, trainingTime);
     }
 }
 

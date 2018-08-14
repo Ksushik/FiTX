@@ -25,27 +25,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-public class TrainingListActivity extends AppCompatActivity
+public class CardioListActivity extends AppCompatActivity
 {
-    private static final String TAG = "TrainingListActivity";
-    private ArrayList<TrainingSearch> trainingSearchArrayList = new ArrayList<>();
-    private TrainingSearchListAdapter trainingSearchListAdapter;
-    private ListView listViewTrainingActivity;
-    private String trainingTarget, dateFormat;
+    private static final String TAG = "CardioListActivity";
+    ArrayList<TrainingSearch> list = new ArrayList<>();
+    TrainingSearchListAdapter adapter;
+    ListView listView;
+    private String dateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_training_3_listview);
+        setContentView(R.layout.activity_cardio_3_listview);
         loadInput();
         changeStatusBarColor();
         onBackButtonPressed();
         getIntentFromPreviousActiity();
-        asynchTask(TrainingListActivity.this);
+        asynchTask(CardioListActivity.this);
         onListViewItemSelected();
     }
 
@@ -53,25 +51,21 @@ public class TrainingListActivity extends AppCompatActivity
     private void getIntentFromPreviousActiity()
     {
         Intent intent = getIntent();
-        int mExercise = intent.getIntExtra("exercise", -1);
-        TrainingList trainingList = new TrainingList(TrainingListActivity.this);
-        trainingList.setResId(mExercise);
-        trainingTarget = trainingList.getResourceName();
         dateFormat = intent.getStringExtra("dateFormat");
     }
 
     private void loadInput()
     {
-        listViewTrainingActivity = findViewById(R.id.listViewTraining);
+        listView = findViewById(R.id.listViewTraining);
     }
 
     private void changeStatusBarColor()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingListActivity.this, R.color.colorPrimaryDark));
+            getWindow().setStatusBarColor(ContextCompat.getColor(CardioListActivity.this, R.color.colorPrimaryDark));
         }
-        Toolbar toolbar = findViewById(R.id.toolbarTrainingExcerciseList);
+        Toolbar toolbar = findViewById(R.id.toolbarCardioList);
         setSupportActionBar(toolbar);
     }
 
@@ -82,7 +76,7 @@ public class TrainingListActivity extends AppCompatActivity
 
     private void asynchTask(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_SEARCH_BY_TARGET, response -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_GET_LIST, response -> {
             try
             {
                 /* Getting DietRatio from MySQL */
@@ -92,6 +86,7 @@ public class TrainingListActivity extends AppCompatActivity
 
                 int trainingID;
                 String productName;
+                double calories;
 
                 JSONArray jsonArray = jsonObject.getJSONArray("server_response");
                 if (jsonArray.length() > 0)
@@ -99,20 +94,22 @@ public class TrainingListActivity extends AppCompatActivity
                     for (int i = 0; i < jsonArray.length(); i++)
                     {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        trainingID = object.getInt(RestAPI.DB_EXERCISE_ID);
-                        productName = object.getString(RestAPI.DB_EXERCISE_NAME);
+
+                        trainingID =        object.getInt(RestAPI.DB_CARDIO_ID);
+                        productName =       object.getString(RestAPI.DB_CARDIO_NAME);
+                        calories =          object.getDouble(RestAPI.DB_CARDIO_CALORIES);
 
                         String trainingName = productName.substring(0, 1).toUpperCase() + productName.substring(1);
 
-                        TrainingSearch trainingSearch = new TrainingSearch(trainingID, trainingName);
-                        trainingSearchArrayList.add(trainingSearch);
+                        TrainingSearch trainingSearch = new TrainingSearch(trainingID, trainingName, calories);
+                        list.add(trainingSearch);
                     }
                 }
                 /* End */
 
-                trainingSearchListAdapter = new TrainingSearchListAdapter(TrainingListActivity.this, R.layout.row_training_exercise_search, trainingSearchArrayList);
-                listViewTrainingActivity.setAdapter(trainingSearchListAdapter);
-                listViewTrainingActivity.invalidate();
+                adapter = new TrainingSearchListAdapter(CardioListActivity.this, R.layout.row_training_exercise_search, list);
+                listView.setAdapter(adapter);
+                listView.invalidate();
             }
             catch (JSONException e)
             {
@@ -121,34 +118,23 @@ public class TrainingListActivity extends AppCompatActivity
         }, error -> {
             Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
             Log.e(TAG, "onErrorResponse: Error" + error);
-        })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_EXERCISE_TARGET, trainingTarget);
-                return params;
-            }
-        };
+        });
         RequestQueue queue = Volley.newRequestQueue(ctx);
         queue.add(strRequest);
     }
 
     private void onListViewItemSelected()
     {
-        listViewTrainingActivity.setOnItemClickListener((parent, view, position, id) -> {
+        listView.setOnItemClickListener((parent, view, position, id) -> {
 
-            TextView trainingID = view.findViewById(R.id.trainingSearchID);
+            TextView tvTrainingID = view.findViewById(R.id.trainingSearchID);
 
-            Intent intent = new Intent(TrainingListActivity.this, TrainingDetailsActivity.class);
-            intent.putExtra("trainingID",           Integer.valueOf(trainingID.getText().toString()));
-            intent.putExtra("trainingTarget",       trainingTarget);
-            intent.putExtra("previousActivity",     TrainingListActivity.class.getSimpleName());
-            intent.putExtra("dateFormat",           dateFormat);
+            Intent intent = new Intent(CardioListActivity.this, CardioDetailsActivity.class);
+            intent.putExtra("trainingID",       Integer.valueOf(tvTrainingID.getText().toString()));
+            intent.putExtra("previousActivity", CardioListActivity.class.getSimpleName());
+            intent.putExtra("dateFormat",       dateFormat);
+
             startActivity(intent);
         });
     }
-
-
 }

@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,14 +18,16 @@ import com.brus5.lukaszkrawczak.fitx.R;
 public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener
 {
     private static final String TAG = "TrainingSearchActivity";
-    ImageView imageViewBodyBack, imageViewBodyFront;
+    private ImageView imageViewBodyBack, imageViewBodyFront;
 
-    TextView tvButtonChest, tvButtonAbs, tvButtonQuads,
+    private TextView tvButtonChest, tvButtonAbs, tvButtonQuads,
             tvButtonShoulders, tvButtonBiceps, tvButtonForearms,
             tvButtonLats, tvButtonTraps, tvButtonGlutes,
             tvButtonTriceps, tvButtonHamstrings, tvButtonCalves;
 
-    Button btRotate, btSearchCardio;
+    private Button btRotate, btCardio;
+
+    private String dateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,6 +38,7 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         loadInputs();
         onBackButtonPressed();
         button();
+        getIntentFromPreviousActiity();
     }
 
     private void button()
@@ -48,6 +52,11 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
             {
                 bodyRotate(0);
             }
+        });
+        btCardio.setOnClickListener(v -> {
+            Intent intent = new Intent(TrainingSearchActivity.this,CardioListActivity.class);
+            intent.putExtra("dateFormat", dateFormat);
+            startActivity(intent);
         });
     }
 
@@ -130,6 +139,9 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
 
         btRotate = findViewById(R.id.buttonRotate);
         btRotate.setOnClickListener(this);
+
+        btCardio = findViewById(R.id.buttonCardio);
+        btCardio.setOnClickListener(this);
     }
 
     private void changeStatusBarColor()
@@ -194,7 +206,16 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
     public void runNextActivity(Context context, int resId)
     {
         Intent intent = new Intent(context, TrainingListActivity.class);
-        intent.putExtra("exercise", resId);
+        intent.putExtra("exercise",         resId);
+        intent.putExtra("dateFormat",       this.dateFormat);
         TrainingSearchActivity.this.startActivity(intent);
+    }
+
+    private void getIntentFromPreviousActiity()
+    {
+        Intent intent = getIntent();
+        dateFormat = intent.getStringExtra("dateFormat");
+
+        Log.e(TAG, "dateFormat: "           + dateFormat);
     }
 }

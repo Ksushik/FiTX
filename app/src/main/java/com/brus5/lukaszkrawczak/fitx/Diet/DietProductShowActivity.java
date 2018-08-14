@@ -117,6 +117,14 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
         TimeStampReplacer time = new TimeStampReplacer(dateFormat, productTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
+
+        Log.e(TAG, "dateFormat: "           + dateFormat);
+        Log.e(TAG, "productID: "    + productID);
+        Log.e(TAG, "productTimeStamp: "         + productTimeStamp);
+        Log.e(TAG, "productTimeStamp: "           + productTimeStamp);
+        Log.e(TAG, "productWeight: "     + productWeight);
+        Log.e(TAG, "previousActivity: "           + previousActivity);
+        Log.e(TAG, "newTimeStamp: "         + newTimeStamp);
     }
 
     private String timeStampChanger(String productTimeStamp)

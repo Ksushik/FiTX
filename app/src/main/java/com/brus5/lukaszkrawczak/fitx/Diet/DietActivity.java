@@ -4,15 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,8 +18,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Calculator.Calories;
@@ -52,15 +48,15 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 public class DietActivity extends AppCompatActivity
 {
     private static final String TAG = "DietActivity";
-    HorizontalCalendar calendar;
-    TextView tvProteins, tvFats, tvCarbs, tvCalories, tvDate;
-    ProgressBar pBarProteins, pBarFats, pBarCarbs, pBarKcal;
-    ArrayList<Diet> list = new ArrayList<>();
-    DietListAdapter adapter;
-    ListView listView;
-    Configuration cfg = new Configuration();
-    String dateFormat, dateFormatView, productTimeStamp;
-    double maxCalories = 0d;
+    private HorizontalCalendar calendar;
+    private TextView tvProteins, tvFats, tvCarbs, tvCalories, tvDate;
+    private ProgressBar pBarProteins, pBarFats, pBarCarbs, pBarKcal;
+    private ArrayList<Diet> list = new ArrayList<>();
+    private DietListAdapter adapter;
+    private ListView listView;
+    private Configuration cfg = new Configuration();
+    private String dateFormat, dateFormatView, productTimeStamp;
+    private double maxCalories = 0d;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -91,6 +87,8 @@ public class DietActivity extends AppCompatActivity
     private void weekCalendar(Calendar endDate, Calendar startDate)
     {
         calendar = new HorizontalCalendar.Builder(DietActivity.this, R.id.calendarViewDietActivity)
+                       .defaultSelectedDate(   cfg.selectedDate(SaveSharedPreference.getDateChoosed(DietActivity.this))    )
+
                        .startDate(startDate.getTime())
                        .endDate(endDate.getTime())
                        .datesNumberOnScreen(5)
@@ -124,185 +122,172 @@ public class DietActivity extends AppCompatActivity
 
     public void loadUsersDailyDietAsynchTask(final DietDTODiet dto, final Context context)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_SHOW_BY_USER,
-                new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_SHOW_BY_USER, stringResponse -> {
+
+            double countProteins = 0d;
+            double countFats = 0d;
+            double countCarbs = 0d;
+            double countCalories = 0d;
+
+            double ratioProteins = 0d;
+            double ratioFats = 0d;
+            double ratioCarbs = 0d;
+            double totalCalories;
+
+            try
+            {
+                JSONObject jsonObject = new JSONObject(stringResponse);
+
+                Log.d(TAG, "onResponse: "+jsonObject.toString(1));
+
+                JSONArray response_ratio = jsonObject.getJSONArray("response_ratio");
+
+                if (response_ratio.length() > 0)
                 {
-                    @Override
-                    public void onResponse(String stringResponse)
+                    for (int i = 0; i < response_ratio.length(); i++)
                     {
+                        JSONObject rRatio  = response_ratio.getJSONObject(i);
 
-                        double countProteins = 0d;
-                        double countFats = 0d;
-                        double countCarbs = 0d;
-                        double countCalories = 0d;
-
-                        double ratioProteins = 0d;
-                        double ratioFats = 0d;
-                        double ratioCarbs = 0d;
-                        double totalCalories;
-
-                        try
-                        {
-                            JSONObject jsonObject = new JSONObject(stringResponse);
-
-                            Log.d(TAG, "onResponse: "+jsonObject.toString(1));
-
-                            JSONArray response_ratio = jsonObject.getJSONArray("response_ratio");
-
-                            if (response_ratio.length() > 0)
-                            {
-                                for (int i = 0; i < response_ratio.length(); i++)
-                                {
-                                    JSONObject rRatio  = response_ratio.getJSONObject(i);
-
-                                    ratioProteins       = rRatio.getDouble(RestAPI.DB_PROTEIN_RATIO);
-                                    ratioFats           = rRatio.getDouble(RestAPI.DB_FATS_RATIO);
-                                    ratioCarbs          = rRatio.getDouble(RestAPI.DB_CARBS_RATIO);
-                                }
-                            }
-
-                            JSONArray response_kcal_limit   = jsonObject.getJSONArray("response_kcal_limit");
-
-                            JSONObject rKcalLimit           = response_kcal_limit.getJSONObject(0);
-
-                            totalCalories                   = rKcalLimit.getDouble("RESULT");
-
-                            String productName;
-                            int productId;
-                            double proteins;
-                            double fats;
-                            double carbs;
-                            double calories;
-                            double weight;
-
-                            int productVerified;
-
-                            JSONArray response = jsonObject.getJSONArray("response");
-
-                            JSONArray response_weight = jsonObject.getJSONArray("response_weight");
-
-                            if (response.length() > 0)
-                            {
-                                for (int i = 0; i < response.length(); i++)
-                                {
-                                    JSONObject rJSON = response.getJSONObject(i);
-
-                                    productId           = rJSON.getInt(RestAPI.DB_PRODUCT_ID);
-                                    productName         = rJSON.getString(RestAPI.DB_PRODUCT_NAME);
-                                    proteins            = rJSON.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
-                                    fats                = rJSON.getDouble(RestAPI.DB_PRODUCT_FATS);
-                                    carbs               = rJSON.getDouble(RestAPI.DB_PRODUCT_CARBS);
-                                    calories            = rJSON.getDouble(RestAPI.DB_PRODUCT_KCAL);
-                                    productVerified     = rJSON.getInt(RestAPI.DB_PRODUCT_VERIFIED);
-
-
-                                    JSONObject rWeight  = response_weight.getJSONObject(i);
-
-                                    weight              = rWeight.getDouble(RestAPI.DB_PRODUCT_WEIGHT);
-                                    productTimeStamp    = rWeight.getString(RestAPI.DB_DATE);
-
-                                    Protein protein = new Protein();
-                                    protein.setProteins(proteins, weight);
-
-                                    Fat fat = new Fat();
-                                    fat.setFats(fats, weight);
-
-                                    Carb carb = new Carb();
-                                    carb.setCarbs(carbs, weight);
-
-                                    Calories cal = new Calories();
-                                    cal.setCalories(calories, weight);
-
-                                    NameConverter name = new NameConverter();
-                                    name.setName(productName);
-
-                                    countProteins   += protein.getProteins();
-                                    countFats       += fat.getFats();
-                                    countCarbs      += carb.getCarbs();
-                                    countCalories   += cal.getKcal();
-
-                                    Diet diet = new Diet(
-                                                        productId,
-                                                        name.getName(),
-                                                        weight,
-                                                        protein.getProteins(),
-                                                        fat.getFats(),
-                                                        carb.getCarbs(),
-                                                        cal.getKcal(),
-                                                        productVerified,
-                                                        productTimeStamp
-                                                        );
-                                    list.add(diet);
-                                }
-
-                            }
-
-                            Protein protein = new Protein();
-                            int proteinGoal = protein.proteinsGoal(totalCalories, ratioProteins);
-
-                            Fat fat = new Fat();
-                            int fatGoal = fat.fatsGoal(totalCalories, ratioFats);
-
-                            Carb carb = new Carb();
-                            int carbsGoal = carb.carbsGoal(totalCalories, ratioCarbs);
-
-                            String sProtein = doubleFormatter(countProteins) + " / " + String.valueOf(proteinGoal);
-                            String sFats = doubleFormatter(countFats) + " / " + String.valueOf(fatGoal);
-                            String sCarbs = doubleFormatter(countCarbs) + " / " + String.valueOf(carbsGoal);
-                            String sCalories = "Kcal: " + doubleFormatter(countCalories) + " / " + doubleFormatter(totalCalories);
-
-                            tvProteins.setText(sProtein);
-                            tvFats.setText(sFats);
-                            tvCarbs.setText(sCarbs);
-                            tvCalories.setText(sCalories);
-
-                            progressBarProteinsChangeColor(countProteins, proteinGoal);
-                            progressBarFatsChangeColor(countFats, fatGoal);
-                            progressBarCarbsChangeColor(countCarbs,carbsGoal);
-                            progressBarKcalChangeColor(countCalories,totalCalories);
-
-                            setMaxCalories(countCalories);
-
-                            adapter = new DietListAdapter(DietActivity.this, R.layout.row_diet_meal, list);
-                            listView.setAdapter(adapter);
-                            listView.invalidate();
-
-                            if (getMaxCalories() > 0d)
-                            {
-                                DietDTODiet dto = new DietDTODiet();
-                                dto.userID              = SaveSharedPreference.getUserID(DietActivity.this);
-                                dto.updateKcalResult    = String.format(Locale.getDefault(),"%.1f",countCalories);
-                                dto.dateToday           = dateFormat;
-                                dto.printStatus();
-                                DietService dietService = new DietService();
-                                dietService.DietUpdateCountedKcal(dto,DietActivity.this);
-                            }
-                            else if (getMaxCalories() == 0d)
-                            {
-                                DietDTODiet dto = new DietDTODiet();
-                                dto.userID          = SaveSharedPreference.getUserID(DietActivity.this);
-                                dto.dateToday       = dateFormat;
-                                dto.printStatus();
-                                DietService dietService = new DietService();
-                                dietService.DietDeleteCountedKcal(dto,DietActivity.this);
-                            }
-                        }
-                        catch (JSONException e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "onErrorResponse: Error"+error);
+                        ratioProteins       = rRatio.getDouble(RestAPI.DB_PROTEIN_RATIO);
+                        ratioFats           = rRatio.getDouble(RestAPI.DB_FATS_RATIO);
+                        ratioCarbs          = rRatio.getDouble(RestAPI.DB_CARBS_RATIO);
                     }
                 }
-                )
+
+                JSONArray response_kcal_limit   = jsonObject.getJSONArray("response_kcal_limit");
+
+                JSONObject rKcalLimit           = response_kcal_limit.getJSONObject(0);
+
+                totalCalories                   = rKcalLimit.getDouble("RESULT");
+
+                String productName;
+                int productId;
+                double proteins;
+                double fats;
+                double carbs;
+                double calories;
+                double weight;
+
+                int productVerified;
+
+                JSONArray response = jsonObject.getJSONArray("response");
+
+                JSONArray response_weight = jsonObject.getJSONArray("response_weight");
+
+                if (response.length() > 0)
+                {
+                    for (int i = 0; i < response.length(); i++)
+                    {
+                        JSONObject rJSON = response.getJSONObject(i);
+
+                        productId           = rJSON.getInt(RestAPI.DB_PRODUCT_ID);
+                        productName         = rJSON.getString(RestAPI.DB_PRODUCT_NAME);
+                        proteins            = rJSON.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
+                        fats                = rJSON.getDouble(RestAPI.DB_PRODUCT_FATS);
+                        carbs               = rJSON.getDouble(RestAPI.DB_PRODUCT_CARBS);
+                        calories            = rJSON.getDouble(RestAPI.DB_PRODUCT_KCAL);
+                        productVerified     = rJSON.getInt(RestAPI.DB_PRODUCT_VERIFIED);
+
+
+                        JSONObject rWeight  = response_weight.getJSONObject(i);
+
+                        weight              = rWeight.getDouble(RestAPI.DB_PRODUCT_WEIGHT);
+                        productTimeStamp    = rWeight.getString(RestAPI.DB_DATE);
+
+                        Protein protein = new Protein();
+                        protein.setProteins(proteins, weight);
+
+                        Fat fat = new Fat();
+                        fat.setFats(fats, weight);
+
+                        Carb carb = new Carb();
+                        carb.setCarbs(carbs, weight);
+
+                        Calories cal = new Calories();
+                        cal.setCalories(calories, weight);
+
+                        NameConverter name = new NameConverter();
+                        name.setName(productName);
+
+                        countProteins   += protein.getProteins();
+                        countFats       += fat.getFats();
+                        countCarbs      += carb.getCarbs();
+                        countCalories   += cal.getKcal();
+
+                        Diet diet = new Diet(
+                                            productId,
+                                            name.getName(),
+                                            weight,
+                                            protein.getProteins(),
+                                            fat.getFats(),
+                                            carb.getCarbs(),
+                                            cal.getKcal(),
+                                            productVerified,
+                                            productTimeStamp
+                                            );
+                        list.add(diet);
+                    }
+
+                }
+
+                Protein protein = new Protein();
+                int proteinGoal = protein.proteinsGoal(totalCalories, ratioProteins);
+
+                Fat fat = new Fat();
+                int fatGoal = fat.fatsGoal(totalCalories, ratioFats);
+
+                Carb carb = new Carb();
+                int carbsGoal = carb.carbsGoal(totalCalories, ratioCarbs);
+
+                String sProtein = doubleFormatter(countProteins) + " / " + String.valueOf(proteinGoal);
+                String sFats = doubleFormatter(countFats) + " / " + String.valueOf(fatGoal);
+                String sCarbs = doubleFormatter(countCarbs) + " / " + String.valueOf(carbsGoal);
+                String sCalories = "Kcal: " + doubleFormatter(countCalories) + " / " + doubleFormatter(totalCalories);
+
+                tvProteins.setText(sProtein);
+                tvFats.setText(sFats);
+                tvCarbs.setText(sCarbs);
+                tvCalories.setText(sCalories);
+
+                progressBarProteinsChangeColor(countProteins, proteinGoal);
+                progressBarFatsChangeColor(countFats, fatGoal);
+                progressBarCarbsChangeColor(countCarbs,carbsGoal);
+                progressBarKcalChangeColor(countCalories,totalCalories);
+
+                setMaxCalories(countCalories);
+
+                adapter = new DietListAdapter(DietActivity.this, R.layout.row_diet_meal, list);
+                listView.setAdapter(adapter);
+                listView.invalidate();
+
+                if (getMaxCalories() > 0d)
+                {
+                    DietDTODiet dto1 = new DietDTODiet();
+                    dto1.userID              = SaveSharedPreference.getUserID(DietActivity.this);
+                    dto1.updateKcalResult    = String.format(Locale.getDefault(),"%.1f",countCalories);
+                    dto1.dateToday           = dateFormat;
+                    dto1.printStatus();
+                    DietService dietService = new DietService();
+                    dietService.DietUpdateCountedKcal(dto1,DietActivity.this);
+                }
+                else if (getMaxCalories() == 0d)
+                {
+                    DietDTODiet dto1 = new DietDTODiet();
+                    dto1.userID          = SaveSharedPreference.getUserID(DietActivity.this);
+                    dto1.dateToday       = dateFormat;
+                    dto1.printStatus();
+                    DietService dietService = new DietService();
+                    dietService.DietDeleteCountedKcal(dto1,DietActivity.this);
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "onErrorResponse: Error"+error);
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -320,25 +305,20 @@ public class DietActivity extends AppCompatActivity
 
     private void onListViewItemSelected()
     {
-        listView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        TextView productId          = view.findViewById(R.id.dietMealID);
-                        TextView productWeight      = view.findViewById(R.id.dietMealWeight);
-                        TextView productTimeStamp   = view.findViewById(R.id.dietTimeStamp);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            TextView productId          = view.findViewById(R.id.dietMealID);
+            TextView productWeight      = view.findViewById(R.id.dietMealWeight);
+            TextView productTimeStamp   = view.findViewById(R.id.dietTimeStamp);
 
-                        Intent intent = new Intent(DietActivity.this, DietProductShowActivity.class);
-                        intent.putExtra("productID",        productId.getText().toString());
-                        intent.putExtra("dateFormat",       dateFormat);
-                        intent.putExtra("productWeight",    Double.valueOf(productWeight.getText().toString()));
-                        intent.putExtra("productTimeStamp", productTimeStamp.getText().toString());
-                        intent.putExtra("previousActivity", "DietActivity");
+            Intent intent = new Intent(DietActivity.this, DietProductShowActivity.class);
+            intent.putExtra("productID",        productId.getText().toString());
+            intent.putExtra("dateFormat",       dateFormat);
+            intent.putExtra("productWeight",    Double.valueOf(productWeight.getText().toString()));
+            intent.putExtra("productTimeStamp", productTimeStamp.getText().toString());
+            intent.putExtra("previousActivity", "DietActivity");
 
-                        startActivity(intent);
-                    }
-                }
-                                       );
+            startActivity(intent);
+        });
     }
 
     private void progressBarProteinsChangeColor(double result, double goal)

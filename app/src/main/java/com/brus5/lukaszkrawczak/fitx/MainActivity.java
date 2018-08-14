@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,7 +21,6 @@ import com.brus5.lukaszkrawczak.fitx.DTO.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
-import com.brus5.lukaszkrawczak.fitx.Training.TrainingDetailsActivity;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingInflater;
 
 import org.json.JSONArray;
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnDiet, btnTraining, btnSettings, btnStats;
     private HorizontalCalendar calendar;
     private Configuration cfg = new Configuration();
-    private String dateFormat, dateFormatView;
+    private String dateFormat;
     private ArrayList<Main> list = new ArrayList<>();
     private ListView listView;
     private MainAdapter adapter;
@@ -59,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadInputs();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
         main = new Main();
-        onListViewItemSelected();
     }
 
     private void weekCalendar(Calendar endDate, Calendar startDate)
@@ -80,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onDateSelected(Date date, int position)
             {
                 dateFormat = cfg.getDateFormat().format(date.getTime());
-                dateFormatView = cfg.getDateFormatView().format(date.getTime());
+                SaveSharedPreference.setDateChoosed(MainActivity.this, dateFormat);
                 Log.e(TAG, "onDateSelected: " + dateFormat);
-                // TODO: 30.07.2018 add tvDate.setText
+                // TODO: 30.07.2018 add tvDate.setTextBurned
                 asynchPreparator();
             }
         });
@@ -176,8 +173,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 JSONObject restObj = response.getJSONObject(4);
 
                 String weight = "0";
-                String rest = "0";
-                String reps = "0";
+                String rest;
+                String reps;
 
                 TrainingInflater inflater = new TrainingInflater(MainActivity.this);
 
@@ -219,9 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 double kcalBurned = 0;
-                int time = 0;
-
-                TrainingInflater inflater = new TrainingInflater(MainActivity.this);
+                int time;
 
                 for (int i = 0; i < response.length(); i++)
                 {
@@ -302,37 +297,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         Intent intent = new Intent(packageContext, cls);
         MainActivity.this.startActivity(intent);
-    }
-
-    private void onListViewItemSelected()
-    {
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-
-//            TextView tvTrainingID = view.findViewById(R.id.trainingID);
-//            TextView tvTrainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
-//            TextView tvTrainingTarget = view.findViewById(R.id.trainingTarget);
-//            TextView tvDiet = view.findViewById(R.id.textViewRowDiet);
-
-//            Intent intent = new Intent(TrainingActivity.this, TrainingDetailsActivity.class);
-//
-//            intent.putExtra("trainingID",               Integer.valueOf(tvTrainingID.getText().toString()));
-//            intent.putExtra("trainingTimeStamp",        tvTrainingTimeStamp.getText().toString());
-//            intent.putExtra("trainingTarget",           tvTrainingTarget.getText().toString());
-//            intent.putExtra("previousActivity",   "MainActivity");
-
-//            startActivity(intent);
-
-
-            Log.e(TAG, "onListViewItemSelected: "+position);
-
-
-//            Log.e(TAG, "trainingID: "+ tvTrainingID.getText().toString());
-//            Log.e(TAG, "trainingTimeStamp: "+ tvTrainingTimeStamp.getText().toString());
-//            Log.e(TAG, "trainingTarget: "+ tvTrainingTarget.getText().toString());
-//            Log.e(TAG, "Diet: "+ tvDiet.getText().toString());
-
-
-        });
     }
 
     public void onClickDiet(View view)

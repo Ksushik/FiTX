@@ -15,12 +15,13 @@ public abstract class TrainingStatusDTO
     private String trainingNotepad;
     private String trainingDate;
     private String userID;
+    private String trainingTime;
 
     public TrainingStatusDTO()
     {
     }
 
-    public TrainingStatusDTO(String trainingID, String trainingDone, String trainingRestTime, String trainingReps, String trainingWeight, String userName, String userID, String trainingTimeStamp, String trainingNotepad, String trainingDate)
+    public TrainingStatusDTO(String trainingID, String trainingDone, String trainingRestTime, String trainingReps, String trainingWeight, String userName, String userID, String trainingTimeStamp, String trainingNotepad, String trainingDate, String trainingTime)
     {
         this.trainingID = trainingID;
         this.trainingDone = trainingDone;
@@ -32,6 +33,7 @@ public abstract class TrainingStatusDTO
         this.trainingTimeStamp = trainingTimeStamp;
         this.trainingNotepad = trainingNotepad;
         this.trainingDate = trainingDate;
+        this.trainingTime = trainingTime;
 
 
         if (this.trainingID != null)
@@ -40,7 +42,7 @@ public abstract class TrainingStatusDTO
         }
         if (this.trainingDone != null)
         {
-            Log.i(TAG, "v: " + this.trainingDone);
+            Log.i(TAG, "trainingDone: " + this.trainingDone);
         }
         if (this.trainingRestTime != null)
         {
@@ -70,8 +72,10 @@ public abstract class TrainingStatusDTO
         {
             Log.i(TAG, "date: " + this.trainingDate);
         }
-
-
+        if (this.trainingTime != null)
+        {
+            Log.i(TAG, "trainingTime: " + this.trainingTime);
+        }
     }
 
 

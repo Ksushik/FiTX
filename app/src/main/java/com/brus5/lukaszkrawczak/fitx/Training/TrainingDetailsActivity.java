@@ -26,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.NameConverter;
+import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
@@ -49,7 +50,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private static final String TAG = "TrainingDetailsA";
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-    private String trainingTimeStamp, trainingTarget, previousActivity;
+    private String trainingTimeStamp, trainingTarget, previousActivity, dateFormat, newTimeStamp;
     private LinearLayout linearLayout;
     private int trainingID;
     private ImageView imgTrainingL, imgTrainingR;
@@ -145,7 +146,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         dto.userID =                String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
         dto.userID =                String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
         dto.trainingNotepad =       etNotepad.getText().toString();
-        dto.trainingTimeStamp =     setTimeStamp();
+        dto.trainingTimeStamp =     newTimeStamp;
         dto.printStatus();
         return dto;
     }
@@ -155,12 +156,12 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         TrainingDTO dto = new TrainingDTO();
         dto.trainingID =            String.valueOf(trainingID);
         dto.userID =                String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
-        dto.trainingTimeStamp =     setTimeStamp();
+        dto.trainingTimeStamp =     getTimeStamp();
         dto.printStatus();
         return dto;
     }
 
-    private String setTimeStamp()
+    private String getTimeStamp()
     {
         if (previousActivity.equals(TrainingActivity.class.getSimpleName()))
         {
@@ -246,12 +247,18 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         trainingID = intent.getIntExtra("trainingID", -1);
         trainingTarget = intent.getStringExtra("trainingTarget");
         trainingTimeStamp = intent.getStringExtra("trainingTimeStamp");
+        trainingTimeStamp = timeStampChanger(trainingTimeStamp);
         previousActivity = intent.getStringExtra("previousActivity");
+        dateFormat = intent.getStringExtra("dateFormat");
 
-        Log.e(TAG, "onCreate: " + trainingID);
-        Log.e(TAG, "onCreate: " + trainingTimeStamp);
-        Log.e(TAG, "onCreate: " + trainingTarget);
-        Log.e(TAG, "onCreate: " + previousActivity);
+        TimeStampReplacer time = new TimeStampReplacer(dateFormat, trainingTimeStamp);
+        newTimeStamp = time.getNewTimeStamp();
+    }
+
+    private String timeStampChanger(String trainingTimeStamp)
+    {
+        if (trainingTimeStamp == null) return timeStamp;
+        else return this.trainingTimeStamp;
     }
 
     private void loadImages(final ImageView imageView, String url)

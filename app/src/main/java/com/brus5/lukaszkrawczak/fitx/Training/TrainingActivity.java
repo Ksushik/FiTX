@@ -70,7 +70,16 @@ public class TrainingActivity extends AppCompatActivity
 
     private void weekCalendar(Calendar endDate, Calendar startDate)
     {
-        calendar = new HorizontalCalendar.Builder(TrainingActivity.this, R.id.calendarViewTraining).startDate(startDate.getTime()).endDate(endDate.getTime()).datesNumberOnScreen(5).dayNameFormat("EE").dayNumberFormat("dd").showDayName(true).showMonthName(false).build();
+        calendar = new HorizontalCalendar.Builder(TrainingActivity.this, R.id.calendarViewTraining)
+                .startDate(startDate.getTime())
+                .endDate(endDate.getTime())
+                .datesNumberOnScreen(5)
+                .dayNameFormat("EE")
+                .dayNumberFormat("dd")
+                .showDayName(true)
+                .showMonthName(false)
+                .defaultSelectedDate(   cfg.selectedDate(SaveSharedPreference.getDateChoosed(TrainingActivity.this))    )
+                .build();
 
         calendar.setCalendarListener(new HorizontalCalendarListener()
         {
@@ -193,39 +202,26 @@ public class TrainingActivity extends AppCompatActivity
 
 
 
-
-
                         JSONObject cardioType = cardio_types.getJSONObject(i);
 
                         id = cardioType.getInt(                             RestAPI.DB_CARDIO_ID);
                         name = cardioType.getString(                        RestAPI.DB_CARDIO_NAME);
                         kcalPerMin = cardioType.getString(                  RestAPI.DB_CARDIO_CALORIES);
 
+
+
                         training = new Training(id, done, name, time, date, kcalPerMin, 2);
                         list.add(training);
                         adapter = new TrainingAdapter(TrainingActivity.this, R.layout.row_training_excercise, list);
-
                     }
-
-
                 }
-
-
-
             } catch (JSONException e)
             {
                 e.printStackTrace();
             }
 
-
-
-
-
-
-
             listView.setAdapter(adapter);
             listView.invalidate();
-
 
         }, error -> {
             Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
@@ -270,6 +266,7 @@ public class TrainingActivity extends AppCompatActivity
         {
             case R.id.menu_search_exercise:
                 Intent intent = new Intent(TrainingActivity.this, TrainingSearchActivity.class);
+                intent.putExtra("dateFormat", dateFormat);
                 TrainingActivity.this.startActivity(intent);
                 break;
         }
@@ -297,17 +294,36 @@ public class TrainingActivity extends AppCompatActivity
                 intent.putExtra("trainingTimeStamp",        tvTrainingTimeStamp.getText().toString());
                 intent.putExtra("trainingTarget",           tvTrainingTarget.getText().toString());
                 intent.putExtra("previousActivity",         TrainingActivity.class.getSimpleName());
+                intent.putExtra("dateFormat",               dateFormat);
 
                 startActivity(intent);
             }
             if (isCardio)
             {
                 TextView tvCardioID = view.findViewById(R.id.cardioID);
-//                TextView tvCardioTimeStamp = view.findViewById(R.id.cardioTimeStamp);
-                Log.e(TAG, "onListViewItemSelected: " + isCardio + " " + tvCardioID.getText().toString());
+                TextView tvTimeStamp = view.findViewById(R.id.cardioTimeStamp);
+                TextView tvTime = view.findViewById(R.id.cardioTime);
+                TextView tvKcalPerMin = view.findViewById(R.id.cardioBurnPerMin);
+
+                int time;
+                if (tvTime.length() < 5)
+                {
+                    time = Integer.valueOf("0"+tvTime.getText().toString().substring(0,1));
+                }
+                else
+                {
+                    time = Integer.valueOf(tvTime.getText().toString().substring(0,2));
+                }
+
+                Log.e(TAG, "tvKcalPerMin: " +tvKcalPerMin.getText().toString());
 
                 Intent intent = new Intent(TrainingActivity.this, CardioDetailsActivity.class);
+                intent.putExtra("trainingID",               Integer.valueOf(tvCardioID.getText().toString()));
+                intent.putExtra("trainingTimeStamp",        tvTimeStamp.getText().toString());
+                intent.putExtra("trainingTime",             time);
+                intent.putExtra("kcalPerMin",               Double.parseDouble(tvKcalPerMin.getText().toString()));
                 intent.putExtra("previousActivity",         TrainingActivity.class.getSimpleName());
+                intent.putExtra("dateFormat",               dateFormat);
 
                 startActivity(intent);
 

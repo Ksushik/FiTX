@@ -82,6 +82,11 @@
             android:label="@string/fitx"
             android:theme="@style/FiTX3theme.noBar"
             />
+        <activity android:name=".Training.CardioListActivity"
+            android:parentActivityName=".Training.TrainingActivity"
+            android:label="@string/fitx"
+            android:theme="@style/FiTX3theme.noBar"
+            />
     </application>
 
 </manifest>

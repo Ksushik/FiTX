@@ -6,6 +6,7 @@ public class RestAPI
 
     public static final String URL_DIET = URL + "Diet/";
     public static final String URL_TRAINING = URL + "Training/";
+    public static final String URL_CARDIO = URL + "Cardio/";
     public static final String URL_MAIN = URL + "Main/";
 
 
@@ -29,6 +30,13 @@ public class RestAPI
     public static final String URL_TRAINING_INSERT = URL_TRAINING + "Insert.php";
     public static final String URL_TRAINING_DELETE = URL_TRAINING + "Delete.php";
     public static final String URL_TRAINING_UPDATE = URL_TRAINING + "Update.php";
+
+    public static final String URL_CARDIO_GET_LIST = URL_CARDIO + "Search.php";
+    public static final String URL_CARDIO_SHOW = URL_CARDIO + "Show.php";
+    public static final String URL_CARDIO_INSERT = URL_CARDIO + "Insert.php";
+    public static final String URL_CARDIO_UPDATE = URL_CARDIO + "Update.php";
+    public static final String URL_CARDIO_DELETE = URL_CARDIO + "Delete.php";
+
 
     public static final String USER_CANCEL = "Zakończono przez użytkownika";
     public static final String LOGIN_ERROR = "Nieudana próba połączenia";
@@ -71,6 +79,7 @@ public class RestAPI
     public final static String DB_CARDIO_DONE = "done";
     public final static String DB_CARDIO_TIME = "time";
     public final static String DB_CARDIO_NOTEPAD = "notepad";
+    public final static String DB_CARDIO_DATE = "date";
 
     /* Names of db_user_exercise */
     public final static String DB_EXERCISE_TARGET = "target";

@@ -149,5 +149,7 @@
 
     <string name="training_gym">gym</string>
     <string name="training_cardio">cardio</string>
+    <string name="you_will_burn">Spalisz kalorii:</string>
+    <string name="time_cardio_example">10:00</string>
 
 </resources>

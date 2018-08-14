@@ -39,24 +39,9 @@ public class Main extends ArrayList
         return textViewBig;
     }
 
-    public void setTextViewBig(int textViewBig)
-    {
-        this.textViewBig = textViewBig;
-    }
-
     public int getTextViewSmall()
     {
         return textViewSmall;
-    }
-
-    public void setTextViewSmall(int textViewSmall)
-    {
-        this.textViewSmall = textViewSmall;
-    }
-
-    public void setViewType(int viewType)
-    {
-        this.viewType = viewType;
     }
 
     public int getViewType()
@@ -79,18 +64,8 @@ public class Main extends ArrayList
         return reps;
     }
 
-    public void setReps(String reps)
-    {
-        this.reps = reps;
-    }
-
     public String getRest()
     {
         return rest;
-    }
-
-    public void setRest(String rest)
-    {
-        this.rest = rest;
     }
 }

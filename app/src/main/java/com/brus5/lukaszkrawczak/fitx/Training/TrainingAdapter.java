@@ -69,7 +69,7 @@ public class TrainingAdapter extends ArrayAdapter<Training>
         {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.row_training_excercise, parent, false);
 
-            CheckBox cbDone = convertView.findViewById(R.id.trainingExcerciseCheckBox);
+            CheckBox checkBox = convertView.findViewById(R.id.trainingExcerciseCheckBox);
             TextView tvId = convertView.findViewById(R.id.trainingID);
             TextView tvName = convertView.findViewById(R.id.trainingExcerciseTitle);
             TextView tvRest = convertView.findViewById(R.id.trainingExcerciseRestTime);
@@ -81,11 +81,11 @@ public class TrainingAdapter extends ArrayAdapter<Training>
 
             if (done == 1)
             {
-                cbDone.setChecked(true);
+                checkBox.setChecked(true);
             }
             else
             {
-                cbDone.setChecked(false);
+                checkBox.setChecked(false);
             }
 
             tvId.setText(String.valueOf(id));
@@ -136,13 +136,23 @@ public class TrainingAdapter extends ArrayAdapter<Training>
 
             convertView = LayoutInflater.from(mContext).inflate(R.layout.row_training_cardio, parent, false);
 
+            CheckBox checkBox = convertView.findViewById(R.id.cardioCheckBox);
             TextView tvId = convertView.findViewById(R.id.cardioID);
             TextView tvName = convertView.findViewById(R.id.cardioTitle);
             TextView tvTimeStamp = convertView.findViewById(R.id.cardioTimeStamp);
-            TextView tvTarget = convertView.findViewById(R.id.cardioTarget);
             TextView tvTime = convertView.findViewById(R.id.cardioTime);
-            TextView tvType = convertView.findViewById(R.id.textViewTrainingType);
             TextView tvKcalBurned = convertView.findViewById(R.id.cardioKcalBurned);
+            TextView tvKcalPerMin = convertView.findViewById(R.id.cardioBurnPerMin);
+
+
+            if (done == 1)
+            {
+                checkBox.setChecked(true);
+            }
+            else
+            {
+                checkBox.setChecked(false);
+            }
 
             tvId.setText(String.valueOf(id));
 
@@ -151,7 +161,6 @@ public class TrainingAdapter extends ArrayAdapter<Training>
             tvName.setText(nameConverter.getName());
 
             tvTimeStamp.setText(timeStamp);
-            tvTarget.setText(target);
 
             StringBuilder builder = new StringBuilder();
             builder.append(time);
@@ -166,6 +175,7 @@ public class TrainingAdapter extends ArrayAdapter<Training>
 
             tvKcalBurned.setText(String.valueOf(burned));
 
+            tvKcalPerMin.setText(kcalPerMin);
 
             Log.e(TAG, "tvId: " + tvId.getText().toString());
             Log.e(TAG, "tvName: " + tvName.getText().toString());

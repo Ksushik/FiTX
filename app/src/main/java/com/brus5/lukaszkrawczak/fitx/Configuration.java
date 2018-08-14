@@ -1,45 +1,65 @@
 package com.brus5.lukaszkrawczak.fitx;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by lukaszkrawczak on 24.05.2018.
  */
 
-public class Configuration {
+public class Configuration
+{
 
-    @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-    public SimpleDateFormat getDateFormat() {
+    public SimpleDateFormat getDateFormat()
+    {
         return dateFormat;
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat dateFormatView = new SimpleDateFormat("dd MMMM yyyy");
+    private SimpleDateFormat dateFormatView = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 
-    public SimpleDateFormat getDateFormatView() {
+    public SimpleDateFormat getDateFormatView()
+    {
         return dateFormatView;
     }
 
-    public Calendar oldestDay() {
+    public Calendar oldestDay()
+    {
         Calendar oldest = Calendar.getInstance();
         oldest.add(Calendar.MONTH, 1);
         return oldest;
     }
 
-    public Calendar newestDay() {
+    public Calendar newestDay()
+    {
         Calendar newest = Calendar.getInstance();
         newest.add(Calendar.MONTH, -1);
         return newest;
     }
 
-    public void showError(Context context) {
+    public void showError(Context context)
+    {
         Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
+    }
+
+    public Date selectedDate(String date)
+    {
+        Calendar calendar = Calendar.getInstance();
+        try
+        {
+            return getDateFormat().parse(date);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+        return calendar.getTime();
     }
 }

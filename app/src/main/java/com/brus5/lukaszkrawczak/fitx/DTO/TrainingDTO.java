@@ -1,10 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.DTO;
 
-import android.util.Log;
-
 public class TrainingDTO extends TrainingStatusDTO implements DtoStatus
 {
-    private static final String TAG = "TrainingShowByUserDTO";
     public String trainingID;
     public String trainingDone;
     public String trainingRestTime;
@@ -15,11 +12,12 @@ public class TrainingDTO extends TrainingStatusDTO implements DtoStatus
     public String trainingTimeStamp;
     public String trainingNotepad;
     public String trainingDate;
+    public String trainingTime;
 
 
-    public TrainingDTO(String trainingID, String trainingDone, String trainingRestTime, String trainingReps, String trainingWeight, String userName, String userID, String trainingTimeStamp, String trainingNotepad, String trainingDate)
+    public TrainingDTO(String trainingID, String trainingDone, String trainingRestTime, String trainingReps, String trainingWeight, String userName, String userID, String trainingTimeStamp, String trainingNotepad, String trainingDate, String trainingTime)
     {
-        super(trainingID, trainingDone, trainingRestTime, trainingReps, trainingWeight, userName, userID,trainingTimeStamp, trainingNotepad, trainingDate);
+        super(trainingID, trainingDone, trainingRestTime, trainingReps, trainingWeight, userName, userID,trainingTimeStamp, trainingNotepad, trainingDate, trainingTime);
     }
 
     public TrainingDTO()
@@ -29,7 +27,7 @@ public class TrainingDTO extends TrainingStatusDTO implements DtoStatus
     @Override
     public void printStatus()
     {
-        new TrainingDTO(trainingID, trainingDone, trainingRestTime, trainingReps, trainingWeight, userName, userID, trainingTimeStamp, trainingNotepad, trainingDate);
+        new TrainingDTO(trainingID, trainingDone, trainingRestTime, trainingReps, trainingWeight, userName, userID, trainingTimeStamp, trainingNotepad, trainingDate, trainingTime);
     }
 }
 
