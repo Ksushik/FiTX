@@ -27,6 +27,7 @@ import com.brus5.lukaszkrawczak.fitx.Calculator.Protein;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTODiet;
+import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -45,7 +46,7 @@ import java.util.Map;
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
-public class DietActivity extends AppCompatActivity
+public class DietActivity extends AppCompatActivity implements DefaultView
 {
     private static final String TAG = "DietActivity";
     private HorizontalCalendar calendar;
@@ -70,7 +71,7 @@ public class DietActivity extends AppCompatActivity
         onListViewItemSelected();
     }
 
-    private void loadInput()
+    public void loadInput()
     {
         tvDate = findViewById(R.id.textViewDay);
         pBarProteins = findViewById(R.id.progressBarProteins);
@@ -404,7 +405,7 @@ public class DietActivity extends AppCompatActivity
         return String.format(Locale.getDefault(),"%.0f",value).replace(",",".");
     }
 
-    private void changeStatusBarColor()
+    public void changeStatusBarColor()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {

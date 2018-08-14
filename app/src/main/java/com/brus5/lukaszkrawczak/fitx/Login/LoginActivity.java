@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.Configuration;
+import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginNormalDTO;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginRegisterFacebookDTO;
 
@@ -46,7 +47,7 @@ import java.security.NoSuchAlgorithmException;
 
 import static com.facebook.Profile.getCurrentProfile;
 
-public class LoginActivity extends AppCompatActivity
+public class LoginActivity extends AppCompatActivity implements DefaultView
 {
     private static final String TAG = "LoginActivity";
     protected AccessTokenTracker tokenTracker;
@@ -65,7 +66,7 @@ public class LoginActivity extends AppCompatActivity
         FacebookSdk.sdkInitialize(LoginActivity.this);
         setContentView(R.layout.activity_user_login);
         changeStatusBarColor();
-        loadInputs();
+        loadInput();
         userButtonNormalLogin();
         userButtonRegister();
         userButtonFacebookLogin();
@@ -81,7 +82,7 @@ public class LoginActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
     }
 
-    private void loadInputs()
+    public void loadInput()
     {
         etLogin = findViewById(R.id.editTextLogin);
         etPassword = findViewById(R.id.editTextPassword);

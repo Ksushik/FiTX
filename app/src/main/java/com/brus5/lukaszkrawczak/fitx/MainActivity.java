@@ -36,7 +36,7 @@ import java.util.Map;
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
     private static final String TAG = "MainActivity";
     private Button btnDiet, btnTraining, btnSettings, btnStats;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         changeStatusBarColor();
-        loadInputs();
+        loadInput();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
         main = new Main();
     }
@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dateFormat = cfg.getDateFormat().format(date.getTime());
                 SaveSharedPreference.setDateChoosed(MainActivity.this, dateFormat);
                 Log.e(TAG, "onDateSelected: " + dateFormat);
-                // TODO: 30.07.2018 add tvDate.setTextBurned
                 asynchPreparator();
             }
         });
@@ -95,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadAsynchTask(dto, MainActivity.this);
     }
 
-    private void changeStatusBarColor()
+    public void changeStatusBarColor()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
@@ -105,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
     }
 
-    private void loadInputs()
+    public void loadInput()
     {
         listView = findViewById(R.id.listViewMain);
         btnDiet = findViewById(R.id.buttonDiet);

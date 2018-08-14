@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
+import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -42,7 +43,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CardioDetailsActivity extends AppCompatActivity implements View.OnClickListener
+public class CardioDetailsActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
     private static final String TAG = "CardioDetailsAct";
     @SuppressLint("SimpleDateFormat")
@@ -133,7 +134,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void changeStatusBarColor()
+    public void changeStatusBarColor()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
@@ -148,7 +149,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void loadInput()
+    public void loadInput()
     {
         tvName = findViewById(R.id.textViewCardioName);
         etNotepad = findViewById(R.id.editTextNotepadCardio);

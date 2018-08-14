@@ -1,6 +1,5 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -17,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 
@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class CardioListActivity extends AppCompatActivity
+public class CardioListActivity extends AppCompatActivity implements DefaultView
 {
     private static final String TAG = "CardioListActivity";
     ArrayList<TrainingSearch> list = new ArrayList<>();
@@ -47,19 +47,18 @@ public class CardioListActivity extends AppCompatActivity
         onListViewItemSelected();
     }
 
-    @SuppressLint("LongLogTag")
     private void getIntentFromPreviousActiity()
     {
         Intent intent = getIntent();
         dateFormat = intent.getStringExtra("dateFormat");
     }
 
-    private void loadInput()
+    public void loadInput()
     {
         listView = findViewById(R.id.listViewTraining);
     }
 
-    private void changeStatusBarColor()
+    public void changeStatusBarColor()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {

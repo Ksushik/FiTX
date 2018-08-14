@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TrainingListActivity extends AppCompatActivity
+public class TrainingListActivity extends AppCompatActivity implements DefaultView
 {
     private static final String TAG = "TrainingListActivity";
     private ArrayList<TrainingSearch> trainingSearchArrayList = new ArrayList<>();
@@ -60,12 +61,12 @@ public class TrainingListActivity extends AppCompatActivity
         dateFormat = intent.getStringExtra("dateFormat");
     }
 
-    private void loadInput()
+    public void loadInput()
     {
         listViewTrainingActivity = findViewById(R.id.listViewTraining);
     }
 
-    private void changeStatusBarColor()
+    public void changeStatusBarColor()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {

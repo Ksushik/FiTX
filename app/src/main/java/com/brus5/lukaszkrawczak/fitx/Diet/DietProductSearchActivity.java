@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTODiet;
+import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 
@@ -38,7 +39,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class DietProductSearchActivity extends AppCompatActivity
+public class DietProductSearchActivity extends AppCompatActivity implements DefaultView
 {
     private static final String TAG = "DietProductSearchActivi";
     String dateFormat;
@@ -65,13 +66,13 @@ public class DietProductSearchActivity extends AppCompatActivity
         dateFormat = getIntent().getStringExtra("dateFormat");
     }
 
-    private void loadInput()
+    public void loadInput()
     {
         etSearch = findViewById(R.id.editTextSearchProduct);
         listView = findViewById(R.id.listViewShowProducts);
     }
 
-    private void changeStatusBarColor()
+    public void changeStatusBarColor()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {

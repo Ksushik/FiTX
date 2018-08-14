@@ -31,6 +31,7 @@ import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.Converter.WeightConverter;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTODiet;
+import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
@@ -46,7 +47,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class DietProductShowActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener
+public class DietProductShowActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, DefaultView
 {
     private static final String TAG = "DietProductShowActivity";
     private ImageView imgProduct, imgVerified;
@@ -133,7 +134,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         else return this.productTimeStamp;
     }
 
-    private void loadInput()
+    public void loadInput()
     {
         imgProduct = findViewById(R.id.imageViewProduct);
         imgVerified = findViewById(R.id.imageViewVerified);
@@ -364,7 +365,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         tvCarbsSugars.setText(s);
     }
 
-    private void changeStatusBarColor()
+    public void changeStatusBarColor()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {

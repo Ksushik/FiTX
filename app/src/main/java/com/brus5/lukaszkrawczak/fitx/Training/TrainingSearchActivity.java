@@ -13,9 +13,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 
-public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener
+public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
     private static final String TAG = "TrainingSearchActivity";
     private ImageView imageViewBodyBack, imageViewBodyFront;
@@ -35,7 +36,7 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_2_muscle_choose);
         changeStatusBarColor();
-        loadInputs();
+        loadInput();
         onBackButtonPressed();
         button();
         getIntentFromPreviousActiity();
@@ -119,7 +120,7 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         tvButtonForearms.setVisibility(View.VISIBLE);
     }
 
-    private void loadInputs()
+    public void loadInput()
     {
         imageViewBodyBack = findViewById(R.id.imageViewBodyBack);
         imageViewBodyFront = findViewById(R.id.imageViewBodyFront);
@@ -144,7 +145,7 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         btCardio.setOnClickListener(this);
     }
 
-    private void changeStatusBarColor()
+    public void changeStatusBarColor()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
