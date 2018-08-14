@@ -54,7 +54,6 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
         searchProduct();
         onListViewItemSelected();
         getIntentFromPreviousActiity();
-        method();
     }
 
     private void getIntentFromPreviousActiity()
