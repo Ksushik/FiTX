@@ -5,11 +5,9 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.DTO.DietDTODiet;
+import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 
@@ -21,27 +19,12 @@ public class DietService
 
     private static final String TAG = "DietService";
 
-    public void DietUpdateCountedKcal(final DietDTODiet dto, final Context context)
+    public void DietUpdateCountedKcal(final DietDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_UPDATE_COUNTED_KCAL,
-            new Response.Listener<String>()
-            {
-                @Override
-                public void onResponse(String response)
-                {
-                    Log.e(TAG, "onResponse: " + response);
-                }
-            },
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_UPDATE_COUNTED_KCAL, response -> Log.e(TAG, "onResponse: " + response), error -> {
 
-                }
-            }
-        )
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -59,27 +42,12 @@ public class DietService
         queue.add(strRequest);
     }
 
-    public void DietDeleteCountedKcal(final DietDTODiet dto, final Context context)
+    public void DietDeleteCountedKcal(final DietDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_COUNTED_KCAL,
-            new Response.Listener<String>()
-            {
-                @Override
-                public void onResponse(String response)
-                {
-                    Log.e(TAG, "onResponse: " + response);
-                }
-            },
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_COUNTED_KCAL, response -> Log.e(TAG, "onResponse: " + response), error -> {
 
-                }
-            }
-        )
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -95,27 +63,12 @@ public class DietService
         queue.add(strRequest);
     }
 
-    public void DietProductWeightUpdate(final DietDTODiet dto, Context context)
+    public void DietProductWeightUpdate(final DietDTO dto, Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_UPDATE_WEIGHT_PRODUCT,
-            new Response.Listener<String>()
-            {
-                @Override
-                public void onResponse(String response)
-                {
-                    Log.e(TAG, "onResponse: " + response);
-                }
-            },
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_UPDATE_WEIGHT_PRODUCT, response -> Log.e(TAG, "onResponse: " + response), error -> {
 
-                }
-            }
-        )
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -133,27 +86,12 @@ public class DietService
         queue.add(strRequest);
     }
 
-    public void DietProductInsert(final DietDTODiet dto, final Context context)
+    public void DietProductInsert(final DietDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_INSERT_PRODUCT,
-            new Response.Listener<String>()
-            {
-                @Override
-                public void onResponse(String response)
-                {
-                    Log.e(TAG, "onResponse: " + response);
-                }
-            },
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_INSERT_PRODUCT, response -> Log.e(TAG, "onResponse: " + response), error -> {
 
-                }
-            }
-        )
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -171,27 +109,12 @@ public class DietService
         queue.add(strRequest);
     }
 
-    public void DietDeleteProduct(final DietDTODiet dto, final Context context)
+    public void DietDeleteProduct(final DietDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_PRODUCT,
-            new Response.Listener<String>()
-            {
-                @Override
-                public void onResponse(String response)
-                {
-                    Log.e(TAG, "onResponse: " + response);
-                }
-            },
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_PRODUCT, response -> Log.e(TAG, "onResponse: " + response), error -> {
 
-                }
-            }
-        )
+        })
         {
             @Override
             protected Map<String, String> getParams()

@@ -1,6 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.DTO;
 
-public class DietDTODiet extends DietStatusDTO implements DtoStatus
+public class DietDTO extends DietStatusDTO implements DtoStatus
 {
     public int userID;
     public String userName;
@@ -12,18 +12,18 @@ public class DietDTODiet extends DietStatusDTO implements DtoStatus
     public String productWeight;
     public String productName;
 
-    public DietDTODiet(int userID, String userName, String dateToday, String updateKcalResult, String productID, String updateProductWeight, String productTimeStamp, String productWeight, String productName)
+    public DietDTO(int userID, String userName, String dateToday, String updateKcalResult, String productID, String updateProductWeight, String productTimeStamp, String productWeight, String productName)
     {
         super(userID, userName, dateToday, updateKcalResult, productID, updateProductWeight, productTimeStamp, productWeight, productName);
     }
 
-    public DietDTODiet()
+    public DietDTO()
     {
     }
 
     @Override
     public void printStatus()
     {
-        new DietDTODiet(userID, userName, dateToday, updateKcalResult, productID, updateProductWeight, productTimeStamp, productWeight, productName);
+        new DietDTO(userID, userName, dateToday, updateKcalResult, productID, updateProductWeight, productTimeStamp, productWeight, productName);
     }
 }

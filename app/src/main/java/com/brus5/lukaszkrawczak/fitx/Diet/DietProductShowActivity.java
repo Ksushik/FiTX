@@ -23,14 +23,13 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.brus5.lukaszkrawczak.fitx.AsynchTask;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.Converter.WeightConverter;
-import com.brus5.lukaszkrawczak.fitx.DTO.DietDTODiet;
+import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
@@ -47,7 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class DietProductShowActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, DefaultView
+public class DietProductShowActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, DefaultView, AsynchTask
 {
     private static final String TAG = "DietProductShowActivity";
     private ImageView imgProduct, imgVerified;
@@ -85,7 +84,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
         String url = "http://justfitx.xyz/images/products/mid/" + productID + ".png";
         loadImageFromUrl(url);
-        loadProductInformationAsynchTask(DietProductShowActivity.this);
+        loadAsynchTask(DietProductShowActivity.this);
 
         etWeight.setText(String.valueOf(productWeight));
         setWeight(false);
@@ -178,60 +177,45 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 });
     }
 
-    public void loadProductInformationAsynchTask(final Context ctx)
+    public void loadAsynchTask(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_GET_PRODUCT_INFORMATIONS,
-            new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_GET_PRODUCT_INFORMATIONS, response -> {
+            try
             {
-                @Override
-                public void onResponse(String response)
+                JSONObject jsonObject = new JSONObject(response);
+                String name;
+                Log.i(TAG, "onResponse: " + jsonObject.toString(17));
+                JSONArray server_response = jsonObject.getJSONArray("server_response");
+                for (int i = 0; i < server_response.length(); i++)
                 {
-                    try
+                    JSONObject srv_response = server_response.getJSONObject(i);
+
+                    name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
+                    proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
+                    fats = srv_response.getDouble(RestAPI.DB_PRODUCT_FATS);
+                    carbs = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS);
+                    saturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_SATURATED_FATS);
+                    unsaturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_UNSATURATED_FATS);
+                    carbsFiber = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_FIBER);
+                    carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
+                    multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
+                    verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
+
+                    if (verified == 1)
                     {
-                        JSONObject jsonObject = new JSONObject(response);
-                        String name;
-                        Log.i(TAG, "onResponse: " + jsonObject.toString(17));
-                        JSONArray server_response = jsonObject.getJSONArray("server_response");
-                        for (int i = 0; i < server_response.length(); i++)
-                        {
-                            JSONObject srv_response = server_response.getJSONObject(i);
-
-                            name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
-                            proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
-                            fats = srv_response.getDouble(RestAPI.DB_PRODUCT_FATS);
-                            carbs = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS);
-                            saturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_SATURATED_FATS);
-                            unsaturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_UNSATURATED_FATS);
-                            carbsFiber = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_FIBER);
-                            carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
-                            multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
-                            verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
-
-                            if (verified == 1)
-                            {
-                                imgVerified.setVisibility(View.VISIBLE);
-                            }
-
-                            String upName = name.substring(0, 1).toUpperCase() + name.substring(1);
-                            tvName.setText(upName);
-                            setProductWeight(productWeight);
-                        }
+                        imgVerified.setVisibility(View.VISIBLE);
                     }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            },
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
-                    Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+
+                    String upName = name.substring(0, 1).toUpperCase() + name.substring(1);
+                    tvName.setText(upName);
+                    setProductWeight(productWeight);
                 }
             }
-        )
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }, error -> Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show())
         {
             @Override
             protected Map<String, String> getParams()
@@ -403,7 +387,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 if (previousActivity.equals("DietProductSearchActivity"))
                 {
                     Log.e(TAG, "onClick: " + getProductWeightPerItems());
-                    DietDTODiet dto = new DietDTODiet();
+                    DietDTO dto = new DietDTO();
                     dto.productID = productID;
                     dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
                     dto.productWeight = getProductWeightPerItems();
@@ -416,7 +400,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 else
                 {
                     Log.e(TAG, "onClick: " + getProductWeightPerItems());
-                    DietDTODiet dto = new DietDTODiet();
+                    DietDTO dto = new DietDTO();
                     dto.productID = productID;
                     dto.userID = SaveSharedPreference.getUserID(DietProductShowActivity.this);
                     dto.updateProductWeight = getProductWeightPerItems();
@@ -428,7 +412,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 }
                 break;
             case R.id.buttonDelete:
-                DietDTODiet dto1 = new DietDTODiet();
+                DietDTO dto1 = new DietDTO();
                 dto1.productID = productID;
                 dto1.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
                 dto1.updateProductWeight = getProductWeightPerItems();

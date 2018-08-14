@@ -109,8 +109,6 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
     {
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_SHORT, globalResponse -> {
 
-
-
             try
             {
                 JSONObject jsonObject = new JSONObject(globalResponse);
@@ -345,6 +343,4 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
         dto.printStatus();
         loadAsynchTask(dto, TrainingActivity.this);
     }
-
-
 }
