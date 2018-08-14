@@ -269,7 +269,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
                     dto1.dateToday           = dateFormat;
                     dto1.printStatus();
                     DietService dietService = new DietService();
-                    dietService.DietUpdateCountedKcal(dto1,DietActivity.this);
+                    dietService.updateCalories(dto1,DietActivity.this);
                 }
                 else if (getMaxCalories() == 0d)
                 {
@@ -278,7 +278,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
                     dto1.dateToday       = dateFormat;
                     dto1.printStatus();
                     DietService dietService = new DietService();
-                    dietService.DietDeleteCountedKcal(dto1,DietActivity.this);
+                    dietService.deleteCalories(dto1,DietActivity.this);
                 }
             }
             catch (JSONException e)

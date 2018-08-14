@@ -14,12 +14,12 @@ import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DietService
+public class DietService implements DietAsynchServiceDTO
 {
 
     private static final String TAG = "DietService";
 
-    public void DietUpdateCountedKcal(final DietDTO dto, final Context context)
+    public void updateCalories(final DietDTO dto, final Context context)
     {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_UPDATE_COUNTED_KCAL, response -> Log.e(TAG, "onResponse: " + response), error -> {
@@ -42,7 +42,7 @@ public class DietService
         queue.add(strRequest);
     }
 
-    public void DietDeleteCountedKcal(final DietDTO dto, final Context context)
+    public void deleteCalories(final DietDTO dto, final Context context)
     {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_COUNTED_KCAL, response -> Log.e(TAG, "onResponse: " + response), error -> {
@@ -63,7 +63,7 @@ public class DietService
         queue.add(strRequest);
     }
 
-    public void DietProductWeightUpdate(final DietDTO dto, Context context)
+    public void updateProductWeight(final DietDTO dto, Context context)
     {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_UPDATE_WEIGHT_PRODUCT, response -> Log.e(TAG, "onResponse: " + response), error -> {
@@ -86,7 +86,7 @@ public class DietService
         queue.add(strRequest);
     }
 
-    public void DietProductInsert(final DietDTO dto, final Context context)
+    public void insert(final DietDTO dto, final Context context)
     {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_INSERT_PRODUCT, response -> Log.e(TAG, "onResponse: " + response), error -> {
@@ -109,7 +109,7 @@ public class DietService
         queue.add(strRequest);
     }
 
-    public void DietDeleteProduct(final DietDTO dto, final Context context)
+    public void delete(final DietDTO dto, final Context context)
     {
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_PRODUCT, response -> Log.e(TAG, "onResponse: " + response), error -> {

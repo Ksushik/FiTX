@@ -6,5 +6,5 @@ import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
 
 public interface DietAsynchTaskDTO
 {
-    void loadAsynchTask(DietDTO dietDTO, Context ctx);
+    void loadAsynchTask(DietDTO dietDTO, Context context);
 }

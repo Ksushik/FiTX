@@ -394,7 +394,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     dto.productTimeStamp = newTimeStamp;
                     dto.printStatus();
                     DietService service = new DietService();
-                    service.DietProductInsert(dto, DietProductShowActivity.this);
+                    service.insert(dto, DietProductShowActivity.this);
                     finish();
                 }
                 else
@@ -407,7 +407,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     dto.productTimeStamp = newTimeStamp;
                     dto.printStatus();
                     DietService service = new DietService();
-                    service.DietProductWeightUpdate(dto, DietProductShowActivity.this);
+                    service.updateProductWeight(dto, DietProductShowActivity.this);
                     finish();
                 }
                 break;
@@ -419,7 +419,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 dto1.productTimeStamp = newTimeStamp;
                 dto1.printStatus();
                 DietService service1 = new DietService();
-                service1.DietDeleteProduct(dto1, DietProductShowActivity.this);
+                service1.delete(dto1, DietProductShowActivity.this);
                 finish();
                 break;
         }

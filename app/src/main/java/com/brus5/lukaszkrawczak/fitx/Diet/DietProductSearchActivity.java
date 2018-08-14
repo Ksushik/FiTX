@@ -121,7 +121,7 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
         });
     }
 
-    public void loadAsynchTask(final DietDTO dto, final Context ctx)
+    public void loadAsynchTask(final DietDTO dietDTO, final Context context)
     {
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_SEARCH_PRODUCT, response -> {
             try
@@ -162,7 +162,7 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
                 e.printStackTrace();
             }
         }, error -> {
-            Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
             Log.e(TAG, "onErrorResponse: Error"+error);
         })
         {
@@ -170,11 +170,11 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
             protected Map<String, String> getParams()
             {
                 HashMap<String,String> params = new HashMap<>();
-                params.put(RestAPI.DB_PRODUCT_NAME, dto.productName);
+                params.put(RestAPI.DB_PRODUCT_NAME, dietDTO.productName);
                 return params;
             }
         };
-        RequestQueue queue = Volley.newRequestQueue(ctx);
+        RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
     }
 
