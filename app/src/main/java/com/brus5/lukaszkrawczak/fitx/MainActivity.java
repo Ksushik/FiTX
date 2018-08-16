@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnDiet, btnTraining, btnSettings, btnStats;
     private HorizontalCalendar calendar;
     private Configuration cfg = new Configuration();
-    private String dateFormat;
+//    private String dateFormat;
     private ArrayList<Main> list = new ArrayList<>();
     private ListView listView;
     private MainAdapter adapter;
@@ -76,9 +76,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDateSelected(Date date, int position)
             {
-                dateFormat = cfg.getDateFormat().format(date.getTime());
-                SaveSharedPreference.setDateChoosed(MainActivity.this, dateFormat);
-                Log.e(TAG, "onDateSelected: " + dateFormat);
+                Configuration.setDate(cfg.getDateFormat().format(date.getTime()));
+//                dateFormat = cfg.getDateFormat().format(date.getTime());
+                Log.e(TAG, "onDateSelected: " + Configuration.getDate());
                 asynchPreparator();
             }
         });
@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         list.clear();
         MainDTO dto = new MainDTO();
         dto.userID = String.valueOf(SaveSharedPreference.getUserID(MainActivity.this));
-        dto.date = dateFormat;
-        dto.printStatus();
+        dto.date = Configuration.getDate();
+
         loadAsynchTask(dto, MainActivity.this);
     }
 

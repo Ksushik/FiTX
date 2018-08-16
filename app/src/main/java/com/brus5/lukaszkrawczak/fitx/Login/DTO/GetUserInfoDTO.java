@@ -1,19 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.Login.DTO;
 
-import android.util.Log;
-
-import com.brus5.lukaszkrawczak.fitx.DTO.DtoStatus;
-
-public class GetUserInfoDTO implements DtoStatus
+public class GetUserInfoDTO
 {
-    private static final String TAG = "GetUserInfoDTO";
     public String userName;
 
-    @Override
-    public void printStatus()
-    {
-        Log.i(TAG, "printStatus: " +
-                " * userName: " + userName +
-                " *");
-    }
 }

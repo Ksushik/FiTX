@@ -29,9 +29,9 @@ import java.util.ArrayList;
 public class CardioListActivity extends AppCompatActivity implements DefaultView
 {
     private static final String TAG = "CardioListActivity";
-    ArrayList<TrainingSearch> list = new ArrayList<>();
-    TrainingSearchListAdapter adapter;
-    ListView listView;
+    private ArrayList<TrainingSearch> list = new ArrayList<>();
+    private TrainingSearchListAdapter adapter;
+    private ListView listView;
     private String dateFormat;
 
     @Override

@@ -392,7 +392,10 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
                     dto.productWeight = getProductWeightPerItems();
                     dto.productTimeStamp = newTimeStamp;
-                    dto.printStatus();
+
+                    Log.i(TAG, "onClick: " + dto.toString());
+
+
                     DietService service = new DietService();
                     service.insert(dto, DietProductShowActivity.this);
                     finish();
@@ -405,7 +408,10 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     dto.userID = SaveSharedPreference.getUserID(DietProductShowActivity.this);
                     dto.updateProductWeight = getProductWeightPerItems();
                     dto.productTimeStamp = newTimeStamp;
-                    dto.printStatus();
+
+                    Log.i(TAG, "onClick: " + dto.toString());
+
+
                     DietService service = new DietService();
                     service.updateProductWeight(dto, DietProductShowActivity.this);
                     finish();
@@ -417,7 +423,9 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 dto1.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
                 dto1.updateProductWeight = getProductWeightPerItems();
                 dto1.productTimeStamp = newTimeStamp;
-                dto1.printStatus();
+
+                Log.i(TAG, "onClick: " + dto1.toString());
+
                 DietService service1 = new DietService();
                 service1.delete(dto1, DietProductShowActivity.this);
                 finish();

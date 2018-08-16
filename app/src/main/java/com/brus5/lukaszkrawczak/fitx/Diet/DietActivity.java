@@ -88,7 +88,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
     private void weekCalendar(Calendar endDate, Calendar startDate)
     {
         calendar = new HorizontalCalendar.Builder(DietActivity.this, R.id.calendarViewDietActivity)
-                       .defaultSelectedDate(   cfg.selectedDate(SaveSharedPreference.getDateChoosed(DietActivity.this))    )
+                       .defaultSelectedDate(   cfg.selectedDate(Configuration.getDate())    )
 
                        .startDate(startDate.getTime())
                        .endDate(endDate.getTime())
@@ -113,7 +113,6 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
                     DietDTO dto = new DietDTO();
                     dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
                     dto.dateToday = dateFormat;
-                    dto.printStatus();
                     loadAsynchTask(dto, DietActivity.this);
                     Log.i(TAG, "onDateSelected: " + dateFormat);
                 }
@@ -267,7 +266,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
                     dto1.userID              = SaveSharedPreference.getUserID(DietActivity.this);
                     dto1.updateKcalResult    = String.format(Locale.getDefault(),"%.1f",countCalories);
                     dto1.dateToday           = dateFormat;
-                    dto1.printStatus();
+
                     DietService dietService = new DietService();
                     dietService.updateCalories(dto1,DietActivity.this);
                 }
@@ -276,7 +275,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
                     DietDTO dto1 = new DietDTO();
                     dto1.userID          = SaveSharedPreference.getUserID(DietActivity.this);
                     dto1.dateToday       = dateFormat;
-                    dto1.printStatus();
+
                     DietService dietService = new DietService();
                     dietService.deleteCalories(dto1,DietActivity.this);
                 }
@@ -439,7 +438,9 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
         DietDTO dto = new DietDTO();
         dto.userName        = SaveSharedPreference.getUserName(DietActivity.this);
         dto.dateToday       = dateFormat;
-        dto.printStatus();
+
+        Log.i(TAG, "onRestart: " + dto.toString());
+
         loadAsynchTask(dto,DietActivity.this);
     }
 

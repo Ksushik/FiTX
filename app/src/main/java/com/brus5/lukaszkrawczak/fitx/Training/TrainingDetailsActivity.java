@@ -51,7 +51,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private static final String TAG = "TrainingDetailsA";
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-    private String trainingTimeStamp, trainingTarget, previousActivity, dateFormat, newTimeStamp;
+    private String trainingTimeStamp, trainingTarget, previousActivity, newTimeStamp;
     private LinearLayout linearLayout;
     private int trainingID;
     private ImageView imgTrainingL, imgTrainingR;
@@ -138,27 +138,31 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private TrainingDTO saveDTO()
     {
         Log.i(TAG, "onClick: " + "\nisValid: " + inflater.isValid() + inflater.printResult());
+
         TrainingDTO dto = new TrainingDTO();
-        dto.trainingID =            String.valueOf(trainingID);
-        dto.trainingDone =          String.valueOf(setOnCheckedChangeListener());
-        dto.trainingRestTime =      String.valueOf(timer.START_TIME_IN_MILLIS);
-        dto.trainingReps =          inflater.getReps();
-        dto.trainingWeight =        inflater.getWeight();
-        dto.userID =                String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
-        dto.userID =                String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
-        dto.trainingNotepad =       etNotepad.getText().toString();
-        dto.trainingTimeStamp =     newTimeStamp;
-        dto.printStatus();
+        dto.setTrainingID(String.valueOf(trainingID));
+        dto.setTrainingDone(String.valueOf(setOnCheckedChangeListener()));
+        dto.setTrainingRestTime(String.valueOf(timer.START_TIME_IN_MILLIS));
+        dto.setTrainingReps(inflater.getReps());
+        dto.setTrainingWeight(inflater.getWeight());
+        dto.setUserID(String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
+        dto.setTrainingNotepad(etNotepad.getText().toString());
+        dto.setTrainingTimeStamp(newTimeStamp);
+
+        Log.i(TAG, "saveDTO: " + dto.toString());
+
         return dto;
     }
 
     private TrainingDTO deleteDto()
     {
         TrainingDTO dto = new TrainingDTO();
-        dto.trainingID =            String.valueOf(trainingID);
-        dto.userID =                String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
-        dto.trainingTimeStamp =     getTimeStamp();
-        dto.printStatus();
+        dto.setTrainingID(String.valueOf(trainingID));
+        dto.setUserID(String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
+        dto.setTrainingTimeStamp(getTimeStamp());
+
+        Log.i(TAG, "deleteDto: " + dto.toString());
+
         return dto;
     }
 
@@ -250,9 +254,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         trainingTimeStamp = intent.getStringExtra("trainingTimeStamp");
         trainingTimeStamp = timeStampChanger(trainingTimeStamp);
         previousActivity = intent.getStringExtra("previousActivity");
-        dateFormat = intent.getStringExtra("dateFormat");
 
-        TimeStampReplacer time = new TimeStampReplacer(dateFormat, trainingTimeStamp);
+        TimeStampReplacer time = new TimeStampReplacer(Configuration.getDate(), trainingTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
     }
 

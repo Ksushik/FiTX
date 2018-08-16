@@ -43,7 +43,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
     private static final String TAG = "TrainingActivity";
     HorizontalCalendar calendar;
     Configuration cfg = new Configuration();
-    String dateFormat, dateFormatView;
+    String dateFormatView;
     TextView tvDate;
     ArrayList<Training> list = new ArrayList<>();
     ListView listView;
@@ -79,7 +79,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
                 .dayNumberFormat("dd")
                 .showDayName(true)
                 .showMonthName(false)
-                .defaultSelectedDate(   cfg.selectedDate(SaveSharedPreference.getDateChoosed(TrainingActivity.this))    )
+                .defaultSelectedDate(   cfg.selectedDate(Configuration.getDate())    )
                 .build();
 
         calendar.setCalendarListener(new HorizontalCalendarListener()
@@ -87,15 +87,20 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
             @Override
             public void onDateSelected(Date date, int position)
             {
-                dateFormat = cfg.getDateFormat().format(date.getTime());
+                Configuration.setDate(cfg.getDateFormat().format(date.getTime()));
                 dateFormatView = cfg.getDateFormatView().format(date.getTime());
                 tvDate.setText(dateFormatView);
                 list.clear();
                 TrainingDTO dto = new TrainingDTO();
-                dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-                dto.trainingDate = dateFormat;
-                dto.printStatus();
+                dto.setUserName(SaveSharedPreference.getUserName(TrainingActivity.this));
+                dto.setTrainingDate(Configuration.getDate());
+//                dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
+//                dto.trainingDate = dateFormat;
+//                dto.printStatus();
                 loadAsynchTask(dto, TrainingActivity.this);
+
+                Log.i(TAG, "onDateSelected: " + dto.toString());
+
             }
         });
     }
@@ -232,7 +237,10 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
             {
                 HashMap<String, String> params = new HashMap<>();
                 params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_DATE, dto.trainingDate);
+                params.put(RestAPI.DB_DATE, dto.getTrainingDate());
+
+                Log.i(TAG, "getParams: " + dto.toString());
+
                 return params;
             }
         };
@@ -265,7 +273,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
         {
             case R.id.menu_search_exercise:
                 Intent intent = new Intent(TrainingActivity.this, TrainingSearchActivity.class);
-                intent.putExtra("dateFormat", dateFormat);
+                intent.putExtra("dateFormat", Configuration.getDate());
                 TrainingActivity.this.startActivity(intent);
                 break;
         }
@@ -293,7 +301,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
                 intent.putExtra("trainingTimeStamp",        tvTrainingTimeStamp.getText().toString());
                 intent.putExtra("trainingTarget",           tvTrainingTarget.getText().toString());
                 intent.putExtra("previousActivity",         TrainingActivity.class.getSimpleName());
-                intent.putExtra("dateFormat",               dateFormat);
+                intent.putExtra("dateFormat",               Configuration.getDate());
 
                 startActivity(intent);
             }
@@ -322,7 +330,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
                 intent.putExtra("trainingTime",             time);
                 intent.putExtra("kcalPerMin",               Double.parseDouble(tvKcalPerMin.getText().toString()));
                 intent.putExtra("previousActivity",         TrainingActivity.class.getSimpleName());
-                intent.putExtra("dateFormat",               dateFormat);
+                intent.putExtra("dateFormat",               Configuration.getDate());
 
                 startActivity(intent);
 
@@ -338,9 +346,10 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
         super.onRestart();
         adapter.clear();
         TrainingDTO dto = new TrainingDTO();
-        dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
-        dto.trainingDate = dateFormat;
-        dto.printStatus();
+        dto.setUserName(SaveSharedPreference.getUserName(TrainingActivity.this));
+        dto.setTrainingDate(Configuration.getDate());
         loadAsynchTask(dto, TrainingActivity.this);
+
+        Log.i(TAG, "onRestart: " + dto.toString());
     }
 }

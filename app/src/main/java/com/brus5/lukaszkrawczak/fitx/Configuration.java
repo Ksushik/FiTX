@@ -1,6 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -15,6 +16,20 @@ import java.util.Locale;
 
 public class Configuration
 {
+    private static final String TAG = "Configuration";
+    private static String date;
+
+    public static String getDate()
+    {
+        Log.i(TAG, "getDate: " + Configuration.date);
+        return date;
+    }
+
+    public static void setDate(String date)
+    {
+        Configuration.date = date;
+        Log.i(TAG, "setDate: " + Configuration.date);
+    }
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 

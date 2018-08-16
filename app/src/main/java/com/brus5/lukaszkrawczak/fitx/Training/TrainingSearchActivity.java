@@ -13,8 +13,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 
 public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
@@ -214,9 +216,6 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
 
     private void getIntentFromPreviousActiity()
     {
-        Intent intent = getIntent();
-        dateFormat = intent.getStringExtra("dateFormat");
-
-        Log.e(TAG, "dateFormat: "           + dateFormat);
+        Log.i(TAG, "dateFormat: " + Configuration.getDate());
     }
 }

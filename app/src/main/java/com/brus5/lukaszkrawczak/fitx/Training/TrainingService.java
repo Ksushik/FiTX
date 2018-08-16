@@ -28,14 +28,14 @@ public class TrainingService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_EXERCISE_ID,              dto.trainingID);
-                params.put(RestAPI.DB_EXERCISE_DONE,            dto.trainingDone);
-                params.put(RestAPI.DB_EXERCISE_REST_TIME,       dto.trainingRestTime);
-                params.put(RestAPI.DB_EXERCISE_REPS,            dto.trainingReps);
-                params.put(RestAPI.DB_EXERCISE_WEIGHT,          dto.trainingWeight);
+                params.put(RestAPI.DB_EXERCISE_ID,              dto.getTrainingID());
+                params.put(RestAPI.DB_EXERCISE_DONE,            dto.getTrainingDone());
+                params.put(RestAPI.DB_EXERCISE_REST_TIME,       dto.getTrainingRestTime());
+                params.put(RestAPI.DB_EXERCISE_REPS,            dto.getTrainingReps());
+                params.put(RestAPI.DB_EXERCISE_WEIGHT,          dto.getTrainingWeight());
                 params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_EXERCISE_DATE,            dto.trainingTimeStamp);
-                params.put(RestAPI.DB_EXERCISE_NOTEPAD,         dto.trainingNotepad);
+                params.put(RestAPI.DB_EXERCISE_DATE,            dto.getTrainingTimeStamp());
+                params.put(RestAPI.DB_EXERCISE_NOTEPAD,         dto.getTrainingNotepad());
                 return params;
             }
         };
@@ -58,9 +58,9 @@ public class TrainingService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_EXERCISE_ID,              dto.trainingID);
+                params.put(RestAPI.DB_EXERCISE_ID,              dto.getTrainingID());
                 params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_EXERCISE_DATE,            dto.trainingTimeStamp);
+                params.put(RestAPI.DB_EXERCISE_DATE,            dto.getTrainingTimeStamp());
                 return params;
             }
         };
@@ -82,14 +82,14 @@ public class TrainingService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_EXERCISE_ID,              dto.trainingID);
-                params.put(RestAPI.DB_EXERCISE_DONE,            dto.trainingDone);
-                params.put(RestAPI.DB_EXERCISE_REST_TIME,       dto.trainingRestTime);
-                params.put(RestAPI.DB_EXERCISE_REPS,            dto.trainingReps);
-                params.put(RestAPI.DB_EXERCISE_WEIGHT,          dto.trainingWeight);
+                params.put(RestAPI.DB_EXERCISE_ID,              dto.getTrainingID());
+                params.put(RestAPI.DB_EXERCISE_DONE,            dto.getTrainingDone());
+                params.put(RestAPI.DB_EXERCISE_REST_TIME,       dto.getTrainingRestTime());
+                params.put(RestAPI.DB_EXERCISE_REPS,            dto.getTrainingReps());
+                params.put(RestAPI.DB_EXERCISE_WEIGHT,          dto.getTrainingWeight());
                 params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_EXERCISE_NOTEPAD,         dto.trainingNotepad);
-                params.put(RestAPI.DB_EXERCISE_DATE,            dto.trainingTimeStamp);
+                params.put(RestAPI.DB_EXERCISE_DATE,            dto.getTrainingTimeStamp());
+                params.put(RestAPI.DB_EXERCISE_NOTEPAD,         dto.getTrainingNotepad());
                 return params;
             }
         };
@@ -112,12 +112,12 @@ public class TrainingService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_CARDIO_ID,                dto.trainingID);
-                params.put(RestAPI.DB_CARDIO_DONE,              dto.trainingDone);
-                params.put(RestAPI.DB_CARDIO_TIME,              dto.trainingTime);
+                params.put(RestAPI.DB_CARDIO_ID,                dto.getTrainingID());
+                params.put(RestAPI.DB_CARDIO_DONE,              dto.getTrainingDone());
+                params.put(RestAPI.DB_CARDIO_TIME,              dto.getTrainingTime());
                 params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_CARDIO_NOTEPAD,           dto.trainingNotepad);
-                params.put(RestAPI.DB_CARDIO_DATE,              dto.trainingTimeStamp);
+                params.put(RestAPI.DB_CARDIO_NOTEPAD,           dto.getTrainingNotepad());
+                params.put(RestAPI.DB_CARDIO_DATE,              dto.getTrainingTimeStamp());
                 return params;
             }
         };
@@ -139,12 +139,12 @@ public class TrainingService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_CARDIO_ID,                dto.trainingID);
-                params.put(RestAPI.DB_CARDIO_DONE,              dto.trainingDone);
-                params.put(RestAPI.DB_CARDIO_TIME,              dto.trainingTime);
+                params.put(RestAPI.DB_CARDIO_ID,                dto.getTrainingID());
+                params.put(RestAPI.DB_CARDIO_DONE,              dto.getTrainingDone());
+                params.put(RestAPI.DB_CARDIO_TIME,              dto.getTrainingTime());
                 params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_CARDIO_NOTEPAD,           dto.trainingNotepad);
-                params.put(RestAPI.DB_CARDIO_DATE,              dto.trainingTimeStamp);
+                params.put(RestAPI.DB_CARDIO_NOTEPAD,           dto.getTrainingNotepad());
+                params.put(RestAPI.DB_CARDIO_DATE,              dto.getTrainingTimeStamp());
                 return params;
             }
         };
@@ -167,9 +167,9 @@ public class TrainingService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_CARDIO_ID,                dto.trainingID);
+                params.put(RestAPI.DB_CARDIO_ID,                dto.getTrainingID());
                 params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_CARDIO_DATE,              dto.trainingTimeStamp);
+                params.put(RestAPI.DB_CARDIO_DATE,              dto.getTrainingTimeStamp());
                 return params;
             }
         };

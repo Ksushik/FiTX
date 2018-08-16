@@ -112,7 +112,7 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
                             {
                                 dto.productName = s.toString();
                                 loadAsynchTask(dto,DietProductSearchActivity.this);
-                                dto.printStatus();
+
                             }
                         },
                         DELAY

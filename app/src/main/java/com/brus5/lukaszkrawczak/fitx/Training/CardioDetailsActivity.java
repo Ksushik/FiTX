@@ -48,7 +48,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     private static final String TAG = "CardioDetailsAct";
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-    private String trainingTimeStamp, previousActivity, dateFormat, newTimeStamp;
+    private String trainingTimeStamp, previousActivity, newTimeStamp;
     private int trainingID, trainingTime;
     private ImageView imgTraining;
     private EditText etNotepad;
@@ -163,7 +163,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     private void getIntentFromPreviousActiity()
     {
         Intent intent = getIntent();
-        dateFormat = intent.getStringExtra("dateFormat");
         trainingID = intent.getIntExtra("trainingID", -1);
         trainingTimeStamp = intent.getStringExtra("trainingTimeStamp");
         trainingTimeStamp = timeStampChanger(trainingTimeStamp);
@@ -172,16 +171,16 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         previousActivity = intent.getStringExtra("previousActivity");
 
 
-        TimeStampReplacer time = new TimeStampReplacer(dateFormat, trainingTimeStamp);
+        TimeStampReplacer time = new TimeStampReplacer(Configuration.getDate(), trainingTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
 
-        Log.e(TAG, "trainingID: "           + trainingID);
-        Log.e(TAG, "trainingTimeStamp: "    + trainingTimeStamp);
-        Log.e(TAG, "trainingTime: "         + trainingTime);
-        Log.e(TAG, "kcalPerMin: "           + kcalPerMin);
-        Log.e(TAG, "previousActivity: "     + previousActivity);
-        Log.e(TAG, "dateFormat: "           + dateFormat);
-        Log.e(TAG, "newTimeStamp: "         + newTimeStamp);
+        Log.i(TAG, "trainingID: "           + trainingID);
+        Log.i(TAG, "trainingTimeStamp: "    + trainingTimeStamp);
+        Log.i(TAG, "trainingTime: "         + trainingTime);
+        Log.i(TAG, "kcalPerMin: "           + kcalPerMin);
+        Log.i(TAG, "previousActivity: "     + previousActivity);
+        Log.i(TAG, "getDate: "              + Configuration.getDate());
+        Log.i(TAG, "newTimeStamp: "         + newTimeStamp);
 
     }
 
@@ -408,13 +407,15 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     private TrainingDTO saveDTO()
     {
         TrainingDTO dto = new TrainingDTO();
-        dto.trainingID =            String.valueOf(trainingID);
-        dto.trainingDone =          String.valueOf(setOnCheckedChangeListener());
-        dto.userID =                String.valueOf(SaveSharedPreference.getUserID(CardioDetailsActivity.this));
-        dto.trainingNotepad =       etNotepad.getText().toString();
-        dto.trainingTimeStamp =     newTimeStamp;
-        dto.trainingTime =          String.valueOf(timer.START_TIME_IN_MILLIS / 1000 / 60);
-        dto.printStatus();
+        dto.setTrainingID(String.valueOf(trainingID));
+        dto.setTrainingDone(String.valueOf(setOnCheckedChangeListener()));
+        dto.setUserID(String.valueOf(SaveSharedPreference.getUserID(CardioDetailsActivity.this)));
+        dto.setTrainingNotepad(etNotepad.getText().toString());
+        dto.setTrainingTimeStamp(newTimeStamp);
+        dto.setTrainingTime(String.valueOf(timer.START_TIME_IN_MILLIS / 1000 / 60));
+
+        Log.i(TAG, "saveDTO: " + dto.toString());
+
         return dto;
     }
 }

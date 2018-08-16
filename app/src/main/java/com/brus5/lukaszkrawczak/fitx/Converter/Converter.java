@@ -22,7 +22,17 @@ abstract class Converter
     {
         this.dateToday = dateToday;
         this.oldTimeStamp = oldTimeStamp;
-        Log.i(TAG, "Converter: has been activated " + dateToday + " oldTimeStamp: " + oldTimeStamp);
+        Log.i(TAG, "Converter, dateToday: " + dateToday + " oldTimeStamp: " + oldTimeStamp);
+
+        StringBuilder builder = new StringBuilder(TAG);
+        builder.append("\n");
+        builder.append("dateToday: ");
+        builder.append(dateToday);
+        builder.append("\n");
+        builder.append("oldTimeStamp: ");
+        builder.append("\n");
+        builder.append(oldTimeStamp);
+        Log.i(TAG, "Converter: " + builder);
     }
 
     public double convertWeight(double weight)
@@ -55,6 +65,7 @@ abstract class Converter
 
     public String getNewTimeStamp()
     {
+        Log.i(TAG, "getNewTimeStamp: " + this.oldTimeStamp.replace(getDayAndMonthFromTimeStamp(),getDayAndMonth()));
         return this.oldTimeStamp.replace(getDayAndMonthFromTimeStamp(),getDayAndMonth());
     }
 
