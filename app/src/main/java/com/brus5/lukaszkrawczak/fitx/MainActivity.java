@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnDiet, btnTraining, btnSettings, btnStats;
     private HorizontalCalendar calendar;
     private Configuration cfg = new Configuration();
-//    private String dateFormat;
     private ArrayList<Main> list = new ArrayList<>();
     private ListView listView;
     private MainAdapter adapter;
@@ -77,8 +76,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onDateSelected(Date date, int position)
             {
                 Configuration.setDate(cfg.getDateFormat().format(date.getTime()));
-//                dateFormat = cfg.getDateFormat().format(date.getTime());
-                Log.e(TAG, "onDateSelected: " + Configuration.getDate());
                 asynchPreparator();
             }
         });
