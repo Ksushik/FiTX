@@ -36,53 +36,40 @@ public class LoginService
     public void LoginWithFacebook(final UserLoginRegisterFacebookDTO dto, final Context ctx)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, FACEBOOK_REGISTER,
-            new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, FACEBOOK_REGISTER, response -> {
+            Log.e(TAG, "onResponse: " + response);
+            try
             {
-                @Override
-                public void onResponse(String response)
+                JSONObject jsonObject = new JSONObject(response);
+                boolean success = jsonObject.getBoolean("success");
+                if (success)
                 {
-                    Log.e(TAG, "onResponse: " + response);
-                    try
-                    {
-                        JSONObject jsonObject = new JSONObject(response);
-                        boolean success = jsonObject.getBoolean("success");
-                        if (success)
-                        {
-                            Toast.makeText(ctx, RestAPI.NEW_ACCOUNT, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-
-                        try
-                        {
-                            JSONObject jsonObject = new JSONObject(response);
-                            boolean userused = jsonObject.getBoolean("userused");
-                            if (userused)
-                            {
-                                Toast.makeText(ctx, RestAPI.EXISTING_ACCOUNT, Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        catch (JSONException e1)
-                        {
-                            e1.printStackTrace();
-                        }
-
-                    }
-                    Log.d(TAG, "onResponse: " + response);
-                }
-            },
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
-
+                    Toast.makeText(ctx, RestAPI.NEW_ACCOUNT, Toast.LENGTH_LONG).show();
                 }
             }
-        )
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+
+                try
+                {
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean userused = jsonObject.getBoolean("userused");
+                    if (userused)
+                    {
+                        Toast.makeText(ctx, RestAPI.EXISTING_ACCOUNT, Toast.LENGTH_LONG).show();
+                    }
+                }
+                catch (JSONException e1)
+                {
+                    e1.printStackTrace();
+                }
+
+            }
+            Log.d(TAG, "onResponse: " + response);
+        }, error -> {
+
+            })
         {
             @Override
             protected Map<String, String> getParams()
@@ -104,52 +91,39 @@ public class LoginService
 
     public void LoginNormal(final UserLoginNormalDTO dto, final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, LOGIN_REQUEST,
-            new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, LOGIN_REQUEST, response -> {
+            try
             {
-                @Override
-                public void onResponse(String response)
+                JSONObject jsonObject = new JSONObject(response);
+                boolean success = jsonObject.getBoolean("success");
+                if (success)
                 {
-                    try
-                    {
-                        JSONObject jsonObject = new JSONObject(response);
-                        boolean success = jsonObject.getBoolean("success");
-                        if (success)
-                        {
-                            Intent intent = new Intent(ctx, MainActivity.class);
-                            SaveSharedPreference.setUserName(ctx, dto.userName);
-                            SaveSharedPreference.setDefLogin(ctx, true);
-                            ctx.startActivity(intent);
-                            ((LoginActivity) ctx).finish();
+                    Intent intent = new Intent(ctx, MainActivity.class);
+                    SaveSharedPreference.setUserName(ctx, dto.userName);
+                    SaveSharedPreference.setDefLogin(ctx, true);
+                    ctx.startActivity(intent);
+                    ((LoginActivity) ctx).finish();
 
 
-                            GetUserInfoDTO dto = new GetUserInfoDTO();
-                            dto.userName = SaveSharedPreference.getUserName(ctx);
-                            GetUserInfo(dto, ctx);
+                    GetUserInfoDTO dto1 = new GetUserInfoDTO();
+                    dto1.userName = SaveSharedPreference.getUserName(ctx);
+                    GetUserInfo(dto1, ctx);
 
 
-                        }
-                        else
-                        {
-                            Toast.makeText(ctx, RestAPI.LOGIN_ERROR, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    Log.d(TAG, "onResponse: " + response);
                 }
-            },
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
+                else
                 {
-
+                    Toast.makeText(ctx, RestAPI.LOGIN_ERROR, Toast.LENGTH_LONG).show();
                 }
             }
-        )
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            Log.d(TAG, "onResponse: " + response);
+        }, error -> {
+
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -168,56 +142,43 @@ public class LoginService
 
     public void GetUserInfo(final GetUserInfoDTO dto, final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, GET_USER_INFO,
-            new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, GET_USER_INFO, response -> {
+            try
             {
-                @Override
-                public void onResponse(String response)
+                JSONObject jsonObject = new JSONObject(response);
+                int userId = 0;
+                String userFirstName = "";
+                String userBirthday = "";
+                String userPassword = "";
+                String userEmail = "";
+                String userGender = "";
+                JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+                for (int i = 0; i < jsonArray.length(); i++)
                 {
-                    try
-                    {
-                        JSONObject jsonObject = new JSONObject(response);
-                        int userId = 0;
-                        String userFirstName = "";
-                        String userBirthday = "";
-                        String userPassword = "";
-                        String userEmail = "";
-                        String userGender = "";
-                        JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                        for (int i = 0; i < jsonArray.length(); i++)
-                        {
-                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                            userId = jsonObject1.getInt("user_id");
-                            userFirstName = jsonObject1.getString("name");
-                            userBirthday = jsonObject1.getString("birthday");
-                            userPassword = jsonObject1.getString("password");
-                            userEmail = jsonObject1.getString("email");
-                            userGender = jsonObject1.getString("male");
-
-                        }
-                        SaveSharedPreference.setUserID(ctx, userId);
-                        SaveSharedPreference.setUserFirstName(ctx, userFirstName);
-                        SaveSharedPreference.setUserBirthday(ctx, userBirthday);
-                        SaveSharedPreference.setUserPassword(ctx, userPassword);
-                        SaveSharedPreference.setUserEmail(ctx, userEmail);
-                        SaveSharedPreference.setUserGender(ctx, userGender);
-
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            },
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
+                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                    userId = jsonObject1.getInt("user_id");
+                    userFirstName = jsonObject1.getString("name");
+                    userBirthday = jsonObject1.getString("birthday");
+                    userPassword = jsonObject1.getString("password");
+                    userEmail = jsonObject1.getString("email");
+                    userGender = jsonObject1.getString("male");
 
                 }
+                SaveSharedPreference.setUserID(ctx, userId);
+                SaveSharedPreference.setUserFirstName(ctx, userFirstName);
+                SaveSharedPreference.setUserBirthday(ctx, userBirthday);
+                SaveSharedPreference.setUserPassword(ctx, userPassword);
+                SaveSharedPreference.setUserEmail(ctx, userEmail);
+                SaveSharedPreference.setUserGender(ctx, userGender);
+
             }
-        )
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }, error -> {
+
+            })
         {
             @Override
             protected Map<String, String> getParams()
@@ -234,45 +195,32 @@ public class LoginService
 
     public void GraphKcalJson(final UserLoginNormalDTO dto, final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, LOGIN_REQUEST,
-            new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, LOGIN_REQUEST, response -> {
+            try
             {
-                @Override
-                public void onResponse(String response)
+                JSONObject jsonObject = new JSONObject(response);
+                boolean success = jsonObject.getBoolean("success");
+                if (success)
                 {
-                    try
-                    {
-                        JSONObject jsonObject = new JSONObject(response);
-                        boolean success = jsonObject.getBoolean("success");
-                        if (success)
-                        {
-                            Intent intent = new Intent(ctx, MainActivity.class);
-                            SaveSharedPreference.setUserName(ctx, dto.userName);
-                            SaveSharedPreference.setDefLogin(ctx, true);
-                            ctx.startActivity(intent);
-                            ((LoginActivity) ctx).finish();
-                        }
-                        else
-                        {
-                            Toast.makeText(ctx, RestAPI.LOGIN_ERROR, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    Log.d(TAG, "onResponse: " + response);
+                    Intent intent = new Intent(ctx, MainActivity.class);
+                    SaveSharedPreference.setUserName(ctx, dto.userName);
+                    SaveSharedPreference.setDefLogin(ctx, true);
+                    ctx.startActivity(intent);
+                    ((LoginActivity) ctx).finish();
                 }
-            },
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
+                else
                 {
-
+                    Toast.makeText(ctx, RestAPI.LOGIN_ERROR, Toast.LENGTH_LONG).show();
                 }
             }
-        )
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            Log.d(TAG, "onResponse: " + response);
+        }, error -> {
+
+        })
         {
             @Override
             protected Map<String, String> getParams()

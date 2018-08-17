@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         list.clear();
         MainDTO dto = new MainDTO();
-        dto.userID = String.valueOf(SaveSharedPreference.getUserID(MainActivity.this));
+        dto.userID = SaveSharedPreference.getUserID(MainActivity.this);
         dto.date = Configuration.getDate();
 
         loadAsynchTask(dto, MainActivity.this);

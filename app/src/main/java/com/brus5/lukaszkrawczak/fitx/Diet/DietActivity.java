@@ -264,7 +264,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
                 {
                     DietDTO dto1 = new DietDTO();
                     dto1.userID              = SaveSharedPreference.getUserID(DietActivity.this);
-                    dto1.updateKcalResult    = String.format(Locale.getDefault(),"%.1f",countCalories);
+                    dto1.updateKcalResult    = (int) countCalories;
                     dto1.dateToday           = dateFormat;
 
                     DietService dietService = new DietService();
@@ -311,7 +311,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
             TextView productTimeStamp   = view.findViewById(R.id.dietTimeStamp);
 
             Intent intent = new Intent(DietActivity.this, DietProductShowActivity.class);
-            intent.putExtra("productID",        productId.getText().toString());
+            intent.putExtra("productID",        Integer.valueOf(productId.getText().toString()));
             intent.putExtra("dateFormat",       dateFormat);
             intent.putExtra("productWeight",    Double.valueOf(productWeight.getText().toString()));
             intent.putExtra("productTimeStamp", productTimeStamp.getText().toString());

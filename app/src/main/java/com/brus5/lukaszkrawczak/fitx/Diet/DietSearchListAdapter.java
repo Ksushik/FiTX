@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.Diet;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -59,15 +60,12 @@ public class DietSearchListAdapter extends ArrayAdapter<DietSearch>
 
         dietMealKcal.setText(replaceCommaWithDotNoFloatingPoint(kcal));
 
-        ArrayList arrayList = new ArrayList();
-        arrayList.add(kcal);
 
         if (verified == 0)
         {
             imageViewSearchProductVerified.setVisibility(View.INVISIBLE);
         }
 
-        Log.i(TAG, "getView: ArrayList " + arrayList);
 
         return convertView;
     }
@@ -77,24 +75,3 @@ public class DietSearchListAdapter extends ArrayAdapter<DietSearch>
         return String.format(Locale.getDefault(),"%.0f", value).replace(",", ".");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

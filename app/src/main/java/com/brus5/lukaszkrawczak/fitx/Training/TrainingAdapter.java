@@ -36,7 +36,6 @@ public class TrainingAdapter extends ArrayAdapter<Training>
         mResource = resource;
     }
 
-    @SuppressLint("ViewHolder")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)

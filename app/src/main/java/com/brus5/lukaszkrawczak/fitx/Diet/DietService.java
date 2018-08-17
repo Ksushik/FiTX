@@ -31,7 +31,7 @@ public class DietService implements DietAsynchServiceDTO
             {
                 HashMap<String, String> params = new HashMap<>();
                 params.put(RestAPI.DB_USER_ID,          String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_UPDATE_RESULT,    dto.updateKcalResult);
+                params.put(RestAPI.DB_UPDATE_RESULT,    String.valueOf(dto.updateKcalResult));
                 params.put(RestAPI.DB_DATE,             dto.dateToday);
                 Log.e(TAG, "getParams: " + params);
                 return params;
@@ -74,10 +74,10 @@ public class DietService implements DietAsynchServiceDTO
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USER_DIET_ID,                 dto.productID);
+                params.put(RestAPI.DB_USER_DIET_ID,                 String.valueOf(dto.productID));
                 params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,       String.valueOf(dto.userID));
-                params.put(RestAPI.DB_PRODUCT_DIET_WEIGHT_UPDATE,   dto.updateProductWeight);
-                params.put(RestAPI.DB_USER_DIET_DATE,               dto.productTimeStamp);
+                params.put(RestAPI.DB_PRODUCT_DIET_WEIGHT_UPDATE,   String.valueOf(dto.updateProductWeight));
+                params.put(RestAPI.DB_USER_DIET_DATE,               String.valueOf(dto.productTimeStamp));
                 return params;
             }
         };
@@ -97,10 +97,10 @@ public class DietService implements DietAsynchServiceDTO
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USER_DIET_ID,             dto.productID);
+                params.put(RestAPI.DB_USER_DIET_ID,             String.valueOf(dto.productID));
                 params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_PRODUCT_WEIGHT,           dto.productWeight);
-                params.put(RestAPI.DB_USER_DIET_DATE,           dto.productTimeStamp);
+                params.put(RestAPI.DB_PRODUCT_WEIGHT,           String.valueOf(dto.productWeight));
+                params.put(RestAPI.DB_USER_DIET_DATE,           String.valueOf(dto.productTimeStamp));
                 return params;
             }
         };
@@ -120,10 +120,10 @@ public class DietService implements DietAsynchServiceDTO
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USER_DIET_ID,             dto.productID);
-                params.put(RestAPI.DB_USER_WEIGHT,              dto.updateProductWeight);
+                params.put(RestAPI.DB_USER_DIET_ID,             String.valueOf(dto.productID));
+                params.put(RestAPI.DB_USER_WEIGHT,              String.valueOf(dto.updateProductWeight));
                 params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_USER_DIET_DATE,           dto.productTimeStamp);
+                params.put(RestAPI.DB_USER_DIET_DATE,           String.valueOf(dto.productTimeStamp));
                 return params;
             }
         };

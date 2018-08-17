@@ -4,13 +4,15 @@ public class DietDTO
 {
     public int userID;
     public String userName;
+
     public String dateToday;
-    public String updateKcalResult;
-    public String productID;
-    public String updateProductWeight;
     public String productTimeStamp;
-    public String productWeight;
+
     public String productName;
+    public int updateKcalResult;
+    public int productID;
+    public int updateProductWeight;
+    public int productWeight;
 
     public DietDTO()
     {
@@ -44,14 +46,14 @@ public class DietDTO
             builder.append('\'');
             builder.append("\n");
         }
-        if (updateKcalResult != null)
+        if (updateKcalResult != 0)
         {
             builder.append("updateKcalResult='");
             builder.append(updateKcalResult);
             builder.append('\'');
             builder.append("\n");
         }
-        if (updateProductWeight != null)
+        if (updateProductWeight != 0)
         {
             builder.append("updateProductWeight='");
             builder.append(updateProductWeight);
@@ -65,7 +67,7 @@ public class DietDTO
             builder.append('\'');
             builder.append("\n");
         }
-        if (productWeight != null)
+        if (productWeight != 0)
         {
             builder.append("productWeight='");
             builder.append(productWeight);

@@ -407,12 +407,12 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     private TrainingDTO saveDTO()
     {
         TrainingDTO dto = new TrainingDTO();
-        dto.setTrainingID(String.valueOf(trainingID));
-        dto.setTrainingDone(String.valueOf(setOnCheckedChangeListener()));
-        dto.setUserID(String.valueOf(SaveSharedPreference.getUserID(CardioDetailsActivity.this)));
+        dto.setTrainingID(trainingID);
+        dto.setTrainingDone(setOnCheckedChangeListener());
+        dto.setUserID(SaveSharedPreference.getUserID(CardioDetailsActivity.this));
         dto.setTrainingNotepad(etNotepad.getText().toString());
         dto.setTrainingTimeStamp(newTimeStamp);
-        dto.setTrainingTime(String.valueOf(timer.START_TIME_IN_MILLIS / 1000 / 60));
+        dto.setTrainingTime(timer.START_TIME_IN_MILLIS / 1000 / 60);
 
         Log.i(TAG, "saveDTO: " + dto.toString());
 

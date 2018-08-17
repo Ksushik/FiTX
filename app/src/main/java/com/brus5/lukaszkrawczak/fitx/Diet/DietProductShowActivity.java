@@ -52,7 +52,8 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     private ImageView imgProduct, imgVerified;
     private TextView tvName, tvProteins, tvFats, tvCarbs, tvCalories, tvFatsSaturated, tvFatsUnsaturated, tvCarbsFiber, tvCarbsSugars;
     private EditText etWeight;
-    private String productID, productTimeStamp, previousActivity, dateFormat, newTimeStamp;
+    private int productID;
+    private String productTimeStamp, previousActivity, dateFormat, newTimeStamp;
     private Spinner spinner;
     private Button btAccept, btDelete;
     private ProgressBar progrssBar;
@@ -109,7 +110,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     {
         Intent intent = getIntent();
         dateFormat = intent.getStringExtra("dateFormat");
-        productID = intent.getStringExtra("productID");
+        productID = intent.getIntExtra("productID",-1);
         productTimeStamp = intent.getStringExtra("productTimeStamp");
         productTimeStamp = timeStampChanger(productTimeStamp);
         productWeight = intent.getDoubleExtra("productWeight", 50);
@@ -221,7 +222,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_PRODUCT_ID, productID);
+                params.put(RestAPI.DB_PRODUCT_ID, String.valueOf(productID));
                 return params;
             }
         };
@@ -390,7 +391,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     DietDTO dto = new DietDTO();
                     dto.productID = productID;
                     dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
-                    dto.productWeight = getProductWeightPerItems();
+                    dto.productWeight = Integer.valueOf(getProductWeightPerItems());
                     dto.productTimeStamp = newTimeStamp;
 
                     Log.i(TAG, "onClick: " + dto.toString());
@@ -406,7 +407,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     DietDTO dto = new DietDTO();
                     dto.productID = productID;
                     dto.userID = SaveSharedPreference.getUserID(DietProductShowActivity.this);
-                    dto.updateProductWeight = getProductWeightPerItems();
+                    dto.updateProductWeight = Integer.valueOf(getProductWeightPerItems());
                     dto.productTimeStamp = newTimeStamp;
 
                     Log.i(TAG, "onClick: " + dto.toString());
@@ -421,7 +422,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                 DietDTO dto1 = new DietDTO();
                 dto1.productID = productID;
                 dto1.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
-                dto1.updateProductWeight = getProductWeightPerItems();
+                dto1.updateProductWeight = Integer.valueOf(getProductWeightPerItems());
                 dto1.productTimeStamp = newTimeStamp;
 
                 Log.i(TAG, "onClick: " + dto1.toString());

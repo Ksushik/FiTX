@@ -2,49 +2,50 @@ package com.brus5.lukaszkrawczak.fitx.DTO;
 
 public class TrainingDTO
 {
-    private String trainingID;
-    private String trainingDone;
-    private String trainingRestTime;
+    private int trainingID;
+    private int trainingDone;
+    private long trainingTime;
+
+    private long trainingRestTime;
     private String trainingReps;
     private String trainingWeight;
-    private String userName;
-    private String userID;
     private String trainingTimeStamp;
     private String trainingNotepad;
     private String trainingDate;
-    private String trainingTime;
 
-
+    private String userName;
+    private int userID;
 
 
     public TrainingDTO() {}
 
-    public String getTrainingID()
+
+    public int getTrainingID()
     {
         return trainingID;
     }
 
-    public void setTrainingID(String trainingID)
+    public void setTrainingID(int trainingID)
     {
         this.trainingID = trainingID;
     }
 
-    public String getTrainingDone()
+    public int getTrainingDone()
     {
         return trainingDone;
     }
 
-    public void setTrainingDone(String trainingDone)
+    public void setTrainingDone(int trainingDone)
     {
         this.trainingDone = trainingDone;
     }
 
-    public String getTrainingRestTime()
+    public long getTrainingRestTime()
     {
         return trainingRestTime;
     }
 
-    public void setTrainingRestTime(String trainingRestTime)
+    public void setTrainingRestTime(long trainingRestTime)
     {
         this.trainingRestTime = trainingRestTime;
     }
@@ -79,7 +80,7 @@ public class TrainingDTO
         this.userName = userName;
     }
 
-    public void setUserID(String userID)
+    public void setUserID(int userID)
     {
         this.userID = userID;
     }
@@ -114,16 +115,15 @@ public class TrainingDTO
         this.trainingDate = trainingDate;
     }
 
-    public String getTrainingTime()
+    public long getTrainingTime()
     {
         return trainingTime;
     }
 
-    public void setTrainingTime(String trainingTime)
+    public void setTrainingTime(long trainingTime)
     {
         this.trainingTime = trainingTime;
     }
-
 
     @Override
     public String toString()
@@ -132,21 +132,21 @@ public class TrainingDTO
         builder.append("\n");
         builder.append("{");
         builder.append("\n");
-        if (trainingID != null)
+        if (trainingID != 0)
         {
             builder.append("trainingID='");
             builder.append(trainingID);
             builder.append('\'');
             builder.append("\n");
         }
-        if (trainingDone != null)
+        if (trainingDone != 0)
         {
             builder.append("trainingDone='");
             builder.append(trainingDone);
             builder.append('\'');
             builder.append("\n");
         }
-        if (trainingRestTime != null)
+        if (trainingRestTime != 0)
         {
             builder.append("trainingRestTime='");
             builder.append(trainingRestTime);
@@ -174,7 +174,7 @@ public class TrainingDTO
             builder.append('\'');
             builder.append("\n");
         }
-        if (userID != null)
+        if (userID != 0)
         {
             builder.append("userID='");
             builder.append(userID);
@@ -202,7 +202,7 @@ public class TrainingDTO
             builder.append('\'');
             builder.append("\n");
         }
-        if (trainingTime != null)
+        if (trainingTime != 0)
         {
             builder.append("trainingTime='");
             builder.append(trainingTime);

@@ -14,17 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginNormalDTO;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginRegisterFacebookDTO;
-
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
@@ -36,17 +33,15 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-
-import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import static com.facebook.Profile.getCurrentProfile;
 
+@SuppressWarnings("ALL")
 public class LoginActivity extends AppCompatActivity implements DefaultView
 {
     private static final String TAG = "LoginActivity";
@@ -94,26 +89,21 @@ public class LoginActivity extends AppCompatActivity implements DefaultView
     {
         if (SaveSharedPreference.getUserName(LoginActivity.this).length() == 0)
         {
-            btLogin.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
+            btLogin.setOnClickListener(view -> {
 
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-                    setUserName(etLogin.getText().toString());
-                    setUserPassword(etPassword.getText().toString());
+                setUserName(etLogin.getText().toString());
+                setUserPassword(etPassword.getText().toString());
 
-                    UserLoginNormalDTO dto = new UserLoginNormalDTO();
-                    dto.userName = getUserName();
-                    dto.userPassword = getUserPassword();
+                UserLoginNormalDTO dto = new UserLoginNormalDTO();
+                dto.userName = getUserName();
+                dto.userPassword = getUserPassword();
 
-                    LoginService loginService = new LoginService();
-                    loginService.LoginNormal(dto, LoginActivity.this);
+                LoginService loginService = new LoginService();
+                loginService.LoginNormal(dto, LoginActivity.this);
 
-                }
             });
         }
         else
@@ -124,14 +114,7 @@ public class LoginActivity extends AppCompatActivity implements DefaultView
 
     private void userButtonRegister()
     {
-        btRegister.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                runNextActivity(LoginActivity.this, null, false);
-            }
-        });
+        btRegister.setOnClickListener(view -> runNextActivity(LoginActivity.this, null, false));
     }
 
     private void userButtonFacebookLogin()
@@ -181,67 +164,62 @@ public class LoginActivity extends AppCompatActivity implements DefaultView
                 Log.e(TAG, "Login success \n" + loginResult.getAccessToken().getUserId() + "\n" + loginResult.getAccessToken().getToken());
 
                 GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback()
-                        {
-                            @Override
-                            public void onCompleted(JSONObject me, GraphResponse response)
+                        loginResult.getAccessToken(), (me, response) -> {
+
+                            if (response.getError() != null)
                             {
+                                // handle error
+                            }
+                            else
+                            {
+                                String lastName = me.optString("last_name");
+                                String firstName = me.optString("first_name");
+                                String email = response.getJSONObject().optString("email");
+                                String birthday = me.optString("birthday");
+                                String gender = me.optString("gender");
+                                String location = me.optString("location");
 
-                                if (response.getError() != null)
+                                if (gender.equals("male"))
                                 {
-                                    // handle error
+                                    gender = "m";
                                 }
-                                else
+                                else if (gender.equals("female"))
                                 {
-                                    String lastName = me.optString("last_name");
-                                    String firstName = me.optString("first_name");
-                                    String email = response.getJSONObject().optString("email");
-                                    String birthday = me.optString("birthday");
-                                    String gender = me.optString("gender");
-                                    String location = me.optString("location");
-
-                                    if (gender.equals("male"))
-                                    {
-                                        gender = "m";
-                                    }
-                                    else if (gender.equals("female"))
-                                    {
-                                        gender = "w";
-                                    }
-
-                                    // constricting my new data type from 09/04/1989 to convertedBirthday: 04.09.1989
-                                    String mDay = birthday.substring(3, 5);
-                                    String mMonth = birthday.substring(0, 2);
-                                    String mYear = birthday.substring(6, 10);
-
-                                    String convertedBirthday = mDay + "." + mMonth + "." + mYear;
-
-                                    UserLoginRegisterFacebookDTO registerFacebookDTO = new UserLoginRegisterFacebookDTO();
-                                    registerFacebookDTO.userName = loginResult.getAccessToken().getUserId();
-                                    registerFacebookDTO.userFirstName = firstName;
-                                    registerFacebookDTO.userBirthday = convertedBirthday;
-                                    registerFacebookDTO.userPassword = "123";
-                                    registerFacebookDTO.userGender = gender;
-                                    registerFacebookDTO.userEmail = email;
-
-                                    // do not pass DB_USERNAME from Facebook to SaveSharedPreference class
-                                    SaveSharedPreference.setUserFirstName(LoginActivity.this, registerFacebookDTO.userFirstName);
-                                    SaveSharedPreference.setUserBirthday(LoginActivity.this, registerFacebookDTO.userBirthday);
-                                    SaveSharedPreference.setUserGender(LoginActivity.this, registerFacebookDTO.userGender);
-                                    SaveSharedPreference.setUserEmail(LoginActivity.this, registerFacebookDTO.userEmail);
-
-                                    LoginService loginService = new LoginService();
-                                    loginService.LoginWithFacebook(registerFacebookDTO, LoginActivity.this);
-
-                                    Log.d(TAG, "convertedBirthday: " + convertedBirthday);
-                                    Log.d(TAG, "user_email: " + email);
-                                    Log.d(TAG, "user_lastname: " + lastName);
-                                    Log.d(TAG, "user_firstname: " + firstName);
-                                    Log.d(TAG, "birthday: " + birthday);
-                                    Log.d(TAG, "gender: " + gender);
-                                    Log.d(TAG, "location: " + location);
-                                    Log.d(TAG, "gender: " + gender);
+                                    gender = "w";
                                 }
+
+                                // constricting my new data type from 09/04/1989 to convertedBirthday: 04.09.1989
+                                String mDay = birthday.substring(3, 5);
+                                String mMonth = birthday.substring(0, 2);
+                                String mYear = birthday.substring(6, 10);
+
+                                String convertedBirthday = mDay + "." + mMonth + "." + mYear;
+
+                                UserLoginRegisterFacebookDTO registerFacebookDTO = new UserLoginRegisterFacebookDTO();
+                                registerFacebookDTO.userName = loginResult.getAccessToken().getUserId();
+                                registerFacebookDTO.userFirstName = firstName;
+                                registerFacebookDTO.userBirthday = convertedBirthday;
+                                registerFacebookDTO.userPassword = "123";
+                                registerFacebookDTO.userGender = gender;
+                                registerFacebookDTO.userEmail = email;
+
+                                // do not pass DB_USERNAME from Facebook to SaveSharedPreference class
+                                SaveSharedPreference.setUserFirstName(LoginActivity.this, registerFacebookDTO.userFirstName);
+                                SaveSharedPreference.setUserBirthday(LoginActivity.this, registerFacebookDTO.userBirthday);
+                                SaveSharedPreference.setUserGender(LoginActivity.this, registerFacebookDTO.userGender);
+                                SaveSharedPreference.setUserEmail(LoginActivity.this, registerFacebookDTO.userEmail);
+
+                                LoginService loginService = new LoginService();
+                                loginService.LoginWithFacebook(registerFacebookDTO, LoginActivity.this);
+
+                                Log.d(TAG, "convertedBirthday: " + convertedBirthday);
+                                Log.d(TAG, "user_email: " + email);
+                                Log.d(TAG, "user_lastname: " + lastName);
+                                Log.d(TAG, "user_firstname: " + firstName);
+                                Log.d(TAG, "birthday: " + birthday);
+                                Log.d(TAG, "gender: " + gender);
+                                Log.d(TAG, "location: " + location);
+                                Log.d(TAG, "gender: " + gender);
                             }
                         });
                 // pushing parameters from facebook

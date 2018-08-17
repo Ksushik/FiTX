@@ -140,12 +140,12 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         Log.i(TAG, "onClick: " + "\nisValid: " + inflater.isValid() + inflater.printResult());
 
         TrainingDTO dto = new TrainingDTO();
-        dto.setTrainingID(String.valueOf(trainingID));
-        dto.setTrainingDone(String.valueOf(setOnCheckedChangeListener()));
-        dto.setTrainingRestTime(String.valueOf(timer.START_TIME_IN_MILLIS));
+        dto.setTrainingID(trainingID);
+        dto.setTrainingDone(setOnCheckedChangeListener());
+        dto.setTrainingRestTime(timer.START_TIME_IN_MILLIS);
         dto.setTrainingReps(inflater.getReps());
         dto.setTrainingWeight(inflater.getWeight());
-        dto.setUserID(String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
+        dto.setUserID(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
         dto.setTrainingNotepad(etNotepad.getText().toString());
         dto.setTrainingTimeStamp(newTimeStamp);
 
@@ -157,8 +157,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private TrainingDTO deleteDto()
     {
         TrainingDTO dto = new TrainingDTO();
-        dto.setTrainingID(String.valueOf(trainingID));
-        dto.setUserID(String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
+        dto.setTrainingID(trainingID);
+        dto.setUserID(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
         dto.setTrainingTimeStamp(getTimeStamp());
 
         Log.i(TAG, "deleteDto: " + dto.toString());

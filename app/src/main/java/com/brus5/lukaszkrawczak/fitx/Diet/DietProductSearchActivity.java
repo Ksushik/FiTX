@@ -183,11 +183,10 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
         listView.setOnItemClickListener((parent, view, position, id) -> {
             TextView productId = view.findViewById(R.id.dietMealSearchID);
             Intent intent = new Intent(DietProductSearchActivity.this, DietProductShowActivity.class);
-            intent.putExtra("productID", productId.getText().toString());
-            intent.putExtra("previousActivity", "DietProductSearchActivity");
+            intent.putExtra("productID", Integer.valueOf(productId.getText().toString()));
+            intent.putExtra("previousActivity", this.getClass().getSimpleName());
             intent.putExtra("dateFormat", dateFormat);
             startActivity(intent);
-
         });
     }
 }

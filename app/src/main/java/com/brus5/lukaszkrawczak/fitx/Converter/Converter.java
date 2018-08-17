@@ -30,7 +30,6 @@ abstract class Converter
         builder.append(dateToday);
         builder.append("\n");
         builder.append("oldTimeStamp: ");
-        builder.append("\n");
         builder.append(oldTimeStamp);
         Log.i(TAG, "Converter: " + builder);
     }
