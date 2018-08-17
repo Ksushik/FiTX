@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
@@ -43,12 +44,14 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
     private DietSearchListAdapter adapter;
     private ArrayList<DietSearch> arrayList = new ArrayList<>();
     private DietDTO dto = new DietDTO();
+    private Configuration cfg = new Configuration();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet_2_search_product);
-        changeStatusBarColor();
+        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarDietSearchActivity,this);
         onBackButtonPressed();
         loadInput();
         searchProduct();
@@ -65,16 +68,6 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
     {
         etSearch = findViewById(R.id.editTextSearchProduct);
         listView = findViewById(R.id.listViewShowProducts);
-    }
-
-    public void changeStatusBarColor()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(DietProductSearchActivity.this, R.color.colorPrimaryDark));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarDietSearchActivity);
-        setSupportActionBar(toolbar);
     }
 
     private void onBackButtonPressed()

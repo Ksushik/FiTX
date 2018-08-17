@@ -2,11 +2,8 @@ package com.brus5.lukaszkrawczak.fitx.Training;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
@@ -33,6 +31,7 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
     private TrainingSearchListAdapter adapter;
     private ListView listView;
     private String dateFormat;
+    private Configuration cfg = new Configuration();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,7 +39,7 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardio_3_listview);
         loadInput();
-        changeStatusBarColor();
+        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarCardioList,this);
         onBackButtonPressed();
         getIntentFromPreviousActiity();
         asynchTask(CardioListActivity.this);
@@ -56,16 +55,6 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
     public void loadInput()
     {
         listView = findViewById(R.id.listViewTraining);
-    }
-
-    public void changeStatusBarColor()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(CardioListActivity.this, R.color.colorPrimaryDark));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarCardioList);
-        setSupportActionBar(toolbar);
     }
 
     private void onBackButtonPressed()

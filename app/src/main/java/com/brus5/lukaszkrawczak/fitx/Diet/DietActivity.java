@@ -64,7 +64,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet_1);
-        changeStatusBarColor();
+        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarDietActivity,this);
         onBackButtonPressed();
         loadInput();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
@@ -404,16 +404,6 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
         return String.format(Locale.getDefault(),"%.0f",value).replace(",",".");
     }
 
-    public void changeStatusBarColor()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(DietActivity.this, R.color.colorPrimaryDark));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarDietActivity);
-        setSupportActionBar(toolbar);
-    }
-
     public double getMaxCalories()
     {
         return maxCalories;
@@ -465,4 +455,5 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        changeStatusBarColor();
+        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarMainActivity,this);
         loadInput();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
         main = new Main();
@@ -89,16 +89,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dto.date = Configuration.getDate();
 
         loadAsynchTask(dto, MainActivity.this);
-    }
-
-    public void changeStatusBarColor()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimaryDark));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarMainActivity);
-        setSupportActionBar(toolbar);
     }
 
     public void loadInput()
@@ -278,6 +268,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 runNextActivity(MainActivity.this, StatsActivity.class);
                 break;
             case R.id.buttonSettings:
+                runNextActivity(MainActivity.this, SettingsActiviy.class);
                 break;
         }
     }

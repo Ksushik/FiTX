@@ -17,6 +17,7 @@ import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
+import com.brus5.lukaszkrawczak.fitx.SettingsActiviy;
 
 public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
@@ -32,12 +33,14 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
 
     private String dateFormat;
 
+    private Configuration cfg = new Configuration();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_2_muscle_choose);
-        changeStatusBarColor();
+        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarTrainingSearchExercises,this);
         loadInput();
         onBackButtonPressed();
         button();
@@ -145,16 +148,6 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
 
         btCardio = findViewById(R.id.buttonCardio);
         btCardio.setOnClickListener(this);
-    }
-
-    public void changeStatusBarColor()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingSearchActivity.this, R.color.colorPrimaryDark));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarTrainingSearchExercises);
-        setSupportActionBar(toolbar);
     }
 
     private void onBackButtonPressed()

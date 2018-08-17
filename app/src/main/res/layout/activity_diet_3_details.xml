@@ -423,26 +423,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/editTextWeight"
             app:layout_constraintStart_toStartOf="@+id/editTextWeight" />
 
-        <Button
-            android:id="@+id/buttonAccept"
-            style="@style/ButtonAcceptGreen"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/accept"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
-
-        <Button
-            android:id="@+id/buttonDelete"
-            style="@style/ButtonDeleteRed"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/delete"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
-
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"

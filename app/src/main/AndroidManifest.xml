@@ -77,14 +77,19 @@
             android:label="@string/fitx"
             android:parentActivityName=".Training.TrainingSearchActivity"
             android:theme="@style/FiTX3theme.noBar" />
-        <activity android:name=".Training.CardioDetailsActivity"
-            android:parentActivityName=".Training.TrainingActivity"
+        <activity
+            android:name=".Training.CardioDetailsActivity"
             android:label="@string/fitx"
-            android:theme="@style/FiTX3theme.noBar"
-            />
-        <activity android:name=".Training.CardioListActivity"
             android:parentActivityName=".Training.TrainingActivity"
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity
+            android:name=".Training.CardioListActivity"
             android:label="@string/fitx"
+            android:parentActivityName=".Training.TrainingActivity"
+            android:theme="@style/FiTX3theme.noBar" />
+        <activity android:name=".SettingsActiviy"
+            android:label="@string/fitx"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/FiTX3theme.noBar"
             />
     </application>

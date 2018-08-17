@@ -11,9 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -30,10 +31,12 @@ import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.Converter.WeightConverter;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
+import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
+import com.brus5.lukaszkrawczak.fitx.Training.TrainingDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -43,10 +46,11 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-public class DietProductShowActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, DefaultView, AsynchTask
+public class DietProductShowActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DefaultView, AsynchTask
 {
     private static final String TAG = "DietProductShowActivity";
     private ImageView imgProduct, imgVerified;
@@ -55,11 +59,12 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     private int productID;
     private String productTimeStamp, previousActivity, dateFormat, newTimeStamp;
     private Spinner spinner;
-    private Button btAccept, btDelete;
     private ProgressBar progrssBar;
-    private Configuration cfg;
+    private Configuration cfg = new Configuration();
+
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
 
     private double proteins = 0d;
     private double fats = 0d;
@@ -78,7 +83,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet_3_details);
-        changeStatusBarColor();
+        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarDietProductShowActivity,this);
         onBackButtonPressed();
         loadInput();
         getIntentFromPreviousActiity();
@@ -89,21 +94,88 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
         etWeight.setText(String.valueOf(productWeight));
         setWeight(false);
-        hideDeleteButtonIfActivityIsDifferent();
-        cfg = new Configuration();
     }
 
-    private void hideDeleteButtonIfActivityIsDifferent()
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
     {
-        if (previousActivity.equals("DietProductSearchActivity"))
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_diet_4_details, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_delete_product);
+        if (previousActivity.equals( DietActivity.class.getSimpleName() ))
         {
-            btDelete.setVisibility(View.INVISIBLE);
+            item.setVisible(true);
         }
         else
         {
-            btDelete.setVisibility(View.VISIBLE);
+            item.setVisible(false);
         }
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.menu_save_product:
+                if (previousActivity.equals( DietActivity.class.getSimpleName() ) )
+                {
+                    Toast.makeText(this, R.string.product_updated, Toast.LENGTH_SHORT).show();
+
+                    Log.e(TAG, "onClick: " + getProductWeightPerItems());
+                    DietDTO updateDTO = new DietDTO();
+                    updateDTO.productID = productID;
+                    updateDTO.userID = SaveSharedPreference.getUserID(DietProductShowActivity.this);
+                    updateDTO.updateProductWeight = Integer.valueOf(getProductWeightPerItems());
+                    updateDTO.productTimeStamp = newTimeStamp;
+
+                    Log.i(TAG, "onClick: " + updateDTO.toString());
+
+                    DietService service = new DietService();
+                    service.updateProductWeight(updateDTO, DietProductShowActivity.this);
+                    finish();
+                }
+
+                else if (previousActivity.equals( DietProductSearchActivity.class.getSimpleName() ) )
+                {
+                    Toast.makeText(this, R.string.product_inserted, Toast.LENGTH_SHORT).show();
+
+                    Log.e(TAG, "onClick: " + getProductWeightPerItems());
+
+                    DietDTO insertDTO = new DietDTO();
+                    insertDTO.productID = productID;
+                    insertDTO.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
+                    insertDTO.productWeight = Integer.valueOf(getProductWeightPerItems());
+                    insertDTO.productTimeStamp = newTimeStamp;
+
+                    Log.i(TAG, "onClick: " + insertDTO.toString());
+
+
+                    DietService service = new DietService();
+                    service.insert(insertDTO, DietProductShowActivity.this);
+                    finish();
+                }
+                break;
+
+            case R.id.menu_delete_product:
+                Toast.makeText(this, R.string.product_deleted, Toast.LENGTH_SHORT).show();
+
+                DietDTO deleteDTO = new DietDTO();
+                deleteDTO.productID = productID;
+                deleteDTO.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
+                deleteDTO.updateProductWeight = Integer.valueOf(getProductWeightPerItems());
+                deleteDTO.productTimeStamp = newTimeStamp;
+
+                Log.i(TAG, "onClick: " + deleteDTO.toString());
+
+                DietService service1 = new DietService();
+                service1.delete(deleteDTO, DietProductShowActivity.this);
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void getIntentFromPreviousActiity()
@@ -150,10 +222,6 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         tvCarbsSugars = findViewById(R.id.textViewCarbsSugars);
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
-        btAccept = findViewById(R.id.buttonAccept);
-        btAccept.setOnClickListener(this);
-        btDelete = findViewById(R.id.buttonDelete);
-        btDelete.setOnClickListener(this);
         progrssBar = findViewById(R.id.progressBar);
     }
 
@@ -350,16 +418,6 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         tvCarbsSugars.setText(s);
     }
 
-    public void changeStatusBarColor()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(DietProductShowActivity.this, R.color.colorPrimaryDark));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarDietProductShowActivity);
-        setSupportActionBar(toolbar);
-    }
-
     private void onBackButtonPressed()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
@@ -373,64 +431,8 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         this.productWeightPerItems = productWeightPerItems;
     }
 
-    @SuppressLint("DefaultLocale")
     private String getProductWeightPerItems()
     {
-        return String.format("%.0f", productWeightPerItems);
-    }
-
-    @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
-            case R.id.buttonAccept:
-                if (previousActivity.equals("DietProductSearchActivity"))
-                {
-                    Log.e(TAG, "onClick: " + getProductWeightPerItems());
-                    DietDTO dto = new DietDTO();
-                    dto.productID = productID;
-                    dto.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
-                    dto.productWeight = Integer.valueOf(getProductWeightPerItems());
-                    dto.productTimeStamp = newTimeStamp;
-
-                    Log.i(TAG, "onClick: " + dto.toString());
-
-
-                    DietService service = new DietService();
-                    service.insert(dto, DietProductShowActivity.this);
-                    finish();
-                }
-                else
-                {
-                    Log.e(TAG, "onClick: " + getProductWeightPerItems());
-                    DietDTO dto = new DietDTO();
-                    dto.productID = productID;
-                    dto.userID = SaveSharedPreference.getUserID(DietProductShowActivity.this);
-                    dto.updateProductWeight = Integer.valueOf(getProductWeightPerItems());
-                    dto.productTimeStamp = newTimeStamp;
-
-                    Log.i(TAG, "onClick: " + dto.toString());
-
-
-                    DietService service = new DietService();
-                    service.updateProductWeight(dto, DietProductShowActivity.this);
-                    finish();
-                }
-                break;
-            case R.id.buttonDelete:
-                DietDTO dto1 = new DietDTO();
-                dto1.productID = productID;
-                dto1.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
-                dto1.updateProductWeight = Integer.valueOf(getProductWeightPerItems());
-                dto1.productTimeStamp = newTimeStamp;
-
-                Log.i(TAG, "onClick: " + dto1.toString());
-
-                DietService service1 = new DietService();
-                service1.delete(dto1, DietProductShowActivity.this);
-                finish();
-                break;
-        }
+        return String.format(Locale.getDefault(),"%.0f", productWeightPerItems);
     }
 }

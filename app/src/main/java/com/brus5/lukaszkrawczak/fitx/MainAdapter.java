@@ -28,8 +28,8 @@ public class MainAdapter extends ArrayAdapter<Main>
     public MainAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Main> objects)
     {
         super(context, resource, objects);
-        mContext = context;
-        mResource = resource;
+        this.mContext = context;
+        this.mResource = resource;
     }
 
 

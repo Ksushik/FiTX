@@ -55,7 +55,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_1);
-        changeStatusBarColor();
+        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarTraining,this);
         onBackButtonPressed();
         loadInput();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
@@ -246,16 +246,6 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
         };
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(strRequest);
-    }
-
-    public void changeStatusBarColor()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingActivity.this, R.color.colorPrimaryDark));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarTraining);
-        setSupportActionBar(toolbar);
     }
 
     @Override

@@ -56,6 +56,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     private CheckBox checkBox;
     private Timer timer;
     private double kcalPerMin;
+    private Configuration cfg = new Configuration();
 
 
     @Override
@@ -63,13 +64,12 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardio_4_details);
-        changeStatusBarColor();
+        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarCardio,this);
         onBackButtonPressed();
         loadInput();
         getIntentFromPreviousActiity();
         String url = RestAPI.URL + "images/cardio/"  + trainingID + ".jpg";
         loadImages(imgTraining, url);
-
         timer = new Timer(this);
         timer.seekBarTimer();
         getPreviousActivity(previousActivity);
@@ -90,6 +90,8 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
             case R.id.menu_save_cardio:
                 if (previousActivity.equals( TrainingActivity.class.getSimpleName() ))
                 {
+                    Toast.makeText(this, R.string.training_updated, Toast.LENGTH_SHORT).show();
+
                     TrainingService updateTraining = new TrainingService();
                     updateTraining.CardioUpdate(saveDTO(),CardioDetailsActivity.this);
                     finish();
@@ -97,6 +99,8 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
 
                 else if (previousActivity.equals( CardioListActivity.class.getSimpleName() ))
                 {
+                    Toast.makeText(this, R.string.training_inserted, Toast.LENGTH_SHORT).show();
+
                     TrainingService acceptService = new TrainingService();
                     acceptService.CardioInsert(saveDTO(), CardioDetailsActivity.this);
                     finish();
@@ -108,6 +112,8 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
                 }
                 break;
             case R.id.menu_delete_cardio:
+                Toast.makeText(this, R.string.training_deleted, Toast.LENGTH_SHORT).show();
+
                 TrainingService deleteService = new TrainingService();
                 deleteService.CaardioDelete(saveDTO(),CardioDetailsActivity.this);
                 finish();
@@ -132,16 +138,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
             item.setVisible(true);
         }
         return super.onCreateOptionsMenu(menu);
-    }
-
-    public void changeStatusBarColor()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(CardioDetailsActivity.this, R.color.colorPrimaryDark));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarCardio);
-        setSupportActionBar(toolbar);
     }
 
     private void onBackButtonPressed()

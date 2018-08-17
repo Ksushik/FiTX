@@ -61,13 +61,15 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
     private Timer timer;
     private CharacterLimit characterLimit;
+    private Configuration cfg = new Configuration();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_4_details);
-        changeStatusBarColor();
+        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarTrainingExerciseShow,this);
         onBackButtonPressed();
         loadInput();
         getIntentFromPreviousActiity();
@@ -100,7 +102,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         return super.onCreateOptionsMenu(menu);
     }
 
-    @SuppressLint("LongLogTag")
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -109,6 +110,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             case R.id.menu_save_exercise:
                 if (previousActivity.equals( TrainingActivity.class.getSimpleName() ) && ( inflater.isValid()) && characterLimit.isLimit() )
                 {
+                    Toast.makeText(this, R.string.training_updated, Toast.LENGTH_SHORT).show();
+
                     TrainingService updateTraining = new TrainingService();
                     updateTraining.TrainingUpdate(saveDTO(), TrainingDetailsActivity.this);
                     finish();
@@ -116,6 +119,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
                 else if (previousActivity.equals( TrainingListActivity.class.getSimpleName() ) && (inflater.isValid()) && characterLimit.isLimit() )
                 {
+                    Toast.makeText(this, R.string.training_inserted, Toast.LENGTH_SHORT).show();
+
                     TrainingService acceptService = new TrainingService();
                     acceptService.TrainingInsert(saveDTO(), TrainingDetailsActivity.this);
                     finish();
@@ -127,6 +132,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 }
                 break;
             case R.id.menu_delete_exercise:
+                Toast.makeText(this, R.string.training_deleted, Toast.LENGTH_SHORT).show();
+
                 TrainingService deleteService = new TrainingService();
                 deleteService.TrainingDelete(deleteDto(), TrainingDetailsActivity.this);
                 finish();
@@ -291,16 +298,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 });
 
 
-    }
-
-    public void changeStatusBarColor()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingDetailsActivity.this, R.color.colorPrimaryDark));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarTrainingExerciseShow);
-        setSupportActionBar(toolbar);
     }
 
     private void onBackButtonPressed()

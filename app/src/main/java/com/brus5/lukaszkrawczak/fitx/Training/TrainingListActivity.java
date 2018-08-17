@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
@@ -36,6 +37,7 @@ public class TrainingListActivity extends AppCompatActivity implements DefaultVi
     private TrainingSearchListAdapter trainingSearchListAdapter;
     private ListView listViewTrainingActivity;
     private String trainingTarget, dateFormat;
+    private Configuration cfg = new Configuration();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,7 +45,7 @@ public class TrainingListActivity extends AppCompatActivity implements DefaultVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_3_listview);
         loadInput();
-        changeStatusBarColor();
+        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarTrainingExcerciseList,this);
         onBackButtonPressed();
         getIntentFromPreviousActiity();
         asynchTask(TrainingListActivity.this);
@@ -64,16 +66,6 @@ public class TrainingListActivity extends AppCompatActivity implements DefaultVi
     public void loadInput()
     {
         listViewTrainingActivity = findViewById(R.id.listViewTraining);
-    }
-
-    public void changeStatusBarColor()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(TrainingListActivity.this, R.color.colorPrimaryDark));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarTrainingExcerciseList);
-        setSupportActionBar(toolbar);
     }
 
     private void onBackButtonPressed()
