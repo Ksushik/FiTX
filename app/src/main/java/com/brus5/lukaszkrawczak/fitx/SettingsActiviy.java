@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -31,17 +32,24 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
         loadInput();
 
         Settings s1 = new Settings();
-        s1.name = "waga";
-        s1.value = "100kg";
+        s1.name = "Waga";
+        s1.value = "100 kg";
+        s1.description = "Waga wyrażona w kilogramach";
         s1.viewType = 1;
+        list.add(s1);
 
         Settings s2 = new Settings();
-        s2.name = "wzrost";
-        s2.value = "180cm";
-        s2.viewType = 2;
-
-        list.add(s1);
+        s2.name = "Wzrost";
+        s2.value = "180 cm";
+        s2.description = "Wzrost wyrażony w centymetrach";
+        s2.viewType = 1;
         list.add(s2);
+
+        Settings s3 = new Settings();
+        s3.name = "Automatyczny limit kalorii";
+        s3.description = "Włącz lub wyłącz auto limit kalorii";
+        s3.viewType = 2;
+        list.add(s3);
 
 
 
@@ -61,6 +69,7 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
     {
         String name;
         String value;
+        String description;
         int viewType;
 
         public String getName()
@@ -71,6 +80,10 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
         public String getValue()
         {
             return value;
+        }
+
+        public String getDescription() {
+            return description;
         }
 
         public int getViewType()
@@ -100,15 +113,41 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
 
             String name = getItem(position).getName();
             String value = getItem(position).getValue();
+            String description = getItem(position).getDescription();
             int viewType = getItem(position).getViewType();
 
-            TextView tvTitle = convertView.findViewById(R.id.searchTitle);
-            TextView tvValue = convertView.findViewById(R.id.textViewSettingsValue);
+            if (viewType == 1)
+            {
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.row_settings, parent, false);
 
-            tvTitle.setText(name);
-            tvValue.setText(value);
+                TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
+                TextView tvValue = convertView.findViewById(R.id.textViewValue);
+                TextView tvDescription = convertView.findViewById(R.id.textViewDescription);
 
-            return convertView;
+                tvTitle.setText(name);
+                tvValue.setText(value);
+                tvDescription.setText(description);
+            }
+
+            if (viewType == 2)
+            {
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.row_settings_switch, parent, false);
+
+                TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
+                TextView tvDescription = convertView.findViewById(R.id.textViewDescription);
+                Switch aSwitch = convertView.findViewById(R.id.switch1);
+
+                tvTitle.setText(name);
+                tvDescription.setText(description);
+
+            }
+
+
+
+
+
+
+                return convertView;
         }
     }
 
