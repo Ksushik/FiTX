@@ -200,7 +200,7 @@
         <Button
             android:id="@+id/buttonAddSeries"
             style="@style/roundButtonWithIcon"
-            android:layout_width="122dp"
+            android:layout_width="135dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="8dp"
             android:background="@drawable/button_confirm"

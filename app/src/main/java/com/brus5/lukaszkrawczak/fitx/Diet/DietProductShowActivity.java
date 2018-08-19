@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -57,6 +58,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     private Spinner spinner;
     private ProgressBar progrssBar;
     private Configuration cfg = new Configuration();
+    private ConstraintLayout constraintLayout;
 
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -206,7 +208,11 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     {
         imgProduct = findViewById(R.id.imageViewProduct);
         imgVerified = findViewById(R.id.imageViewVerified);
+
         etWeight = findViewById(R.id.editTextWeight);
+        etWeight.clearFocus();
+        etWeight.didTouchFocusSelect();
+
         tvName = findViewById(R.id.textViewProductName);
         tvProteins = findViewById(R.id.textViewProteins);
         tvFats = findViewById(R.id.textViewFats);
@@ -216,9 +222,14 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         tvFatsUnsaturated = findViewById(R.id.textViewFatsUnsaturated);
         tvCarbsFiber = findViewById(R.id.textViewCarbsFiber);
         tvCarbsSugars = findViewById(R.id.textViewCarbsSugars);
+
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
+
         progrssBar = findViewById(R.id.progressBar);
+
+        constraintLayout = findViewById(R.id.constraintLayoutDietDetails);
+        constraintLayout.requestFocus();
     }
 
     private void loadImageFromUrl(String url)
@@ -300,16 +311,18 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         switch (position)
         {
             case 0:
-                etWeight.clearFocus();
-                etWeight.setText(String.valueOf(productWeight));
+                etWeight.setText(String.valueOf((int)productWeight));
                 setWeight(false);
                 setProductWeight(productWeight);
+                etWeight.clearFocus();
+                etWeight.didTouchFocusSelect();
                 break;
             case 1:
-                etWeight.clearFocus();
                 etWeight.setText("1");
                 setWeight(true);
                 setProductWeight(100 / multiplier);
+                etWeight.clearFocus();
+                etWeight.didTouchFocusSelect();
                 break;
         }
     }
@@ -339,16 +352,15 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         double fats = Double.valueOf(tvFats.getText().toString());
         double carbs = Double.valueOf(tvCarbs.getText().toString());
 
-        WeightConverter countCalories = new WeightConverter();
+        WeightConverter converter = new WeightConverter();
 
-        tvCalories.setText(countCalories.countCalories(proteins, fats, carbs));
+        tvCalories.setText(converter.countCalories(proteins, fats, carbs));
 
         setProductWeightPerItems(aDouble);
     }
 
     private void setWeight(final boolean item)
     {
-        etWeight.didTouchFocusSelect();
         etWeight.addTextChangedListener(new TextWatcher()
         {
             @Override
