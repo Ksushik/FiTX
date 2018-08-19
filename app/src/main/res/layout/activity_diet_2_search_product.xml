@@ -31,12 +31,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:hint="@string/search"
-        android:inputType="textVisiblePassword"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
 
-        />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <ListView
         android:id="@+id/listViewShowProducts"

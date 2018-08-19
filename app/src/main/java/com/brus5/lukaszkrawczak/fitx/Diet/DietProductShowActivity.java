@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,12 +29,10 @@ import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.Converter.WeightConverter;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
-import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
-import com.brus5.lukaszkrawczak.fitx.Training.TrainingDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -228,7 +224,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     private void loadImageFromUrl(String url)
     {
         Picasso.with(DietProductShowActivity.this).load(url).placeholder(null)
-                .error(R.mipmap.ic_launcher_error)
+                .error(R.drawable.image_no_available)
                 .into(imgProduct, new com.squareup.picasso.Callback()
                 {
                     @Override
@@ -240,7 +236,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     @Override
                     public void onError()
                     {
-                        progrssBar.setVisibility(View.VISIBLE);
+                        progrssBar.setVisibility(View.INVISIBLE);
                         cfg.showError(DietProductShowActivity.this);
                     }
                 });
