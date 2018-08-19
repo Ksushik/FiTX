@@ -1,17 +1,29 @@
 package com.brus5.lukaszkrawczak.fitx;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
+import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
+import com.brus5.lukaszkrawczak.fitx.Diet.DietProductSearchActivity;
+import com.brus5.lukaszkrawczak.fitx.Diet.DietProductShowActivity;
+import com.brus5.lukaszkrawczak.fitx.Diet.DietService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +34,7 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
     private ArrayList<Settings> list = new ArrayList<>();
     private ListView listView;
     private SettingsAdapter adapter;
-    private Settings sett;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -30,6 +42,8 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
         setContentView(R.layout.activity_settings);
         cfg.changeStatusBarColor(SettingsActiviy.this, getApplicationContext(),R.id.toolbarSettingsActivity,this);
         loadInput();
+        onListViewItemSelected();
+        onBackButtonPressed();
 
         Settings s1 = new Settings();
         s1.name = "Waga";
@@ -58,6 +72,21 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
         listView.invalidate();
     }
 
+    private void onBackButtonPressed()
+    {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void onListViewItemSelected() {
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            TextView tvViewType = view.findViewById(R.id.textViewSettingsViewType);
+
+            Intent intent = new Intent(this, SettingsDetailsActivity.class);
+            intent.putExtra("viewType",        Integer.valueOf(tvViewType.getText().toString()));
+            startActivity(intent);
+        });
+    }
+
     @Override
     public void loadInput()
     {
@@ -65,7 +94,7 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
     }
 
 
-    class Settings
+    private class Settings
     {
         String name;
         String value;
@@ -92,7 +121,7 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
         }
     }
 
-    class SettingsAdapter extends ArrayAdapter<Settings>
+    private class SettingsAdapter extends ArrayAdapter<Settings>
     {
         private Context mContext;
         private int mResource;
@@ -122,11 +151,13 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
 
                 TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
                 TextView tvValue = convertView.findViewById(R.id.textViewValue);
+                TextView tvViewType = convertView.findViewById(R.id.textViewSettingsViewType);
                 TextView tvDescription = convertView.findViewById(R.id.textViewDescription);
 
                 tvTitle.setText(name);
                 tvValue.setText(value);
                 tvDescription.setText(description);
+                tvViewType.setText(String.valueOf(viewType));
             }
 
             if (viewType == 2)
@@ -136,19 +167,29 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
                 TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
                 TextView tvDescription = convertView.findViewById(R.id.textViewDescription);
                 Switch aSwitch = convertView.findViewById(R.id.switch1);
+                TextView tvViewType = convertView.findViewById(R.id.textViewSettingsViewType);
 
                 tvTitle.setText(name);
                 tvDescription.setText(description);
+                tvViewType.setText(String.valueOf(viewType));
+
+                aSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+                    if (b)
+                    {
+                        Toast.makeText(mContext, "ON", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(mContext, "OFF", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             }
-
-
-
-
-
 
                 return convertView;
         }
     }
+
+
 
 }

@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollViewTrainingActivityDetails"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -85,7 +86,7 @@
         <CheckBox
             android:id="@+id/checkBox"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="34dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -94,7 +95,7 @@
             android:text="@string/not_done"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewExerciseName" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewHelper1" />
 
 
         <ProgressBar
@@ -122,15 +123,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:text="@string/time_example"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:typeface="monospace"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/progressBarCircle"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox"
-            app:layout_constraintVertical_chainStyle="spread" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCharsLeft" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingButtonStartPause"
@@ -175,7 +175,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:max="10"
             android:progress="1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -200,17 +200,17 @@
         <Button
             android:id="@+id/buttonAddSeries"
             style="@style/roundButtonWithIcon"
-            android:layout_width="76dp"
+            android:layout_width="122dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/button_confirm"
             android:drawableStart="@drawable/ic_add_white_12dp"
             android:onClick="onClick"
-            android:text="@string/set"
+            android:text="@string/add_set"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seekBarTimer"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox"
             tools:ignore="RtlCompat" />
 
         <LinearLayout
@@ -258,13 +258,14 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
 
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:padding="16dp"
             android:text="@string/training_details"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNotepad" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewExerciseName" />
 
         <Button
             android:id="@+id/buttonShowDescription"
@@ -274,7 +275,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/button_confirm"
             android:drawableStart="@drawable/ic_read_more_white_12dp"
             android:onClick="onClick"
@@ -282,7 +283,7 @@
             android:text="@string/description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNotepad"
+            app:layout_constraintTop_toBottomOf="@+id/textViewExerciseName"
             tools:ignore="RtlCompat" />
 
         <TextView
@@ -297,8 +298,9 @@
             android:text="@string/done"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonShowDescription"
+            app:layout_constraintTop_toBottomOf="@+id/textViewExerciseName"
             tools:ignore="HardcodedText" />
 
         <TextView
@@ -313,8 +315,9 @@
             android:text="@string/done"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewCharsLeft" />
+            app:layout_constraintTop_toBottomOf="@+id/seekBarTimer" />
 
         <TextView
             android:id="@+id/textViewCharsLeft"
@@ -323,11 +326,22 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
-            android:text="TextView"
+            android:text="@string/limit"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/editTextNotepad"
             app:layout_constraintTop_toBottomOf="@+id/editTextNotepad"
             tools:text="@string/limit" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/timer"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toTopOf="@+id/textViewTime"
+            app:layout_constraintStart_toStartOf="@+id/progressBarCircle" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

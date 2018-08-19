@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,13 +58,13 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private int trainingID;
     private ImageView imgTrainingL, imgTrainingR;
     private EditText etNotepad;
-    private TextView tvName, tvDetails, tvCharsLeft;
+    private TextView tvName, tvCharsLeft;
     private CheckBox checkBox;
     private TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
     private Timer timer;
     private CharacterLimit characterLimit;
     private Configuration cfg = new Configuration();
-
+    ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -241,7 +243,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     {
         checkBox = findViewById(R.id.checkBox);
         linearLayout = findViewById(R.id.container);
-        tvDetails = findViewById(R.id.textViewDetails);
         tvCharsLeft = findViewById(R.id.textViewCharsLeft);
         tvName = findViewById(R.id.textViewExerciseName);
         etNotepad = findViewById(R.id.editTextNotepad);
@@ -250,6 +251,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
         imgTrainingL = findViewById(R.id.imageViewTraining);
         imgTrainingR = findViewById(R.id.imageViewTraining1);
+
+        scrollView = findViewById(R.id.scrollViewTrainingActivityDetails);
+        scrollView.requestFocus();
     }
 
     @SuppressLint("LongLogTag")
@@ -283,7 +287,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
 
         Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null).transform(transformation)
-                .error(R.mipmap.ic_launcher_error)
+                .error(R.drawable.image_no_available)
                 .into(imageView, new com.squareup.picasso.Callback()
                 {
                     @Override
@@ -455,8 +459,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     JSONObject object = server_response.getJSONObject(0);
                     description = object.getString(RestAPI.DB_EXERCISE_DESCRITION);
                 }
-
-                tvDetails.setText(description);
+                alertDialog(description);
             }
             catch (JSONException e)
             {
@@ -488,9 +491,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 trainingGenerateNextSet();
                 break;
             case R.id.buttonShowDescription:
-                (view.findViewById(R.id.buttonShowDescription)).setVisibility(View.INVISIBLE);
                 getTrainingDescAsynch(TrainingDetailsActivity.this);
-                tvDetails.setVisibility(View.VISIBLE);
                 break;
             case R.id.floatingButtonStartPause:
                 if (timer.timerRunning)
@@ -507,4 +508,14 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 break;
         }
     }
+
+    private void alertDialog(String string)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.description)
+                .setPositiveButton("Close", null)
+                .setMessage(string)
+                .show();
+    }
+
 }
