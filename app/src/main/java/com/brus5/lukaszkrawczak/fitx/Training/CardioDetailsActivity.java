@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -57,7 +58,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     private Timer timer;
     private double kcalPerMin;
     private Configuration cfg = new Configuration();
-
+    private ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -153,6 +154,9 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
 
         imgTraining = findViewById(R.id.imageViewCardio);
         checkBox = findViewById(R.id.checkBox);
+
+        constraintLayout = findViewById(R.id.constraingLayoutCardioDetails);
+        constraintLayout.requestFocus();
     }
 
     @SuppressLint("LongLogTag")
@@ -197,7 +201,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
 
 
         Picasso.with(CardioDetailsActivity.this).load(url).placeholder(null).transform(transformation)
-                .error(R.mipmap.ic_launcher_error)
+                .error(R.drawable.image_no_available)
                 .into(imageView, new com.squareup.picasso.Callback()
                 {
                     @Override
