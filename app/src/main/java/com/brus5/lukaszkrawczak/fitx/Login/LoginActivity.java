@@ -20,10 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginNormalDTO;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginRegisterFacebookDTO;
-
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
@@ -57,6 +55,7 @@ public class LoginActivity extends AppCompatActivity
     private EditText etLogin, etPassword;
     private Button btLogin, btRegister;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
