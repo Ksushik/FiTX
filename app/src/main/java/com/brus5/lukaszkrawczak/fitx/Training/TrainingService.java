@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
@@ -18,11 +20,21 @@ public class TrainingService
     public void TrainingInsert(final TrainingDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_INSERT, response -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_INSERT, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
 
-        }, error -> {
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
 
-                })
+            }
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -47,12 +59,21 @@ public class TrainingService
     public void TrainingDelete(final TrainingDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_DELETE, response -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_DELETE, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
 
-        },
-                error -> {
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
 
-            })
+            }
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -72,11 +93,21 @@ public class TrainingService
     public void TrainingUpdate(final TrainingDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_UPDATE, response -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_UPDATE, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
 
-        }, error -> {
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
 
-            })
+            }
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -101,12 +132,21 @@ public class TrainingService
     public void CardioInsert(final TrainingDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_INSERT, response -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_INSERT, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
 
-        },
-                error -> {
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
 
-                })
+            }
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -129,10 +169,20 @@ public class TrainingService
     public void CardioUpdate(final TrainingDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_UPDATE, response -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_UPDATE, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
 
-        }, error -> {
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
 
+            }
         })
         {
             @Override
@@ -156,12 +206,21 @@ public class TrainingService
     public void CaardioDelete(final TrainingDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_DELETE, response -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_DELETE, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
 
-        },
-                error -> {
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
 
-                })
+            }
+        })
         {
             @Override
             protected Map<String, String> getParams()

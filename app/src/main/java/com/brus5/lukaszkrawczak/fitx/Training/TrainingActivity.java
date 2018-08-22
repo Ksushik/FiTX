@@ -10,12 +10,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
@@ -112,9 +116,12 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
 
     public void loadAsynchTask(final TrainingDTO dto, final Context context)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_SHORT, globalResponse -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_SHORT, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String globalResponse)
+            {
 
-            try
+        try
             {
                 JSONObject jsonObject = new JSONObject(globalResponse);
                 Log.d(TAG, "onResponse: " + jsonObject.toString(1));
@@ -227,9 +234,14 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
             listView.setAdapter(adapter);
             listView.invalidate();
 
-        }, error -> {
-            Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "onErrorResponse: Error" + error);
+        }}, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onErrorResponse: Error" + error);
+            }
         })
         {
             @Override
@@ -272,61 +284,66 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
 
     private void onListViewItemSelected()
     {
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-
-            TextView tvTrainingType = view.findViewById(R.id.textViewTrainingType);
-
-            boolean isGym = tvTrainingType.getText().toString().equals(getResources().getString(R.string.training_gym));
-            boolean isCardio = tvTrainingType.getText().toString().equals(getResources().getString(R.string.training_cardio));
-
-            if (isGym)
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                TextView tvTrainingID = view.findViewById(R.id.trainingID);
-                TextView tvTrainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
-                TextView tvTrainingTarget = view.findViewById(R.id.trainingTarget);
 
-                Intent intent = new Intent(TrainingActivity.this, TrainingDetailsActivity.class);
+                TextView tvTrainingType = view.findViewById(R.id.textViewTrainingType);
 
-                intent.putExtra("trainingID",               Integer.valueOf(tvTrainingID.getText().toString()));
-                intent.putExtra("trainingTimeStamp",        tvTrainingTimeStamp.getText().toString());
-                intent.putExtra("trainingTarget",           tvTrainingTarget.getText().toString());
-                intent.putExtra("previousActivity",         TrainingActivity.class.getSimpleName());
-                intent.putExtra("dateFormat",               Configuration.getDate());
+                boolean isGym = tvTrainingType.getText().toString().equals(TrainingActivity.this.getResources().getString(R.string.training_gym));
+                boolean isCardio = tvTrainingType.getText().toString().equals(TrainingActivity.this.getResources().getString(R.string.training_cardio));
 
-                startActivity(intent);
-            }
-            if (isCardio)
-            {
-                TextView tvCardioID = view.findViewById(R.id.cardioID);
-                TextView tvTimeStamp = view.findViewById(R.id.cardioTimeStamp);
-                TextView tvTime = view.findViewById(R.id.cardioTime);
-                TextView tvKcalPerMin = view.findViewById(R.id.cardioBurnPerMin);
-
-                int time;
-                if (tvTime.length() < 5)
+                if (isGym)
                 {
-                    time = Integer.valueOf("0"+tvTime.getText().toString().substring(0,1));
+                    TextView tvTrainingID = view.findViewById(R.id.trainingID);
+                    TextView tvTrainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
+                    TextView tvTrainingTarget = view.findViewById(R.id.trainingTarget);
+
+                    Intent intent = new Intent(TrainingActivity.this, TrainingDetailsActivity.class);
+
+                    intent.putExtra("trainingID", Integer.valueOf(tvTrainingID.getText().toString()));
+                    intent.putExtra("trainingTimeStamp", tvTrainingTimeStamp.getText().toString());
+                    intent.putExtra("trainingTarget", tvTrainingTarget.getText().toString());
+                    intent.putExtra("previousActivity", TrainingActivity.class.getSimpleName());
+                    intent.putExtra("dateFormat", Configuration.getDate());
+
+                    TrainingActivity.this.startActivity(intent);
                 }
-                else
+                if (isCardio)
                 {
-                    time = Integer.valueOf(tvTime.getText().toString().substring(0,2));
+                    TextView tvCardioID = view.findViewById(R.id.cardioID);
+                    TextView tvTimeStamp = view.findViewById(R.id.cardioTimeStamp);
+                    TextView tvTime = view.findViewById(R.id.cardioTime);
+                    TextView tvKcalPerMin = view.findViewById(R.id.cardioBurnPerMin);
+
+                    int time;
+                    if (tvTime.length() < 5)
+                    {
+                        time = Integer.valueOf("0" + tvTime.getText().toString().substring(0, 1));
+                    }
+                    else
+                    {
+                        time = Integer.valueOf(tvTime.getText().toString().substring(0, 2));
+                    }
+
+                    Log.e(TAG, "tvKcalPerMin: " + tvKcalPerMin.getText().toString());
+
+                    Intent intent = new Intent(TrainingActivity.this, CardioDetailsActivity.class);
+                    intent.putExtra("trainingID", Integer.valueOf(tvCardioID.getText().toString()));
+                    intent.putExtra("trainingTimeStamp", tvTimeStamp.getText().toString());
+                    intent.putExtra("trainingTime", time);
+                    intent.putExtra("kcalPerMin", Double.parseDouble(tvKcalPerMin.getText().toString()));
+                    intent.putExtra("previousActivity", TrainingActivity.class.getSimpleName());
+                    intent.putExtra("dateFormat", Configuration.getDate());
+
+                    TrainingActivity.this.startActivity(intent);
+
+
                 }
-
-                Log.e(TAG, "tvKcalPerMin: " +tvKcalPerMin.getText().toString());
-
-                Intent intent = new Intent(TrainingActivity.this, CardioDetailsActivity.class);
-                intent.putExtra("trainingID",               Integer.valueOf(tvCardioID.getText().toString()));
-                intent.putExtra("trainingTimeStamp",        tvTimeStamp.getText().toString());
-                intent.putExtra("trainingTime",             time);
-                intent.putExtra("kcalPerMin",               Double.parseDouble(tvKcalPerMin.getText().toString()));
-                intent.putExtra("previousActivity",         TrainingActivity.class.getSimpleName());
-                intent.putExtra("dateFormat",               Configuration.getDate());
-
-                startActivity(intent);
-
 
             }
-
         });
     }
 

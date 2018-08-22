@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
@@ -235,47 +238,56 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
 
     private void detailsAsynchTask(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_SHOW, response -> {
-            try
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_SHOW, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
             {
-                JSONObject jsonObject = new JSONObject(response);
-
-                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-
-                String name;
-                double calories;
-                int done;
-
-                JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                if (jsonArray.length() > 0)
+                try
                 {
-                    for (int i = 0; i < jsonArray.length(); i++)
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+
+                    String name;
+                    double calories;
+                    int done;
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+                    if (jsonArray.length() > 0)
                     {
-                        JSONObject object = jsonArray.getJSONObject(i);
+                        for (int i = 0; i < jsonArray.length(); i++)
+                        {
+                            JSONObject object = jsonArray.getJSONObject(i);
 
-                        name =              object.getString(RestAPI.DB_CARDIO_NAME);
-                        calories =          object.getDouble(RestAPI.DB_CARDIO_CALORIES);
-                        done =              object.getInt(RestAPI.DB_CARDIO_DONE);
+                            name = object.getString(RestAPI.DB_CARDIO_NAME);
+                            calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
+                            done = object.getInt(RestAPI.DB_CARDIO_DONE);
 
-                        Log.e(TAG, "done: "+done);
+                            Log.e(TAG, "done: " + done);
 
-                        String trainingName = name.substring(0, 1).toUpperCase() + name.substring(1);
+                            String trainingName = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-                        tvName.setText(trainingName);
+                            tvName.setText(trainingName);
 
-                        onTrainingChangerListener(done);
+                            CardioDetailsActivity.this.onTrainingChangerListener(done);
 
-                        timer.setBurned(calories);
+                            timer.setBurned(calories);
+                        }
                     }
+                } catch (JSONException e)
+                {
+                    e.printStackTrace();
                 }
             }
-            catch (JSONException e)
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
             {
-                e.printStackTrace();
+                Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onErrorResponse: Error" + error);
             }
-        }, error -> {
-            Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "onErrorResponse: Error" + error);
         })
         {
             @Override
@@ -294,42 +306,51 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
 
     private void cardioAsynch(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_SHOW, response -> {
-            try
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_SHOW, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
             {
-                JSONObject jsonObject = new JSONObject(response);
-
-                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-
-                String name;
-                double calories;
-
-                JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                if (jsonArray.length() > 0)
+                try
                 {
-                    for (int i = 0; i < jsonArray.length(); i++)
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+
+                    String name;
+                    double calories;
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+                    if (jsonArray.length() > 0)
                     {
-                        JSONObject object = jsonArray.getJSONObject(i);
+                        for (int i = 0; i < jsonArray.length(); i++)
+                        {
+                            JSONObject object = jsonArray.getJSONObject(i);
 
-                        name =              object.getString(RestAPI.DB_CARDIO_NAME);
-                        calories =          object.getDouble(RestAPI.DB_CARDIO_CALORIES);
+                            name = object.getString(RestAPI.DB_CARDIO_NAME);
+                            calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
 
-                        String trainingName = name.substring(0, 1).toUpperCase() + name.substring(1);
+                            String trainingName = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-                        tvName.setText(trainingName);
+                            tvName.setText(trainingName);
 
 
-                        timer.setBurned(calories);
+                            timer.setBurned(calories);
+                        }
                     }
+                } catch (JSONException e)
+                {
+                    e.printStackTrace();
                 }
             }
-            catch (JSONException e)
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
             {
-                e.printStackTrace();
+                Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onErrorResponse: Error" + error);
             }
-        }, error -> {
-            Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "onErrorResponse: Error" + error);
         })
         {
             @Override
@@ -368,14 +389,19 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
 
     private int setOnCheckedChangeListener()
     {
-        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked)
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                checkBox.setText(R.string.done);
-            }
-            else
-            {
-                checkBox.setText(R.string.not_done);
+                if (isChecked)
+                {
+                    checkBox.setText(R.string.done);
+                }
+                else
+                {
+                    checkBox.setText(R.string.not_done);
+                }
             }
         });
 

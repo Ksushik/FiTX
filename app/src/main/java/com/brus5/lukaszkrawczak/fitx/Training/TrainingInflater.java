@@ -124,18 +124,23 @@ public class TrainingInflater
 
 
         Button buttonRemove = addView.findViewById(R.id.buttonTrainingRowRemove);
-        buttonRemove.setOnClickListener(v -> {
+        buttonRemove.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
 
-            mapReps.remove(Integer.valueOf(((TextView) addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-            mapWeight.remove(Integer.valueOf(((TextView) addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
-            ((LinearLayout) addView.getParent()).removeView(addView);
-            repsConverter();
-            weightConverter();
+                mapReps.remove(Integer.valueOf(((TextView) addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
+                mapWeight.remove(Integer.valueOf(((TextView) addView.findViewById(R.id.textViewTrainingDetailsID)).getText().toString()));
+                ((LinearLayout) addView.getParent()).removeView(addView);
+                TrainingInflater.this.repsConverter();
+                TrainingInflater.this.weightConverter();
 
-            rowsNum--;
+                rowsNum--;
 
-            Log.i(TAG, "onClick: mapReps: " + mapReps + " size: " + mapReps.size() + " mapWeight: " + mapWeight + " size: " + mapWeight.size() + " rowsNum: " + rowsNum);
+                Log.i(TAG, "onClick: mapReps: " + mapReps + " size: " + mapReps.size() + " mapWeight: " + mapWeight + " size: " + mapWeight.size() + " rowsNum: " + rowsNum);
 
+            }
         });
 
         textViewTrainingDetailsID.setText(String.valueOf(clickCounter));

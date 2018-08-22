@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
@@ -201,14 +204,19 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private int setOnCheckedChangeListener()
     {
-        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked)
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                checkBox.setText(R.string.done);
-            }
-            else
-            {
-                checkBox.setText(R.string.not_done);
+                if (isChecked)
+                {
+                    checkBox.setText(R.string.done);
+                }
+                else
+                {
+                    checkBox.setText(R.string.not_done);
+                }
             }
         });
 
@@ -321,67 +329,76 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getUserTrainingDetailsAsynch(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING, response -> {
-            try
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
             {
-                JSONObject jsonObject = new JSONObject(response);
-                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-
-                int done = 0;
-                String rest = "";
-                String reps;
-                String weight;
-                String notepad = "";
-
-                String exerciseName;
-
-                NameConverter nameUpperCase = new NameConverter();
-
-                JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-
-                for (int i = 0; i < jsonArray.length(); i++)
+                try
                 {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    exerciseName = object.getString(RestAPI.DB_EXERCISE_NAME);
-                    nameUpperCase.setName(exerciseName);
-                }
+                    JSONObject jsonObject = new JSONObject(response);
+                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+
+                    int done = 0;
+                    String rest = "";
+                    String reps;
+                    String weight;
+                    String notepad = "";
+
+                    String exerciseName;
+
+                    NameConverter nameUpperCase = new NameConverter();
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+
+                    for (int i = 0; i < jsonArray.length(); i++)
+                    {
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        exerciseName = object.getString(RestAPI.DB_EXERCISE_NAME);
+                        nameUpperCase.setName(exerciseName);
+                    }
 
 
-                JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
+                    JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
 
-                for (int i = 0; i < trainings_info.length(); i++)
+                    for (int i = 0; i < trainings_info.length(); i++)
+                    {
+                        JSONObject tr_info = trainings_info.getJSONObject(i);
+                        done = tr_info.getInt(RestAPI.DB_EXERCISE_DONE);
+                        rest = tr_info.getString(RestAPI.DB_EXERCISE_REST_TIME);
+                        reps = tr_info.getString(RestAPI.DB_EXERCISE_REPS);
+                        weight = tr_info.getString(RestAPI.DB_EXERCISE_WEIGHT);
+                        notepad = tr_info.getString(RestAPI.DB_EXERCISE_NOTEPAD);
+
+                        String mReps = reps.replaceAll("\\p{Punct}", " ");
+                        String[] mReps_table = mReps.split("\\s+");
+
+                        inflater.setReps(reps);
+                        inflater.setWeight(weight);
+
+                        TrainingDetailsActivity.this.trainingSetsGenerator(mReps_table.length);
+                    }
+
+
+                    tvName.setText(nameUpperCase.getName());
+                    TrainingDetailsActivity.this.onTrainingChangerListener(done);
+                    etNotepad.setText(notepad);
+                    timer.convertSetTime(Integer.valueOf(rest));
+
+                } catch (JSONException e)
                 {
-                    JSONObject tr_info = trainings_info.getJSONObject(i);
-                    done = tr_info.getInt(RestAPI.DB_EXERCISE_DONE);
-                    rest = tr_info.getString(RestAPI.DB_EXERCISE_REST_TIME);
-                    reps = tr_info.getString(RestAPI.DB_EXERCISE_REPS);
-                    weight = tr_info.getString(RestAPI.DB_EXERCISE_WEIGHT);
-                    notepad = tr_info.getString(RestAPI.DB_EXERCISE_NOTEPAD);
-
-                    String mReps = reps.replaceAll("\\p{Punct}", " ");
-                    String[] mReps_table = mReps.split("\\s+");
-
-                    inflater.setReps(reps);
-                    inflater.setWeight(weight);
-
-                    trainingSetsGenerator(mReps_table.length);
+                    e.printStackTrace();
                 }
-
-
-                tvName.setText(nameUpperCase.getName());
-                onTrainingChangerListener(done);
-                etNotepad.setText(notepad);
-                timer.convertSetTime(Integer.valueOf(rest));
-
             }
-            catch (JSONException e)
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
             {
-                e.printStackTrace();
-            }
-        }, error -> {
                 Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: Error" + error);
-            })
+            }
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -398,32 +415,41 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getTrainingNameAsynch(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DETAILS, response -> {
-            try
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DETAILS, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
             {
-                JSONObject jsonObject = new JSONObject(response);
-                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-                String name = "";
-                JSONArray server_response = jsonObject.getJSONArray("server_response");
-                NameConverter nameUpperCase = new NameConverter();
-                for (int i = 0; i < server_response.length(); i++)
+                try
                 {
-                    JSONObject object = server_response.getJSONObject(0);
-                    name = object.getString(RestAPI.DB_EXERCISE_NAME);
+                    JSONObject jsonObject = new JSONObject(response);
+                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+                    String name = "";
+                    JSONArray server_response = jsonObject.getJSONArray("server_response");
+                    NameConverter nameUpperCase = new NameConverter();
+                    for (int i = 0; i < server_response.length(); i++)
+                    {
+                        JSONObject object = server_response.getJSONObject(0);
+                        name = object.getString(RestAPI.DB_EXERCISE_NAME);
+                    }
+
+
+                    nameUpperCase.setName(name);
+                    tvName.setText(nameUpperCase.getName());
+                } catch (JSONException e)
+                {
+                    e.printStackTrace();
                 }
-
-
-                nameUpperCase.setName(name);
-                tvName.setText(nameUpperCase.getName());
             }
-            catch (JSONException e)
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
             {
-                e.printStackTrace();
-            }
-        }, error -> {
                 Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: Error" + error);
-            })
+            }
+        })
         {
             @Override
             protected Map<String, String> getParams()
@@ -439,33 +465,42 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getTrainingDescAsynch(final Context context)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DESCRIPTION, response -> {
-            try
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DESCRIPTION, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
             {
-                JSONObject jsonObject = new JSONObject(response);
-
-                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-
-
-                String description = "";
-
-                JSONArray server_response = jsonObject.getJSONArray("server_response");
-
-                for (int i = 0; i < server_response.length(); i++)
+                try
                 {
-                    JSONObject object = server_response.getJSONObject(0);
-                    description = object.getString(RestAPI.DB_EXERCISE_DESCRITION);
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+
+
+                    String description = "";
+
+                    JSONArray server_response = jsonObject.getJSONArray("server_response");
+
+                    for (int i = 0; i < server_response.length(); i++)
+                    {
+                        JSONObject object = server_response.getJSONObject(0);
+                        description = object.getString(RestAPI.DB_EXERCISE_DESCRITION);
+                    }
+                    TrainingDetailsActivity.this.alertDialog(description);
+                } catch (JSONException e)
+                {
+                    e.printStackTrace();
                 }
-                alertDialog(description);
             }
-            catch (JSONException e)
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
             {
-                e.printStackTrace();
-            }
-        }, error -> {
                 Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: Error" + error);
-            })
+            }
+        })
         {
             @Override
             protected Map<String, String> getParams()

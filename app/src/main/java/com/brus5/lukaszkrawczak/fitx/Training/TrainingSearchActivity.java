@@ -49,20 +49,30 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
 
     private void button()
     {
-        btRotate.setOnClickListener(v -> {
-            if (imageViewBodyBack.getVisibility() == View.INVISIBLE)
+        btRotate.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
             {
-                bodyRotate(1);
-            }
-            else if (imageViewBodyFront.getVisibility() == View.INVISIBLE)
-            {
-                bodyRotate(0);
+                if (imageViewBodyBack.getVisibility() == View.INVISIBLE)
+                {
+                    TrainingSearchActivity.this.bodyRotate(1);
+                }
+                else if (imageViewBodyFront.getVisibility() == View.INVISIBLE)
+                {
+                    TrainingSearchActivity.this.bodyRotate(0);
+                }
             }
         });
-        btCardio.setOnClickListener(v -> {
-            Intent intent = new Intent(TrainingSearchActivity.this,CardioListActivity.class);
-            intent.putExtra("dateFormat", dateFormat);
-            startActivity(intent);
+        btCardio.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(TrainingSearchActivity.this, CardioListActivity.class);
+                intent.putExtra("dateFormat", dateFormat);
+                TrainingSearchActivity.this.startActivity(intent);
+            }
         });
     }
 

@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,6 +20,8 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Calculator.Calories;
@@ -122,9 +126,12 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
 
     public void loadAsynchTask(final DietDTO dto, final Context context)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_SHOW_BY_USER, stringResponse -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_SHOW_BY_USER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String stringResponse)
+            {
 
-            double countProteins = 0d;
+        double countProteins = 0d;
             double countFats = 0d;
             double countCarbs = 0d;
             double countCalories = 0d;
@@ -284,9 +291,14 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
             {
                 e.printStackTrace();
             }
-        }, error -> {
-            Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "onErrorResponse: Error"+error);
+        }}, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onErrorResponse: Error" + error);
+            }
         })
         {
             @Override
@@ -305,19 +317,24 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
 
     private void onListViewItemSelected()
     {
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            TextView productId          = view.findViewById(R.id.dietMealID);
-            TextView productWeight      = view.findViewById(R.id.dietMealWeight);
-            TextView productTimeStamp   = view.findViewById(R.id.dietTimeStamp);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                TextView productId = view.findViewById(R.id.dietMealID);
+                TextView productWeight = view.findViewById(R.id.dietMealWeight);
+                TextView productTimeStamp = view.findViewById(R.id.dietTimeStamp);
 
-            Intent intent = new Intent(DietActivity.this, DietProductShowActivity.class);
-            intent.putExtra("productID",        Integer.valueOf(productId.getText().toString()));
-            intent.putExtra("dateFormat",       dateFormat);
-            intent.putExtra("productWeight",    Double.valueOf(productWeight.getText().toString()));
-            intent.putExtra("productTimeStamp", productTimeStamp.getText().toString());
-            intent.putExtra("previousActivity", "DietActivity");
+                Intent intent = new Intent(DietActivity.this, DietProductShowActivity.class);
+                intent.putExtra("productID", Integer.valueOf(productId.getText().toString()));
+                intent.putExtra("dateFormat", dateFormat);
+                intent.putExtra("productWeight", Double.valueOf(productWeight.getText().toString()));
+                intent.putExtra("productTimeStamp", productTimeStamp.getText().toString());
+                intent.putExtra("previousActivity", "DietActivity");
 
-            startActivity(intent);
+                DietActivity.this.startActivity(intent);
+            }
         });
     }
 

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -78,12 +79,17 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
     }
 
     private void onListViewItemSelected() {
-        listView.setOnItemClickListener((adapterView, view, i, l) -> {
-            TextView tvViewType = view.findViewById(R.id.textViewSettingsViewType);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                TextView tvViewType = view.findViewById(R.id.textViewSettingsViewType);
 
-            Intent intent = new Intent(this, SettingsDetailsActivity.class);
-            intent.putExtra("viewType",        Integer.valueOf(tvViewType.getText().toString()));
-            startActivity(intent);
+                Intent intent = new Intent(SettingsActiviy.this, SettingsDetailsActivity.class);
+                intent.putExtra("viewType", Integer.valueOf(tvViewType.getText().toString()));
+                SettingsActiviy.this.startActivity(intent);
+            }
         });
     }
 
@@ -173,14 +179,19 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
                 tvDescription.setText(description);
                 tvViewType.setText(String.valueOf(viewType));
 
-                aSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-                    if (b)
+                aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b)
                     {
-                        Toast.makeText(mContext, "ON", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(mContext, "OFF", Toast.LENGTH_SHORT).show();
+                        if (b)
+                        {
+                            Toast.makeText(mContext, "ON", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(mContext, "OFF", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

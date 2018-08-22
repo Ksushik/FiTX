@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.DTO.MainDTO;
@@ -103,9 +105,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void loadAsynchTask(final MainDTO dto, final Context context)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_MAIN_DIET, globalResponse -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_MAIN_DIET, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String globalResponse)
+            {
 
-            try
+
+        try
             {
                 int kcal = 0;
                 int kcalLimit;
@@ -228,11 +234,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             listView.invalidate();
             // TODO: 31.07.2018 zrobic if listview is empty to pokazuj wiadomość "Brak danych z dnia: xx.XX.xxxx"
 
-        },
-                error -> {
-                    Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onErrorResponse: Error" + error);
-                }
+        }}, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onErrorResponse: Error" + error);
+            }
+        }
         )
 
         {

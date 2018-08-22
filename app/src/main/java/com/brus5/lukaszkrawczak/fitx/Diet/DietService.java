@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
@@ -22,8 +24,18 @@ public class DietService implements DietAsynchServiceDTO
     public void updateCalories(final DietDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_UPDATE_COUNTED_KCAL, response -> Log.e(TAG, "onResponse: " + response), error -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_UPDATE_COUNTED_KCAL, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {Log.e(TAG, "onResponse: " + response);}
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
 
+            }
         })
         {
             @Override
@@ -45,8 +57,18 @@ public class DietService implements DietAsynchServiceDTO
     public void deleteCalories(final DietDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_COUNTED_KCAL, response -> Log.e(TAG, "onResponse: " + response), error -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_COUNTED_KCAL, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {Log.e(TAG, "onResponse: " + response);}
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
 
+            }
         })
         {
             @Override
@@ -66,8 +88,18 @@ public class DietService implements DietAsynchServiceDTO
     public void updateProductWeight(final DietDTO dto, Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_UPDATE_WEIGHT_PRODUCT, response -> Log.e(TAG, "onResponse: " + response), error -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_UPDATE_WEIGHT_PRODUCT, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {Log.e(TAG, "onResponse: " + response);}
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
 
+            }
         })
         {
             @Override
@@ -89,8 +121,18 @@ public class DietService implements DietAsynchServiceDTO
     public void insert(final DietDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_INSERT_PRODUCT, response -> Log.e(TAG, "onResponse: " + response), error -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_INSERT_PRODUCT, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {Log.e(TAG, "onResponse: " + response);}
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
 
+            }
         })
         {
             @Override
@@ -112,8 +154,18 @@ public class DietService implements DietAsynchServiceDTO
     public void delete(final DietDTO dto, final Context context)
     {
 
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_PRODUCT, response -> Log.e(TAG, "onResponse: " + response), error -> {
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_DELETE_PRODUCT, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {Log.e(TAG, "onResponse: " + response);}
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
 
+            }
         })
         {
             @Override

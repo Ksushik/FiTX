@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.AsynchTask;
@@ -255,43 +257,52 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
     public void loadAsynchTask(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_GET_PRODUCT_INFORMATIONS, response -> {
-            try
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_GET_PRODUCT_INFORMATIONS, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
             {
-                JSONObject jsonObject = new JSONObject(response);
-                String name;
-                Log.i(TAG, "onResponse: " + jsonObject.toString(17));
-                JSONArray server_response = jsonObject.getJSONArray("server_response");
-                for (int i = 0; i < server_response.length(); i++)
+                try
                 {
-                    JSONObject srv_response = server_response.getJSONObject(i);
-
-                    name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
-                    proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
-                    fats = srv_response.getDouble(RestAPI.DB_PRODUCT_FATS);
-                    carbs = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS);
-                    saturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_SATURATED_FATS);
-                    unsaturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_UNSATURATED_FATS);
-                    carbsFiber = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_FIBER);
-                    carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
-                    multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
-                    verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
-
-                    if (verified == 1)
+                    JSONObject jsonObject = new JSONObject(response);
+                    String name;
+                    Log.i(TAG, "onResponse: " + jsonObject.toString(17));
+                    JSONArray server_response = jsonObject.getJSONArray("server_response");
+                    for (int i = 0; i < server_response.length(); i++)
                     {
-                        imgVerified.setVisibility(View.VISIBLE);
-                    }
+                        JSONObject srv_response = server_response.getJSONObject(i);
 
-                    String upName = name.substring(0, 1).toUpperCase() + name.substring(1);
-                    tvName.setText(upName);
-                    setProductWeight(productWeight);
+                        name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
+                        proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
+                        fats = srv_response.getDouble(RestAPI.DB_PRODUCT_FATS);
+                        carbs = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS);
+                        saturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_SATURATED_FATS);
+                        unsaturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_UNSATURATED_FATS);
+                        carbsFiber = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_FIBER);
+                        carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
+                        multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
+                        verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
+
+                        if (verified == 1)
+                        {
+                            imgVerified.setVisibility(View.VISIBLE);
+                        }
+
+                        String upName = name.substring(0, 1).toUpperCase() + name.substring(1);
+                        tvName.setText(upName);
+                        DietProductShowActivity.this.setProductWeight(productWeight);
+                    }
+                } catch (JSONException e)
+                {
+                    e.printStackTrace();
                 }
             }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-        }, error -> Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show())
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();}
+        })
         {
             @Override
             protected Map<String, String> getParams()

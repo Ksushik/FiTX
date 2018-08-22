@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.Configuration;
@@ -64,48 +68,58 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
 
     private void asynchTask(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_GET_LIST, response -> {
-            try
+        StringRequest strRequest;
+        strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_GET_LIST, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
             {
-                /* Getting DietRatio from MySQL */
-                JSONObject jsonObject = new JSONObject(response);
-
-                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-
-                int trainingID;
-                String productName;
-                double calories;
-
-                JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                if (jsonArray.length() > 0)
+                try
                 {
-                    for (int i = 0; i < jsonArray.length(); i++)
+                    /* Getting DietRatio from MySQL */
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+
+                    int trainingID;
+                    String productName;
+                    double calories;
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+                    if (jsonArray.length() > 0)
                     {
-                        JSONObject object = jsonArray.getJSONObject(i);
+                        for (int i = 0; i < jsonArray.length(); i++)
+                        {
+                            JSONObject object = jsonArray.getJSONObject(i);
 
-                        trainingID =        object.getInt(RestAPI.DB_CARDIO_ID);
-                        productName =       object.getString(RestAPI.DB_CARDIO_NAME);
-                        calories =          object.getDouble(RestAPI.DB_CARDIO_CALORIES);
+                            trainingID = object.getInt(RestAPI.DB_CARDIO_ID);
+                            productName = object.getString(RestAPI.DB_CARDIO_NAME);
+                            calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
 
-                        String trainingName = productName.substring(0, 1).toUpperCase() + productName.substring(1);
+                            String trainingName = productName.substring(0, 1).toUpperCase() + productName.substring(1);
 
-                        TrainingSearch trainingSearch = new TrainingSearch(trainingID, trainingName, calories);
-                        list.add(trainingSearch);
+                            TrainingSearch trainingSearch = new TrainingSearch(trainingID, trainingName, calories);
+                            list.add(trainingSearch);
+                        }
                     }
-                }
-                /* End */
+                    /* End */
 
-                adapter = new TrainingSearchListAdapter(CardioListActivity.this, R.layout.row_training_exercise_search, list);
-                listView.setAdapter(adapter);
-                listView.invalidate();
+                    adapter = new TrainingSearchListAdapter(CardioListActivity.this, R.layout.row_training_exercise_search, list);
+                    listView.setAdapter(adapter);
+                    listView.invalidate();
+                } catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
             }
-            catch (JSONException e)
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
             {
-                e.printStackTrace();
+                Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onErrorResponse: Error" + error);
             }
-        }, error -> {
-            Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "onErrorResponse: Error" + error);
         });
         RequestQueue queue = Volley.newRequestQueue(ctx);
         queue.add(strRequest);
@@ -113,16 +127,21 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
 
     private void onListViewItemSelected()
     {
-        listView.setOnItemClickListener((parent, view, position, id) -> {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
 
-            TextView tvTrainingID = view.findViewById(R.id.trainingSearchID);
+                TextView tvTrainingID = view.findViewById(R.id.trainingSearchID);
 
-            Intent intent = new Intent(CardioListActivity.this, CardioDetailsActivity.class);
-            intent.putExtra("trainingID",       Integer.valueOf(tvTrainingID.getText().toString()));
-            intent.putExtra("previousActivity", CardioListActivity.class.getSimpleName());
-            intent.putExtra("dateFormat",       dateFormat);
+                Intent intent = new Intent(CardioListActivity.this, CardioDetailsActivity.class);
+                intent.putExtra("trainingID", Integer.valueOf(tvTrainingID.getText().toString()));
+                intent.putExtra("previousActivity", CardioListActivity.class.getSimpleName());
+                intent.putExtra("dateFormat", dateFormat);
 
-            startActivity(intent);
+                CardioListActivity.this.startActivity(intent);
+            }
         });
     }
 }
