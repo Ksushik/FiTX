@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.brus5.lukaszkrawczak.fitx.Async.Connected;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -17,6 +20,17 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest
 {
+    Context appContext;
+    Connected conn;
+
+    @Before
+    public void start()
+    {
+        appContext = InstrumentationRegistry.getTargetContext();
+        conn = new Connected();
+    }
+
+
     @Test
     public void useAppContext()
     {
@@ -26,8 +40,10 @@ public class ExampleInstrumentedTest
     }
 
     @Test
-    public void user()
+    public void isConnectedToMySQL()
     {
-
+        assertEquals(true, conn.doInBackground());
     }
+
+
 }

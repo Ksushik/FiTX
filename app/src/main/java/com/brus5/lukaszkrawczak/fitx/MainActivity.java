@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.brus5.lukaszkrawczak.fitx.Async.ConnectedView;
 import com.brus5.lukaszkrawczak.fitx.DTO.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadInput();
         weekCalendar(cfg.oldestDay(), cfg.newestDay());
         main = new Main();
+
+        ConnectedView conn = new ConnectedView(this);
+        conn.execute();
     }
 
     private void weekCalendar(Calendar endDate, Calendar startDate)
