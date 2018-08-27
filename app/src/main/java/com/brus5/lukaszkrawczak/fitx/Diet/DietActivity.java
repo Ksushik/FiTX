@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,7 +69,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
         cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarDietActivity,this);
         onBackButtonPressed();
         loadInput();
-        weekCalendar(cfg.oldestDay(), cfg.newestDay());
+        weekCalendar(cfg.calendarPast(), cfg.calendarFuture());
         onListViewItemSelected();
     }
 

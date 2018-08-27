@@ -2,11 +2,8 @@ package com.brus5.lukaszkrawczak.fitx.Training;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,7 +59,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
         cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarTraining,this);
         onBackButtonPressed();
         loadInput();
-        weekCalendar(cfg.oldestDay(), cfg.newestDay());
+        weekCalendar(cfg.calendarPast(), cfg.calendarFuture());
         onListViewItemSelected();
         training = new Training();
     }

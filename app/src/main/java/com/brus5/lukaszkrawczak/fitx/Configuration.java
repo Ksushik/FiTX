@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
-import android.support.v7.app.AppCompatActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,14 +50,14 @@ public class Configuration
         return dateFormatView;
     }
 
-    public Calendar oldestDay()
+    public Calendar calendarPast()
     {
         Calendar oldest = Calendar.getInstance();
         oldest.add(Calendar.MONTH, 1);
         return oldest;
     }
 
-    public Calendar newestDay()
+    public Calendar calendarFuture()
     {
         Calendar newest = Calendar.getInstance();
         newest.add(Calendar.MONTH, -1);
