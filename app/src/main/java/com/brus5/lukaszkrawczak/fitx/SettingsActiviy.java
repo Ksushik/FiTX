@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,18 +17,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
-import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
-import com.brus5.lukaszkrawczak.fitx.Diet.DietProductSearchActivity;
-import com.brus5.lukaszkrawczak.fitx.Diet.DietProductShowActivity;
-import com.brus5.lukaszkrawczak.fitx.Diet.DietService;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsActiviy extends AppCompatActivity implements DefaultView
 {
-    private Configuration cfg = new Configuration();
+    private DateGenerator cfg = new DateGenerator();
     private ArrayList<Settings> list = new ArrayList<>();
     private ListView listView;
     private SettingsAdapter adapter;
@@ -41,10 +35,10 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        cfg.changeStatusBarColor(SettingsActiviy.this, getApplicationContext(),R.id.toolbarSettingsActivity,this);
         loadInput();
+        loadDefaultView();
+
         onListViewItemSelected();
-        onBackButtonPressed();
 
         Settings s1 = new Settings();
         s1.name = "Waga";
@@ -73,6 +67,20 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
         listView.invalidate();
     }
 
+    @Override
+    public void loadInput()
+    {
+        listView = findViewById(R.id.listViewSettings);
+    }
+
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(SettingsActiviy.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarSettingsActivity);
+        activityView.showBackButton();
+    }
+
     private void onBackButtonPressed()
     {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -93,11 +101,6 @@ public class SettingsActiviy extends AppCompatActivity implements DefaultView
         });
     }
 
-    @Override
-    public void loadInput()
-    {
-        listView = findViewById(R.id.listViewSettings);
-    }
 
 
     private class Settings

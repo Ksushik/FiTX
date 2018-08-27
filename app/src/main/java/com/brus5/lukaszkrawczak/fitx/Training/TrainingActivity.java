@@ -19,12 +19,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +44,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
 {
     private static final String TAG = "TrainingActivity";
     HorizontalCalendar calendar;
-    Configuration cfg = new Configuration();
+    DateGenerator cfg = new DateGenerator();
     String dateFormatView;
     TextView tvDate;
     ArrayList<Training> list = new ArrayList<>();
@@ -56,19 +57,29 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_1);
-        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarTraining,this);
-        onBackButtonPressed();
+        loadDefaultView();
+
         loadInput();
         weekCalendar(cfg.calendarPast(), cfg.calendarFuture());
         onListViewItemSelected();
         training = new Training();
     }
 
+    @Override
     public void loadInput()
     {
         tvDate = findViewById(R.id.textViewDate);
         listView = findViewById(R.id.listViewTraining);
     }
+
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(TrainingActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarTraining);
+        activityView.showBackButton();
+    }
+
 
     private void weekCalendar(Calendar endDate, Calendar startDate)
     {
@@ -79,8 +90,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
                 .dayNameFormat("EE")
                 .dayNumberFormat("dd")
                 .showDayName(true)
-                .showMonthName(false)
-                .defaultSelectedDate(   cfg.selectedDate(Configuration.getDate())    )
+                .showMonthName(false).defaultSelectedDate(cfg.selectedDate(DateGenerator.getDate()))
                 .build();
 
         calendar.setCalendarListener(new HorizontalCalendarListener()
@@ -88,13 +98,13 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
             @Override
             public void onDateSelected(Date date, int position)
             {
-                Configuration.setDate(cfg.getDateFormat().format(date.getTime()));
+                DateGenerator.setDate(cfg.getDateFormat().format(date.getTime()));
                 dateFormatView = cfg.getDateFormatView().format(date.getTime());
                 tvDate.setText(dateFormatView);
                 list.clear();
                 TrainingDTO dto = new TrainingDTO();
                 dto.setUserName(SaveSharedPreference.getUserName(TrainingActivity.this));
-                dto.setTrainingDate(Configuration.getDate());
+                dto.setTrainingDate(DateGenerator.getDate());
 //                dto.userName = SaveSharedPreference.getUserName(TrainingActivity.this);
 //                dto.trainingDate = dateFormat;
 //                dto.printStatus();
@@ -272,7 +282,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
         {
             case R.id.menu_search_exercise:
                 Intent intent = new Intent(TrainingActivity.this, TrainingSearchActivity.class);
-                intent.putExtra("dateFormat", Configuration.getDate());
+                intent.putExtra("dateFormat", DateGenerator.getDate());
                 TrainingActivity.this.startActivity(intent);
                 break;
         }
@@ -304,7 +314,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
                     intent.putExtra("trainingTimeStamp", tvTrainingTimeStamp.getText().toString());
                     intent.putExtra("trainingTarget", tvTrainingTarget.getText().toString());
                     intent.putExtra("previousActivity", TrainingActivity.class.getSimpleName());
-                    intent.putExtra("dateFormat", Configuration.getDate());
+                    intent.putExtra("dateFormat", DateGenerator.getDate());
 
                     TrainingActivity.this.startActivity(intent);
                 }
@@ -333,7 +343,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
                     intent.putExtra("trainingTime", time);
                     intent.putExtra("kcalPerMin", Double.parseDouble(tvKcalPerMin.getText().toString()));
                     intent.putExtra("previousActivity", TrainingActivity.class.getSimpleName());
-                    intent.putExtra("dateFormat", Configuration.getDate());
+                    intent.putExtra("dateFormat", DateGenerator.getDate());
 
                     TrainingActivity.this.startActivity(intent);
 
@@ -351,7 +361,7 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
         adapter.clear();
         TrainingDTO dto = new TrainingDTO();
         dto.setUserName(SaveSharedPreference.getUserName(TrainingActivity.this));
-        dto.setTrainingDate(Configuration.getDate());
+        dto.setTrainingDate(DateGenerator.getDate());
         loadAsynchTask(dto, TrainingActivity.this);
 
         Log.i(TAG, "onRestart: " + dto.toString());

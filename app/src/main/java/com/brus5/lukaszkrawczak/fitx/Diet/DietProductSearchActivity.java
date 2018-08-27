@@ -2,11 +2,8 @@ package com.brus5.lukaszkrawczak.fitx.Diet;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,11 +20,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,24 +45,17 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
     private DietSearchListAdapter adapter;
     private ArrayList<DietSearch> arrayList = new ArrayList<>();
     private DietDTO dto = new DietDTO();
-    private Configuration cfg = new Configuration();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet_2_search_product);
-        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarDietSearchActivity,this);
-        onBackButtonPressed();
         loadInput();
+        loadDefaultView();
         searchProduct();
         onListViewItemSelected();
         getIntentFromPreviousActiity();
-    }
-
-    private void getIntentFromPreviousActiity()
-    {
-        dateFormat = getIntent().getStringExtra("dateFormat");
     }
 
     public void loadInput()
@@ -74,9 +64,17 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
         listView = findViewById(R.id.listViewShowProducts);
     }
 
-    private void onBackButtonPressed()
+    @Override
+    public void loadDefaultView()
     {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActivityView activityView = new ActivityView(DietProductSearchActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarDietSearchActivity);
+        activityView.showBackButton();
+    }
+
+    private void getIntentFromPreviousActiity()
+    {
+        dateFormat = getIntent().getStringExtra("dateFormat");
     }
 
     private void searchProduct()

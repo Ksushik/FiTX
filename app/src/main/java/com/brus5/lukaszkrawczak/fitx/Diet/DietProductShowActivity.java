@@ -28,7 +28,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.AsynchTask;
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.Converter.WeightConverter;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
@@ -36,6 +35,8 @@ import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -59,7 +60,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     private String productTimeStamp, previousActivity, dateFormat, newTimeStamp;
     private Spinner spinner;
     private ProgressBar progrssBar;
-    private Configuration cfg = new Configuration();
+    private DateGenerator cfg = new DateGenerator();
     private ConstraintLayout constraintLayout;
 
     @SuppressLint("SimpleDateFormat")
@@ -94,6 +95,42 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
         etWeight.setText(String.valueOf(productWeight));
         setWeight(false);
+    }
+
+    public void loadInput()
+    {
+        imgProduct = findViewById(R.id.imageViewProduct);
+        imgVerified = findViewById(R.id.imageViewVerified);
+
+        etWeight = findViewById(R.id.editTextWeight);
+        etWeight.clearFocus();
+        etWeight.didTouchFocusSelect();
+
+        tvName = findViewById(R.id.textViewProductName);
+        tvProteins = findViewById(R.id.textViewProteins);
+        tvFats = findViewById(R.id.textViewFats);
+        tvCarbs = findViewById(R.id.textViewCarbs);
+        tvCalories = findViewById(R.id.textViewCalories);
+        tvFatsSaturated = findViewById(R.id.textViewFatsSaturated);
+        tvFatsUnsaturated = findViewById(R.id.textViewFatsUnsaturated);
+        tvCarbsFiber = findViewById(R.id.textViewCarbsFiber);
+        tvCarbsSugars = findViewById(R.id.textViewCarbsSugars);
+
+        spinner = findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
+
+        progrssBar = findViewById(R.id.progressBar);
+
+        constraintLayout = findViewById(R.id.constraintLayoutDietDetails);
+        constraintLayout.requestFocus();
+    }
+
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(DietProductShowActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarDietProductShowActivity);
+        activityView.showBackButton();
     }
 
     @Override
@@ -206,33 +243,6 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         else return this.productTimeStamp;
     }
 
-    public void loadInput()
-    {
-        imgProduct = findViewById(R.id.imageViewProduct);
-        imgVerified = findViewById(R.id.imageViewVerified);
-
-        etWeight = findViewById(R.id.editTextWeight);
-        etWeight.clearFocus();
-        etWeight.didTouchFocusSelect();
-
-        tvName = findViewById(R.id.textViewProductName);
-        tvProteins = findViewById(R.id.textViewProteins);
-        tvFats = findViewById(R.id.textViewFats);
-        tvCarbs = findViewById(R.id.textViewCarbs);
-        tvCalories = findViewById(R.id.textViewCalories);
-        tvFatsSaturated = findViewById(R.id.textViewFatsSaturated);
-        tvFatsUnsaturated = findViewById(R.id.textViewFatsUnsaturated);
-        tvCarbsFiber = findViewById(R.id.textViewCarbsFiber);
-        tvCarbsSugars = findViewById(R.id.textViewCarbsSugars);
-
-        spinner = findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(this);
-
-        progrssBar = findViewById(R.id.progressBar);
-
-        constraintLayout = findViewById(R.id.constraintLayoutDietDetails);
-        constraintLayout.requestFocus();
-    }
 
     private void loadImageFromUrl(String url)
     {

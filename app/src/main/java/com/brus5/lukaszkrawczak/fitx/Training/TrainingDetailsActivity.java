@@ -26,7 +26,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
@@ -34,6 +33,8 @@ import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.Validator.CharacterLimit;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
@@ -63,7 +64,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
     private Timer timer;
     private CharacterLimit characterLimit;
-    private Configuration cfg = new Configuration();
+    private DateGenerator cfg = new DateGenerator();
     private ScrollView scrollView;
 
     @Override
@@ -71,9 +72,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_4_details);
-        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarTrainingExerciseShow,this);
-        onBackButtonPressed();
         loadInput();
+        loadDefaultView();
+
         getIntentFromPreviousActiity();
         String url = RestAPI.URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_1" + ".jpg";
         String url2 = RestAPI.URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_2" + ".jpg";
@@ -129,7 +130,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 }
                 else
                 {
-                    Configuration cfg = new Configuration();
+                    DateGenerator cfg = new DateGenerator();
                     cfg.showError(TrainingDetailsActivity.this);
                 }
                 break;
@@ -261,6 +262,15 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         scrollView.requestFocus();
     }
 
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(TrainingDetailsActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarTrainingExerciseShow);
+        activityView.showBackButton();
+    }
+
+
     @SuppressLint("LongLogTag")
     private void getIntentFromPreviousActiity()
     {
@@ -271,7 +281,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         trainingTimeStamp = timeStampChanger(trainingTimeStamp);
         previousActivity = intent.getStringExtra("previousActivity");
 
-        TimeStampReplacer time = new TimeStampReplacer(Configuration.getDate(), trainingTimeStamp);
+        TimeStampReplacer time = new TimeStampReplacer(DateGenerator.getDate(), trainingTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
     }
 
@@ -301,7 +311,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     @Override
                     public void onError()
                     {
-                        Configuration cfg = new Configuration();
+                        DateGenerator cfg = new DateGenerator();
                         cfg.showError(TrainingDetailsActivity.this);
                     }
                 });

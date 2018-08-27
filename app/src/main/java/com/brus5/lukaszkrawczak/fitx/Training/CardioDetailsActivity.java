@@ -4,12 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,13 +24,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.DTO.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -60,17 +58,19 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     private CheckBox checkBox;
     private Timer timer;
     private double kcalPerMin;
-    private Configuration cfg = new Configuration();
+    private DateGenerator cfg = new DateGenerator();
     private ConstraintLayout constraintLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardio_4_details);
-        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarCardio,this);
-        onBackButtonPressed();
         loadInput();
+        loadDefaultView();
+
+
         getIntentFromPreviousActiity();
         String url = RestAPI.URL + "images/cardio/"  + trainingID + ".jpg";
         loadImages(imgTraining, url);
@@ -111,7 +111,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
                 }
                 else
                 {
-                    Configuration cfg = new Configuration();
+                    DateGenerator cfg = new DateGenerator();
                     cfg.showError(CardioDetailsActivity.this);
                 }
                 break;
@@ -144,10 +144,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void onBackButtonPressed()
-    {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
     public void loadInput()
     {
@@ -162,6 +158,17 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         constraintLayout.requestFocus();
     }
 
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(CardioDetailsActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarCardio);
+        activityView.showBackButton();
+    }
+
+
+
+
     @SuppressLint("LongLogTag")
     private void getIntentFromPreviousActiity()
     {
@@ -174,7 +181,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         previousActivity = intent.getStringExtra("previousActivity");
 
 
-        TimeStampReplacer time = new TimeStampReplacer(Configuration.getDate(), trainingTimeStamp);
+        TimeStampReplacer time = new TimeStampReplacer(DateGenerator.getDate(), trainingTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
 
         Log.i(TAG, "trainingID: "           + trainingID);
@@ -182,7 +189,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         Log.i(TAG, "trainingTime: "         + trainingTime);
         Log.i(TAG, "kcalPerMin: "           + kcalPerMin);
         Log.i(TAG, "previousActivity: "     + previousActivity);
-        Log.i(TAG, "getDate: "              + Configuration.getDate());
+        Log.i(TAG, "getDate: " + DateGenerator.getDate());
         Log.i(TAG, "newTimeStamp: "         + newTimeStamp);
 
     }
@@ -213,7 +220,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onError()
                     {
-                        Configuration cfg = new Configuration();
+                        DateGenerator cfg = new DateGenerator();
                         cfg.showError(CardioDetailsActivity.this);
                     }
                 });

@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx;
+package com.brus5.lukaszkrawczak.fitx.Utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.brus5.lukaszkrawczak.fitx.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,31 +21,33 @@ import java.util.Locale;
  * Created by lukaszkrawczak on 24.05.2018.
  */
 
-public class Configuration
+public class DateGenerator
 {
-    private static final String TAG = "Configuration";
+    private static final String TAG = "DateGenerator";
     private static String date;
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private SimpleDateFormat dateFormatView = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+
+
 
     public static String getDate()
     {
-        Log.i(TAG, "getDate: " + Configuration.date);
+        Log.i(TAG, "getDate: " + DateGenerator.date);
         return date;
     }
 
     public static void setDate(String date)
     {
-        Configuration.date = date;
-        Log.i(TAG, "setDate: " + Configuration.date);
+        DateGenerator.date = date;
+        Log.i(TAG, "setDate: " + DateGenerator.date);
     }
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     public SimpleDateFormat getDateFormat()
     {
         return dateFormat;
     }
-
-    private SimpleDateFormat dateFormatView = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 
     public SimpleDateFormat getDateFormatView()
     {
@@ -75,8 +79,7 @@ public class Configuration
         try
         {
             return getDateFormat().parse(date);
-        }
-        catch (ParseException e)
+        } catch (ParseException e)
         {
             e.printStackTrace();
         }
@@ -93,5 +96,10 @@ public class Configuration
         Toolbar toolbar = activity.findViewById(resID);
         appCompatActivity.setSupportActionBar(toolbar);
     }
+
+}
+
+class DateA
+{
 
 }

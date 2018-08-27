@@ -3,11 +3,8 @@ package com.brus5.lukaszkrawczak.fitx.Training;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,10 +18,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +39,7 @@ public class TrainingListActivity extends AppCompatActivity implements DefaultVi
     private TrainingSearchListAdapter trainingSearchListAdapter;
     private ListView listViewTrainingActivity;
     private String trainingTarget, dateFormat;
-    private Configuration cfg = new Configuration();
+    private DateGenerator cfg = new DateGenerator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,8 +47,7 @@ public class TrainingListActivity extends AppCompatActivity implements DefaultVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_3_listview);
         loadInput();
-        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarTrainingExcerciseList,this);
-        onBackButtonPressed();
+        loadDefaultView();
         getIntentFromPreviousActiity();
         asynchTask(TrainingListActivity.this);
         onListViewItemSelected();
@@ -71,6 +68,15 @@ public class TrainingListActivity extends AppCompatActivity implements DefaultVi
     {
         listViewTrainingActivity = findViewById(R.id.listViewTraining);
     }
+
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(TrainingListActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarTrainingExcerciseList);
+        activityView.showBackButton();
+    }
+
 
     private void onBackButtonPressed()
     {

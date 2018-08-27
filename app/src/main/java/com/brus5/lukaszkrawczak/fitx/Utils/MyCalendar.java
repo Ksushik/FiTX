@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.brus5.lukaszkrawczak.fitx.Configuration;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,7 +20,7 @@ public class MyCalendar extends FragmentActivity
     private Activity activity;
     private int resId;
     private Context context;
-    private Configuration cfg = new Configuration();
+    private DateGenerator cfg = new DateGenerator();
 
     /**
      * This is default constructor of MyCalendar
@@ -67,7 +65,7 @@ public class MyCalendar extends FragmentActivity
             @Override
             public void onDateSelected(Date date, int position)
             {
-                Configuration.setDate(cfg.getDateFormat().format(date.getTime()));
+                DateGenerator.setDate(cfg.getDateFormat().format(date.getTime()));
 
                 new AsyncPreparator(context, listView);
 

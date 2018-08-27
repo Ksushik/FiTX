@@ -7,11 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -20,12 +17,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginNormalDTO;
 import com.brus5.lukaszkrawczak.fitx.Login.DTO.UserLoginRegisterFacebookDTO;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -44,7 +43,7 @@ import java.security.NoSuchAlgorithmException;
 
 import static com.facebook.Profile.getCurrentProfile;
 
-public class LoginActivity extends AppCompatActivity
+public class LoginActivity extends AppCompatActivity implements DefaultView
 {
     private static final String TAG = "LoginActivity";
     protected AccessTokenTracker tokenTracker;
@@ -63,29 +62,28 @@ public class LoginActivity extends AppCompatActivity
         // initializing FacebookSdk
         FacebookSdk.sdkInitialize(LoginActivity.this);
         setContentView(R.layout.activity_user_login);
-        changeStatusBarColor();
-        loadInputs();
+        loadInput();
+        loadDefaultView();
+
         userButtonNormalLogin();
         userButtonRegister();
         userButtonFacebookLogin();
     }
 
-    public void changeStatusBarColor()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(LoginActivity.this, R.color.colorPrimary));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarLoginActivity);
-        setSupportActionBar(toolbar);
-    }
-
-    private void loadInputs()
+    @Override
+    public void loadInput()
     {
         etLogin = findViewById(R.id.editTextLogin);
         etPassword = findViewById(R.id.editTextPassword);
         btLogin = findViewById(R.id.buttonLogin);
         btRegister = findViewById(R.id.buttonRegister);
+    }
+
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(LoginActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarLoginActivity);
     }
 
     private void userButtonNormalLogin()
@@ -346,5 +344,4 @@ public class LoginActivity extends AppCompatActivity
     {
         this.userPassword = userPassword;
     }
-
 }

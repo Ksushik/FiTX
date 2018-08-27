@@ -2,22 +2,18 @@ package com.brus5.lukaszkrawczak.fitx.Training;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
-import com.brus5.lukaszkrawczak.fitx.SettingsActiviy;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 
 public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
@@ -33,18 +29,51 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
 
     private String dateFormat;
 
-    private Configuration cfg = new Configuration();
+    private DateGenerator cfg = new DateGenerator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_2_muscle_choose);
-        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarTrainingSearchExercises,this);
         loadInput();
-        onBackButtonPressed();
+        loadDefaultView();
+
         button();
         getIntentFromPreviousActiity();
+    }
+
+    public void loadInput()
+    {
+        imageViewBodyBack = findViewById(R.id.imageViewBodyBack);
+        imageViewBodyFront = findViewById(R.id.imageViewBodyFront);
+
+        tvButtonChest = findViewById(R.id.textViewButtonChest);
+        tvButtonAbs = findViewById(R.id.textViewButtonAbs);
+        tvButtonQuads = findViewById(R.id.textViewButtonQuads);
+        tvButtonShoulders = findViewById(R.id.textViewButtonShoulders);
+        tvButtonBiceps = findViewById(R.id.textViewButtonBiceps);
+        tvButtonForearms = findViewById(R.id.textViewButtonForearms);
+        tvButtonLats = findViewById(R.id.textViewButtonLats);
+        tvButtonTraps = findViewById(R.id.textViewButtonTraps);
+        tvButtonGlutes = findViewById(R.id.textViewButtonGlutes);
+        tvButtonTriceps = findViewById(R.id.textViewButtonTriceps);
+        tvButtonHamstrings = findViewById(R.id.textViewButtonHamstrings);
+        tvButtonCalves = findViewById(R.id.textViewButtonCalves);
+
+        btRotate = findViewById(R.id.buttonRotate);
+        btRotate.setOnClickListener(this);
+
+        btCardio = findViewById(R.id.buttonCardio);
+        btCardio.setOnClickListener(this);
+    }
+
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(TrainingSearchActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarTrainingSearchExercises);
+        activityView.showBackButton();
     }
 
     private void button()
@@ -135,30 +164,6 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
         tvButtonForearms.setVisibility(View.VISIBLE);
     }
 
-    public void loadInput()
-    {
-        imageViewBodyBack = findViewById(R.id.imageViewBodyBack);
-        imageViewBodyFront = findViewById(R.id.imageViewBodyFront);
-
-        tvButtonChest = findViewById(R.id.textViewButtonChest);
-        tvButtonAbs = findViewById(R.id.textViewButtonAbs);
-        tvButtonQuads = findViewById(R.id.textViewButtonQuads);
-        tvButtonShoulders = findViewById(R.id.textViewButtonShoulders);
-        tvButtonBiceps = findViewById(R.id.textViewButtonBiceps);
-        tvButtonForearms = findViewById(R.id.textViewButtonForearms);
-        tvButtonLats = findViewById(R.id.textViewButtonLats);
-        tvButtonTraps = findViewById(R.id.textViewButtonTraps);
-        tvButtonGlutes = findViewById(R.id.textViewButtonGlutes);
-        tvButtonTriceps = findViewById(R.id.textViewButtonTriceps);
-        tvButtonHamstrings = findViewById(R.id.textViewButtonHamstrings);
-        tvButtonCalves = findViewById(R.id.textViewButtonCalves);
-
-        btRotate = findViewById(R.id.buttonRotate);
-        btRotate.setOnClickListener(this);
-
-        btCardio = findViewById(R.id.buttonCardio);
-        btCardio.setOnClickListener(this);
-    }
 
     private void onBackButtonPressed()
     {
@@ -219,6 +224,6 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
 
     private void getIntentFromPreviousActiity()
     {
-        Log.i(TAG, "dateFormat: " + Configuration.getDate());
+        Log.i(TAG, "dateFormat: " + DateGenerator.getDate());
     }
 }

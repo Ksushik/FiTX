@@ -26,13 +26,14 @@ import com.brus5.lukaszkrawczak.fitx.Calculator.Calories;
 import com.brus5.lukaszkrawczak.fitx.Calculator.Carb;
 import com.brus5.lukaszkrawczak.fitx.Calculator.Fat;
 import com.brus5.lukaszkrawczak.fitx.Calculator.Protein;
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.Converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.DTO.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,7 +58,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
     private ArrayList<Diet> list = new ArrayList<>();
     private DietListAdapter adapter;
     private ListView listView;
-    private Configuration cfg = new Configuration();
+    private DateGenerator cfg = new DateGenerator();
     private String dateFormat, dateFormatView, productTimeStamp;
     private double maxCalories = 0d;
 
@@ -66,9 +67,9 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet_1);
-        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarDietActivity,this);
-        onBackButtonPressed();
         loadInput();
+        loadDefaultView();
+
         weekCalendar(cfg.calendarPast(), cfg.calendarFuture());
         onListViewItemSelected();
     }
@@ -87,10 +88,18 @@ public class DietActivity extends AppCompatActivity implements DefaultView, Diet
         listView = findViewById(R.id.listViewDiet);
     }
 
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(DietActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarDietActivity);
+        activityView.showBackButton();
+    }
+
+
     private void weekCalendar(Calendar endDate, Calendar startDate)
     {
-        calendar = new HorizontalCalendar.Builder(DietActivity.this, R.id.calendarViewDietActivity)
-                       .defaultSelectedDate(   cfg.selectedDate(Configuration.getDate())    )
+        calendar = new HorizontalCalendar.Builder(DietActivity.this, R.id.calendarViewDietActivity).defaultSelectedDate(cfg.selectedDate(DateGenerator.getDate()))
 
                        .startDate(startDate.getTime())
                        .endDate(endDate.getTime())

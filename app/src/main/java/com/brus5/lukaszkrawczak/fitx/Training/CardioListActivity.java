@@ -17,10 +17,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +36,7 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
     private TrainingSearchListAdapter adapter;
     private ListView listView;
     private String dateFormat;
-    private Configuration cfg = new Configuration();
+    private DateGenerator cfg = new DateGenerator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,8 +44,8 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardio_3_listview);
         loadInput();
-        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarCardioList,this);
-        onBackButtonPressed();
+        loadDefaultView();
+
         getIntentFromPreviousActiity();
         asynchTask(CardioListActivity.this);
         onListViewItemSelected();
@@ -60,6 +61,16 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
     {
         listView = findViewById(R.id.listViewTraining);
     }
+
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(CardioListActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarCardioList);
+        activityView.showBackButton();
+    }
+
+
 
     private void onBackButtonPressed()
     {

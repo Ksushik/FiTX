@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.Async.LoadData;
-import com.brus5.lukaszkrawczak.fitx.Configuration;
 import com.brus5.lukaszkrawczak.fitx.DTO.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 
@@ -22,7 +21,7 @@ public class AsyncPreparator
         this.listView = listView;
 
         dto.userID = SaveSharedPreference.getUserID(context);
-        dto.date = Configuration.getDate();
+        dto.date = DateGenerator.getDate();
 
         String params = "?user_id=" + dto.userID + "&date=" + dto.date;
         Log.i(TAG, "AsyncPreparator: " + params);

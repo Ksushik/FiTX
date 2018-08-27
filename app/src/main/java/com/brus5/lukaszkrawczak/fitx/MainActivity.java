@@ -12,6 +12,8 @@ import com.brus5.lukaszkrawczak.fitx.Async.ConnectedView;
 import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.Utils.MyCalendar;
 
 /**
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 {
     private static final String TAG = "MainActivity";
     private Button btnDiet, btnTraining, btnSettings, btnStats;
-    private Configuration cfg = new Configuration();
+    private DateGenerator cfg = new DateGenerator();
     private ListView listView;
     public String response;
 
@@ -37,21 +39,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-
-        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarMainActivity,this);
         loadInput();
+        loadDefaultView();
+
         ConnectedView connectedView = new ConnectedView(this);
         connectedView.execute();
         new MyCalendar(this, this, R.id.calendarViewMainActivity, listView);
     }
 
-
-
+    @Override
     public void loadInput()
-
     {
         listView = findViewById(R.id.listViewMain);
         btnDiet = findViewById(R.id.buttonDiet);
@@ -62,6 +59,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSettings.setOnClickListener(this);
         btnStats = findViewById(R.id.buttonStats);
         btnStats.setOnClickListener(this);
+    }
+
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(MainActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarTrainingSearchExercises);
     }
 
 

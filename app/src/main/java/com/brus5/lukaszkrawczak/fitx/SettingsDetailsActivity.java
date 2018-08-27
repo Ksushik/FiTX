@@ -1,26 +1,36 @@
 package com.brus5.lukaszkrawczak.fitx;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class SettingsDetailsActivity extends AppCompatActivity {
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
 
-    private Configuration cfg = new Configuration();
+public class SettingsDetailsActivity extends AppCompatActivity implements DefaultView
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_details);
-        cfg.changeStatusBarColor(this, getApplicationContext(),R.id.toolbaSettingsDetailsActivity,this);
-        onBackButtonPressed();
+        loadInput();
+        loadDefaultView();
     }
 
-    private void onBackButtonPressed()
+    @Override
+    public void loadInput()
     {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    @Override
+    public void loadDefaultView()
+    {
+        ActivityView activityView = new ActivityView(SettingsDetailsActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbaSettingsDetailsActivity);
+        activityView.showBackButton();
     }
 
     @Override
@@ -45,5 +55,4 @@ public class SettingsDetailsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

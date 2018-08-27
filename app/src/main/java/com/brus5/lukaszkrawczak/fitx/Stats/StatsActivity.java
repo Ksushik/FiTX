@@ -2,15 +2,14 @@ package com.brus5.lukaszkrawczak.fitx.Stats;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 
+import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
 
-public class StatsActivity extends AppCompatActivity
+public class StatsActivity extends AppCompatActivity implements DefaultView
 {
 
     @Override
@@ -18,23 +17,23 @@ public class StatsActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
-        changeStatusBarColor();
-        onBackButtonPressed();
+        loadInput();
+        loadDefaultView();
+
     }
 
-    private void onBackButtonPressed()
+    @Override
+    public void loadInput()
     {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
-    private void changeStatusBarColor()
+    @Override
+    public void loadDefaultView()
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            getWindow().setStatusBarColor(ContextCompat.getColor(StatsActivity.this, R.color.colorPrimary));
-        }
-        Toolbar toolbar = findViewById(R.id.toolbarStatsActivity);
-        setSupportActionBar(toolbar);
+        ActivityView activityView = new ActivityView(StatsActivity.this, getApplicationContext(), this);
+        activityView.statusBarColor(R.id.toolbarStatsActivity);
+        activityView.showBackButton();
     }
 
     public void runNextActivity(Context packageContext, Class<?> cls)
