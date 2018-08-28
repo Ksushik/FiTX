@@ -5,7 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.brus5.lukaszkrawczak.fitx.Async.Protocol.AsyncPreparator;
+import com.brus5.lukaszkrawczak.fitx.Async.Provider.Provider;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -70,7 +70,7 @@ public class MyCalendar
             {
                 DateGenerator.setDate(cfg.getDateFormat().format(date.getTime()));
 
-                new AsyncPreparator(activity, context, listView).load();
+                new Provider(activity, context, listView).load();
 
 
                 Log.d(TAG, "onDateSelected() called with: date = [" + date + "], position = [" + position + "]");

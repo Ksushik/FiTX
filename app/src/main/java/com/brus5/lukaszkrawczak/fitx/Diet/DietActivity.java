@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.brus5.lukaszkrawczak.fitx.Async.Protocol.AsyncPreparator;
+import com.brus5.lukaszkrawczak.fitx.Async.Provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
@@ -109,7 +109,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView
     protected void onRestart()
     {
         super.onRestart();
-        new AsyncPreparator(this, this, listView).load();
+        new Provider(this, this, listView).load();
     }
 
 

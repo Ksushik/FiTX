@@ -1,18 +1,18 @@
-package com.brus5.lukaszkrawczak.fitx.Async.Protocol;
+package com.brus5.lukaszkrawczak.fitx.Async.Provider;
 
 import android.app.Activity;
 import android.content.Context;
 import android.widget.ListView;
 
-import com.brus5.lukaszkrawczak.fitx.Async.LoadData;
+import com.brus5.lukaszkrawczak.fitx.Async.HTTPService;
 
-public class AsyncPreparator
+public class Provider
 {
     private ListView listView;
     private Activity activity;
     private Context context;
 
-    public AsyncPreparator(Activity activity, Context context, ListView listView)
+    public Provider(Activity activity, Context context, ListView listView)
     {
         this.activity = activity;
         this.context = context;
@@ -28,21 +28,21 @@ public class AsyncPreparator
         switch (context.getClass().getSimpleName())
         {
             case "MainActivity":
-                new MainActivityAsyncPreparator(activity, context, listView);
+                new MainActivityProvider(activity, context, listView);
                 break;
             case "DietActivity":
-                new DietActivityAsyncPreparator(activity, context, listView);
+                new DietActivityProdiver(activity, context, listView);
                 break;
             case "TrainingActivity":
-                new TrainingActivityAsyncPreparator(activity, context, listView);
+                new TrainingActivityProvider(activity, context, listView);
                 break;
         }
     }
 
-    protected void startAsyncTask(String link, String params)
+    protected void startHTTPService(String link, String params)
     {
-        LoadData loadData = new LoadData(activity, context, listView);
-        loadData.execute(link, params);
+        HTTPService HTTPService = new HTTPService(activity, context, listView);
+        HTTPService.execute(link, params);
     }
 
 

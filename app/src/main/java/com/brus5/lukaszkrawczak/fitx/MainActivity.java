@@ -13,7 +13,6 @@ import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
 import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
-import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.Utils.MyCalendar;
 
 /**
@@ -28,11 +27,8 @@ import com.brus5.lukaszkrawczak.fitx.Utils.MyCalendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
-    private static final String TAG = "MainActivity";
-    private Button btnDiet, btnTraining, btnSettings, btnStats;
-    private DateGenerator cfg = new DateGenerator();
+    private Button btnDiet, btTraining, btSettings, btnStats;
     private ListView listView;
-    public String response;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ConnectedView connectedView = new ConnectedView(this);
         connectedView.execute();
+
         new MyCalendar(this, this, R.id.calendarViewMainActivity, listView);
     }
 
@@ -53,10 +50,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listView = findViewById(R.id.listViewMain);
         btnDiet = findViewById(R.id.buttonDiet);
         btnDiet.setOnClickListener(this);
-        btnTraining = findViewById(R.id.buttonTraining);
-        btnTraining.setOnClickListener(this);
-        btnSettings = findViewById(R.id.buttonSettings);
-        btnSettings.setOnClickListener(this);
+        btTraining = findViewById(R.id.buttonTraining);
+        btTraining.setOnClickListener(this);
+        btSettings = findViewById(R.id.buttonSettings);
+        btSettings.setOnClickListener(this);
         btnStats = findViewById(R.id.buttonStats);
         btnStats.setOnClickListener(this);
     }
@@ -65,9 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void loadDefaultView()
     {
         ActivityView activityView = new ActivityView(MainActivity.this, getApplicationContext(), this);
-        activityView.statusBarColor(R.id.toolbarTrainingSearchExercises);
+        activityView.statusBarColor(R.id.toolbarMainActivity);
     }
-
 
     @Override
     public void onClick(View v)
@@ -95,9 +91,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onRestart();
     }
 
-    public void runNextActivity(Context packageContext, Class<?> cls)
+    public void runNextActivity(Context context, Class<?> cls)
     {
-        Intent intent = new Intent(packageContext, cls);
+        Intent intent = new Intent(context, cls);
         MainActivity.this.startActivity(intent);
     }
 

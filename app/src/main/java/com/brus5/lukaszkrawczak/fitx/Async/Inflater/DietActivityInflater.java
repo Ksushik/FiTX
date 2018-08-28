@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx.Async;
+package com.brus5.lukaszkrawczak.fitx.Async.Inflater;
 
 import android.app.Activity;
 import android.content.Context;
@@ -49,7 +49,7 @@ public class DietActivityInflater
 
     private double maxCalories = 0d;
 
-    DietActivityInflater(Activity activity, Context context, ListView listView, String response)
+    public DietActivityInflater(Activity activity, Context context, ListView listView, String response)
     {
         this.parentActivity = activity;
         this.context = context;

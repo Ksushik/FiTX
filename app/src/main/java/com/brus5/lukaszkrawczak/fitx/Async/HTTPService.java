@@ -6,6 +6,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.brus5.lukaszkrawczak.fitx.Async.Inflater.DietActivityInflater;
+import com.brus5.lukaszkrawczak.fitx.Async.Inflater.MainActivityInflater;
+import com.brus5.lukaszkrawczak.fitx.Async.Inflater.TrainingActivityInflater;
+
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -21,14 +25,13 @@ import java.net.URL;
  * Created by Łukasz Krawczak
  */
 
-public class LoadData extends AsyncTask<String, String, String>
-{
-    private static final String TAG = "LoadData";
+public class HTTPService extends AsyncTask<String, String, String> {
+    private static final String TAG = "HTTPService";
     private Activity activity;
     private Context context;
     private ListView listView;
 
-    public LoadData(Activity activity, Context context, ListView listView)
+    public HTTPService(Activity activity, Context context, ListView listView)
     {
         this.activity = activity;
         this.context = context;
@@ -114,6 +117,9 @@ public class LoadData extends AsyncTask<String, String, String>
                 break;
             case "DietActivity":
                 new DietActivityInflater(activity, context, listView, s);
+                break;
+            case "TrainingActivity":
+                new TrainingActivityInflater(activity, context, listView, s);
                 break;
         }
         Log.d(TAG, "onPostExecute() called with: s = [" + s + "]");

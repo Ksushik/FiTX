@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx.Async.Protocol;
+package com.brus5.lukaszkrawczak.fitx.Async.Provider;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,7 +9,7 @@ import com.brus5.lukaszkrawczak.fitx.DTO.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 
-class MainActivityAsyncPreparator extends AsyncPreparator
+class MainActivityProvider extends Provider
 {
     private static final String TAG = "AsyncPrepMain";
 
@@ -21,7 +21,7 @@ class MainActivityAsyncPreparator extends AsyncPreparator
 
     /**
      * This constructor preparing link which should be sended to
-     * startAsyncTask.
+     * startHTTPService.
      * Example link:
      * http://justfitx.xyz/Diet/ShowByUser.php?username=brus5&date=2018-08-27&user_id=5
      *
@@ -29,7 +29,7 @@ class MainActivityAsyncPreparator extends AsyncPreparator
      * @param context  context from current Activity
      * @param listView listView from current Activity
      */
-    MainActivityAsyncPreparator(Activity activity, Context context, ListView listView)
+    MainActivityProvider(Activity activity, Context context, ListView listView)
     {
         super(activity, context, listView);
 
@@ -43,21 +43,21 @@ class MainActivityAsyncPreparator extends AsyncPreparator
         Log.d(TAG, "AsyncPrepMain: " + params);
 
         // Starting AsyncTask after completing up link+params
-        // This method is in AsyncPreparator.class
-        startAsyncTask(link, params);
+        // This method is in Provider.class
+        startHTTPService(link, params);
     }
 
 
     /**
      * This method start AsyncTask after completing link + params
-     * This method is in AsyncPreparator.class
+     * This method is in Provider.class
      *
      * @param link   it should be whole link for example: http://justfitx.xyz/Diet/ShowByUser.php
      * @param params it should named: ?username=brus5&date=2018-08-27&user_id=5
      */
     @Override
-    protected void startAsyncTask(String link, String params)
+    protected void startHTTPService(String link, String params)
     {
-        super.startAsyncTask(link, params);
+        super.startHTTPService(link, params);
     }
 }

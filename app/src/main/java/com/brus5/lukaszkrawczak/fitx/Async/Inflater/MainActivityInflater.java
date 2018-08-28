@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx.Async;
+package com.brus5.lukaszkrawczak.fitx.Async.Inflater;
 
 import android.content.Context;
 import android.util.Log;
@@ -25,7 +25,7 @@ public class MainActivityInflater
     private MainAdapter adapter;
     private ArrayList<Main> list = new ArrayList<>();
 
-    MainActivityInflater(Context context, ListView listView, String response)
+    public MainActivityInflater(Context context, ListView listView, String response)
     {
         this.context = context;
         this.listView = listView;
