@@ -19,7 +19,6 @@ public class MainActivityInflater
 {
     private static final String TAG = "MainActivityInflater";
 
-
     private Context context;
     private ListView listView;
     private Main main;

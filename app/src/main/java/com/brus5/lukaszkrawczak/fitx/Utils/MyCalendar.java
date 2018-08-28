@@ -2,9 +2,10 @@ package com.brus5.lukaszkrawczak.fitx.Utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.ListView;
+
+import com.brus5.lukaszkrawczak.fitx.Async.Protocol.AsyncPreparator;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.Date;
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
-public class MyCalendar extends FragmentActivity
+public class MyCalendar
 {
     private static final String TAG = "MyCalendar";
     ListView listView;
@@ -54,7 +55,9 @@ public class MyCalendar extends FragmentActivity
      */
     public void weekCalendar(Calendar calendarPast, Calendar calendarFuture)
     {
-        calendar = new HorizontalCalendar.Builder(activity, resId).startDate(calendarFuture.getTime()).endDate(calendarPast.getTime()).datesNumberOnScreen(5).dayNameFormat("EE").dayNumberFormat("dd").showDayName(true).showMonthName(false).build();
+        calendar = new HorizontalCalendar.Builder(activity, resId)
+                //                .defaultSelectedDate(cfg.selectedDate(DateGenerator.getDate()))
+                .startDate(calendarFuture.getTime()).endDate(calendarPast.getTime()).datesNumberOnScreen(5).dayNameFormat("EE").dayNumberFormat("dd").showDayName(true).showMonthName(false).build();
 
         /**
          * Sets Listener of HorizontalCalendar. As parameter we've got abstract class HorizontalCalendarListener
@@ -67,7 +70,8 @@ public class MyCalendar extends FragmentActivity
             {
                 DateGenerator.setDate(cfg.getDateFormat().format(date.getTime()));
 
-                new AsyncPreparator(context, listView);
+                new AsyncPreparator(activity, context, listView).load();
+
 
                 Log.d(TAG, "onDateSelected() called with: date = [" + date + "], position = [" + position + "]");
             }

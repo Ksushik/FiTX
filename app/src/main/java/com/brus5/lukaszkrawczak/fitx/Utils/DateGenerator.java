@@ -98,8 +98,3 @@ public class DateGenerator
     }
 
 }
-
-class DateA
-{
-
-}

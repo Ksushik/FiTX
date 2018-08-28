@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.Async;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -23,12 +24,13 @@ import java.net.URL;
 public class LoadData extends AsyncTask<String, String, String>
 {
     private static final String TAG = "LoadData";
-    String strUrl = "http://justfitx.xyz/Main/Diet.php";
-    Context context;
-    ListView listView;
+    private Activity activity;
+    private Context context;
+    private ListView listView;
 
-    public LoadData(Context context, ListView listView)
+    public LoadData(Activity activity, Context context, ListView listView)
     {
+        this.activity = activity;
         this.context = context;
         this.listView = listView;
     }
@@ -43,7 +45,9 @@ public class LoadData extends AsyncTask<String, String, String>
         try
         {
             // new url connection handled with exeption
-            URL url = new URL(strUrl + strings[0]);
+            // link is handled by parameters of strings, so strings[0]
+            // contains link, and strings[1] contains parameters.
+            URL url = new URL(strings[0] + strings[1]);
 
             // url object has method with open url connection
             // and returns object of (HttpURLConnection)
@@ -103,10 +107,16 @@ public class LoadData extends AsyncTask<String, String, String>
     {
         super.onPostExecute(s);
 
-        new MainActivityInflater(context, listView, s);
-
-
-
+        switch (context.getClass().getSimpleName())
+        {
+            case "MainActivity":
+                new MainActivityInflater(context, listView, s);
+                break;
+            case "DietActivity":
+                new DietActivityInflater(activity, context, listView, s);
+                break;
+        }
         Log.d(TAG, "onPostExecute() called with: s = [" + s + "]");
     }
+
 }
