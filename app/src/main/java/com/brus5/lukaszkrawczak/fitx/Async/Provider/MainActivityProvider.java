@@ -40,7 +40,7 @@ class MainActivityProvider extends Provider
         // Glueing link with variables
         String params = "?user_id=" + dto.userID + "&date=" + dto.date;
 
-        Log.d(TAG, "AsyncPrepMain: " + params);
+        Log.d(TAG, "MainActivityProvider: " + params);
 
         // Starting AsyncTask after completing up link+params
         // This method is in Provider.class
