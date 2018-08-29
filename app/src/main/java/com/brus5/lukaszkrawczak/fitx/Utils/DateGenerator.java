@@ -31,16 +31,16 @@ public class DateGenerator
 
 
 
-    public static String getDate()
+    public static String getSelectedDate()
     {
-        Log.i(TAG, "getDate: " + DateGenerator.date);
+        Log.i(TAG, "getSelectedDate: " + DateGenerator.date);
         return date;
     }
 
-    public static void setDate(String date)
+    public static void setSelectedDate(String date)
     {
         DateGenerator.date = date;
-        Log.i(TAG, "setDate: " + DateGenerator.date);
+        Log.i(TAG, "setSelectedDate: " + DateGenerator.date);
     }
 
 

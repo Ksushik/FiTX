@@ -21,7 +21,7 @@ public class MyCalendar
     private Activity activity;
     private int resId;
     private Context context;
-    private DateGenerator cfg = new DateGenerator();
+    private DateGenerator date = new DateGenerator();
 
     /**
      * This is default constructor of MyCalendar
@@ -41,7 +41,7 @@ public class MyCalendar
         /**
          * The constructor automatically runs up method with past date and future date as a parameters.
          */
-        weekCalendar(cfg.calendarPast(), cfg.calendarFuture());
+        weekCalendar(date.calendarPast(), date.calendarFuture());
 
     }
 
@@ -56,7 +56,7 @@ public class MyCalendar
     public void weekCalendar(Calendar calendarPast, Calendar calendarFuture)
     {
         calendar = new HorizontalCalendar.Builder(activity, resId)
-                //                .defaultSelectedDate(cfg.selectedDate(DateGenerator.getDate()))
+                //                .defaultSelectedDate(date.selectedDate(DateGenerator.getDate()))
                 .startDate(calendarFuture.getTime()).endDate(calendarPast.getTime()).datesNumberOnScreen(5).dayNameFormat("EE").dayNumberFormat("dd").showDayName(true).showMonthName(false).build();
 
         /**
@@ -68,7 +68,7 @@ public class MyCalendar
             @Override
             public void onDateSelected(Date date, int position)
             {
-                DateGenerator.setDate(cfg.getDateFormat().format(date.getTime()));
+                DateGenerator.setSelectedDate(MyCalendar.this.date.getDateFormat().format(date.getTime()));
 
                 new Provider(activity, context, listView).load();
 

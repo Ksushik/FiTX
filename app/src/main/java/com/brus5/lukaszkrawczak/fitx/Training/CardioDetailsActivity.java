@@ -181,7 +181,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         previousActivity = intent.getStringExtra("previousActivity");
 
 
-        TimeStampReplacer time = new TimeStampReplacer(DateGenerator.getDate(), trainingTimeStamp);
+        TimeStampReplacer time = new TimeStampReplacer(DateGenerator.getSelectedDate(), trainingTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
 
         Log.i(TAG, "trainingID: "           + trainingID);
@@ -189,7 +189,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         Log.i(TAG, "trainingTime: "         + trainingTime);
         Log.i(TAG, "kcalPerMin: "           + kcalPerMin);
         Log.i(TAG, "previousActivity: "     + previousActivity);
-        Log.i(TAG, "getDate: " + DateGenerator.getDate());
+        Log.i(TAG, "getSelectedDate: " + DateGenerator.getSelectedDate());
         Log.i(TAG, "newTimeStamp: "         + newTimeStamp);
 
     }

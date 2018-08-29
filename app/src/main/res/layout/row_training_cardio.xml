@@ -9,6 +9,7 @@
     android:paddingBottom="@dimen/activity_listview_vertical_margin"
     android:paddingLeft="@dimen/activity_listview_horizontal_margin"
     android:paddingRight="@dimen/activity_listview_horizontal_margin"
+    android:onClick="onClickCardioDetails"
     tools:context="com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity">
 
     <android.support.constraint.ConstraintLayout

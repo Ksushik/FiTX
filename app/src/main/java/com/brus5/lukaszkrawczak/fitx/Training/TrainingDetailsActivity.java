@@ -281,7 +281,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         trainingTimeStamp = timeStampChanger(trainingTimeStamp);
         previousActivity = intent.getStringExtra("previousActivity");
 
-        TimeStampReplacer time = new TimeStampReplacer(DateGenerator.getDate(), trainingTimeStamp);
+        TimeStampReplacer time = new TimeStampReplacer(DateGenerator.getSelectedDate(), trainingTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
     }
 

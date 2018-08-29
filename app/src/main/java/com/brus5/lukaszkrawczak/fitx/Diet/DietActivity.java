@@ -50,7 +50,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView
 
     //    private void weekCalendar(Calendar endDate, Calendar startDate)
     //    {
-    //        calendar = new HorizontalCalendar.Builder(DietActivity.this, R.id.calendarViewDietActivity).defaultSelectedDate(cfg.selectedDate(DateGenerator.getDate()))
+    //        calendar = new HorizontalCalendar.Builder(DietActivity.this, R.id.calendarViewDietActivity).defaultSelectedDate(cfg.selectedDate(DateGenerator.getSelectedDate()))
     //
     //                       .startDate(startDate.getTime())
     //                       .endDate(endDate.getTime())
@@ -95,7 +95,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView
 
                 Intent intent = new Intent(DietActivity.this, DietProductShowActivity.class);
                 intent.putExtra("productID", Integer.valueOf(productId.getText().toString()));
-                intent.putExtra("dateFormat", DateGenerator.getDate());
+                intent.putExtra("dateFormat", DateGenerator.getSelectedDate());
                 intent.putExtra("productWeight", Double.valueOf(productWeight.getText().toString()));
                 intent.putExtra("productTimeStamp", productTimeStamp.getText().toString());
                 intent.putExtra("previousActivity", "DietActivity");
@@ -128,7 +128,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView
         {
             case R.id.menu_search_product:
             Intent intent = new Intent(DietActivity.this,DietProductSearchActivity.class);
-                intent.putExtra("dateFormat", DateGenerator.getDate());
+                intent.putExtra("dateFormat", DateGenerator.getSelectedDate());
             DietActivity.this.startActivity(intent);
             break;
         }

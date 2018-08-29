@@ -36,7 +36,7 @@ class DietActivityProdiver extends Provider
         // Attributing proper information to variables
         dto.userName = SaveSharedPreference.getUserName(context);
         dto.userID = SaveSharedPreference.getUserID(context);
-        dto.date = DateGenerator.getDate();
+        dto.date = DateGenerator.getSelectedDate();
 
         // Glueing link with variables
         String params = "?username=" + dto.userName + "&date=" + dto.date + "&user_id=" + dto.userID;

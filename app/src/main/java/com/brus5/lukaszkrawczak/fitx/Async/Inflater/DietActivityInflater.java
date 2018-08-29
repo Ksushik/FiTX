@@ -45,7 +45,7 @@ public class DietActivityInflater
     private ProgressBar pBarProteins, pBarFats, pBarCarbs, pBarKcal;
 
     private String productTimeStamp;
-    private String dateFormat = DateGenerator.getDate();
+    private String dateFormat = DateGenerator.getSelectedDate();
 
     private double maxCalories = 0d;
 

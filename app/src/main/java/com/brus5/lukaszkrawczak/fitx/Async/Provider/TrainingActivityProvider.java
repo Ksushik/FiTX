@@ -35,7 +35,7 @@ class TrainingActivityProvider extends Provider
 
         // Attributing proper information to variables
         dto.userID = SaveSharedPreference.getUserID(context);
-        dto.date = DateGenerator.getDate();
+        dto.date = DateGenerator.getSelectedDate();
 
         // Glueing link with variables
         String params = "?user_id=" + dto.userID + "&date=" + dto.date;

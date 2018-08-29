@@ -224,6 +224,6 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
 
     private void getIntentFromPreviousActiity()
     {
-        Log.i(TAG, "dateFormat: " + DateGenerator.getDate());
+        Log.i(TAG, "dateFormat: " + DateGenerator.getSelectedDate());
     }
 }
