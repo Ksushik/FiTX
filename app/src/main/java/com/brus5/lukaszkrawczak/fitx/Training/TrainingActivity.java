@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.Training;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -283,52 +284,14 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
 
                 if (isGym)
                 {
-                    TextView tvTrainingID = view.findViewById(R.id.trainingID);
-                    TextView tvTrainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
-                    TextView tvTrainingTarget = view.findViewById(R.id.trainingTarget);
-
-                    Intent intent = new Intent(TrainingActivity.this, TrainingDetailsActivity.class);
-
-                    intent.putExtra("trainingID", Integer.valueOf(tvTrainingID.getText().toString()));
-                    intent.putExtra("trainingTimeStamp", tvTrainingTimeStamp.getText().toString());
-                    intent.putExtra("trainingTarget", tvTrainingTarget.getText().toString());
-                    intent.putExtra("previousActivity", TrainingActivity.class.getSimpleName());
-                    intent.putExtra("dateFormat", DateGenerator.getDate());
-
-                    TrainingActivity.this.startActivity(intent);
+                    TrainingProvider trainingProvider = new TrainingProvider(TrainingActivity.this, view, TrainingActivity.class);
+                    trainingProvider.startTrainingDetailsActivity();
                 }
                 if (isCardio)
                 {
-                    TextView tvCardioID = view.findViewById(R.id.cardioID);
-                    TextView tvTimeStamp = view.findViewById(R.id.cardioTimeStamp);
-                    TextView tvTime = view.findViewById(R.id.cardioTime);
-                    TextView tvKcalPerMin = view.findViewById(R.id.cardioBurnPerMin);
-
-                    int time;
-                    if (tvTime.length() < 5)
-                    {
-                        time = Integer.valueOf("0" + tvTime.getText().toString().substring(0, 1));
-                    }
-                    else
-                    {
-                        time = Integer.valueOf(tvTime.getText().toString().substring(0, 2));
-                    }
-
-                    Log.e(TAG, "tvKcalPerMin: " + tvKcalPerMin.getText().toString());
-
-                    Intent intent = new Intent(TrainingActivity.this, CardioDetailsActivity.class);
-                    intent.putExtra("trainingID", Integer.valueOf(tvCardioID.getText().toString()));
-                    intent.putExtra("trainingTimeStamp", tvTimeStamp.getText().toString());
-                    intent.putExtra("trainingTime", time);
-                    intent.putExtra("kcalPerMin", Double.parseDouble(tvKcalPerMin.getText().toString()));
-                    intent.putExtra("previousActivity", TrainingActivity.class.getSimpleName());
-                    intent.putExtra("dateFormat", DateGenerator.getDate());
-
-                    TrainingActivity.this.startActivity(intent);
-
-
+                    TrainingProvider trainingProvider = new TrainingProvider(TrainingActivity.this, view, TrainingActivity.class);
+                    trainingProvider.startCardioDetailsActivity();
                 }
-
             }
         });
     }
@@ -337,12 +300,101 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
     protected void onRestart()
     {
         super.onRestart();
-//        adapter.clear();
-//        TrainingDTO dto = new TrainingDTO();
-//        dto.setUserName(SaveSharedPreference.getUserName(TrainingActivity.this));
-//        dto.setTrainingDate(DateGenerator.getDate());
-//        loadAsynchTask(dto, TrainingActivity.this);
         new Provider(this, this, listView).load();
-//        Log.i(TAG, "onRestart: " + dto.toString());
+    }
+}
+
+class TrainingProvider
+{
+
+    private static final String TAG = "TrainingProvider";
+
+    private View view;
+    private Context context;
+
+    private String previousActivity;
+    private String dateFormat;
+
+    /**
+     * Constructor of Training Provider
+     *
+     * @param context pass actual context
+     * @param view    pass view of listView
+     */
+    TrainingProvider(Context context, View view, Class<?> aClass)
+    {
+        this.context = context;
+        this.view = view;
+
+        previousActivity = aClass.getSimpleName();
+        dateFormat = DateGenerator.getDate();
+
+        Log.d(TAG, "TrainingProvider: \n" + "context: " + context.getClass() + "\n" + "view: " + view.getId() + "\n" + "class: " + aClass.getSimpleName());
+    }
+
+    /**
+     * This method starts TrainingDetailsActivity with values of concrete TextView's:
+     * trainingID, timeStamp, trainingTarget
+     * and passing it to TrainingDetailsActivity where are grabbed by getIntent() method.
+     */
+    protected void startTrainingDetailsActivity()
+    {
+        TextView tvTrainingID = view.findViewById(R.id.trainingID);
+        TextView tvTrainingTimeStamp = view.findViewById(R.id.trainingTimeStamp);
+        TextView tvTrainingTarget = view.findViewById(R.id.trainingTarget);
+
+        int trainingID = Integer.parseInt(tvTrainingID.getText().toString());
+        String trainingTimeStamp = tvTrainingTimeStamp.getText().toString();
+        String trainingTarget = tvTrainingTarget.getText().toString();
+
+        Intent intent = new Intent(context, TrainingDetailsActivity.class);
+
+        intent.putExtra("trainingID", trainingID);
+        intent.putExtra("trainingTimeStamp", trainingTimeStamp);
+        intent.putExtra("trainingTarget", trainingTarget);
+        intent.putExtra("previousActivity", this.previousActivity);
+        intent.putExtra("dateFormat", this.dateFormat);
+
+        this.context.startActivity(intent);
+    }
+
+    /**
+     * This method starts CardioDetailsActivity with values of concrete TextView's:
+     * cardioID, timeStamp, cardioTime, caloriesBurnedPerMinute
+     * and passing it to CardioDetailsActivity where are grabbed by getIntent() method.
+     */
+    protected void startCardioDetailsActivity()
+    {
+
+        TextView tvCardioID = view.findViewById(R.id.cardioID);
+        TextView tvTimeStamp = view.findViewById(R.id.cardioTimeStamp);
+        TextView tvTime = view.findViewById(R.id.cardioTime);
+        TextView tvKcalPerMin = view.findViewById(R.id.cardioBurnPerMin);
+
+        int trainingID = Integer.parseInt(tvCardioID.getText().toString());
+        String trainingTimeStamp = tvTimeStamp.getText().toString();
+        double kcalPerMin = Double.parseDouble(tvKcalPerMin.getText().toString());
+        int cardioTime;
+
+
+        if (tvTime.length() < 5)
+        {
+            cardioTime = Integer.valueOf("0" + tvTime.getText().toString().substring(0, 1));
+        }
+        else
+        {
+            cardioTime = Integer.valueOf(tvTime.getText().toString().substring(0, 2));
+        }
+
+        Intent intent = new Intent(context, CardioDetailsActivity.class);
+
+        intent.putExtra("trainingID", trainingID);
+        intent.putExtra("trainingTimeStamp", trainingTimeStamp);
+        intent.putExtra("trainingTime", cardioTime);
+        intent.putExtra("kcalPerMin", kcalPerMin);
+        intent.putExtra("previousActivity", this.previousActivity);
+        intent.putExtra("dateFormat", this.dateFormat);
+
+        this.context.startActivity(intent);
     }
 }

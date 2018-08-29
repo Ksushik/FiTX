@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.Async.ConnectedView;
+import com.brus5.lukaszkrawczak.fitx.Async.Provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
 import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
 import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onRestart()
     {
         super.onRestart();
+        new Provider(this, this, listView).load();
     }
 
     public void runNextActivity(Context context, Class<?> cls)
