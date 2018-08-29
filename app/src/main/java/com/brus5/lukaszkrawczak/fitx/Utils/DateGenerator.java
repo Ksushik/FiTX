@@ -44,6 +44,31 @@ public class DateGenerator
     }
 
 
+    /**
+     * This method generates static Date
+     *
+     * @return Date formatted from pattern "yyyy-MM-dd"
+     */
+    public static Date savedDate()
+    {
+        if (DateGenerator.date == null) // at the start of the program this will be null
+        {
+            return Calendar.getInstance().getTime(); // returns actual time
+        }
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        try
+        {
+            cal.setTime(sdf.parse(DateGenerator.date)); // parsing existing DateGenerator.date to Date format
+        } catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+        return cal.getTime();
+    }
+
     public SimpleDateFormat getDateFormat()
     {
         return dateFormat;
@@ -73,7 +98,7 @@ public class DateGenerator
         Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
     }
 
-    public Date selectedDate(String date)
+    public Date savedDate(String date)
     {
         Calendar calendar = Calendar.getInstance();
         try

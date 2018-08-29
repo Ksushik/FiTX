@@ -47,41 +47,6 @@ public class DietActivity extends AppCompatActivity implements DefaultView
         activityView.showBackButton();
     }
 
-
-    //    private void weekCalendar(Calendar endDate, Calendar startDate)
-    //    {
-    //        calendar = new HorizontalCalendar.Builder(DietActivity.this, R.id.calendarViewDietActivity).defaultSelectedDate(cfg.selectedDate(DateGenerator.getSelectedDate()))
-    //
-    //                       .startDate(startDate.getTime())
-    //                       .endDate(endDate.getTime())
-    //                       .datesNumberOnScreen(5)
-    //                       .dayNameFormat("EE")
-    //                       .dayNumberFormat("dd")
-    //                       .showDayName(true)
-    //                       .showMonthName(false)
-    //                       .build();
-    //
-    //        calendar.setCalendarListener(
-    //            new HorizontalCalendarListener() {
-    //                @Override
-    //                public void onDateSelected(Date date, int position) {
-    //                    dateFormat = cfg.getDateFormat().format(date.getTime());
-    //                    dateFormatView = cfg.getDateFormatView().format(date.getTime());
-    //                    tvDate.setText(dateFormatView);
-    //
-    //                    list.clear();
-    //                    listView.setAdapter(adapter);
-    //
-    //                    DietDTO dto = new DietDTO();
-    //                    dto.userName = SaveSharedPreference.getUserName(DietActivity.this);
-    //                    dto.dateToday = dateFormat;
-    ////                    loadAsynchTask(dto, DietActivity.this);
-    //                    Log.i(TAG, "onDateSelected: " + dateFormat);
-    //                }
-    //            }
-    //        );
-    //    }
-
     private void onListViewItemSelected()
     {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()

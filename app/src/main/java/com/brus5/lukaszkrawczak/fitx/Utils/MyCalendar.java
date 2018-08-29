@@ -55,8 +55,7 @@ public class MyCalendar
      */
     public void weekCalendar(Calendar calendarPast, Calendar calendarFuture)
     {
-        calendar = new HorizontalCalendar.Builder(activity, resId)
-                //                .defaultSelectedDate(date.selectedDate(DateGenerator.getDate()))
+        calendar = new HorizontalCalendar.Builder(activity, resId).defaultSelectedDate(DateGenerator.savedDate())
                 .startDate(calendarFuture.getTime()).endDate(calendarPast.getTime()).datesNumberOnScreen(5).dayNameFormat("EE").dayNumberFormat("dd").showDayName(true).showMonthName(false).build();
 
         /**

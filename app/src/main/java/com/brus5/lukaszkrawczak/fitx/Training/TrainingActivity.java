@@ -18,20 +18,10 @@ import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.Utils.MyCalendar;
 
-import java.util.ArrayList;
-
-import devs.mulham.horizontalcalendar.HorizontalCalendar;
-
 public class TrainingActivity extends AppCompatActivity implements DefaultView
 {
-    private static final String TAG = "TrainingActivity";
-    HorizontalCalendar calendar;
-    DateGenerator cfg = new DateGenerator();
-    String dateFormatView;
     TextView tvDate;
-    ArrayList<Training> list = new ArrayList<>();
     ListView listView;
-    TrainingAdapter adapter;
     Training training;
 
     @Override
@@ -42,7 +32,6 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
         loadInput();
         loadDefaultView();
         new MyCalendar(this, this, R.id.calendarViewTraining, listView);
-
         training = new Training();
     }
 
