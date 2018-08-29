@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.brus5.lukaszkrawczak.fitx">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,7 +22,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".Login.LoginActivity"
+            android:name=".login.LoginActivity"
             android:label="@string/fitx"
             android:theme="@style/FiTX3theme.noBar"
             android:windowSoftInputMode="stateHidden">
@@ -38,54 +37,54 @@
             android:label="@string/fitx"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Stats.StatsActivity"
+            android:name=".stats.StatsActivity"
             android:label="@string/fitx"
             android:parentActivityName=".MainActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Diet.DietActivity"
+            android:name=".diet.DietActivity"
             android:label="@string/fitx"
             android:parentActivityName=".MainActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Training.TrainingActivity"
+            android:name=".training.TrainingActivity"
             android:label="@string/fitx"
             android:parentActivityName=".MainActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Diet.DietProductShowActivity"
+            android:name=".diet.DietProductShowActivity"
             android:label="@string/fitx"
-            android:parentActivityName=".Diet.DietActivity"
+            android:parentActivityName=".diet.DietActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Diet.DietProductSearchActivity"
+            android:name=".diet.DietProductSearchActivity"
             android:label="@string/fitx"
-            android:parentActivityName=".Diet.DietActivity"
+            android:parentActivityName=".diet.DietActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Training.TrainingDetailsActivity"
+            android:name=".training.TrainingDetailsActivity"
             android:label="@string/fitx"
-            android:parentActivityName=".Training.TrainingActivity"
+            android:parentActivityName=".training.TrainingActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Training.TrainingSearchActivity"
+            android:name=".training.TrainingSearchActivity"
             android:label="@string/fitx"
-            android:parentActivityName=".Training.TrainingActivity"
+            android:parentActivityName=".training.TrainingActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Training.TrainingListActivity"
+            android:name=".training.TrainingListActivity"
             android:label="@string/fitx"
-            android:parentActivityName=".Training.TrainingSearchActivity"
+            android:parentActivityName=".training.TrainingSearchActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Training.CardioDetailsActivity"
+            android:name=".training.CardioDetailsActivity"
             android:label="@string/fitx"
-            android:parentActivityName=".Training.TrainingActivity"
+            android:parentActivityName=".training.TrainingActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".Training.CardioListActivity"
+            android:name=".training.CardioListActivity"
             android:label="@string/fitx"
-            android:parentActivityName=".Training.TrainingActivity"
+            android:parentActivityName=".training.TrainingActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
             android:name=".SettingsActiviy"

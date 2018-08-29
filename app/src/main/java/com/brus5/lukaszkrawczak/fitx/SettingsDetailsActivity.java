@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 
 public class SettingsDetailsActivity extends AppCompatActivity implements DefaultView
 {

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.brus5.lukaszkrawczak.fitx.Training.TrainingInflater;
+import com.brus5.lukaszkrawczak.fitx.training.TrainingInflater;
 
 import java.util.ArrayList;
 import java.util.Locale;

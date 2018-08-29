@@ -8,13 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.brus5.lukaszkrawczak.fitx.Async.ConnectedView;
-import com.brus5.lukaszkrawczak.fitx.Async.Provider.Provider;
-import com.brus5.lukaszkrawczak.fitx.Diet.DietActivity;
-import com.brus5.lukaszkrawczak.fitx.Stats.StatsActivity;
-import com.brus5.lukaszkrawczak.fitx.Training.TrainingActivity;
-import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
-import com.brus5.lukaszkrawczak.fitx.Utils.MyCalendar;
+import com.brus5.lukaszkrawczak.fitx.async.ConnectedView;
+import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
+import com.brus5.lukaszkrawczak.fitx.diet.DietActivity;
+import com.brus5.lukaszkrawczak.fitx.stats.StatsActivity;
+import com.brus5.lukaszkrawczak.fitx.training.TrainingActivity;
+import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.utils.MyCalendar;
 
 /**
  * This is MainActivity class which shows Main class after LoginActivity.class

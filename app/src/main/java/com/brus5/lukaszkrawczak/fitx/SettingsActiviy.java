@@ -17,8 +17,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.Utils.ActivityView;
-import com.brus5.lukaszkrawczak.fitx.Utils.DateGenerator;
+import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
