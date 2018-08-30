@@ -39,6 +39,21 @@ public class Provider
         }
     }
 
+    /**
+     * This method load proper class with String param as one of communicators with HTTPService
+     *
+     * @param s param with will be passed to Rest Service
+     */
+    public void load(final String s)
+    {
+        switch (context.getClass().getSimpleName())
+        {
+            case "DietProductSearchActivity":
+                new DietProductSearchActivityProvider(activity, context, listView, s);
+                break;
+        }
+    }
+
     protected void startHTTPService(String link, String params)
     {
         HTTPService HTTPService = new HTTPService(activity, context, listView);

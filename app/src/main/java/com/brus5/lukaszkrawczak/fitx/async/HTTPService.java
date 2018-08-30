@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.async.inflater.DietActivityInflater;
+import com.brus5.lukaszkrawczak.fitx.async.inflater.DietProductSearchActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.MainActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.TrainingActivityInflater;
 
@@ -121,6 +122,9 @@ public class HTTPService extends AsyncTask<String, String, String>
                 break;
             case "TrainingActivity":
                 new TrainingActivityInflater(activity, context, listView, s);
+                break;
+            case "DietProductSearchActivity":
+                new DietProductSearchActivityInflater(context, listView, s);
                 break;
         }
         Log.d(TAG, "onPostExecute() called with: s = [" + s + "]");
