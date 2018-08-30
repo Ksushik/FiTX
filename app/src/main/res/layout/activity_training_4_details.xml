@@ -343,5 +343,37 @@
             app:layout_constraintBottom_toTopOf="@+id/textViewTime"
             app:layout_constraintStart_toStartOf="@+id/progressBarCircle" />
 
+        <ProgressBar
+            android:id="@+id/progressBarTrainingDetailsL"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewTraining"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewTraining1"
+            app:layout_constraintStart_toStartOf="@+id/imageViewTraining"
+            app:layout_constraintTop_toTopOf="@+id/imageViewTraining" />
+
+        <ProgressBar
+            android:id="@+id/progressBarTrainingDetailsR"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewTraining1"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewTraining1"
+            app:layout_constraintStart_toStartOf="@+id/guidelineTrainingDetails"
+            app:layout_constraintTop_toTopOf="@+id/imageViewTraining1" />
+
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

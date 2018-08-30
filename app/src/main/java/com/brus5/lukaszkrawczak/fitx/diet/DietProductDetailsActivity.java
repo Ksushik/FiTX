@@ -3,7 +3,6 @@ package com.brus5.lukaszkrawczak.fitx.diet;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +35,6 @@ import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.converter.WeightConverter;
 import com.brus5.lukaszkrawczak.fitx.dto.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
-import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
 
 import org.json.JSONArray;
@@ -48,7 +46,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
+
+/**
+ * That View devilers to user informations about products.
+ * Downloaded data from REST server are in JSON format.
+ * They are converted as a JSON objects and delivered to View.
+ * <p>
+ * In this Activity user can Delete, Update or Add new product to his daily list.
+ * <p>
+ * User can change Product Weight in EditText and also he can use whole
+ * pieces as a Weight Type. For Example 1 banana as a 1 piece weights 118g
+ * <p>
+ * In UI user can see whole data about macronutrients which are dynamically
+ * updates while user writes number in EditText
+ */
 
 @SuppressLint("LongLogTag")
 public class DietProductDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DefaultView, AsynchTask
@@ -61,7 +72,6 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
     private String productTimeStamp, previousActivity, dateFormat, newTimeStamp;
     private Spinner spinner;
     private ProgressBar progrssBar;
-    private DateGenerator cfg = new DateGenerator();
     private ConstraintLayout constraintLayout;
 
     @SuppressLint("SimpleDateFormat")
@@ -85,9 +95,8 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet_3_details);
-        cfg.changeStatusBarColor(this, getApplicationContext(), R.id.toolbarDietProductShowActivity, this);
-        onBackButtonPressed();
         loadInput();
+        loadDefaultView();
         getIntentFromPreviousActiity();
 
         String url = "http://justfitx.xyz/images/products/mid/" + productID + ".png"; // This must by under getIntentFromPreviousActiity()
@@ -385,7 +394,6 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
                     }
                     else if (Double.valueOf(s.toString()) > 2000)
                     {
-                        cfg.showError(DietProductDetailsActivity.this);
                         resetTextViewsToZero();
                         etWeight.setText("");
                     }
@@ -403,7 +411,6 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
                     }
                     else if (Double.valueOf(s.toString()) > 2000)
                     {
-                        cfg.showError(DietProductDetailsActivity.this);
                         resetTextViewsToZero();
                         etWeight.setText("");
                     }
@@ -428,14 +435,6 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         tvFatsUnsaturated.setText(s);
         tvCarbsFiber.setText(s);
         tvCarbsSugars.setText(s);
-    }
-
-    private void onBackButtonPressed()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-        {
-            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        }
     }
 
     private String getProductWeightPerItems()

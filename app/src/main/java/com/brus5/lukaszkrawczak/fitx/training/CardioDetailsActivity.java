@@ -3,7 +3,6 @@ package com.brus5.lukaszkrawczak.fitx.training;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,9 +32,7 @@ import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.dto.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
-import com.makeramen.roundedimageview.RoundedTransformationBuilder;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
+import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,15 +50,14 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     private String trainingTimeStamp, previousActivity, newTimeStamp;
     private int trainingID, trainingTime;
-    private ImageView imgTraining;
+    private ImageView img;
     private EditText etNotepad;
     private TextView tvName;
     private CheckBox checkBox;
     private Timer timer;
     private double kcalPerMin;
-    private DateGenerator cfg = new DateGenerator();
     private ConstraintLayout constraintLayout;
-
+    private ProgressBar pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -69,20 +66,14 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_cardio_4_details);
         loadInput();
         loadDefaultView();
-
-
         getIntentFromPreviousActiity();
-        String url = RestAPI.URL + "images/cardio/"  + trainingID + ".jpg";
-        loadImages(imgTraining, url);
+
         timer = new Timer(this);
         timer.seekBarTimer();
         getPreviousActivity(previousActivity);
 
-//  TODO: 13.08.2018  characterLimit = new CharacterLimit(etNotepad, tvCharsLeft, 280);
-
-//  TODO: 13.08.2018  etNotepad.addTextChangedListener(characterLimit);
-
-
+        final String url = RestAPI.URL + "images/cardio/" + trainingID + ".jpg";
+        new ImageLoader(CardioDetailsActivity.this, img, pb, url);
     }
 
     @SuppressLint("LongLogTag")
@@ -150,8 +141,9 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         tvName = findViewById(R.id.textViewCardioName);
         etNotepad = findViewById(R.id.editTextNotepadCardio);
 
+        pb = findViewById(R.id.progressBarCardioDetails);
 
-        imgTraining = findViewById(R.id.imageViewCardio);
+        img = findViewById(R.id.imageViewCardio);
         checkBox = findViewById(R.id.checkBox);
 
         constraintLayout = findViewById(R.id.constraingLayoutCardioDetails);
@@ -165,9 +157,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         activityView.statusBarColor(R.id.toolbarCardio);
         activityView.showBackButton();
     }
-
-
-
 
     @SuppressLint("LongLogTag")
     private void getIntentFromPreviousActiity()
@@ -198,32 +187,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     {
         if (trainingTimeStamp == null) return timeStamp;
         else return this.trainingTimeStamp;
-    }
-
-    private void loadImages(final ImageView imageView, String url)
-    {
-        Transformation transformation = new RoundedTransformationBuilder()
-                .borderColor(Color.BLACK)
-                .borderWidthDp(0)
-                .cornerRadiusDp(5)
-                .oval(false)
-                .build();
-
-
-        Picasso.with(CardioDetailsActivity.this).load(url).placeholder(null).transform(transformation)
-                .error(R.drawable.image_no_available)
-                .into(imageView, new com.squareup.picasso.Callback()
-                {
-                    @Override
-                    public void onSuccess() {}
-
-                    @Override
-                    public void onError()
-                    {
-                        DateGenerator cfg = new DateGenerator();
-                        cfg.showError(CardioDetailsActivity.this);
-                    }
-                });
     }
 
     private void getPreviousActivity(String previousActivity)

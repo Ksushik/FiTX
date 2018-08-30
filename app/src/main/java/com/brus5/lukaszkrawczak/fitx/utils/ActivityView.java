@@ -31,7 +31,7 @@ public class ActivityView
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            activity.getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color./*colorPrimaryDark*/colorYellow));
+            activity.getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color.colorPrimaryDark/*colorYellow*/));
         }
         Toolbar toolbar = activity.findViewById(resID);
         appCompatActivity.setSupportActionBar(toolbar);

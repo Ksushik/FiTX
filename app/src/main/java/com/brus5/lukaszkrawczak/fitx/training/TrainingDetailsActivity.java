@@ -3,7 +3,6 @@ package com.brus5.lukaszkrawczak.fitx.training;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,10 +35,8 @@ import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.dto.TrainingDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
+import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
 import com.brus5.lukaszkrawczak.fitx.validator.CharacterLimit;
-import com.makeramen.roundedimageview.RoundedTransformationBuilder;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,19 +46,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-/**
- * That View devilers to user informations about products.
- * Downloaded data from REST server are in JSON format.
- * They are converted as a JSON objects and delivered to View.
- * <p>
- * Here user can Delete, Update or Add new product to his daily list.
- * <p>
- * User can change Product Weight in EditText and also he can use whole
- * pieces as a Weight Type. For Example 1 banana as a 1 piece weights 118g
- * <p>
- * In UI user can see whole data about
- */
 
 public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
@@ -77,8 +62,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
     private Timer timer;
     private CharacterLimit characterLimit;
-    private DateGenerator cfg = new DateGenerator();
     private ScrollView scrollView;
+    private ProgressBar pbL, pbR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -89,10 +74,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         loadDefaultView();
 
         getIntentFromPreviousActiity();
-        String url = RestAPI.URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_1" + ".jpg";
-        String url2 = RestAPI.URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_2" + ".jpg";
-        loadImages(imgTrainingL, url);
-        loadImages(imgTrainingR, url2);
+        String urlL = RestAPI.URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_2" + ".jpg";
+        String urlR = RestAPI.URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_1" + ".jpg";
+        new ImageLoader(TrainingDetailsActivity.this, imgTrainingL, pbL, urlL);
+        new ImageLoader(TrainingDetailsActivity.this, imgTrainingR, pbR, urlR);
+
         timer = new Timer(this);
         timer.seekBarTimer();
         getPreviousActivity(previousActivity);
@@ -268,6 +254,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         etNotepad.clearFocus();
         etNotepad.didTouchFocusSelect();
 
+        pbL = findViewById(R.id.progressBarTrainingDetailsL);
+        pbR = findViewById(R.id.progressBarTrainingDetailsR);
+
         imgTrainingL = findViewById(R.id.imageViewTraining);
         imgTrainingR = findViewById(R.id.imageViewTraining1);
 
@@ -302,32 +291,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     {
         if (trainingTimeStamp == null) return timeStamp;
         else return this.trainingTimeStamp;
-    }
-
-    private void loadImages(final ImageView imageView, String url)
-    {
-        Transformation transformation = new RoundedTransformationBuilder().borderColor(Color.BLACK).borderWidthDp(0).cornerRadiusDp(5).oval(false).build();
-
-
-        Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null).transform(transformation).error(R.drawable.image_no_available).into(imageView, new com.squareup.picasso.Callback()
-        {
-            @Override
-            public void onSuccess() {}
-
-            @Override
-            public void onError()
-            {
-                DateGenerator cfg = new DateGenerator();
-                cfg.showError(TrainingDetailsActivity.this);
-            }
-        });
-
-
-    }
-
-    private void onBackButtonPressed()
-    {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void trainingSetsGenerator(int seriesNumber)
