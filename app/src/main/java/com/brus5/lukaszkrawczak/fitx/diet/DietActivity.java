@@ -58,7 +58,7 @@ public class DietActivity extends AppCompatActivity implements DefaultView
                 TextView productWeight = view.findViewById(R.id.dietMealWeight);
                 TextView productTimeStamp = view.findViewById(R.id.dietTimeStamp);
 
-                Intent intent = new Intent(DietActivity.this, DietProductShowActivity.class);
+                Intent intent = new Intent(DietActivity.this, DietProductDetailsActivity.class);
                 intent.putExtra("productID", Integer.valueOf(productId.getText().toString()));
                 intent.putExtra("dateFormat", DateGenerator.getSelectedDate());
                 intent.putExtra("productWeight", Double.valueOf(productWeight.getText().toString()));

@@ -52,7 +52,7 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".diet.DietProductShowActivity"
+            android:name=".diet.DietProductDetailsActivity"
             android:label="@string/fitx"
             android:parentActivityName=".diet.DietActivity"
             android:theme="@style/FiTX3theme.noBar" />

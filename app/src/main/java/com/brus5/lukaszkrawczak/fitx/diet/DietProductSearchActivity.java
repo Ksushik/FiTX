@@ -101,7 +101,7 @@ public class DietProductSearchActivity extends AppCompatActivity implements Defa
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 TextView productId = view.findViewById(R.id.dietMealSearchID);
-                Intent intent = new Intent(DietProductSearchActivity.this, DietProductShowActivity.class);
+                Intent intent = new Intent(DietProductSearchActivity.this, DietProductDetailsActivity.class);
                 intent.putExtra("productID", Integer.valueOf(productId.getText().toString()));
                 intent.putExtra("previousActivity", DietProductSearchActivity.this.getClass().getSimpleName());
                 intent.putExtra("dateFormat", dateFormat);

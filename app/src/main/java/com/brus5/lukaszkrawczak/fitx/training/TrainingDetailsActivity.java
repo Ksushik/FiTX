@@ -49,6 +49,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * That View devilers to user informations about products.
+ * Downloaded data from REST server are in JSON format.
+ * They are converted as a JSON objects and delivered to View.
+ * <p>
+ * Here user can Delete, Update or Add new product to his daily list.
+ * <p>
+ * User can change Product Weight in EditText and also he can use whole
+ * pieces as a Weight Type. For Example 1 banana as a 1 piece weights 118g
+ * <p>
+ * In UI user can see whole data about
+ */
+
 public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
     private static final String TAG = "TrainingDetailsA";
@@ -293,28 +306,21 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void loadImages(final ImageView imageView, String url)
     {
-        Transformation transformation = new RoundedTransformationBuilder()
-                .borderColor(Color.BLACK)
-                .borderWidthDp(0)
-                .cornerRadiusDp(5)
-                .oval(false)
-                .build();
+        Transformation transformation = new RoundedTransformationBuilder().borderColor(Color.BLACK).borderWidthDp(0).cornerRadiusDp(5).oval(false).build();
 
 
-        Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null).transform(transformation)
-                .error(R.drawable.image_no_available)
-                .into(imageView, new com.squareup.picasso.Callback()
-                {
-                    @Override
-                    public void onSuccess() {}
+        Picasso.with(TrainingDetailsActivity.this).load(url).placeholder(null).transform(transformation).error(R.drawable.image_no_available).into(imageView, new com.squareup.picasso.Callback()
+        {
+            @Override
+            public void onSuccess() {}
 
-                    @Override
-                    public void onError()
-                    {
-                        DateGenerator cfg = new DateGenerator();
-                        cfg.showError(TrainingDetailsActivity.this);
-                    }
-                });
+            @Override
+            public void onError()
+            {
+                DateGenerator cfg = new DateGenerator();
+                cfg.showError(TrainingDetailsActivity.this);
+            }
+        });
 
 
     }
@@ -554,10 +560,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private void alertDialog(String string)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.description)
-                .setPositiveButton("Close", null)
-                .setMessage(string)
-                .show();
+        builder.setTitle(R.string.description).setPositiveButton("Close", null).setMessage(string).show();
     }
 
 }

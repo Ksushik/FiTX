@@ -37,7 +37,7 @@ import com.brus5.lukaszkrawczak.fitx.converter.WeightConverter;
 import com.brus5.lukaszkrawczak.fitx.dto.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
-import com.squareup.picasso.Picasso;
+import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,9 +50,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-public class DietProductShowActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DefaultView, AsynchTask
+@SuppressLint("LongLogTag")
+public class DietProductDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DefaultView, AsynchTask
 {
-    private static final String TAG = "DietProductShowActivity";
+    private static final String TAG = "DietProductDetailsActivity";
     private ImageView imgProduct, imgVerified;
     private TextView tvName, tvProteins, tvFats, tvCarbs, tvCalories, tvFatsSaturated, tvFatsUnsaturated, tvCarbsFiber, tvCarbsSugars;
     private EditText etWeight;
@@ -89,9 +90,11 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
         loadInput();
         getIntentFromPreviousActiity();
 
-        String url = "http://justfitx.xyz/images/products/mid/" + productID + ".png";
-        loadImageFromUrl(url);
-        loadAsynchTask(DietProductShowActivity.this);
+        String url = "http://justfitx.xyz/images/products/mid/" + productID + ".png"; // This must by under getIntentFromPreviousActiity()
+
+        new ImageLoader(DietProductDetailsActivity.this, imgProduct, progrssBar, url);
+
+        loadAsynchTask(DietProductDetailsActivity.this);
 
         etWeight.setText(String.valueOf(productWeight));
         setWeight(false);
@@ -128,7 +131,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
     @Override
     public void loadDefaultView()
     {
-        ActivityView activityView = new ActivityView(DietProductShowActivity.this, getApplicationContext(), this);
+        ActivityView activityView = new ActivityView(DietProductDetailsActivity.this, getApplicationContext(), this);
         activityView.statusBarColor(R.id.toolbarDietProductShowActivity);
         activityView.showBackButton();
     }
@@ -164,14 +167,14 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     Log.e(TAG, "onClick: " + getProductWeightPerItems());
                     DietDTO updateDTO = new DietDTO();
                     updateDTO.productID = productID;
-                    updateDTO.userID = SaveSharedPreference.getUserID(DietProductShowActivity.this);
+                    updateDTO.userID = SaveSharedPreference.getUserID(DietProductDetailsActivity.this);
                     updateDTO.updateProductWeight = Integer.valueOf(getProductWeightPerItems());
                     updateDTO.productTimeStamp = newTimeStamp;
 
                     Log.i(TAG, "onClick: " + updateDTO.toString());
 
                     DietService service = new DietService();
-                    service.updateProductWeight(updateDTO, DietProductShowActivity.this);
+                    service.updateProductWeight(updateDTO, DietProductDetailsActivity.this);
                     finish();
                 }
 
@@ -183,7 +186,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
                     DietDTO insertDTO = new DietDTO();
                     insertDTO.productID = productID;
-                    insertDTO.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
+                    insertDTO.userName = SaveSharedPreference.getUserName(DietProductDetailsActivity.this);
                     insertDTO.productWeight = Integer.valueOf(getProductWeightPerItems());
                     insertDTO.productTimeStamp = newTimeStamp;
 
@@ -191,7 +194,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
 
                     DietService service = new DietService();
-                    service.insert(insertDTO, DietProductShowActivity.this);
+                    service.insert(insertDTO, DietProductDetailsActivity.this);
                     finish();
                 }
                 break;
@@ -201,14 +204,14 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
                 DietDTO deleteDTO = new DietDTO();
                 deleteDTO.productID = productID;
-                deleteDTO.userName = SaveSharedPreference.getUserName(DietProductShowActivity.this);
+                deleteDTO.userName = SaveSharedPreference.getUserName(DietProductDetailsActivity.this);
                 deleteDTO.updateProductWeight = Integer.valueOf(getProductWeightPerItems());
                 deleteDTO.productTimeStamp = newTimeStamp;
 
                 Log.i(TAG, "onClick: " + deleteDTO.toString());
 
                 DietService service1 = new DietService();
-                service1.delete(deleteDTO, DietProductShowActivity.this);
+                service1.delete(deleteDTO, DietProductDetailsActivity.this);
                 finish();
                 break;
         }
@@ -243,26 +246,6 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
             return timeStamp;
         else
             return this.productTimeStamp;
-    }
-
-
-    private void loadImageFromUrl(String url)
-    {
-        Picasso.with(DietProductShowActivity.this).load(url).placeholder(null).error(R.drawable.image_no_available).into(imgProduct, new com.squareup.picasso.Callback()
-        {
-            @Override
-            public void onSuccess()
-            {
-                progrssBar.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onError()
-            {
-                progrssBar.setVisibility(View.INVISIBLE);
-                cfg.showError(DietProductShowActivity.this);
-            }
-        });
     }
 
     public void loadAsynchTask(final Context ctx)
@@ -300,7 +283,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
 
                         String upName = name.substring(0, 1).toUpperCase() + name.substring(1);
                         tvName.setText(upName);
-                        DietProductShowActivity.this.setProductWeight(productWeight);
+                        DietProductDetailsActivity.this.setProductWeight(productWeight);
                     }
                 } catch (JSONException e)
                 {
@@ -402,7 +385,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     }
                     else if (Double.valueOf(s.toString()) > 2000)
                     {
-                        cfg.showError(DietProductShowActivity.this);
+                        cfg.showError(DietProductDetailsActivity.this);
                         resetTextViewsToZero();
                         etWeight.setText("");
                     }
@@ -420,7 +403,7 @@ public class DietProductShowActivity extends AppCompatActivity implements Adapte
                     }
                     else if (Double.valueOf(s.toString()) > 2000)
                     {
-                        cfg.showError(DietProductShowActivity.this);
+                        cfg.showError(DietProductDetailsActivity.this);
                         resetTextViewsToZero();
                         etWeight.setText("");
                     }
