@@ -7,8 +7,8 @@ import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.diet.DietProductDetailsActivity;
-import com.brus5.lukaszkrawczak.fitx.diet.DietSearch;
 import com.brus5.lukaszkrawczak.fitx.diet.DietSearchListAdapter;
+import com.brus5.lukaszkrawczak.fitx.diet.Product;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +28,7 @@ public class DietProductDetailsActivityInflater
 
     private DietSearchListAdapter adapter;
 
-    private ArrayList<DietSearch> list = new ArrayList<>();
+    private ArrayList<Product> list = new ArrayList<>();
 
 
     public DietProductDetailsActivityInflater(Context context, ListView listView, String response)

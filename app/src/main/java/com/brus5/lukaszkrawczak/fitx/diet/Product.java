@@ -4,7 +4,7 @@ package com.brus5.lukaszkrawczak.fitx.diet;
  * Created by lukaszkrawczak on 18.03.2018.
  */
 
-public class Diet
+public class Product
 {
     private int id;
     private String name;
@@ -16,7 +16,7 @@ public class Diet
     private int verified;
     private String dateTimeStamp;
 
-    public Diet(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, int verified, String dateTimeStamp)
+    public Product(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, int verified, String dateTimeStamp)
     {
         this.id = id;
         this.name = name;
@@ -27,6 +27,14 @@ public class Diet
         this.kcal = kcal;
         this.verified = verified;
         this.dateTimeStamp = dateTimeStamp;
+    }
+
+    public Product(int id, String name, double kcal, int verified)
+    {
+        this.id = id;
+        this.name = name;
+        this.kcal = kcal;
+        this.verified = verified;
     }
 
     public int getId()

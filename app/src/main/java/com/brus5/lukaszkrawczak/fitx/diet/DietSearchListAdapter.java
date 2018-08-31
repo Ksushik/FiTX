@@ -19,13 +19,13 @@ import java.util.Locale;
  * Created by lukaszkrawczak on 18.03.2018.
  */
 
-public class DietSearchListAdapter extends ArrayAdapter<DietSearch>
+public class DietSearchListAdapter extends ArrayAdapter<Product>
 {
     private static final String TAG = "DietListAdapter";
     int mResource;
     private Context mContext;
 
-    public DietSearchListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<DietSearch> objects)
+    public DietSearchListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Product> objects)
     {
         super(context, resource, objects);
         mContext = context;
@@ -41,7 +41,7 @@ public class DietSearchListAdapter extends ArrayAdapter<DietSearch>
         double kcal = getItem(position).getKcal();
         int verified = getItem(position).getVerified();
 
-        new DietSearch(id, name, kcal, verified);
+        new Product(id, name, kcal, verified);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);

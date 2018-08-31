@@ -20,12 +20,12 @@ import java.util.Locale;
  * Created by lukaszkrawczak on 18.03.2018.
  */
 
-public class DietListAdapter extends ArrayAdapter<Diet>
+public class DietListAdapter extends ArrayAdapter<Product>
 {
     private Context mContext;
     int mResource;
 
-    public DietListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Diet> objects)
+    public DietListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Product> objects)
     {
         super(context, resource, objects);
         mContext = context;
@@ -48,7 +48,7 @@ public class DietListAdapter extends ArrayAdapter<Diet>
         int verified = getItem(position).getVerified();
         String dateTimeStamp = getItem(position).getDateTimeStamp();
 
-        new Diet(id, name, weight, proteins, fats, carbs, kcal, verified, dateTimeStamp);
+        new Product(id, name, weight, proteins, fats, carbs, kcal, verified, dateTimeStamp);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent,false);

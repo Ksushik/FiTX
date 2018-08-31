@@ -17,9 +17,9 @@ import com.brus5.lukaszkrawczak.fitx.calculator.Carb;
 import com.brus5.lukaszkrawczak.fitx.calculator.Fat;
 import com.brus5.lukaszkrawczak.fitx.calculator.Protein;
 import com.brus5.lukaszkrawczak.fitx.converter.NameConverter;
-import com.brus5.lukaszkrawczak.fitx.diet.Diet;
 import com.brus5.lukaszkrawczak.fitx.diet.DietListAdapter;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
+import com.brus5.lukaszkrawczak.fitx.diet.Product;
 import com.brus5.lukaszkrawczak.fitx.dto.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 
@@ -37,9 +37,9 @@ public class DietActivityInflater
     private Activity parentActivity;
     private Context context;
     private ListView listView;
-    private Diet diet;
+    private Product product;
     private DietListAdapter adapter;
-    private ArrayList<Diet> list = new ArrayList<>();
+    private ArrayList<Product> list = new ArrayList<>();
 
     private TextView tvProteins, tvFats, tvCarbs, tvCalories;
     private ProgressBar pBarProteins, pBarFats, pBarCarbs, pBarKcal;
@@ -165,8 +165,8 @@ public class DietActivityInflater
                     countCarbs += carb.getCarbs();
                     countCalories += cal.getKcal();
 
-                    diet = new Diet(productId, name.getName(), weight, protein.getProteins(), fat.getFats(), carb.getCarbs(), cal.getKcal(), productVerified, productTimeStamp);
-                    list.add(diet);
+                    product = new Product(productId, name.getName(), weight, protein.getProteins(), fat.getFats(), carb.getCarbs(), cal.getKcal(), productVerified, productTimeStamp);
+                    list.add(product);
                 }
 
             }

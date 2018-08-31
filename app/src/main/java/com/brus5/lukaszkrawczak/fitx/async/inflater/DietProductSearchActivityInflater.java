@@ -7,8 +7,8 @@ import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
-import com.brus5.lukaszkrawczak.fitx.diet.DietSearch;
 import com.brus5.lukaszkrawczak.fitx.diet.DietSearchListAdapter;
+import com.brus5.lukaszkrawczak.fitx.diet.Product;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +28,7 @@ public class DietProductSearchActivityInflater
 
     private DietSearchListAdapter adapter;
 
-    private ArrayList<DietSearch> list = new ArrayList<>();
+    private ArrayList<Product> list = new ArrayList<>();
 
     public DietProductSearchActivityInflater(Context context, ListView listView, String response)
     {
@@ -65,7 +65,7 @@ public class DietProductSearchActivityInflater
 
                     String nameUpperCase = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-                    DietSearch dietSearch = new DietSearch(id, nameUpperCase, calories, verified);
+                    Product dietSearch = new Product(id, nameUpperCase, calories, verified);
                     list.add(dietSearch);
                 }
             }
