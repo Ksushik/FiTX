@@ -7,8 +7,8 @@ import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
-import com.brus5.lukaszkrawczak.fitx.diet.DietSearchListAdapter;
 import com.brus5.lukaszkrawczak.fitx.diet.Product;
+import com.brus5.lukaszkrawczak.fitx.diet.adapter.DietSearchListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;

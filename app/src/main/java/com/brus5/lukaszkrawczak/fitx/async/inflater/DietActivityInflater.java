@@ -17,9 +17,9 @@ import com.brus5.lukaszkrawczak.fitx.calculator.Carb;
 import com.brus5.lukaszkrawczak.fitx.calculator.Fat;
 import com.brus5.lukaszkrawczak.fitx.calculator.Protein;
 import com.brus5.lukaszkrawczak.fitx.converter.NameConverter;
-import com.brus5.lukaszkrawczak.fitx.diet.DietListAdapter;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.diet.Product;
+import com.brus5.lukaszkrawczak.fitx.diet.adapter.DietListAdapter;
 import com.brus5.lukaszkrawczak.fitx.dto.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 

@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx.diet;
+package com.brus5.lukaszkrawczak.fitx.diet.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.diet.Product;
 
 import java.util.ArrayList;
 import java.util.Locale;

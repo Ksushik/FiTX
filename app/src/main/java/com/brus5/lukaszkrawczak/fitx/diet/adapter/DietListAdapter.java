@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx.diet;
+package com.brus5.lukaszkrawczak.fitx.diet.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.diet.Product;
 
 import java.util.ArrayList;
 import java.util.Locale;
