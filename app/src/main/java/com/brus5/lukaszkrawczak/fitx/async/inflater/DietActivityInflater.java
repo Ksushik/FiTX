@@ -10,8 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.RestAPI;
-import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.brus5.lukaszkrawczak.fitx.calculator.Calories;
 import com.brus5.lukaszkrawczak.fitx.calculator.Carb;
 import com.brus5.lukaszkrawczak.fitx.calculator.Fat;
@@ -22,6 +20,8 @@ import com.brus5.lukaszkrawczak.fitx.diet.Product;
 import com.brus5.lukaszkrawczak.fitx.diet.adapter.DietListAdapter;
 import com.brus5.lukaszkrawczak.fitx.dto.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
+import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
+import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONException;

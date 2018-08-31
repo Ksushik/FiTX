@@ -37,8 +37,6 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
 
     private String dateFormat;
 
-    private DateGenerator cfg = new DateGenerator();
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

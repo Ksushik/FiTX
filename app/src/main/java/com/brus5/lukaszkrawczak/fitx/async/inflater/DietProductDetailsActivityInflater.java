@@ -5,10 +5,10 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.diet.DietProductDetailsActivity;
 import com.brus5.lukaszkrawczak.fitx.diet.Product;
 import com.brus5.lukaszkrawczak.fitx.diet.adapter.DietSearchListAdapter;
+import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.brus5.lukaszkrawczak.fitx.RestAPI;
+import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 
 public class DietProductSearchActivityProvider extends Provider
 {

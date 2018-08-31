@@ -9,9 +9,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.RestAPI;
-import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.brus5.lukaszkrawczak.fitx.dto.DietDTO;
+import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
+import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 import java.util.HashMap;
 import java.util.Map;

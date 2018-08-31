@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx;
+package com.brus5.lukaszkrawczak.fitx.utils;
 
 public class RestAPI
 {
@@ -113,7 +113,7 @@ public class RestAPI
     public final static String DB_USER_DIET_DATE_UPDATE = "updatedate";
 
     /* Names of db_kcalres */
-//    public final static String DB_KCAL_LIMIT = "RESULT";
+    //    public final static String DB_KCAL_LIMIT = "RESULT";
     public final static String DB_KCAL = "kcal";
     public final static String DB_KCAL_LIMIT = "kcal_limit";
 

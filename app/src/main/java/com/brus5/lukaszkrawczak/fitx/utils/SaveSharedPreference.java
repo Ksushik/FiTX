@@ -1,14 +1,10 @@
-package com.brus5.lukaszkrawczak.fitx;
+package com.brus5.lukaszkrawczak.fitx.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by lukaszkrawczak on 06.04.2018.
@@ -35,7 +31,7 @@ public class SaveSharedPreference
     {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putString(USER_NAME, userName);
-//        editor.commit();
+        //        editor.commit();
         editor.apply();
     }
 
@@ -43,7 +39,7 @@ public class SaveSharedPreference
     {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putBoolean(DEFAULT_LOGIN, true);
-//        editor.commit();
+        //        editor.commit();
         editor.apply();
     }
 
@@ -61,7 +57,7 @@ public class SaveSharedPreference
     {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.clear(); //clear all stored data
-//        editor.commit();
+        //        editor.commit();
         editor.apply();
     }
 
@@ -69,7 +65,7 @@ public class SaveSharedPreference
     {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putString(USER_FIRST_NAME, userFirstName);
-//        editor.commit();
+        //        editor.commit();
         editor.apply();
     }
 
@@ -99,7 +95,7 @@ public class SaveSharedPreference
     {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putString(USER_EMAIL, userEmail);
-//        editor.commit();
+        //        editor.commit();
         editor.apply();
     }
 
@@ -171,15 +167,15 @@ public class SaveSharedPreference
         return getSharedPreferences(context).getString(USER_PASSWORD, "");
     }
 
-//    public static void setDateChoosed(Context context, String date)
-//    {
-//        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-//        editor.putString(DATE_CHOOSED, date);
-//        editor.apply();
-//    }
-//
-//    public static String getDateChoosed(Context context)
-//    {
-//        return getSharedPreferences(context).getString(DATE_CHOOSED,"");
-//    }
+    //    public static void setDateChoosed(Context context, String date)
+    //    {
+    //        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+    //        editor.putString(DATE_CHOOSED, date);
+    //        editor.apply();
+    //    }
+    //
+    //    public static String getDateChoosed(Context context)
+    //    {
+    //        return getSharedPreferences(context).getString(DATE_CHOOSED,"");
+    //    }
 }

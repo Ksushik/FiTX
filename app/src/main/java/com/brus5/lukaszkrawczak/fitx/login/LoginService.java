@@ -12,11 +12,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
-import com.brus5.lukaszkrawczak.fitx.RestAPI;
-import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.brus5.lukaszkrawczak.fitx.login.dto.GetUserInfoDTO;
 import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginNormalDTO;
 import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginRegisterFacebookDTO;
+import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
+import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONException;

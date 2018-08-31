@@ -5,10 +5,10 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.brus5.lukaszkrawczak.fitx.RestAPI;
-import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.brus5.lukaszkrawczak.fitx.dto.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
+import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
+import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 class TrainingActivityProvider extends Provider
 {

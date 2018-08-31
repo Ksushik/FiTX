@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by lukaszkrawczak on 18.03.2018.
  */
 
-public class Main extends ArrayList
+public class MainRow extends ArrayList
 {
 
     private double textViewBig;
@@ -17,16 +17,14 @@ public class Main extends ArrayList
     private String reps;
     private String rest;
 
-    public Main(){}
-
-    public Main(double textViewBig, int textViewSmall, int viewType)
+    public MainRow(double textViewBig, int textViewSmall, int viewType)
     {
         this.textViewBig = textViewBig;
         this.textViewSmall = textViewSmall;
         this.viewType = viewType;
     }
 
-    public Main(String rest, String reps, String weight, int viewType)
+    public MainRow(String rest, String reps, String weight, int viewType)
     {
         this.rest = rest;
         this.reps = reps;

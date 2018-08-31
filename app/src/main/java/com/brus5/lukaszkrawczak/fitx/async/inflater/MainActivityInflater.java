@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.brus5.lukaszkrawczak.fitx.Main;
+import com.brus5.lukaszkrawczak.fitx.MainRow;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.training.TrainingInflater;
 
@@ -28,9 +28,9 @@ public class MainActivityInflater
 
     private Context context;
     private ListView listView;
-    private Main main;
+    private MainRow mainRow;
     private MainAdapter adapter;
-    private ArrayList<Main> list = new ArrayList<>();
+    private ArrayList<MainRow> list = new ArrayList<>();
 
     public MainActivityInflater(Context context, ListView listView, String response)
     {
@@ -63,14 +63,14 @@ public class MainActivityInflater
                     kcal = kcalObj.getInt("kcal");
                     kcalLimit = kcalLimitObj.getInt("kcal_limit");
 
-                    main = new Main(kcal, kcalLimit, 1);
+                    mainRow = new MainRow(kcal, kcalLimit, 1);
 
                     adapter = new MainAdapter(context, R.layout.row_main_diet, list);
                 }
 
                 if (kcal > 0)
                 {
-                    list.add(main);
+                    list.add(mainRow);
                 }
 
             }
@@ -107,12 +107,12 @@ public class MainActivityInflater
 
                 adapter = new MainAdapter(context, R.layout.row_main_diet, list);
 
-                main = new Main(rest, reps, weight, 2);
+                mainRow = new MainRow(rest, reps, weight, 2);
             }
 
             if (!weight.equals("0"))
             {
-                list.add(main);
+                list.add(mainRow);
             }
 
         } catch (JSONException e)
@@ -141,12 +141,12 @@ public class MainActivityInflater
 
                 adapter = new MainAdapter(context, R.layout.row_main_diet, list);
 
-                main = new Main(kcalBurned, time, 3);
+                mainRow = new MainRow(kcalBurned, time, 3);
             }
 
             if (kcalBurned != 0)
             {
-                list.add(main);
+                list.add(mainRow);
             }
 
         } catch (JSONException e)
@@ -164,14 +164,14 @@ public class MainActivityInflater
 }
 
 
-class MainAdapter extends ArrayAdapter<Main>
+class MainAdapter extends ArrayAdapter<MainRow>
 {
     private static final int KG_ONE_TONE = 1000;
     private static final String TAG = "MainAdapter";
     private Context mContext;
     private int mResource;
 
-    public MainAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Main> objects)
+    public MainAdapter(@NonNull Context context, int resource, @NonNull ArrayList<MainRow> objects)
     {
         super(context, resource, objects);
         this.mContext = context;

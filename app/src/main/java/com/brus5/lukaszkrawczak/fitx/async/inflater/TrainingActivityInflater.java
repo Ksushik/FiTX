@@ -14,10 +14,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.training.Training;
 import com.brus5.lukaszkrawczak.fitx.training.TrainingInflater;
+import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
