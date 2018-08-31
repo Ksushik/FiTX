@@ -16,6 +16,25 @@ public class Product
     private int verified;
     private String dateTimeStamp;
 
+    private double saturatedFats;
+    private double unSaturatedFats;
+    private double carbsFiber;
+    private double carbsSugar;
+    private double multiplier;
+
+    public Product(double proteins, double fats, double carbs, double saturatedFats, double unSaturatedFats, double carbsFiber, double carbsSugar, double multiplier, int verified)
+    {
+        this.proteins = proteins;
+        this.fats = fats;
+        this.carbs = carbs;
+        this.saturatedFats = saturatedFats;
+        this.unSaturatedFats = unSaturatedFats;
+        this.carbsFiber = carbsFiber;
+        this.carbsSugar = carbsSugar;
+        this.multiplier = multiplier;
+        this.verified = verified;
+    }
+
     public Product(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, int verified, String dateTimeStamp)
     {
         this.id = id;
@@ -37,14 +56,10 @@ public class Product
         this.verified = verified;
     }
 
+
     public int getId()
     {
         return id;
-    }
-
-    public void setId(int id)
-    {
-        this.id = id;
     }
 
     public String getName()
@@ -52,19 +67,9 @@ public class Product
         return name;
     }
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
     public double getWeight()
     {
         return weight;
-    }
-
-    public void setWeight(double weight)
-    {
-        this.weight = weight;
     }
 
     public double getProteins()
@@ -72,19 +77,9 @@ public class Product
         return proteins;
     }
 
-    public void setProteins(double proteins)
-    {
-        this.proteins = proteins;
-    }
-
     public double getFats()
     {
         return fats;
-    }
-
-    public void setFats(double fats)
-    {
-        this.fats = fats;
     }
 
     public double getCarbs()
@@ -92,19 +87,9 @@ public class Product
         return carbs;
     }
 
-    public void setCarbs(double carbs)
-    {
-        this.carbs = carbs;
-    }
-
     public double getKcal()
     {
         return kcal;
-    }
-
-    public void setKcal(double kcal)
-    {
-        this.kcal = kcal;
     }
 
     public int getVerified()
@@ -112,13 +97,33 @@ public class Product
         return verified;
     }
 
-    public void setVerified(int verified)
-    {
-        this.verified = verified;
-    }
-
     public String getDateTimeStamp()
     {
         return dateTimeStamp;
+    }
+
+    public double getSaturatedFats()
+    {
+        return saturatedFats;
+    }
+
+    public double getUnSaturatedFats()
+    {
+        return unSaturatedFats;
+    }
+
+    public double getCarbsFiber()
+    {
+        return carbsFiber;
+    }
+
+    public double getCarbsSugar()
+    {
+        return carbsSugar;
+    }
+
+    public double getMultiplier()
+    {
+        return multiplier;
     }
 }

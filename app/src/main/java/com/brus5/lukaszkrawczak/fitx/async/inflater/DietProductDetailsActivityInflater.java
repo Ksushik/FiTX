@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 @SuppressLint({"LongLogTag", "Registered"})
 
-public class DietProductDetailsActivityInflater
+public class DietProductDetailsActivityInflater extends DietProductDetailsActivity
 {
     private static final String TAG = "DietProductDetailsActivityInflater";
 
@@ -54,21 +54,27 @@ public class DietProductDetailsActivityInflater
                 JSONObject srv_response = server_response.getJSONObject(i);
 
                 DietProductDetailsActivity diet = new DietProductDetailsActivity();
-                name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
-                //                diet1.proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
-                //                diet1.fats = srv_response.getDouble(RestAPI.DB_PRODUCT_FATS);
-                //                diet1.carbs = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS);
-                //                diet1.saturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_SATURATED_FATS);
-                //                diet1.unsaturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_UNSATURATED_FATS);
-                //                diet1.carbsFiber = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_FIBER);
-                //                diet1.carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
-                //                diet1.multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
-                //                diet1.verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
 
-                //                if (diet.verified == 1)
-                //                {
-                //                    diet.imgVerified.setVisibility(View.VISIBLE);
-                //                }
+
+
+                name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
+                double proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
+                double fats = srv_response.getDouble(RestAPI.DB_PRODUCT_FATS);
+                double carbs = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS);
+                double saturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_SATURATED_FATS);
+                double unsaturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_UNSATURATED_FATS);
+                double carbsFiber = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_FIBER);
+                double carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
+                double multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
+                int verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
+                //
+                //                                if (diet.verified == 1)
+                //                                {
+                //                                    diet.imgVerified.setVisibility(View.VISIBLE);
+                //                                }
+                Product product = new Product(proteins, fats, carbs, saturatedFats, unsaturatedFats, carbsFiber, carbsSugars, multiplier, verified);
+                load(product, context);
+
 
                 String upName = name.substring(0, 1).toUpperCase() + name.substring(1);
                 //                tvName.setText(upName);

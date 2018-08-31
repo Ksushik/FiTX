@@ -1,6 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.diet;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,31 +20,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.converter.WeightConverter;
 import com.brus5.lukaszkrawczak.fitx.dto.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
-import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * That View devilers to user informations about products.
@@ -84,7 +73,7 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
     private double carbsSugars = 0d;
     private double multiplier = 0d;
     private double productWeightPerItems;
-    private double productWeight;
+    private static double PRODUCT_WEIGHT;
     private int verified = 0;
 
     @Override
@@ -100,9 +89,10 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
 
         new ImageLoader(DietProductDetailsActivity.this, R.id.imageViewProduct, R.id.progressBar, url);
 
-        loadAsynchTask(DietProductDetailsActivity.this);
+        //        loadAsynchTask(DietProductDetailsActivity.this);
+        new Provider(DietProductDetailsActivity.this, DietProductDetailsActivity.this).load(String.valueOf(productID));
 
-        etWeight.setText(String.valueOf(productWeight));
+        etWeight.setText(String.valueOf(PRODUCT_WEIGHT));
         setWeight(false);
     }
 
@@ -129,6 +119,32 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
 
 
         constraintLayout = findViewById(R.id.constraintLayoutDietDetails);
+        constraintLayout.requestFocus();
+    }
+
+    public void loadInput(Context context)
+    {
+        imgVerified = ((Activity) context).findViewById(R.id.imageViewVerified);
+
+        etWeight = ((Activity) context).findViewById(R.id.editTextWeight);
+        etWeight.clearFocus();
+        etWeight.didTouchFocusSelect();
+
+        tvName = ((Activity) context).findViewById(R.id.textViewProductName);
+        tvProteins = ((Activity) context).findViewById(R.id.textViewProteins);
+        tvFats = ((Activity) context).findViewById(R.id.textViewFats);
+        tvCarbs = ((Activity) context).findViewById(R.id.textViewCarbs);
+        tvCalories = ((Activity) context).findViewById(R.id.textViewCalories);
+        tvFatsSaturated = ((Activity) context).findViewById(R.id.textViewFatsSaturated);
+        tvFatsUnsaturated = ((Activity) context).findViewById(R.id.textViewFatsUnsaturated);
+        tvCarbsFiber = ((Activity) context).findViewById(R.id.textViewCarbsFiber);
+        tvCarbsSugars = ((Activity) context).findViewById(R.id.textViewCarbsSugars);
+
+        spinner = ((Activity) context).findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
+
+
+        constraintLayout = ((Activity) context).findViewById(R.id.constraintLayoutDietDetails);
         constraintLayout.requestFocus();
     }
 
@@ -229,7 +245,7 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         productID = intent.getIntExtra("productID", -1);
         productTimeStamp = intent.getStringExtra("productTimeStamp");
         productTimeStamp = timeStampChanger(productTimeStamp);
-        productWeight = intent.getDoubleExtra("productWeight", 50);
+        PRODUCT_WEIGHT = intent.getDoubleExtra("productWeight", 50);
         previousActivity = intent.getStringExtra("previousActivity");
 
         TimeStampReplacer time = new TimeStampReplacer(dateFormat, productTimeStamp);
@@ -239,7 +255,7 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         Log.e(TAG, "productID: " + productID);
         Log.e(TAG, "productTimeStamp: " + productTimeStamp);
         Log.e(TAG, "productTimeStamp: " + productTimeStamp);
-        Log.e(TAG, "productWeight: " + productWeight);
+        Log.e(TAG, "PRODUCT_WEIGHT: " + PRODUCT_WEIGHT);
         Log.e(TAG, "previousActivity: " + previousActivity);
         Log.e(TAG, "newTimeStamp: " + newTimeStamp);
     }
@@ -252,66 +268,66 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
             return this.productTimeStamp;
     }
 
-    public void loadAsynchTask(final Context ctx)
-    {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_GET_PRODUCT_INFORMATIONS, new Response.Listener<String>()
-        {
-            @Override
-            public void onResponse(String response)
-            {
-                try
-                {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String name;
-                    Log.i(TAG, "onResponse: " + jsonObject.toString(17));
-                    JSONArray server_response = jsonObject.getJSONArray("server_response");
-                    for (int i = 0; i < server_response.length(); i++)
-                    {
-                        JSONObject srv_response = server_response.getJSONObject(i);
-
-                        name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
-                        proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
-                        fats = srv_response.getDouble(RestAPI.DB_PRODUCT_FATS);
-                        carbs = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS);
-                        saturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_SATURATED_FATS);
-                        unsaturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_UNSATURATED_FATS);
-                        carbsFiber = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_FIBER);
-                        carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
-                        multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
-                        verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
-
-                        if (verified == 1)
-                        {
-                            imgVerified.setVisibility(View.VISIBLE);
-                        }
-
-                        String upName = name.substring(0, 1).toUpperCase() + name.substring(1);
-                        tvName.setText(upName);
-                        DietProductDetailsActivity.this.setProductWeight(productWeight);
-                    }
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener()
-        {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();}
-        })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_PRODUCT_ID, String.valueOf(productID));
-                return params;
-            }
-        };
-        RequestQueue queue = Volley.newRequestQueue(ctx);
-        queue.add(strRequest);
-    }
+    //    public void loadAsynchTask(final Context ctx)
+    //    {
+    //        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_GET_PRODUCT_INFORMATIONS, new Response.Listener<String>()
+    //        {
+    //            @Override
+    //            public void onResponse(String response)
+    //            {
+    //                try
+    //                {
+    //                    JSONObject jsonObject = new JSONObject(response);
+    //                    String name;
+    //                    Log.i(TAG, "onResponse: " + jsonObject.toString(17));
+    //                    JSONArray server_response = jsonObject.getJSONArray("server_response");
+    //                    for (int i = 0; i < server_response.length(); i++)
+    //                    {
+    //                        JSONObject srv_response = server_response.getJSONObject(i);
+    //
+    //                        name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
+    //                        proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
+    //                        fats = srv_response.getDouble(RestAPI.DB_PRODUCT_FATS);
+    //                        carbs = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS);
+    //                        saturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_SATURATED_FATS);
+    //                        unsaturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_UNSATURATED_FATS);
+    //                        carbsFiber = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_FIBER);
+    //                        carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
+    //                        multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
+    //                        verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
+    //
+    //                        if (verified == 1)
+    //                        {
+    //                            imgVerified.setVisibility(View.VISIBLE);
+    //                        }
+    //
+    //                        String upName = name.substring(0, 1).toUpperCase() + name.substring(1);
+    //                        tvName.setText(upName);
+    //                        DietProductDetailsActivity.this.setProductWeight(PRODUCT_WEIGHT);
+    //                    }
+    //                } catch (JSONException e)
+    //                {
+    //                    e.printStackTrace();
+    //                }
+    //            }
+    //        }, new Response.ErrorListener()
+    //        {
+    //            @Override
+    //            public void onErrorResponse(VolleyError error)
+    //            {Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();}
+    //        })
+    //        {
+    //            @Override
+    //            protected Map<String, String> getParams()
+    //            {
+    //                HashMap<String, String> params = new HashMap<>();
+    //                params.put(RestAPI.DB_PRODUCT_ID, String.valueOf(productID));
+    //                return params;
+    //            }
+    //        };
+    //        RequestQueue queue = Volley.newRequestQueue(ctx);
+    //        queue.add(strRequest);
+    //    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
@@ -319,9 +335,9 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         switch (position)
         {
             case 0:
-                etWeight.setText(String.valueOf((int) productWeight));
+                etWeight.setText(String.valueOf((int) PRODUCT_WEIGHT));
                 setWeight(false);
-                setProductWeight(productWeight);
+                setProductWeight(PRODUCT_WEIGHT);
                 etWeight.clearFocus();
                 etWeight.didTouchFocusSelect();
                 break;
@@ -338,7 +354,7 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
 
-    private void setProductWeight(Double aDouble)
+    public void setProductWeight(Double aDouble)
     {
         WeightConverter mProteins = new WeightConverter(aDouble, proteins);
         WeightConverter mFats = new WeightConverter(aDouble, fats);
@@ -440,5 +456,25 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
     private void setProductWeightPerItems(double productWeightPerItems)
     {
         this.productWeightPerItems = productWeightPerItems;
+    }
+
+    public void load(Product product, Context context)
+    {
+        proteins = product.getProteins();
+        fats = product.getFats();
+        carbs = product.getCarbs();
+        saturatedFats = product.getSaturatedFats();
+        unsaturatedFats = product.getUnSaturatedFats();
+        carbs = product.getCarbs();
+        carbsSugars = product.getCarbsSugar();
+        carbsFiber = product.getCarbsFiber();
+        multiplier = product.getMultiplier();
+        verified = product.getVerified();
+
+
+
+        Log.d(TAG, "load() called wit6h: product = [ " + "\n" + "PRODUCT_WEIGHT" + PRODUCT_WEIGHT + "\n" + "proteins: " + product.getProteins() + "\n" + "fats " + product.getFats() + "\n" + "carbs " + product.getCarbs() + "\n" + "saturatedFats " + product.getSaturatedFats() + "\n" + "unSaturatedFats " + product.getUnSaturatedFats() + "\n" + "carbsFiber " + product.getCarbsFiber() + "\n" + "carbsSugar " + product.getCarbsSugar() + "\n" + "multiplier " + product.getMultiplier() + "\n" + "verified  " + product.getVerified() + "]");
+        loadInput(context);
+        setProductWeight(PRODUCT_WEIGHT);
     }
 }
