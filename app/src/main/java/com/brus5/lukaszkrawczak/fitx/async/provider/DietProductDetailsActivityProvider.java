@@ -8,45 +8,47 @@ import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.RestAPI;
 
-public class DietProductSearchActivityProvider extends Provider
+public class DietProductDetailsActivityProvider extends Provider
 {
     private static final String TAG = "DietProductSearchActivityProvider";
 
     // Link from server to HTTP connection
-    private static final String URL = RestAPI.SERVER_URL + "Diet/ProductsSearch.php";
+    private static final String URL = RestAPI.SERVER_URL + "Diet/GetProductInformations.php";
 
     /**
-     * This constructor preparing SERVER_URL which should be sended to
+     * This constructor preparing link which should be sended to
      * startHTTPService.
-     * Example SERVER_URL:
-     * http://justfitx.xyz/Diet/ProductsSearch.php?name=ziemniaki
+     * Example link:
+     * http://justfitx.xyz/Diet/GetProductInformations.php?product_id=4
+     * <p>
+     * RestAPI.SERVER_URL SERVER_URL is private static final in RestApi.class
      *
      * @param activity activity from current Activity
      * @param context  context from current Activity
      * @param listView listView from current Activity
      */
     @SuppressLint("LongLogTag")
-    public DietProductSearchActivityProvider(Activity activity, Context context, ListView listView, String searchName)
+    public DietProductDetailsActivityProvider(Activity activity, Context context, ListView listView, String s)
     {
         super(activity, context, listView);
 
-        // Glueing SERVER_URL with variables
-        final String params = "?name=" + searchName;
+        // Glueing link with variables
+        final String params = "?product_id=" + s;
 
-        Log.d(TAG, "DietActivityProdiver: " + params);
+        Log.d(TAG, "DietProductDetailsActivityProvider: " + params);
 
-        // Starting AsyncTask after completing up SERVER_URL+params
+        // Starting AsyncTask after completing up link+params
         // This method is in Provider.class
         startHTTPService(URL, params);
     }
 
 
     /**
-     * This method start AsyncTask after completing SERVER_URL + params
+     * This method start AsyncTask after completing link + params
      * This method is in Provider.class
      *
-     * @param link   it should be whole SERVER_URL for example: http://justfitx.xyz/Diet/ProductsSearch.php
-     * @param params it should named: ?name=ziemniaki
+     * @param link   it should be whole link for example: http://justfitx.xyz/Diet/GetProductInformations.php
+     * @param params it should named: ?product_id=4
      */
     @Override
     protected void startHTTPService(String link, String params)

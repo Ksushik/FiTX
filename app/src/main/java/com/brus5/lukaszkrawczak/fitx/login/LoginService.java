@@ -28,9 +28,9 @@ import java.util.Map;
 public class LoginService
 {
     private static final String TAG = "ActivityService";
-    private static final String FACEBOOK_REGISTER = RestAPI.URL + "Facebook/FacebookRegisterRequest.php";
-    private static final String LOGIN_REQUEST = RestAPI.URL + "User/UserLoginRequest.php";
-    private static final String GET_USER_INFO = RestAPI.URL + "User/UserInfoShowRequest.php";
+    private static final String FACEBOOK_REGISTER = RestAPI.SERVER_URL + "Facebook/FacebookRegisterRequest.php";
+    private static final String LOGIN_REQUEST = RestAPI.SERVER_URL + "User/UserLoginRequest.php";
+    private static final String GET_USER_INFO = RestAPI.SERVER_URL + "User/UserInfoShowRequest.php";
 
     public void LoginWithFacebook(final UserLoginRegisterFacebookDTO dto, final Context ctx)
     {

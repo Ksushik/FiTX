@@ -298,11 +298,9 @@ public class LoginActivity extends AppCompatActivity implements DefaultView
 
     private void updateWithToken(AccessToken currentAccessToken)
     {
-        /*
-        checking currentAccessToken
-        if connected via Facebook the first handler is gonna run up after one second
-        if not connected via Facebook the second handler is gonna run up after one second
-        */
+        // checking currentAccessToken
+        // if connected via Facebook the first handler is gonna run up after one second
+        // if not connected via Facebook the second handler is gonna run up after one second
         if (currentAccessToken != null)
         {
             Log.d(TAG, "Connected via Facebook");

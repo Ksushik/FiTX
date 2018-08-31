@@ -13,9 +13,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,7 +53,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private String trainingTimeStamp, trainingTarget, previousActivity, newTimeStamp;
     private LinearLayout linearLayout;
     private int trainingID;
-    private ImageView imgTrainingL, imgTrainingR;
     private EditText etNotepad;
     private TextView tvName, tvCharsLeft;
     private CheckBox checkBox;
@@ -63,7 +60,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private Timer timer;
     private CharacterLimit characterLimit;
     private ScrollView scrollView;
-    private ProgressBar pbL, pbR;
+    //    private ProgressBar pbL, pbR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -74,10 +71,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         loadDefaultView();
 
         getIntentFromPreviousActiity();
-        String urlL = RestAPI.URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_2" + ".jpg";
-        String urlR = RestAPI.URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_1" + ".jpg";
-        new ImageLoader(TrainingDetailsActivity.this, imgTrainingL, pbL, urlL);
-        new ImageLoader(TrainingDetailsActivity.this, imgTrainingR, pbR, urlR);
+        String urlL = RestAPI.SERVER_URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_2" + ".jpg";
+        String urlR = RestAPI.SERVER_URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_1" + ".jpg";
+        new ImageLoader(TrainingDetailsActivity.this, R.id.imageViewTraining, R.id.progressBarTrainingDetailsL, urlL);
+        new ImageLoader(TrainingDetailsActivity.this, R.id.imageViewTraining1, R.id.progressBarTrainingDetailsR, urlR);
 
         timer = new Timer(this);
         timer.seekBarTimer();
@@ -253,12 +250,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         etNotepad = findViewById(R.id.editTextNotepad);
         etNotepad.clearFocus();
         etNotepad.didTouchFocusSelect();
-
-        pbL = findViewById(R.id.progressBarTrainingDetailsL);
-        pbR = findViewById(R.id.progressBarTrainingDetailsR);
-
-        imgTrainingL = findViewById(R.id.imageViewTraining);
-        imgTrainingR = findViewById(R.id.imageViewTraining1);
 
         scrollView = findViewById(R.id.scrollViewTrainingActivityDetails);
         scrollView.requestFocus();

@@ -2,12 +2,12 @@ package com.brus5.lukaszkrawczak.fitx;
 
 public class RestAPI
 {
-    public static final String URL = "http://justfitx.xyz/";
+    public static final String SERVER_URL = "http://justfitx.xyz/";
 
-    public static final String URL_DIET = URL + "Diet/";
-    public static final String URL_TRAINING = URL + "Training/";
-    public static final String URL_CARDIO = URL + "Cardio/";
-    public static final String URL_MAIN = URL + "Main/";
+    public static final String URL_DIET = SERVER_URL + "Diet/";
+    public static final String URL_TRAINING = SERVER_URL + "Training/";
+    public static final String URL_CARDIO = SERVER_URL + "Cardio/";
+    public static final String URL_MAIN = SERVER_URL + "Main/";
 
 
 

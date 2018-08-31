@@ -9,8 +9,8 @@ import android.widget.TextView;
 public class CharacterLimit extends MainTextWatcher
 {
     private TextView textView;
-    private int limit;
-    private int charNum = 0;
+    private final int limit;
+    private int charNum;
 
     public CharacterLimit(View view, TextView textView, int charLimit)
     {

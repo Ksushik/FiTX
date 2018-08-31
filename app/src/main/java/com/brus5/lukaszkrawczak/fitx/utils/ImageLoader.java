@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -18,13 +19,13 @@ public class ImageLoader
     private ImageView imageView;
     private ProgressBar progressBar;
 
-    public ImageLoader(Context context, ImageView imageView, ProgressBar progrssBar, String url)
+    public ImageLoader(Context context, int imageResID, int progressBarResID, String url)
     {
         this.context = context;
-        this.imageView = imageView;
-        this.progressBar = progrssBar;
         this.url = url;
 
+        imageView = ((Activity) context).findViewById(imageResID);
+        progressBar = ((Activity) context).findViewById(progressBarResID);
         load();
     }
 

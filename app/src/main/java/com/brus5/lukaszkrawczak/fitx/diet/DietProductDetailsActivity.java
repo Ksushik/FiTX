@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,13 +64,12 @@ import java.util.Map;
 public class DietProductDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DefaultView, AsynchTask
 {
     private static final String TAG = "DietProductDetailsActivity";
-    private ImageView imgProduct, imgVerified;
+    private ImageView imgVerified;
     private TextView tvName, tvProteins, tvFats, tvCarbs, tvCalories, tvFatsSaturated, tvFatsUnsaturated, tvCarbsFiber, tvCarbsSugars;
     private EditText etWeight;
     private int productID;
     private String productTimeStamp, previousActivity, dateFormat, newTimeStamp;
     private Spinner spinner;
-    private ProgressBar progrssBar;
     private ConstraintLayout constraintLayout;
 
     @SuppressLint("SimpleDateFormat")
@@ -101,7 +99,7 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
 
         String url = "http://justfitx.xyz/images/products/mid/" + productID + ".png"; // This must by under getIntentFromPreviousActiity()
 
-        new ImageLoader(DietProductDetailsActivity.this, imgProduct, progrssBar, url);
+        new ImageLoader(DietProductDetailsActivity.this, R.id.imageViewProduct, R.id.progressBar, url);
 
         loadAsynchTask(DietProductDetailsActivity.this);
 
@@ -111,7 +109,6 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
 
     public void loadInput()
     {
-        imgProduct = findViewById(R.id.imageViewProduct);
         imgVerified = findViewById(R.id.imageViewVerified);
 
         etWeight = findViewById(R.id.editTextWeight);
@@ -131,7 +128,6 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
-        progrssBar = findViewById(R.id.progressBar);
 
         constraintLayout = findViewById(R.id.constraintLayoutDietDetails);
         constraintLayout.requestFocus();

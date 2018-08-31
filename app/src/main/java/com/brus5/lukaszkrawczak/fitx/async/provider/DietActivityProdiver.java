@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.brus5.lukaszkrawczak.fitx.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.SaveSharedPreference;
 import com.brus5.lukaszkrawczak.fitx.dto.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
@@ -17,12 +18,12 @@ class DietActivityProdiver extends Provider
     private MainDTO dto = new MainDTO();
 
     // Link from server to HTTP connection
-    private String link = "http://justfitx.xyz/Diet/ShowByUser.php";
+    private static final String URL = RestAPI.SERVER_URL + "Diet/ShowByUser.php";
 
     /**
-     * This constructor preparing link which should be sended to
+     * This constructor preparing SERVER_URL which should be sended to
      * startHTTPService.
-     * Example link:
+     * Example SERVER_URL:
      * http://justfitx.xyz/Diet/ShowByUser.php?username=brus5&date=2018-08-27&user_id=5
      *
      * @param activity activity from current Activity
@@ -38,22 +39,22 @@ class DietActivityProdiver extends Provider
         dto.userID = SaveSharedPreference.getUserID(context);
         dto.date = DateGenerator.getSelectedDate();
 
-        // Glueing link with variables
+        // Glueing SERVER_URL with variables
         String params = "?username=" + dto.userName + "&date=" + dto.date + "&user_id=" + dto.userID;
 
         Log.d(TAG, "DietActivityProdiver: " + params);
 
-        // Starting AsyncTask after completing up link+params
+        // Starting AsyncTask after completing up SERVER_URL+params
         // This method is in Provider.class
-        startHTTPService(link, params);
+        startHTTPService(URL, params);
     }
 
 
     /**
-     * This method start AsyncTask after completing link + params
+     * This method start AsyncTask after completing SERVER_URL + params
      * This method is in Provider.class
      *
-     * @param link   it should be whole link for example: http://justfitx.xyz/Diet/ShowByUser.php
+     * @param link   it should be whole SERVER_URL for example: http://justfitx.xyz/Diet/ShowByUser.php
      * @param params it should named: ?username=brus5&date=2018-08-27&user_id=5
      */
     @Override

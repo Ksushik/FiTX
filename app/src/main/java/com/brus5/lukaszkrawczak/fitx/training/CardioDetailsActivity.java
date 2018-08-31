@@ -13,8 +13,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,14 +48,12 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     private String trainingTimeStamp, previousActivity, newTimeStamp;
     private int trainingID, trainingTime;
-    private ImageView img;
     private EditText etNotepad;
     private TextView tvName;
     private CheckBox checkBox;
     private Timer timer;
     private double kcalPerMin;
     private ConstraintLayout constraintLayout;
-    private ProgressBar pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,8 +68,8 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         timer.seekBarTimer();
         getPreviousActivity(previousActivity);
 
-        final String url = RestAPI.URL + "images/cardio/" + trainingID + ".jpg";
-        new ImageLoader(CardioDetailsActivity.this, img, pb, url);
+        final String url = RestAPI.URL_MAIN + "images/cardio/" + trainingID + ".jpg";
+        new ImageLoader(CardioDetailsActivity.this, R.id.imageViewCardio, R.id.progressBarCardioDetails, url);
     }
 
     @SuppressLint("LongLogTag")
@@ -141,9 +137,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         tvName = findViewById(R.id.textViewCardioName);
         etNotepad = findViewById(R.id.editTextNotepadCardio);
 
-        pb = findViewById(R.id.progressBarCardioDetails);
-
-        img = findViewById(R.id.imageViewCardio);
         checkBox = findViewById(R.id.checkBox);
 
         constraintLayout = findViewById(R.id.constraingLayoutCardioDetails);

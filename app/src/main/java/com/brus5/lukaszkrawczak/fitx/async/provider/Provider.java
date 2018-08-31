@@ -19,6 +19,12 @@ public class Provider
         this.listView = listView;
     }
 
+    public Provider(Activity activity, Context context)
+    {
+        this.activity = activity;
+        this.context = context;
+    }
+
 
     /**
      * This method loads proper class. It's must have to run out AsyncTask
@@ -51,9 +57,18 @@ public class Provider
             case "DietProductSearchActivity":
                 new DietProductSearchActivityProvider(activity, context, listView, s);
                 break;
+            case "DietProductDetailsActivity":
+                new DietProductDetailsActivityProvider(activity, context, listView, s);
+                break;
         }
     }
 
+    /**
+     * This method starts HTTP Service which witch AsyncTask
+     *
+     * @param link   is an private final static field in RestApi.class this is main link to server
+     * @param params is string of parameters it's for example: "?product_id=4"
+     */
     protected void startHTTPService(String link, String params)
     {
         HTTPService HTTPService = new HTTPService(activity, context, listView);
