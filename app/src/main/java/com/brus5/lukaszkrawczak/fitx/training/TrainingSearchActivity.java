@@ -1,11 +1,17 @@
 package com.brus5.lukaszkrawczak.fitx.training;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +20,8 @@ import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
+
+import java.util.ArrayList;
 
 public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
@@ -165,11 +173,6 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
     }
 
 
-    private void onBackButtonPressed()
-    {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
     @Override
     public void onClick(View v)
     {
@@ -226,4 +229,45 @@ public class TrainingSearchActivity extends AppCompatActivity implements View.On
     {
         Log.i(TAG, "dateFormat: " + DateGenerator.getSelectedDate());
     }
+}
+
+
+
+class TrainingSearchListAdapter extends ArrayAdapter<Training>
+{
+    int mResource;
+    private Context mContext;
+
+    public TrainingSearchListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Training> objects)
+    {
+        super(context, resource, objects);
+        mContext = context;
+        mResource = resource;
+    }
+
+    @SuppressLint({"LongLogTag", "ViewHolder"})
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
+    {
+        int id = getItem(position).getId();
+        String name = getItem(position).getName();
+        double kcal = getItem(position).getKcal();
+
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        convertView = inflater.inflate(mResource, parent, false);
+
+        TextView tvTrainingID = convertView.findViewById(R.id.trainingSearchID);
+        TextView tvTrainingTitle = convertView.findViewById(R.id.trainingSearchTitle);
+        TextView tvCalories = convertView.findViewById(R.id.textViewCalories);
+
+        tvTrainingID.setText(String.valueOf(id));
+
+        tvCalories.setText(String.valueOf(kcal));
+
+        tvTrainingTitle.setText(name);
+
+        return convertView;
+    }
+
 }

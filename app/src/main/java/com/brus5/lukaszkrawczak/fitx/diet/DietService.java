@@ -16,7 +16,7 @@ import com.brus5.lukaszkrawczak.fitx.dto.DietDTO;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DietService implements DietAsynchServiceDTO
+public class DietService
 {
 
     private static final String TAG = "DietService";

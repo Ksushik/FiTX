@@ -19,6 +19,7 @@ public class Training extends ArrayList
     private String target;
     private String time;
     private String kcalPerMin;
+    private double kcal;
 
     public Training(int id, int done, String name, int restTime, String weight, String reps, String timeStamp, String target, int viewType)
     {
@@ -46,6 +47,22 @@ public class Training extends ArrayList
         this.kcalPerMin = kcalPerMin;
         this.viewType = viewType;
     }
+
+
+
+    public Training(int id, String name)
+    {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Training(int id, String name, double kcal)
+    {
+        this.id = id;
+        this.name = name;
+        this.kcal = kcal;
+    }
+
 
     public int getId()
     {
@@ -100,5 +117,10 @@ public class Training extends ArrayList
     public String getKcalPerMin()
     {
         return kcalPerMin;
+    }
+
+    public double getKcal()
+    {
+        return kcal;
     }
 }

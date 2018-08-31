@@ -35,7 +35,7 @@ import java.util.Map;
 public class TrainingListActivity extends AppCompatActivity implements DefaultView
 {
     private static final String TAG = "TrainingListActivity";
-    private ArrayList<TrainingSearch> trainingSearchArrayList = new ArrayList<>();
+    private ArrayList<Training> trainingSearchArrayList = new ArrayList<>();
     private TrainingSearchListAdapter trainingSearchListAdapter;
     private ListView listViewTrainingActivity;
     private String trainingTarget, dateFormat;
@@ -77,12 +77,6 @@ public class TrainingListActivity extends AppCompatActivity implements DefaultVi
         activityView.showBackButton();
     }
 
-
-    private void onBackButtonPressed()
-    {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
     private void asynchTask(final Context ctx)
     {
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_SEARCH_BY_TARGET, new Response.Listener<String>()
@@ -112,8 +106,8 @@ public class TrainingListActivity extends AppCompatActivity implements DefaultVi
 
                             String trainingName = productName.substring(0, 1).toUpperCase() + productName.substring(1);
 
-                            TrainingSearch trainingSearch = new TrainingSearch(trainingID, trainingName);
-                            trainingSearchArrayList.add(trainingSearch);
+                            Training training = new Training(trainingID, trainingName);
+                            trainingSearchArrayList.add(training);
                         }
                     }
                     /* End */
@@ -167,6 +161,68 @@ public class TrainingListActivity extends AppCompatActivity implements DefaultVi
             }
         });
     }
+}
 
+class TrainingList
+{
+    Context mContext;
+    private int resId;
+
+    @SuppressLint("ResourceType")
+
+    public TrainingList(Context context)
+    {
+        this.mContext = context;
+    }
+
+    public void setResId(int resId)
+    {
+        this.resId = resId;
+    }
+
+    String getResourceName()
+    {
+        String excerciseName = "";
+        switch (resId)
+        {
+            case R.id.textViewButtonChest:
+                excerciseName = "chest";
+                break;
+            case R.id.textViewButtonAbs:
+                excerciseName = "abs";
+                break;
+            case R.id.textViewButtonQuads:
+                excerciseName = "quads";
+                break;
+            case R.id.textViewButtonShoulders:
+                excerciseName = "shoulders";
+                break;
+            case R.id.textViewButtonTraps:
+                excerciseName = "traps";
+                break;
+            case R.id.textViewButtonLats:
+                excerciseName = "lats";
+                break;
+            case R.id.textViewButtonGlutes:
+                excerciseName = "glutes";
+                break;
+            case R.id.textViewButtonTriceps:
+                excerciseName = "triceps";
+                break;
+            case R.id.textViewButtonHamstrings:
+                excerciseName = "hamstrings";
+                break;
+            case R.id.textViewButtonCalves:
+                excerciseName = "calves";
+                break;
+            case R.id.textViewButtonBiceps:
+                excerciseName = "biceps";
+                break;
+            case R.id.textViewButtonForearms:
+                excerciseName = "forearms";
+                break;
+        }
+        return excerciseName;
+    }
 
 }

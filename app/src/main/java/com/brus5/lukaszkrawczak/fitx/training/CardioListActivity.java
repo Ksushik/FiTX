@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class CardioListActivity extends AppCompatActivity implements DefaultView
 {
     private static final String TAG = "CardioListActivity";
-    private ArrayList<TrainingSearch> list = new ArrayList<>();
+    private ArrayList<Training> list = new ArrayList<>();
     private TrainingSearchListAdapter adapter;
     private ListView listView;
     private String dateFormat;
@@ -71,12 +71,6 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
     }
 
 
-
-    private void onBackButtonPressed()
-    {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
     private void asynchTask(final Context ctx)
     {
         StringRequest strRequest;
@@ -109,8 +103,8 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
 
                             String trainingName = productName.substring(0, 1).toUpperCase() + productName.substring(1);
 
-                            TrainingSearch trainingSearch = new TrainingSearch(trainingID, trainingName, calories);
-                            list.add(trainingSearch);
+                            Training training = new Training(trainingID, trainingName, calories);
+                            list.add(training);
                         }
                     }
                     /* End */
