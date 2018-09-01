@@ -82,7 +82,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         new ImageLoader(CardioDetailsActivity.this, R.id.imageViewCardio, R.id.progressBarCardioDetails, url);
     }
 
-    @SuppressLint("LongLogTag")
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -188,7 +187,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         activityView.showBackButton();
     }
 
-    @SuppressLint("LongLogTag")
     private void getIntentFromPreviousActiity()
     {
         Intent intent = getIntent();
@@ -203,14 +201,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         TimeStampReplacer time = new TimeStampReplacer(DateGenerator.getSelectedDate(), trainingTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
 
-        Log.i(TAG, "trainingID: "           + trainingID);
-        Log.i(TAG, "trainingTimeStamp: "    + trainingTimeStamp);
-        Log.i(TAG, "trainingTime: "         + trainingTime);
-        Log.i(TAG, "kcalPerMin: "           + kcalPerMin);
-        Log.i(TAG, "previousActivity: "     + previousActivity);
-        Log.i(TAG, "getSelectedDate: " + DateGenerator.getSelectedDate());
-        Log.i(TAG, "newTimeStamp: "         + newTimeStamp);
-
+        Log.i(TAG, "getIntentFromPreviousActiity: \n" + "trainingID: " + trainingID + "\n" + "trainingTimeStamp: " + trainingTimeStamp + "\n" + "trainingTime: " + trainingTime + "\n" + "kcalPerMin: " + kcalPerMin + "\n" + "previousActivity: " + previousActivity + "\n" + "DateGenerator.getSelectedDate(): " + DateGenerator.getSelectedDate() + "\n" + "newTimeStamp: " + newTimeStamp);
     }
 
     private String timeStampChanger(String trainingTimeStamp)

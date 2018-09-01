@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.brus5.lukaszkrawczak.fitx.async.inflater.CardioDetailsActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.DietActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.DietProductDetailsActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.DietProductSearchActivityInflater;
@@ -39,6 +40,12 @@ public class HTTPService extends AsyncTask<String, String, String>
         this.activity = activity;
         this.context = context;
         this.listView = listView;
+    }
+
+    public HTTPService(Activity activity, Context context)
+    {
+        this.activity = activity;
+        this.context = context;
     }
 
     // Invoked on the background thread
@@ -129,6 +136,10 @@ public class HTTPService extends AsyncTask<String, String, String>
                 break;
             case "DietProductDetailsActivity":
                 new DietProductDetailsActivityInflater(context, listView, s);
+                break;
+            case "CardioDetailsActivity":
+                new CardioDetailsActivityInflater(context, s);
+                break;
         }
         Log.d(TAG, "onPostExecute() called with: s = [" + s + "]");
     }

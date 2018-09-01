@@ -60,6 +60,9 @@ public class Provider
             case "DietProductDetailsActivity":
                 new DietProductDetailsActivityProvider(activity, context, listView, s);
                 break;
+            case "CardioDetailsActivity":
+                new CardioDetailsActivityProvider(activity, context, listView, s);
+                break;
         }
     }
 
