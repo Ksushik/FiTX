@@ -25,7 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
-import com.brus5.lukaszkrawczak.fitx.dto.TrainingDTO;
+import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
@@ -40,6 +40,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_DATE;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_DONE;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_ID;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_NOTEPAD;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_TIME;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_USER_ID_NO_PRIMARY_KEY;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_DELETE;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_INSERT;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_UPDATE;
 
 public class CardioDetailsActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
@@ -83,8 +93,18 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
                 {
                     Toast.makeText(this, R.string.training_updated, Toast.LENGTH_SHORT).show();
 
-                    TrainingService updateTraining = new TrainingService();
-                    updateTraining.CardioUpdate(saveDTO(),CardioDetailsActivity.this);
+                    DietService service = new DietService(CardioDetailsActivity.this);
+
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put(DB_CARDIO_ID, String.valueOf(trainingID));
+                    params.put(DB_CARDIO_DONE, String.valueOf(setOnCheckedChangeListener()));
+                    params.put(DB_CARDIO_TIME, String.valueOf(timer.START_TIME_IN_MILLIS / 1000 / 60));
+                    params.put(DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(CardioDetailsActivity.this)));
+                    params.put(DB_CARDIO_NOTEPAD, etNotepad.getText().toString());
+                    params.put(DB_CARDIO_DATE, newTimeStamp);
+
+                    service.post(params, URL_CARDIO_UPDATE);
+
                     finish();
                 }
 
@@ -92,8 +112,18 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
                 {
                     Toast.makeText(this, R.string.training_inserted, Toast.LENGTH_SHORT).show();
 
-                    TrainingService acceptService = new TrainingService();
-                    acceptService.CardioInsert(saveDTO(), CardioDetailsActivity.this);
+                    DietService service = new DietService(CardioDetailsActivity.this);
+
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put(DB_CARDIO_ID, String.valueOf(trainingID));
+                    params.put(DB_CARDIO_DONE, String.valueOf(setOnCheckedChangeListener()));
+                    params.put(DB_CARDIO_TIME, String.valueOf(timer.START_TIME_IN_MILLIS / 1000 / 60));
+                    params.put(DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(CardioDetailsActivity.this)));
+                    params.put(DB_CARDIO_NOTEPAD, etNotepad.getText().toString());
+                    params.put(DB_CARDIO_DATE, newTimeStamp);
+
+                    service.post(params, URL_CARDIO_INSERT);
+
                     finish();
                 }
                 else
@@ -105,8 +135,15 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
             case R.id.menu_delete_cardio:
                 Toast.makeText(this, R.string.training_deleted, Toast.LENGTH_SHORT).show();
 
-                TrainingService deleteService = new TrainingService();
-                deleteService.CaardioDelete(saveDTO(),CardioDetailsActivity.this);
+                DietService service = new DietService(CardioDetailsActivity.this);
+
+                HashMap<String, String> params = new HashMap<>();
+                params.put(DB_CARDIO_ID, String.valueOf(trainingID));
+                params.put(DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(CardioDetailsActivity.this)));
+                params.put(DB_CARDIO_DATE, newTimeStamp);
+
+                service.post(params, URL_CARDIO_DELETE);
+
                 finish();
                 break;
         }
@@ -225,7 +262,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
 
                             name = object.getString(RestAPI.DB_CARDIO_NAME);
                             calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
-                            done = object.getInt(RestAPI.DB_CARDIO_DONE);
+                            done = object.getInt(DB_CARDIO_DONE);
 
                             Log.e(TAG, "done: " + done);
 
@@ -257,9 +294,9 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_CARDIO_ID, String.valueOf(trainingID));
-                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(CardioDetailsActivity.this)));
-                params.put(RestAPI.DB_CARDIO_DATE, trainingTimeStamp);
+                params.put(DB_CARDIO_ID, String.valueOf(trainingID));
+                params.put(DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(CardioDetailsActivity.this)));
+                params.put(DB_CARDIO_DATE, trainingTimeStamp);
                 return params;
             }
         };
@@ -320,7 +357,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_CARDIO_ID, String.valueOf(trainingID));
+                params.put(DB_CARDIO_ID, String.valueOf(trainingID));
                 return params;
             }
         };
@@ -391,20 +428,5 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
             checkBox.setChecked(true);
             checkBox.setText(R.string.done);
         }
-    }
-
-    private TrainingDTO saveDTO()
-    {
-        TrainingDTO dto = new TrainingDTO();
-        dto.setTrainingID(trainingID);
-        dto.setTrainingDone(setOnCheckedChangeListener());
-        dto.setUserID(SaveSharedPreference.getUserID(CardioDetailsActivity.this));
-        dto.setTrainingNotepad(etNotepad.getText().toString());
-        dto.setTrainingTimeStamp(newTimeStamp);
-        dto.setTrainingTime(timer.START_TIME_IN_MILLIS / 1000 / 60);
-
-        Log.i(TAG, "saveDTO: " + dto.toString());
-
-        return dto;
     }
 }

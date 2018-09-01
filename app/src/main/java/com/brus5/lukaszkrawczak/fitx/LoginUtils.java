@@ -4,11 +4,11 @@ public class LoginUtils
 {
 
     /**
-     * This method checks if provided string represents a
-     * valid email address and returns true if it is.
+     * This method checks if provided string contains '@'
+     * symbol.
      *
-     * @param email
-     * @return
+     * @param email email address
+     * @return returns true if contains '@'
      */
     public boolean isEmailContainsAtSymbol(String email)
     {
@@ -18,8 +18,8 @@ public class LoginUtils
     /**
      * This method checks if provided string placement dot is proper.
      *
-     * @param email
-     * @return
+     * @param email email address
+     * @return returns true if dot placement in email address is proper
      */
     public boolean isEmailContainsProperDotPlacement(String email)
     {
@@ -69,8 +69,8 @@ public class LoginUtils
      * This method check if the provided string contains a
      * atleast one big letter.
      *
-     * @param string
-     * @return
+     * @param string user password
+     * @return true if password contains atleast one big letter
      */
     public boolean isPasswordContainsBigLetter(String string)
     {
@@ -91,8 +91,8 @@ public class LoginUtils
      * This method check if prodivded string contains
      * atleast one digit.
      *
-     * @param string
-     * @return
+     * @param string  user password
+     * @return true if password contains atleast one digit
      */
     public boolean isPasswordContainsOneDigit(String string)
     {
