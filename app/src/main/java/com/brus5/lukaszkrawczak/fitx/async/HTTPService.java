@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.async;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -28,6 +29,7 @@ import java.net.URL;
  * Created by Łukasz Krawczak
  */
 
+@SuppressLint("StaticFieldLeak")
 public class HTTPService extends AsyncTask<String, String, String>
 {
     private static final String TAG = "HTTPService";
@@ -40,12 +42,6 @@ public class HTTPService extends AsyncTask<String, String, String>
         this.activity = activity;
         this.context = context;
         this.listView = listView;
-    }
-
-    public HTTPService(Activity activity, Context context)
-    {
-        this.activity = activity;
-        this.context = context;
     }
 
     // Invoked on the background thread

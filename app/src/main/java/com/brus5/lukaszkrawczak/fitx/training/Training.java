@@ -48,6 +48,13 @@ public class Training extends ArrayList
         this.viewType = viewType;
     }
 
+    public Training(String name, double kcal, int done)
+    {
+        this.name = name;
+        this.kcal = kcal;
+        this.done = done;
+    }
+
 
 
     public Training(int id, String name)

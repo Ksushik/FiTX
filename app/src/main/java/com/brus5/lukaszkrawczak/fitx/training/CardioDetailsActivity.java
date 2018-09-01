@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
@@ -59,9 +60,9 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     private String trainingTimeStamp, previousActivity, newTimeStamp;
     private int trainingID, trainingTime;
     private EditText etNotepad;
-    private TextView tvName;
+    public TextView tvName;
     private CheckBox checkBox;
-    private Timer timer;
+    public Timer timer;
     private double kcalPerMin;
     private ConstraintLayout constraintLayout;
 
@@ -221,7 +222,8 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         }
         if (previousActivity.equals( CardioListActivity     .class.getSimpleName() ))
         {
-            cardioAsynch(CardioDetailsActivity.this);
+            //            cardioAsynch(CardioDetailsActivity.this);
+            new Provider(CardioDetailsActivity.this, CardioDetailsActivity.this).load(String.valueOf(trainingID));
             timer.convertSetTimeBig(1_800_000);
         }
 
@@ -295,66 +297,66 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         queue.add(strRequest);
     }
 
-    private void cardioAsynch(final Context ctx)
-    {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_SHOW, new Response.Listener<String>()
-        {
-            @Override
-            public void onResponse(String response)
-            {
-                try
-                {
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-
-                    String name;
-                    double calories;
-
-                    JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                    if (jsonArray.length() > 0)
-                    {
-                        for (int i = 0; i < jsonArray.length(); i++)
-                        {
-                            JSONObject object = jsonArray.getJSONObject(i);
-
-                            name = object.getString(RestAPI.DB_CARDIO_NAME);
-                            calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
-
-                            String trainingName = name.substring(0, 1).toUpperCase() + name.substring(1);
-
-                            tvName.setText(trainingName);
-
-
-                            timer.setBurned(calories);
-                        }
-                    }
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener()
-        {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                Toast.makeText(ctx, R.string.connection_error, Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "onErrorResponse: Error" + error);
-            }
-        })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                HashMap<String, String> params = new HashMap<>();
-                params.put(DB_CARDIO_ID, String.valueOf(trainingID));
-                return params;
-            }
-        };
-        RequestQueue queue = Volley.newRequestQueue(ctx);
-        queue.add(strRequest);
-    }
+    //    private void cardioAsynch(final Context ctx)
+    //    {
+    //        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_SHOW, new Response.Listener<String>()
+    //        {
+    //            @Override
+    //            public void onResponse(String response)
+    //            {
+    //                try
+    //                {
+    //                    JSONObject jsonObject = new JSONObject(response);
+    //
+    //                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+    //
+    //                    String name;
+    //                    double calories;
+    //
+    //                    JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+    //                    if (jsonArray.length() > 0)
+    //                    {
+    //                        for (int i = 0; i < jsonArray.length(); i++)
+    //                        {
+    //                            JSONObject object = jsonArray.getJSONObject(i);
+    //
+    //                            name = object.getString(RestAPI.DB_CARDIO_NAME);
+    //                            calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
+    //
+    //                            String trainingName = name.substring(0, 1).toUpperCase() + name.substring(1);
+    //
+    //                            tvName.setText(trainingName);
+    //
+    //
+    //                            timer.setBurned(calories);
+    //                        }
+    //                    }
+    //                } catch (JSONException e)
+    //                {
+    //                    e.printStackTrace();
+    //                }
+    //            }
+    //        }, new Response.ErrorListener()
+    //        {
+    //            @Override
+    //            public void onErrorResponse(VolleyError error)
+    //            {
+    //                Toast.makeText(ctx, R.string.connection_error, Toast.LENGTH_SHORT).show();
+    //                Log.e(TAG, "onErrorResponse: Error" + error);
+    //            }
+    //        })
+    //        {
+    //            @Override
+    //            protected Map<String, String> getParams()
+    //            {
+    //                HashMap<String, String> params = new HashMap<>();
+    //                params.put(DB_CARDIO_ID, String.valueOf(trainingID));
+    //                return params;
+    //            }
+    //        };
+    //        RequestQueue queue = Volley.newRequestQueue(ctx);
+    //        queue.add(strRequest);
+    //    }
 
     @Override
     public void onClick(View v)
@@ -406,7 +408,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private void onTrainingChangerListener(int i)
+    public void onTrainingChangerListener(int i)
     {
         setOnCheckedChangeListener();
         if (i == 0)
@@ -420,4 +422,11 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
             checkBox.setText(R.string.done);
         }
     }
+
+
+    public void load(Training training, Context context)
+    {
+        Log.d(TAG, "load() called with: training = [" + training + "], context = [" + context + "]" + "trainingName: " + training.getName() + "\n" + "calories: " + training.getKcal() + "\n" + "done: " + training.getDone());
+    }
+
 }
