@@ -28,7 +28,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_UPDATE_COUNTED_KCAL;
 
 public class DietActivityInflater
 {
@@ -203,13 +206,15 @@ public class DietActivityInflater
 
             if (getMaxCalories() > 0d)
             {
-                DietDTO dto1 = new DietDTO();
-                dto1.userID = SaveSharedPreference.getUserID(context);
-                dto1.updateKcalResult = (int) countCalories;
-                dto1.dateToday = dateFormat;
+                DietService dietService = new DietService(context);
+                HashMap<String, String> params = new HashMap<>();
+                params.put(RestAPI.DB_USER_ID, String.valueOf(SaveSharedPreference.getUserID(context)));
+                params.put(RestAPI.DB_UPDATE_RESULT, String.valueOf((int) countCalories));
+                params.put(RestAPI.DB_DATE, dateFormat);
+                dietService.post(params, URL_DIET_UPDATE_COUNTED_KCAL);
 
-                DietService dietService = new DietService();
-                dietService.updateCalories(dto1, context);
+                //                dietService.updateCalories(params,context);
+
             }
             else if (getMaxCalories() == 0d)
             {
