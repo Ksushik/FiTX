@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.brus5.lukaszkrawczak.fitx.dto.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
@@ -14,9 +13,6 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_MAIN_INFORMATIONS;
 class MainActivityProvider extends Provider
 {
     private static final String TAG = "AsyncPrepMain";
-
-    // Creating new object of MainDTO
-    private MainDTO dto = new MainDTO();
 
     // Link from server to HTTP connection
     private static final String URL = URL_MAIN_INFORMATIONS;
@@ -36,11 +32,11 @@ class MainActivityProvider extends Provider
         super(activity, context, listView);
 
         // Attributing proper information to variables
-        dto.userID = SaveSharedPreference.getUserID(context);
-        dto.date = DateGenerator.getSelectedDate();
+        int userID = SaveSharedPreference.getUserID(context);
+        String date = DateGenerator.getSelectedDate();
 
         // Glueing SERVER_URL with variables
-        String params = "?user_id=" + dto.userID + "&date=" + dto.date;
+        String params = "?user_id=" + userID + "&date=" + date;
 
         Log.d(TAG, "MainActivityProvider: " + params);
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.brus5.lukaszkrawczak.fitx.dto.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
@@ -14,9 +13,6 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCTS_SHOW
 class DietActivityProdiver extends Provider
 {
     private static final String TAG = "AsyncPreparatorDietActi";
-
-    // Creating new object of MainDTO
-    private MainDTO dto = new MainDTO();
 
     // Link from server to HTTP connection
     private static final String URL = URL_DIET_PRODUCTS_SHOW_BY_USER;
@@ -36,12 +32,12 @@ class DietActivityProdiver extends Provider
         super(activity, context, listView);
 
         // Attributing proper information to variables
-        dto.userName = SaveSharedPreference.getUserName(context);
-        dto.userID = SaveSharedPreference.getUserID(context);
-        dto.date = DateGenerator.getSelectedDate();
+        String userName = SaveSharedPreference.getUserName(context);
+        int userID = SaveSharedPreference.getUserID(context);
+        String date = DateGenerator.getSelectedDate();
 
         // Glueing SERVER_URL with variables
-        String params = "?username=" + dto.userName + "&date=" + dto.date + "&user_id=" + dto.userID;
+        String params = "?username=" + userName + "&date=" + date + "&user_id=" + userID;
 
         Log.d(TAG, "DietActivityProdiver: " + params);
 
