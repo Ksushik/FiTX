@@ -1,5 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.diet;
 
+import java.util.Locale;
+
 /**
  * Created by lukaszkrawczak on 18.03.2018.
  */
@@ -56,6 +58,7 @@ public class Product
         this.verified = verified;
     }
 
+    public Product() {}
 
     public int getId()
     {
@@ -126,4 +129,49 @@ public class Product
     {
         return multiplier;
     }
+
+    public double countCalories(double proteins, double fats, double carbs)
+    {
+        return (proteins * 4) + (fats * 9) + (carbs * 4);
+    }
+}
+
+class Calories
+{
+    private double enteredWeight;
+    private double weight;
+    private double convertedWeight = -1; // this variable must have -1 as default value
+
+    public Calories(double enteredWeight, double weight)
+    {
+        this.enteredWeight = enteredWeight;
+        this.weight = weight;
+    }
+
+    /**
+     * This method counting weight of calories of specific macronutrient
+     *
+     * @param calories is Calories method which contains 2 variables:
+     *                 enteredWeight: which should be entered weight by user
+     *                 weight: actual procut weight
+     * @return convertedWeight as double
+     */
+    public double countCalories(Calories calories)
+    {
+        convertedWeight = calories.enteredWeight * (calories.weight * 0.01);
+        return convertedWeight;
+    }
+
+    /**
+     * This method converts convertedWeight to String.
+     *
+     * @return String value with 1 digit after decimal. For example: 12.4
+     */
+    @Override
+    public String toString()
+    {
+        return String.format(Locale.getDefault(), "%.1f", convertedWeight);
+    }
+
+
 }

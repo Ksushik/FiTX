@@ -24,7 +24,6 @@ import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
-import com.brus5.lukaszkrawczak.fitx.converter.WeightConverter;
 import com.brus5.lukaszkrawczak.fitx.dto.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
@@ -212,7 +211,6 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
 
                     Log.i(TAG, "onClick: " + insertDTO.toString());
 
-
                     DietService service = new DietService();
                     service.insert(insertDTO, DietProductDetailsActivity.this);
                     finish();
@@ -354,33 +352,45 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
 
-    public void setProductWeight(Double aDouble)
+    public void setProductWeight(double enteredWeight)
     {
-        WeightConverter mProteins = new WeightConverter(aDouble, proteins);
-        WeightConverter mFats = new WeightConverter(aDouble, fats);
-        WeightConverter mCarbs = new WeightConverter(aDouble, carbs);
-        WeightConverter mSaturatedFats = new WeightConverter(aDouble, saturatedFats);
-        WeightConverter mUnsaturatedFats = new WeightConverter(aDouble, unsaturatedFats);
-        WeightConverter mFiber = new WeightConverter(aDouble, carbsFiber);
-        WeightConverter mSugars = new WeightConverter(aDouble, carbsSugars);
+        Calories p = new Calories(enteredWeight, proteins);
+        p.countCalories(p);
+        tvProteins.setText(p.toString());
 
-        tvProteins.setText(mProteins.getConvertedWeight());
-        tvFats.setText(mFats.getConvertedWeight());
-        tvCarbs.setText(mCarbs.getConvertedWeight());
-        tvFatsSaturated.setText(mSaturatedFats.getConvertedWeight());
-        tvFatsUnsaturated.setText(mUnsaturatedFats.getConvertedWeight());
-        tvCarbsFiber.setText(mFiber.getConvertedWeight());
-        tvCarbsSugars.setText(mSugars.getConvertedWeight());
+        Calories f = new Calories(enteredWeight, fats);
+        f.countCalories(f);
+        tvFats.setText(f.toString());
+
+        Calories c = new Calories(enteredWeight, carbs);
+        c.countCalories(c);
+        tvCarbs.setText(c.toString());
+
+        Calories sat = new Calories(enteredWeight, saturatedFats);
+        sat.countCalories(sat);
+        tvFatsSaturated.setText(sat.toString());
+
+        Calories un = new Calories(enteredWeight, unsaturatedFats);
+        un.countCalories(un);
+        tvFatsUnsaturated.setText(un.toString());
+
+        Calories fib = new Calories(enteredWeight, carbsFiber);
+        fib.countCalories(fib);
+        tvCarbsFiber.setText(fib.toString());
+
+        Calories sug = new Calories(enteredWeight, carbsSugars);
+        sug.countCalories(sug);
+        tvCarbsSugars.setText(sug.toString());
 
         double proteins = Double.valueOf(tvProteins.getText().toString());
         double fats = Double.valueOf(tvFats.getText().toString());
         double carbs = Double.valueOf(tvCarbs.getText().toString());
 
-        WeightConverter converter = new WeightConverter();
 
-        tvCalories.setText(converter.countCalories(proteins, fats, carbs));
+        Product prod = new Product();
+        tvCalories.setText(String.valueOf((int) prod.countCalories(proteins, fats, carbs)));
 
-        setProductWeightPerItems(aDouble);
+        setProductWeightPerItems(enteredWeight);
     }
 
     private void setWeight(final boolean item)

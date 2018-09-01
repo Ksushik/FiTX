@@ -32,15 +32,6 @@ abstract class Converter
         Log.i(TAG, "Converter: " + builder);
     }
 
-    public Converter() {}
-
-    Converter(double weight, double productWeight)
-    {
-        this.weight = weight;
-        this.productWeight = productWeight;
-        setProductGrams(productWeight);
-    }
-
     public double convertWeight(double weight)
     {
 
