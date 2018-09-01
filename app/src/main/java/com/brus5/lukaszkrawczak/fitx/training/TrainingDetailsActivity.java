@@ -28,7 +28,7 @@ import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
-import com.brus5.lukaszkrawczak.fitx.dto.TrainingDTO;
+import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
@@ -44,6 +44,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_DELETE;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_INSERT;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_UPDATE;
 
 public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
 {
@@ -111,8 +115,20 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 {
                     Toast.makeText(this, R.string.training_updated, Toast.LENGTH_SHORT).show();
 
-                    TrainingService updateTraining = new TrainingService();
-                    updateTraining.TrainingUpdate(saveDTO(), TrainingDetailsActivity.this);
+                    DietService service = new DietService(TrainingDetailsActivity.this);
+
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
+                    params.put(RestAPI.DB_EXERCISE_DONE, String.valueOf(setOnCheckedChangeListener()));
+                    params.put(RestAPI.DB_EXERCISE_REST_TIME, String.valueOf(timer.START_TIME_IN_MILLIS));
+                    params.put(RestAPI.DB_EXERCISE_REPS, inflater.getReps());
+                    params.put(RestAPI.DB_EXERCISE_WEIGHT, inflater.getWeight());
+                    params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
+                    params.put(RestAPI.DB_EXERCISE_NOTEPAD, etNotepad.getText().toString());
+                    params.put(RestAPI.DB_EXERCISE_DATE, newTimeStamp);
+
+                    service.post(params, URL_TRAINING_UPDATE);
+
                     finish();
                 }
 
@@ -120,8 +136,20 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 {
                     Toast.makeText(this, R.string.training_inserted, Toast.LENGTH_SHORT).show();
 
-                    TrainingService acceptService = new TrainingService();
-                    acceptService.TrainingInsert(saveDTO(), TrainingDetailsActivity.this);
+                    DietService service = new DietService(TrainingDetailsActivity.this);
+
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
+                    params.put(RestAPI.DB_EXERCISE_DONE, String.valueOf(setOnCheckedChangeListener()));
+                    params.put(RestAPI.DB_EXERCISE_REST_TIME, String.valueOf(timer.START_TIME_IN_MILLIS));
+                    params.put(RestAPI.DB_EXERCISE_REPS, inflater.getReps());
+                    params.put(RestAPI.DB_EXERCISE_WEIGHT, inflater.getWeight());
+                    params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
+                    params.put(RestAPI.DB_EXERCISE_NOTEPAD, etNotepad.getText().toString());
+                    params.put(RestAPI.DB_EXERCISE_DATE, newTimeStamp);
+
+                    service.post(params, URL_TRAINING_INSERT);
+
                     finish();
                 }
                 else
@@ -133,44 +161,23 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             case R.id.menu_delete_exercise:
                 Toast.makeText(this, R.string.training_deleted, Toast.LENGTH_SHORT).show();
 
-                TrainingService deleteService = new TrainingService();
-                deleteService.TrainingDelete(deleteDto(), TrainingDetailsActivity.this);
+                DietService service = new DietService(TrainingDetailsActivity.this);
+
+                HashMap<String, String> params = new HashMap<>();
+                params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
+                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
+                params.put(RestAPI.DB_EXERCISE_DATE, getTimeStamp());
+
+                service.post(params, URL_TRAINING_DELETE);
+
+
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private TrainingDTO saveDTO()
-    {
-        Log.i(TAG, "onClick: " + "\nisValid: " + inflater.isValid() + inflater.printResult());
 
-        TrainingDTO dto = new TrainingDTO();
-        dto.setTrainingID(trainingID);
-        dto.setTrainingDone(setOnCheckedChangeListener());
-        dto.setTrainingRestTime(timer.START_TIME_IN_MILLIS);
-        dto.setTrainingReps(inflater.getReps());
-        dto.setTrainingWeight(inflater.getWeight());
-        dto.setUserID(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
-        dto.setTrainingNotepad(etNotepad.getText().toString());
-        dto.setTrainingTimeStamp(newTimeStamp);
-
-        Log.i(TAG, "saveDTO: " + dto.toString());
-
-        return dto;
-    }
-
-    private TrainingDTO deleteDto()
-    {
-        TrainingDTO dto = new TrainingDTO();
-        dto.setTrainingID(trainingID);
-        dto.setUserID(SaveSharedPreference.getUserID(TrainingDetailsActivity.this));
-        dto.setTrainingTimeStamp(getTimeStamp());
-
-        Log.i(TAG, "deleteDto: " + dto.toString());
-
-        return dto;
-    }
 
     private String getTimeStamp()
     {
