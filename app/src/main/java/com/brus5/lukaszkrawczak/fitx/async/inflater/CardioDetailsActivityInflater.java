@@ -1,6 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.async.inflater;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
@@ -23,6 +24,7 @@ public class CardioDetailsActivityInflater extends CardioDetailsActivity
 {
     private static final String TAG = "DietProductDetailsActivityInflater";
 
+    private Activity activity;
     private Context context;
 
     private ListView listView;
@@ -32,8 +34,9 @@ public class CardioDetailsActivityInflater extends CardioDetailsActivity
     private ArrayList<Product> list = new ArrayList<>();
 
 
-    public CardioDetailsActivityInflater(Context context, String response)
+    public CardioDetailsActivityInflater(Activity activity, Context context, String response)
     {
+        this.activity = activity;
         this.context = context;
 
         dataInflater(response);
@@ -70,7 +73,7 @@ public class CardioDetailsActivityInflater extends CardioDetailsActivity
 
                     Training training = new Training(trainingName, calories, done);
 
-                    load(training, context);
+                    load(activity, context, training);
 
 
 

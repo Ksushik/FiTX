@@ -1,6 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.training;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -179,6 +180,12 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         constraintLayout = findViewById(R.id.constraingLayoutCardioDetails);
         constraintLayout.requestFocus();
     }
+
+    private void loadInputAsync(Context context)
+    {
+        tvName = ((Activity) context).findViewById(R.id.textViewCardioName);
+    }
+
 
     @Override
     public void loadDefaultView()
@@ -424,9 +431,15 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    public void load(Training training, Context context)
+    public void load(Activity activity, Context context, Training training)
     {
-        Log.d(TAG, "load() called with: training = [" + training + "], context = [" + context + "]" + "trainingName: " + training.getName() + "\n" + "calories: " + training.getKcal() + "\n" + "done: " + training.getDone());
+
+        // TODO: 01.09.2018 make whole view work
+        Log.d(TAG, "load() called with: training = [" + training + "], context = [" + context + "]" + "\n" + "trainingName: " + training.getName() + "\n" + "calories: " + training.getKcal() + "\n" + "done: " + training.getDone());
+        Timer timer1 = new Timer(activity);
+        timer1.setBurned(training.getKcal());
+        loadInputAsync(context);
+        tvName.setText(training.getName());
     }
 
 }

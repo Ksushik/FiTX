@@ -134,7 +134,7 @@ public class HTTPService extends AsyncTask<String, String, String>
                 new DietProductDetailsActivityInflater(context, listView, s);
                 break;
             case "CardioDetailsActivity":
-                new CardioDetailsActivityInflater(context, s);
+                new CardioDetailsActivityInflater(activity, context, s);
                 break;
         }
         Log.d(TAG, "onPostExecute() called with: s = [" + s + "]");
