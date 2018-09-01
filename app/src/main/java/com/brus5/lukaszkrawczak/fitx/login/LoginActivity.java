@@ -184,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements DefaultView
 
                                 if (response.getError() != null)
                                 {
-                                    // handle error
+                                    Log.e(TAG, "onCompleted: " + response.getError());
                                 }
                                 else
                                 {

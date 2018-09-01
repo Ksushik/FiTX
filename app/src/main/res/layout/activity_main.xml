@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendarViewMainActivity"
-        app:layout_constraintVertical_bias="0.0"></ListView>
+        app:layout_constraintVertical_bias="0.0" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -36,7 +36,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/colorBackground"
-        android:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
@@ -60,7 +59,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/button_settings_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
@@ -79,7 +78,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/button_diet_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintHorizontal_bias="0.0"
@@ -99,7 +98,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/button_training_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
@@ -118,7 +117,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/button_stats_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
@@ -159,7 +158,6 @@
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/guideline86proc"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
