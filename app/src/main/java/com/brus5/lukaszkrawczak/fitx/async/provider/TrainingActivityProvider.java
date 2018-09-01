@@ -7,8 +7,9 @@ import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.dto.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
-import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
+
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_SHOW_SHORT;
 
 class TrainingActivityProvider extends Provider
 {
@@ -18,7 +19,7 @@ class TrainingActivityProvider extends Provider
     private MainDTO dto = new MainDTO();
 
     // Link from server to HTTP connection
-    private static final String URL = RestAPI.SERVER_URL + "Training/ShowByUserShort.php";
+    private static final String URL = URL_TRAINING_SHOW_SHORT;
 
     /**
      * This constructor preparing SERVER_URL which should be sended to

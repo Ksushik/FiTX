@@ -68,7 +68,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
         timer.seekBarTimer();
         getPreviousActivity(previousActivity);
 
-        final String url = RestAPI.URL_MAIN + "images/cardio/" + trainingID + ".jpg";
+        final String url = RestAPI.MAIN + "images/cardio/" + trainingID + ".jpg";
         new ImageLoader(CardioDetailsActivity.this, R.id.imageViewCardio, R.id.progressBarCardioDetails, url);
     }
 
@@ -248,7 +248,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onErrorResponse(VolleyError error)
             {
-                Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, R.string.connection_error, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: Error" + error);
             }
         })
@@ -311,7 +311,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onErrorResponse(VolleyError error)
             {
-                Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, R.string.connection_error, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: Error" + error);
             }
         })

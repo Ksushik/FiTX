@@ -23,7 +23,6 @@ import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginNormalDTO;
 import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginRegisterFacebookDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
-import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -252,13 +251,13 @@ public class LoginActivity extends AppCompatActivity implements DefaultView
             @Override
             public void onCancel()
             {
-                toastError(RestAPI.USER_CANCEL);
+                toastError(R.string.cancel);
             }
 
             @Override
             public void onError(FacebookException error)
             {
-                toastError(RestAPI.LOGIN_ERROR);
+                toastError(R.string.error);
             }
         });
 
@@ -282,9 +281,9 @@ public class LoginActivity extends AppCompatActivity implements DefaultView
         }
     }
 
-    private void toastError(String connectionError)
+    private void toastError(int resID)
     {
-        Toast.makeText(this, connectionError, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, resID, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -4,48 +4,43 @@ public class RestAPI
 {
     public static final String SERVER_URL = "http://justfitx.xyz/";
 
-    public static final String URL_DIET = SERVER_URL + "Diet/";
-    public static final String URL_TRAINING = SERVER_URL + "Training/";
-    public static final String URL_CARDIO = SERVER_URL + "Cardio/";
-    public static final String URL_MAIN = SERVER_URL + "Main/";
+    public static final String DIET = SERVER_URL + "Diet/";
+    public static final String TRAINING = SERVER_URL + "Training/";
+    public static final String CARDIO = SERVER_URL + "Cardio/";
+    public static final String MAIN = SERVER_URL + "Main/";
+
+    public static final String URL_MAIN_INFORMATIONS = MAIN + "Main.php";
 
 
 
-    public static final String URL_MAIN_DIET = URL_MAIN + "Diet.php";
-
-    public static final String URL_DIET_GET_PRODUCT_INFORMATIONS = URL_DIET + "GetProductInformations.php";
-    public static final String URL_DIET_DELETE_COUNTED_KCAL = URL_DIET + "KcalResultDelete.php";
-    public static final String URL_DIET_UPDATE_COUNTED_KCAL = URL_DIET + "KcalResultUpdate.php";
-    public static final String URL_DIET_DELETE_PRODUCT = URL_DIET + "ProductDelete.php";
-    public static final String URL_DIET_INSERT_PRODUCT = URL_DIET + "ProductInsert.php";
-    public static final String URL_DIET_SEARCH_PRODUCT = URL_DIET + "ProductsSearch.php";
-    public static final String URL_DIET_SHOW_BY_USER = URL_DIET + "ShowByUser.php";
-    public static final String URL_DIET_UPDATE_WEIGHT_PRODUCT = URL_DIET + "UpdateProductWeight.php";
-
-    public static final String URL_SHOW_TRAINING_DETAILS = URL_TRAINING + "ShowTrainingDetails.php";
-    public static final String URL_SHOW_TRAINING = URL_TRAINING + "ShowByUser.php";
-    public static final String URL_SHOW_TRAINING_SHORT = URL_TRAINING + "ShowByUserShort.php";
-    public static final String URL_SHOW_TRAINING_DESCRIPTION = URL_TRAINING + "ShowTrainingDescription.php";
-    public static final String URL_TRAINING_SEARCH_BY_TARGET = URL_TRAINING + "SearchByTarget.php";
-    public static final String URL_TRAINING_INSERT = URL_TRAINING + "Insert.php";
-    public static final String URL_TRAINING_DELETE = URL_TRAINING + "Delete.php";
-    public static final String URL_TRAINING_UPDATE = URL_TRAINING + "Update.php";
-
-    public static final String URL_CARDIO_GET_LIST = URL_CARDIO + "Search.php";
-    public static final String URL_CARDIO_SHOW = URL_CARDIO + "Show.php";
-    public static final String URL_CARDIO_INSERT = URL_CARDIO + "Insert.php";
-    public static final String URL_CARDIO_UPDATE = URL_CARDIO + "Update.php";
-    public static final String URL_CARDIO_DELETE = URL_CARDIO + "Delete.php";
+    public static final String URL_DIET_DELETE_COUNTED_KCAL = DIET + "KcalResultDelete.php";
+    public static final String URL_DIET_UPDATE_COUNTED_KCAL = DIET + "KcalResultUpdate.php";
 
 
-    public static final String USER_CANCEL = "Zakończono przez użytkownika";
-    public static final String LOGIN_ERROR = "Nieudana próba połączenia";
+    public static final String URL_DIET_PRODUCT_GET_INFORMATIONS = DIET + "GetProductInformations.php";
 
-    public static final String NEW_ACCOUNT = "Witamy nowego użytkownika";
-    public static final String EXISTING_ACCOUNT = "Witaj ponownie";
+    public static final String URL_DIET_PRODUCT_DELETE = DIET + "ProductDelete.php";
+    public static final String URL_DIET_PRODUCT_INSERT = DIET + "ProductInsert.php";
+    public static final String URL_DIET_PRODUCT_SEARCH = DIET + "ProductsSearch.php";
+    public static final String URL_DIET_PRODUCT_UPDATE_WEIGHT = DIET + "UpdateProductWeight.php";
 
-    public static final String CONNECTION_INTERNET_FAILED = "Błąd połączenia";
+    public static final String URL_DIET_PRODUCTS_SHOW_BY_USER = DIET + "ShowByUser.php";
 
+
+    public static final String URL_TRAINING_DETAILS = TRAINING + "ShowTrainingDetails.php";
+    public static final String URL_TRAINING_SHOW = TRAINING + "ShowByUser.php";
+    public static final String URL_TRAINING_SHOW_SHORT = TRAINING + "ShowByUserShort.php";
+    public static final String URL_TRAINING_DESCRIPTION = TRAINING + "ShowTrainingDescription.php";
+    public static final String URL_TRAINING_SEARCH_BY_TARGET = TRAINING + "SearchByTarget.php";
+    public static final String URL_TRAINING_INSERT = TRAINING + "Insert.php";
+    public static final String URL_TRAINING_DELETE = TRAINING + "Delete.php";
+    public static final String URL_TRAINING_UPDATE = TRAINING + "Update.php";
+
+    public static final String URL_CARDIO_GET_LIST = CARDIO + "Search.php";
+    public static final String URL_CARDIO_SHOW = CARDIO + "Show.php";
+    public static final String URL_CARDIO_INSERT = CARDIO + "Insert.php";
+    public static final String URL_CARDIO_UPDATE = CARDIO + "Update.php";
+    public static final String URL_CARDIO_DELETE = CARDIO + "Delete.php";
 
     /* Names of db_user */
     public final static String DB_USER_ID = "id";

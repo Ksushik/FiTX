@@ -299,7 +299,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getUserTrainingDetailsAsynch(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING, new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_SHOW, new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response)
@@ -365,7 +365,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             @Override
             public void onErrorResponse(VolleyError error)
             {
-                Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, R.string.connection_error, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: Error" + error);
             }
         })
@@ -385,7 +385,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getTrainingNameAsynch(final Context ctx)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DETAILS, new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_DETAILS, new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response)
@@ -416,7 +416,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             @Override
             public void onErrorResponse(VolleyError error)
             {
-                Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, R.string.connection_error, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: Error" + error);
             }
         })
@@ -435,7 +435,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void getTrainingDescAsynch(final Context context)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_SHOW_TRAINING_DESCRIPTION, new Response.Listener<String>()
+        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_DESCRIPTION, new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response)
@@ -467,7 +467,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             @Override
             public void onErrorResponse(VolleyError error)
             {
-                Toast.makeText(context, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.connection_error, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: Error" + error);
             }
         })

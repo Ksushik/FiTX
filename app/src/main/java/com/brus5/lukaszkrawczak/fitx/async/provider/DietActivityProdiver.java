@@ -7,8 +7,9 @@ import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.dto.MainDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
-import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
+
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCTS_SHOW_BY_USER;
 
 class DietActivityProdiver extends Provider
 {
@@ -18,7 +19,7 @@ class DietActivityProdiver extends Provider
     private MainDTO dto = new MainDTO();
 
     // Link from server to HTTP connection
-    private static final String URL = RestAPI.SERVER_URL + "Diet/ShowByUser.php";
+    private static final String URL = URL_DIET_PRODUCTS_SHOW_BY_USER;
 
     /**
      * This constructor preparing SERVER_URL which should be sended to

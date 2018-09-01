@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
+import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.login.dto.GetUserInfoDTO;
 import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginNormalDTO;
 import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginRegisterFacebookDTO;
@@ -47,7 +48,7 @@ public class LoginService
                     boolean success = jsonObject.getBoolean("success");
                     if (success)
                     {
-                        Toast.makeText(ctx, RestAPI.NEW_ACCOUNT, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ctx, R.string.welcome_new_user, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e)
                 {
@@ -59,7 +60,7 @@ public class LoginService
                         boolean userused = jsonObject.getBoolean("userused");
                         if (userused)
                         {
-                            Toast.makeText(ctx, RestAPI.EXISTING_ACCOUNT, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ctx, R.string.welcome_again, Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e1)
                     {
@@ -124,7 +125,7 @@ public class LoginService
                     }
                     else
                     {
-                        Toast.makeText(ctx, RestAPI.LOGIN_ERROR, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ctx, R.string.error, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e)
                 {
@@ -239,7 +240,7 @@ public class LoginService
                     }
                     else
                     {
-                        Toast.makeText(ctx, RestAPI.LOGIN_ERROR, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ctx, R.string.error, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e)
                 {

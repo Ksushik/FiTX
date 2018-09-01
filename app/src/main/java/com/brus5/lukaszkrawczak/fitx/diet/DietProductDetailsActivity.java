@@ -24,14 +24,23 @@ import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
-import com.brus5.lukaszkrawczak.fitx.dto.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+
+import static com.brus5.lukaszkrawczak.fitx.diet.DietService.DATE;
+import static com.brus5.lukaszkrawczak.fitx.diet.DietService.ID;
+import static com.brus5.lukaszkrawczak.fitx.diet.DietService.UPDATE_WEIGHT;
+import static com.brus5.lukaszkrawczak.fitx.diet.DietService.USER_ID;
+import static com.brus5.lukaszkrawczak.fitx.diet.DietService.WEIGHT;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_DELETE;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_INSERT;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_UPDATE_WEIGHT;
 
 /**
  * That View devilers to user informations about products.
@@ -184,16 +193,18 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
                     Toast.makeText(this, R.string.product_updated, Toast.LENGTH_SHORT).show();
 
                     Log.e(TAG, "onClick: " + getProductWeightPerItems());
-                    DietDTO updateDTO = new DietDTO();
-                    updateDTO.productID = productID;
-                    updateDTO.userID = SaveSharedPreference.getUserID(DietProductDetailsActivity.this);
-                    updateDTO.updateProductWeight = Integer.valueOf(getProductWeightPerItems());
-                    updateDTO.productTimeStamp = newTimeStamp;
 
-                    Log.i(TAG, "onClick: " + updateDTO.toString());
 
-                    DietService service = new DietService();
-                    service.updateProductWeight(updateDTO, DietProductDetailsActivity.this);
+                    DietService service = new DietService(DietProductDetailsActivity.this);
+
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put(ID, String.valueOf(productID));
+                    params.put(USER_ID, String.valueOf(SaveSharedPreference.getUserID(DietProductDetailsActivity.this)));
+                    params.put(UPDATE_WEIGHT, getProductWeightPerItems());
+                    params.put(DATE, newTimeStamp);
+
+                    service.post(params, URL_DIET_PRODUCT_UPDATE_WEIGHT);
+
                     finish();
                 }
 
@@ -201,18 +212,16 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
                 {
                     Toast.makeText(this, R.string.product_inserted, Toast.LENGTH_SHORT).show();
 
-                    Log.e(TAG, "onClick: " + getProductWeightPerItems());
+                    DietService service = new DietService(DietProductDetailsActivity.this);
 
-                    DietDTO insertDTO = new DietDTO();
-                    insertDTO.productID = productID;
-                    insertDTO.userName = SaveSharedPreference.getUserName(DietProductDetailsActivity.this);
-                    insertDTO.productWeight = Integer.valueOf(getProductWeightPerItems());
-                    insertDTO.productTimeStamp = newTimeStamp;
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put(ID, String.valueOf(productID));
+                    params.put(USER_ID, String.valueOf(SaveSharedPreference.getUserID(DietProductDetailsActivity.this)));
+                    params.put(WEIGHT, getProductWeightPerItems());
+                    params.put(DATE, newTimeStamp);
 
-                    Log.i(TAG, "onClick: " + insertDTO.toString());
+                    service.post(params, URL_DIET_PRODUCT_INSERT);
 
-                    DietService service = new DietService();
-                    service.insert(insertDTO, DietProductDetailsActivity.this);
                     finish();
                 }
                 break;
@@ -220,16 +229,16 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
             case R.id.menu_delete_product:
                 Toast.makeText(this, R.string.product_deleted, Toast.LENGTH_SHORT).show();
 
-                DietDTO deleteDTO = new DietDTO();
-                deleteDTO.productID = productID;
-                deleteDTO.userName = SaveSharedPreference.getUserName(DietProductDetailsActivity.this);
-                deleteDTO.updateProductWeight = Integer.valueOf(getProductWeightPerItems());
-                deleteDTO.productTimeStamp = newTimeStamp;
+                DietService service = new DietService(DietProductDetailsActivity.this);
 
-                Log.i(TAG, "onClick: " + deleteDTO.toString());
+                HashMap<String, String> params = new HashMap<>();
+                params.put(ID, String.valueOf(productID));
+                params.put(USER_ID, String.valueOf(SaveSharedPreference.getUserID(DietProductDetailsActivity.this)));
+                params.put(WEIGHT, getProductWeightPerItems());
+                params.put(DATE, newTimeStamp);
 
-                DietService service1 = new DietService();
-                service1.delete(deleteDTO, DietProductDetailsActivity.this);
+                service.post(params, URL_DIET_PRODUCT_DELETE);
+
                 finish();
                 break;
         }

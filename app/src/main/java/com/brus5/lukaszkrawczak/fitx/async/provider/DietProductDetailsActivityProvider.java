@@ -6,14 +6,14 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_GET_INFORMATIONS;
 
 public class DietProductDetailsActivityProvider extends Provider
 {
     private static final String TAG = "DietProductSearchActivityProvider";
 
     // Link from server to HTTP connection
-    private static final String URL = RestAPI.SERVER_URL + "Diet/GetProductInformations.php";
+    private static final String URL = URL_DIET_PRODUCT_GET_INFORMATIONS;
 
     /**
      * This constructor preparing link which should be sended to

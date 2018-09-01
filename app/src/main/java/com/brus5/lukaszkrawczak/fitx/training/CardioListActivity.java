@@ -122,7 +122,7 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
             @Override
             public void onErrorResponse(VolleyError error)
             {
-                Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, R.string.connection_error, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: Error" + error);
             }
         });

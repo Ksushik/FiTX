@@ -18,7 +18,6 @@ import com.brus5.lukaszkrawczak.fitx.converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.diet.Product;
 import com.brus5.lukaszkrawczak.fitx.diet.adapter.DietListAdapter;
-import com.brus5.lukaszkrawczak.fitx.dto.DietDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
@@ -31,6 +30,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_DATE;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_UPDATE_RESULT;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_USER_ID;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_DELETE_COUNTED_KCAL;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_UPDATE_COUNTED_KCAL;
 
 public class DietActivityInflater
@@ -146,7 +149,7 @@ public class DietActivityInflater
                     JSONObject rWeight = response_weight.getJSONObject(i);
 
                     weight = rWeight.getDouble(RestAPI.DB_PRODUCT_WEIGHT);
-                    productTimeStamp = rWeight.getString(RestAPI.DB_DATE);
+                    productTimeStamp = rWeight.getString(DB_DATE);
 
                     Protein protein = new Protein();
                     protein.setProteins(proteins, weight);
@@ -207,23 +210,23 @@ public class DietActivityInflater
             if (getMaxCalories() > 0d)
             {
                 DietService dietService = new DietService(context);
+
                 HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USER_ID, String.valueOf(SaveSharedPreference.getUserID(context)));
-                params.put(RestAPI.DB_UPDATE_RESULT, String.valueOf((int) countCalories));
-                params.put(RestAPI.DB_DATE, dateFormat);
+                params.put(DB_USER_ID, String.valueOf(SaveSharedPreference.getUserID(context)));
+                params.put(DB_UPDATE_RESULT, String.valueOf((int) countCalories));
+                params.put(DB_DATE, dateFormat);
+
                 dietService.post(params, URL_DIET_UPDATE_COUNTED_KCAL);
-
-                //                dietService.updateCalories(params,context);
-
             }
             else if (getMaxCalories() == 0d)
             {
-                DietDTO dto1 = new DietDTO();
-                dto1.userID = SaveSharedPreference.getUserID(context);
-                dto1.dateToday = dateFormat;
+                DietService dietService = new DietService(context);
 
-                DietService dietService = new DietService();
-                dietService.deleteCalories(dto1, context);
+                HashMap<String, String> params = new HashMap<>();
+                params.put(DB_USER_ID, String.valueOf(SaveSharedPreference.getUserID(context)));
+                params.put(DB_DATE, dateFormat);
+
+                dietService.post(params, URL_DIET_DELETE_COUNTED_KCAL);
             }
         } catch (JSONException e)
         {

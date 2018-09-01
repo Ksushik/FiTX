@@ -235,5 +235,9 @@
     <string name="reps_short1">powt.</string>
     <string name="add_set">Dodaj serię</string>
     <string name="timer">Timer</string>
+    <string name="cancel">Anulowano</string>
+    <string name="welcome_new_user">Witamy nowego użytkownika</string>
+    <string name="welcome_again">Witaj ponownie</string>
+    <string name="connection_error">Błąd połączenia</string>
 
 </resources>
