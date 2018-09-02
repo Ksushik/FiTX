@@ -67,6 +67,22 @@ public class Provider
     }
 
     /**
+     * This method load proper class with String param as one of communicators with HTTPService
+     *
+     * @param id        is id which you want to get informations of
+     * @param timeStamp is trainingTimeStamp to get informations
+     */
+    public void load(final String id, final String timeStamp)
+    {
+        switch (context.getClass().getSimpleName())
+        {
+            case "CardioDetailsActivity":
+                new CardioDetailsActivityProvider(activity, context, listView, timeStamp, id);
+                break;
+        }
+    }
+
+    /**
      * This method starts HTTP Service which witch AsyncTask
      *
      * @param link   is an private final static field in RestApi.class this is main link to server

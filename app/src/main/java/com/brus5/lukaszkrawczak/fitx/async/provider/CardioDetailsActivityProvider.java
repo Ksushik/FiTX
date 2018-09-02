@@ -45,6 +45,23 @@ class CardioDetailsActivityProvider extends Provider
         startHTTPService(URL, params);
     }
 
+    CardioDetailsActivityProvider(Activity activity, Context context, ListView listView, String timeStamp, String cardioID)
+    {
+        super(activity, context, listView);
+
+        // Attributing proper information to variables
+        int userID = SaveSharedPreference.getUserID(context);
+
+        // Glueing SERVER_URL with variables
+        String params = "?user_id=" + userID + "&date=" + timeStamp + "&id=" + cardioID;
+
+        Log.d(TAG, "CardioDetailsActivityProvider: " + params);
+
+        // Starting AsyncTask after completing up SERVER_URL+params
+        // This method is in Provider.class
+        startHTTPService(URL, params);
+    }
+
 
     /**
      * This method start AsyncTask after completing SERVER_URL + params

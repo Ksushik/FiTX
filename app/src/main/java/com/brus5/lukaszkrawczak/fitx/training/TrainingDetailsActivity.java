@@ -80,7 +80,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         new ImageLoader(TrainingDetailsActivity.this, R.id.imageViewTraining, R.id.progressBarTrainingDetailsL, urlL);
         new ImageLoader(TrainingDetailsActivity.this, R.id.imageViewTraining1, R.id.progressBarTrainingDetailsR, urlR);
 
-        timer = new Timer(this);
+        timer = new Timer(TrainingDetailsActivity.this, TrainingDetailsActivity.this);
         timer.seekBarTimer();
         getPreviousActivity(previousActivity);
         characterLimit = new CharacterLimit(etNotepad, tvCharsLeft, 280);
@@ -120,7 +120,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     HashMap<String, String> params = new HashMap<>();
                     params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
                     params.put(RestAPI.DB_EXERCISE_DONE, String.valueOf(setOnCheckedChangeListener()));
-                    params.put(RestAPI.DB_EXERCISE_REST_TIME, String.valueOf(timer.START_TIME_IN_MILLIS));
+                    params.put(RestAPI.DB_EXERCISE_REST_TIME, String.valueOf(Timer.START_TIME_IN_MILLIS));
                     params.put(RestAPI.DB_EXERCISE_REPS, inflater.getReps());
                     params.put(RestAPI.DB_EXERCISE_WEIGHT, inflater.getWeight());
                     params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
@@ -141,7 +141,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     HashMap<String, String> params = new HashMap<>();
                     params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
                     params.put(RestAPI.DB_EXERCISE_DONE, String.valueOf(setOnCheckedChangeListener()));
-                    params.put(RestAPI.DB_EXERCISE_REST_TIME, String.valueOf(timer.START_TIME_IN_MILLIS));
+                    params.put(RestAPI.DB_EXERCISE_REST_TIME, String.valueOf(Timer.START_TIME_IN_MILLIS));
                     params.put(RestAPI.DB_EXERCISE_REPS, inflater.getReps());
                     params.put(RestAPI.DB_EXERCISE_WEIGHT, inflater.getWeight());
                     params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));

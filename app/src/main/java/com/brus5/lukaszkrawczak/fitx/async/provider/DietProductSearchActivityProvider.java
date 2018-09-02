@@ -26,12 +26,12 @@ public class DietProductSearchActivityProvider extends Provider
      * @param listView listView from current Activity
      */
     @SuppressLint("LongLogTag")
-    public DietProductSearchActivityProvider(Activity activity, Context context, ListView listView, String searchName)
+    public DietProductSearchActivityProvider(Activity activity, Context context, ListView listView, String s)
     {
         super(activity, context, listView);
 
         // Glueing SERVER_URL with variables
-        final String params = "?name=" + searchName;
+        final String params = "?name=" + s;
 
         Log.d(TAG, "DietActivityProdiver: " + params);
 

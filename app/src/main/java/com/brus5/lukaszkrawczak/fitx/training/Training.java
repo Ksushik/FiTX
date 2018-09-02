@@ -17,7 +17,7 @@ public class Training extends ArrayList
     private String reps;
     private String timeStamp;
     private String target;
-    private String time;
+    private int time;
     private String kcalPerMin;
     private double kcal;
 
@@ -37,7 +37,7 @@ public class Training extends ArrayList
     public Training() {}
 
 
-    public Training(int id, int done, String name, String time, String timeStamp, String kcalPerMin, int viewType)
+    public Training(int id, int done, String name, int time, String timeStamp, String kcalPerMin, int viewType)
     {
         this.id = id;
         this.done = done;
@@ -48,11 +48,12 @@ public class Training extends ArrayList
         this.viewType = viewType;
     }
 
-    public Training(String name, double kcal, int done)
+    public Training(String name, double kcal, int done, int time)
     {
         this.name = name;
         this.kcal = kcal;
         this.done = done;
+        this.time = time;
     }
 
 
@@ -116,7 +117,7 @@ public class Training extends ArrayList
         return viewType;
     }
 
-    public String getTime()
+    public int getTime()
     {
         return time;
     }

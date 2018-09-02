@@ -115,7 +115,7 @@ public class TrainingActivityInflater
             String kcalPerMin;
 
             int done;
-            String time;
+            int time;
             String date;
 
             if (cardio_info.length() > 0)
@@ -125,7 +125,7 @@ public class TrainingActivityInflater
                     JSONObject cardio = cardio_info.getJSONObject(i);
 
                     done = cardio.getInt(RestAPI.DB_CARDIO_DONE);
-                    time = cardio.getString(RestAPI.DB_CARDIO_TIME);
+                    time = cardio.getInt(RestAPI.DB_CARDIO_TIME);
                     date = cardio.getString(RestAPI.DB_DATE);
 
 
@@ -182,7 +182,7 @@ class TrainingAdapter extends ArrayAdapter<Training>
         String timeStamp = getItem(position).getTimeStamp();
         String target = getItem(position).getTarget();
 
-        String time = getItem(position).getTime();
+        int time = getItem(position).getTime();
         String kcalPerMin = getItem(position).getKcalPerMin();
 
 

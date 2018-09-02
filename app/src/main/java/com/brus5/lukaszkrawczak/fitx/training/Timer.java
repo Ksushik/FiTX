@@ -1,11 +1,13 @@
 package com.brus5.lukaszkrawczak.fitx.training;
 
 import android.app.Activity;
+import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -20,27 +22,30 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Timer
 {
-    public boolean timerRunning;
-    public long START_TIME_IN_MILLIS;
-    public SeekBar seekBar;
-    Activity activity;
+    private static final String TAG = "Timer";
+    public static long START_TIME_IN_MILLIS;
+    public boolean timerRunning = false;
+    protected SeekBar seekBar;
+    private Activity activity;
+    private Context context;
     private CountDownTimer timer;
     private long timeLeftInMillis;
     private ProgressBar progressBar;
     private Button btnReset;
-    private TextView tvTime, tvBurned;
+    private TextView tvTime;
     private FloatingActionButton btnStartPause;
-    private double burned;
 
-    public Timer(Activity activity)
+    public Timer(Activity activity, Context context)
     {
         this.activity = activity;
+        this.context = context;
+
         seekBar = this.activity.findViewById(R.id.seekBarTimer);
         progressBar = this.activity.findViewById(R.id.progressBarCircle);
         btnReset = this.activity.findViewById(R.id.buttonResetTimer);
         tvTime = this.activity.findViewById(R.id.textViewTime);
         btnStartPause = this.activity.findViewById(R.id.floatingButtonStartPause);
-        tvBurned = this.activity.findViewById(R.id.textViewBurned);
+        loadButtons();
     }
 
     public void resetTimer()
@@ -84,7 +89,7 @@ public class Timer
         btnStartPause.setImageResource(R.drawable.ic_pause_white_24dp);
     }
 
-    private void updateCountDownText()
+    protected void updateCountDownText()
     {
         int minutes = (int) timeLeftInMillis / 1000 / 60;
         int seconds = (int) timeLeftInMillis / 1000 % 60;
@@ -112,13 +117,6 @@ public class Timer
                 if (activity.getClass().getSimpleName().equals(TrainingDetailsActivity.class.getSimpleName()))
                 {
                     onProgressSetTime(progress);
-                }
-                else if (activity.getClass().getSimpleName().equals(CardioDetailsActivity.class.getSimpleName()))
-                {
-                    onProgressSetTimeBig(progress);
-
-                    double kcal = burned * (START_TIME_IN_MILLIS / 1000 / 60);
-                    tvBurned.setText(String.valueOf((int) kcal));
                 }
 
                 updateCountDownText();
@@ -213,7 +211,134 @@ public class Timer
         }
     }
 
-    private void onProgressSetTimeBig(int progress)
+
+
+    public void convertSetTimeBig(int timeInMillis)
+    {
+        switch (timeInMillis)
+        {
+            case 300_000:
+                seekBar.setProgress(0);
+                break;
+            case 600_000:
+                seekBar.setProgress(1);
+                break;
+            case 900_000:
+                seekBar.setProgress(2);
+                break;
+            case 1_200_000:
+                seekBar.setProgress(3);
+                break;
+            case 1_500_000:
+                seekBar.setProgress(4);
+                break;
+            case 1_800_000:
+                seekBar.setProgress(5);
+                break;
+            case 2_100_000:
+                seekBar.setProgress(6);
+                break;
+            case 2_400_000:
+                seekBar.setProgress(7);
+                break;
+            case 2_700_000:
+                seekBar.setProgress(8);
+                break;
+            case 3_000_000:
+                seekBar.setProgress(9);
+                break;
+            case 3_300_000:
+                seekBar.setProgress(10);
+                break;
+        }
+    }
+
+    private void setProgressBarValues()
+    {
+        progressBar.setMax((int) START_TIME_IN_MILLIS / 1000);
+        progressBar.setProgress((int) START_TIME_IN_MILLIS / 1000);
+    }
+
+
+
+    public void loadButtons()
+    {
+        btnStartPause.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (timerRunning)
+                {
+                    pauseTimer();
+                }
+                else
+                {
+                    startTimer();
+                }
+            }
+        });
+
+        btnReset.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                resetTimer();
+            }
+        });
+    }
+}
+
+class TimerCardio extends Timer
+{
+    private static final String TAG = "TimerCardio";
+    private Activity activity;
+    private TextView tvBurned;
+    private double burned; // burning calories per 1 min
+
+    public TimerCardio(Activity activity, Context context)
+    {
+        super(activity, context);
+
+        this.activity = activity;
+
+        tvBurned = this.activity.findViewById(R.id.textViewBurned);
+    }
+
+    public void seekBarTimer()
+    {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                setTimer(progress);
+                setBurned(burned);
+                updateCountDownText();
+                resetTimer();
+                Log.d(TAG, "onProgressChanged() called with: seekBar \n" + "burned: " + burned + " START_TIME_IN_MILLIS: " + START_TIME_IN_MILLIS);
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+    }
+
+    public void setBurned(double value)
+    {
+        this.burned = value;
+        double iBurned = value * (START_TIME_IN_MILLIS / 1000 / 60);
+        tvBurned.setText(String.valueOf((int) iBurned));
+        Log.d(TAG, "setBurned() called with: value = [" + value + "]" + " iBurned: " + iBurned + " this.burned: " + this.burned);
+    }
+
+
+    private void setTimer(int progress)
     {
         switch (progress)
         {
@@ -253,58 +378,4 @@ public class Timer
         }
     }
 
-
-    public void convertSetTimeBig(int timeInMillis)
-    {
-        switch (timeInMillis)
-        {
-            case 300_000:
-                seekBar.setProgress(0);
-                break;
-            case 600_000:
-                seekBar.setProgress(1);
-                break;
-            case 900_000:
-                seekBar.setProgress(2);
-                break;
-            case 1_200_000:
-                seekBar.setProgress(3);
-                break;
-            case 1_500_000:
-                seekBar.setProgress(4);
-                break;
-            case 1_800_000:
-                seekBar.setProgress(5);
-                break;
-            case 2_100_000:
-                seekBar.setProgress(6);
-                break;
-            case 2_700_000:
-                seekBar.setProgress(7);
-                break;
-            case 3_000_000:
-                seekBar.setProgress(8);
-                break;
-            case 2_900_000:
-                seekBar.setProgress(9);
-                break;
-            case 3_300_000:
-                seekBar.setProgress(10);
-                break;
-        }
-    }
-
-    private void setProgressBarValues()
-    {
-        progressBar.setMax((int) START_TIME_IN_MILLIS / 1000);
-        progressBar.setProgress((int) START_TIME_IN_MILLIS / 1000);
-    }
-
-
-    public void setBurned(double value)
-    {
-        this.burned = value;
-        double iBurned = value * (START_TIME_IN_MILLIS / 1000 / 60);
-        tvBurned.setText(String.valueOf((int) iBurned));
-    }
 }

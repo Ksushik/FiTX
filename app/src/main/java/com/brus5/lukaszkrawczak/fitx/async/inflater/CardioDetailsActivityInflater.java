@@ -18,6 +18,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_DONE;
+
 @SuppressLint({"LongLogTag", "Registered"})
 
 public class CardioDetailsActivityInflater extends CardioDetailsActivity
@@ -54,7 +56,8 @@ public class CardioDetailsActivityInflater extends CardioDetailsActivity
 
             String name;
             double calories;
-            int done = 1;
+            int done = -1;
+            int time = -1;
 
             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
             if (jsonArray.length() > 0)
@@ -65,23 +68,22 @@ public class CardioDetailsActivityInflater extends CardioDetailsActivity
 
                     name = object.getString(RestAPI.DB_CARDIO_NAME);
                     calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
-                    //                    done = object.getInt(DB_CARDIO_DONE);
 
-                    //                    Log.e(TAG, "done: " + done);
+                    if (!object.getString(RestAPI.DB_CARDIO_TIME).equals("null"))
+                    {
+                        time = object.getInt(RestAPI.DB_CARDIO_TIME);
+                    }
+
+                    if (!object.getString(DB_CARDIO_DONE).equals("null"))
+                    {
+                        done = object.getInt(DB_CARDIO_DONE);
+                    }
 
                     String trainingName = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-                    Training training = new Training(trainingName, calories, done);
+                    Training training = new Training(trainingName, calories, done, time);
 
                     load(activity, context, training);
-
-
-
-                    //                    tvName.setText(trainingName);
-
-                    //                    onTrainingChangerListener(done);
-
-                    //                    timer.setBurned(calories);
                 }
             }
         } catch (JSONException e)

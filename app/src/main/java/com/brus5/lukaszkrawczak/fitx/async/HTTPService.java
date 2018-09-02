@@ -105,12 +105,19 @@ public class HTTPService extends AsyncTask<String, String, String>
         {
             // Handles exeption of readLine() and JSONObject if so, then printStackTrace
             e.printStackTrace();
+            Log.e(TAG, "doInBackground: " + e);
         }
 
         // Returns String value
         return response;
     }
 
+    /**
+     * This method invoking next Activity Inflater
+     * depends on from which Activity HTTPService was called.
+     *
+     * @param s is the response of doInBackground()
+     */
     @Override
     public void onPostExecute(String s)
     {
