@@ -81,9 +81,9 @@ public class CardioDetailsActivityInflater extends CardioDetailsActivity
 
                     String trainingName = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-                    Training training = new Training(trainingName, calories, done, time);
+                    Training training1 = new Training.Builder().name(trainingName).kcal(calories).done(done).time(time).build();
 
-                    load(activity, context, training);
+                    load(activity, context, training1);
                 }
             }
         } catch (JSONException e)

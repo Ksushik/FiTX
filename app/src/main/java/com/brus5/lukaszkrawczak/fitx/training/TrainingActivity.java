@@ -22,7 +22,6 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
 {
     TextView tvDate;
     ListView listView;
-    Training training;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,7 +31,6 @@ public class TrainingActivity extends AppCompatActivity implements DefaultView
         loadInput();
         loadDefaultView();
         new MyCalendar(this, this, R.id.calendarViewTraining, listView);
-        training = new Training();
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
+import com.brus5.lukaszkrawczak.fitx.training.utils.TimerCardio;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
@@ -31,7 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-import static com.brus5.lukaszkrawczak.fitx.training.Timer.START_TIME_IN_MILLIS;
+import static com.brus5.lukaszkrawczak.fitx.training.utils.Timer.START_TIME_IN_MILLIS;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_DATE;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_DONE;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_ID;

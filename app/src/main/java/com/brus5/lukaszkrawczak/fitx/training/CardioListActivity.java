@@ -103,8 +103,9 @@ public class CardioListActivity extends AppCompatActivity implements DefaultView
 
                             String trainingName = productName.substring(0, 1).toUpperCase() + productName.substring(1);
 
-                            Training training = new Training(trainingID, trainingName, calories);
-                            list.add(training);
+                            Training t = new Training.Builder().id(trainingID).name(trainingName).kcal(calories).build();
+
+                            list.add(t);
                         }
                     }
                     /* End */

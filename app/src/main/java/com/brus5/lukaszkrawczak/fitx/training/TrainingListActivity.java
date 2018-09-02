@@ -106,8 +106,9 @@ public class TrainingListActivity extends AppCompatActivity implements DefaultVi
 
                             String trainingName = productName.substring(0, 1).toUpperCase() + productName.substring(1);
 
-                            Training training = new Training(trainingID, trainingName);
-                            trainingSearchArrayList.add(training);
+                            Training t = new Training.Builder().id(trainingID).name(trainingName).build();
+
+                            trainingSearchArrayList.add(t);
                         }
                     }
                     /* End */

@@ -85,8 +85,11 @@ public class TrainingActivityInflater
                     name = server_responseObj.getString(RestAPI.DB_EXERCISE_NAME);
                     target = server_responseObj.getString(RestAPI.DB_EXERCISE_TARGET);
 
-                    Training training = new Training(id, done, name, restTime, weight, reps, date, target, 1);
-                    list.add(training);
+                    //                    Training training = new Training(id, done, name, restTime, weight, reps, date, target, 1);
+
+                    Training t = new Training.Builder().viewType(1).id(id).done(done).name(name).time(restTime).weight(weight).reps(reps).timeStamp(date).target(target).build();
+
+                    list.add(t);
                     adapter = new TrainingAdapter(context, R.layout.row_training_excercise, list);
 
                 }
@@ -135,9 +138,9 @@ public class TrainingActivityInflater
                     name = cardioType.getString(RestAPI.DB_CARDIO_NAME);
                     kcalPerMin = cardioType.getString(RestAPI.DB_CARDIO_CALORIES);
 
+                    Training t = new Training.Builder().viewType(2).id(id).done(done).name(name).time(time).timeStamp(date).kcalPerMin(kcalPerMin).build();
 
-                    Training training = new Training(id, done, name, time, date, kcalPerMin, 2);
-                    list.add(training);
+                    list.add(t);
                     adapter = new TrainingAdapter(context, R.layout.row_training_excercise, list);
                 }
             }
