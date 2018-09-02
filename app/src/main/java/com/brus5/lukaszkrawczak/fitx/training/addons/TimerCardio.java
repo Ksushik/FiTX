@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx.training.utils;
+package com.brus5.lukaszkrawczak.fitx.training.addons;
 
 import android.app.Activity;
 import android.content.Context;

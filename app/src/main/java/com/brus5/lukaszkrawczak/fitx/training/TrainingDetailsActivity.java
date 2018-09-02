@@ -29,7 +29,7 @@ import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
-import com.brus5.lukaszkrawczak.fitx.training.utils.Timer;
+import com.brus5.lukaszkrawczak.fitx.training.addons.Timer;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
