@@ -48,12 +48,12 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
 {
     private static final String TAG = "CardioDetailsActivity";
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-    private String trainingTimeStamp, previousActivity, newTimeStamp;
+    private static String previousActivity;
+    private String trainingTimeStamp, newTimeStamp;
     private int trainingID, trainingTime;
     private EditText etNotepad;
     public TextView tvName, textViewBurned;
     private CheckBox checkBox;
-    public TimerCardio timer;
     private double kcalPerMin;
     private ConstraintLayout constraintLayout;
 
@@ -66,7 +66,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
         loadDefaultView();
         getIntentFromPreviousActiity();
 
-        timer = new TimerCardio(this, this);
         getPreviousActivity(previousActivity);
 
         final String url = RestAPI.MAIN + "images/cardio/" + trainingID + ".jpg";
@@ -213,11 +212,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
     {
         if (previousActivity.equals(TrainingActivity.class.getSimpleName()))
         {
-            timer.seekBarTimer();
-            timer.setBurned(kcalPerMin);
-            int iMiliseconds = trainingTime * 60 * 1000;
-            timer.convertSetTimeBig(iMiliseconds);
-            onTrainingChangerListener(0);
             new Provider(CardioDetailsActivity.this, CardioDetailsActivity.this).load(String.valueOf(trainingID), newTimeStamp);
 
         }
@@ -264,7 +258,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
     //
     //                            CardioDetailsActivity.this.onTrainingChangerListener(done);
     //
-    //                            timer.setBurned(calories);
+    //                            timer.setBurnedTextView(calories);
     //                        }
     //                    }
     //                } catch (JSONException e)
@@ -327,7 +321,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
     //                            tvName.setText(trainingName);
     //
     //
-    //                            timer.setBurned(calories);
+    //                            timer.setBurnedTextView(calories);
     //                        }
     //                    }
     //                } catch (JSONException e)
@@ -363,7 +357,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
     //        switch (v.getId()){
     //            case R.id.floatingButtonStartPause:
     //                Log.i(TAG, "onClick: play" );
-    //                if (timer.timerRunning)
+    //                if (timer.isTimerRunning)
     //                {
     //                    timer.pauseTimer();
     //                }
@@ -422,8 +416,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
         }
     }
 
-
-
     /**
      * Those are informations gathered from another application thread
      *
@@ -434,30 +426,27 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
     public void load(Activity activity, Context context, Training training)
     {
 
-        Log.d(TAG, "load() called with: training = [" + training + "], context = [" + context + "]" + "\n" + "trainingName: " + training.getName() + "\n" + "calories: " + training.getKcal() + "\n" + "done: " + training.getDone() + "\n" + "time: " + training.getTime());
-
         loadInputAsync(context);
 
-        timer = new TimerCardio(activity, context);
+        Log.d(TAG, "previousActivity: " + previousActivity);
 
-        if (training.getTime() != -1)
+        if (previousActivity.equals(TrainingActivity.class.getSimpleName()))
         {
-            timer.convertSetTimeBig(training.getTime() * 60 * 1000);
-            timer.setBurned(training.getKcal());
+            TimerCardio timer = new TimerCardio(activity, context);
+            timer.seekbar();
+            timer.setSeekbarProgress(training.getTime() * 60 * 1000);
+            timer.setBurnedTextView(training.getKcal());
         }
-        else
+        else if (previousActivity.equals(CardioListActivity.class.getSimpleName()))
         {
-            timer.convertSetTimeBig(600_000);
-            timer.setBurned(training.getKcal());
+            TimerCardio timer = new TimerCardio(activity, context);
+            timer.seekbar();
+            timer.setSeekbarProgress(900_000);
+            timer.setBurnedTextView(training.getKcal());
         }
 
-        if (training.getDone() != -1)
-        {
-            onTrainingChangerListener(training.getDone());
-        }
-
-        timer.seekBarTimer(); // this method must be at the end of the set
         tvName.setText(training.getName());
+
     }
 
 

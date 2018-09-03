@@ -30,6 +30,7 @@ import com.brus5.lukaszkrawczak.fitx.converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.training.addons.Timer;
+import com.brus5.lukaszkrawczak.fitx.training.addons.TimerGym;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
@@ -62,7 +63,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private TextView tvName, tvCharsLeft;
     private CheckBox checkBox;
     private TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
-    private Timer timer;
+    private TimerGym timer;
     private CharacterLimit characterLimit;
     private ScrollView scrollView;
     //    private ProgressBar pbL, pbR;
@@ -81,8 +82,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         new ImageLoader(TrainingDetailsActivity.this, R.id.imageViewTraining, R.id.progressBarTrainingDetailsL, urlL);
         new ImageLoader(TrainingDetailsActivity.this, R.id.imageViewTraining1, R.id.progressBarTrainingDetailsR, urlR);
 
-        timer = new Timer(TrainingDetailsActivity.this, TrainingDetailsActivity.this);
-        timer.seekBarTimer();
+        timer = new TimerGym(TrainingDetailsActivity.this, TrainingDetailsActivity.this);
+        timer.seekbar();
         getPreviousActivity(previousActivity);
         characterLimit = new CharacterLimit(etNotepad, tvCharsLeft, 280);
         etNotepad.addTextChangedListener(characterLimit);
@@ -361,7 +362,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     tvName.setText(nameUpperCase.getName());
                     TrainingDetailsActivity.this.onTrainingChangerListener(done);
                     etNotepad.setText(notepad);
-                    timer.convertSetTime(Integer.valueOf(rest));
+                    timer.setSeekbarProgress(Integer.valueOf(rest));
+                    Log.d(TAG, "rest: " + rest);
 
                 } catch (JSONException e)
                 {
@@ -502,19 +504,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 break;
             case R.id.buttonShowDescription:
                 getTrainingDescAsynch(TrainingDetailsActivity.this);
-                break;
-            case R.id.floatingButtonStartPause:
-                if (timer.timerRunning)
-                {
-                    timer.pauseTimer();
-                }
-                else
-                {
-                    timer.startTimer();
-                }
-                break;
-            case R.id.buttonResetTimer:
-                timer.resetTimer();
                 break;
         }
     }
