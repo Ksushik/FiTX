@@ -14,7 +14,6 @@ import com.brus5.lukaszkrawczak.fitx.calculator.Calories;
 import com.brus5.lukaszkrawczak.fitx.calculator.Carb;
 import com.brus5.lukaszkrawczak.fitx.calculator.Fat;
 import com.brus5.lukaszkrawczak.fitx.calculator.Protein;
-import com.brus5.lukaszkrawczak.fitx.converter.NameConverter;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.diet.Product;
 import com.brus5.lukaszkrawczak.fitx.diet.adapter.DietListAdapter;
@@ -163,15 +162,12 @@ public class DietActivityInflater
                     Calories cal = new Calories();
                     cal.setCalories(calories, weight);
 
-                    NameConverter name = new NameConverter();
-                    name.setName(productName);
-
                     countProteins += protein.getProteins();
                     countFats += fat.getFats();
                     countCarbs += carb.getCarbs();
                     countCalories += cal.getKcal();
 
-                    product = new Product(productId, name.getName(), weight, protein.getProteins(), fat.getFats(), carb.getCarbs(), cal.getKcal(), productVerified, productTimeStamp);
+                    product = new Product(productId, productName, weight, protein.getProteins(), fat.getFats(), carb.getCarbs(), cal.getKcal(), productVerified, productTimeStamp);
                     list.add(product);
                 }
 

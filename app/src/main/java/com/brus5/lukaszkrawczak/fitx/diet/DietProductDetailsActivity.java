@@ -495,5 +495,7 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         Log.d(TAG, "load() called wit6h: product = [ " + "\n" + "PRODUCT_WEIGHT" + PRODUCT_WEIGHT + "\n" + "proteins: " + product.getProteins() + "\n" + "fats " + product.getFats() + "\n" + "carbs " + product.getCarbs() + "\n" + "saturatedFats " + product.getSaturatedFats() + "\n" + "unSaturatedFats " + product.getUnSaturatedFats() + "\n" + "carbsFiber " + product.getCarbsFiber() + "\n" + "carbsSugar " + product.getCarbsSugar() + "\n" + "multiplier " + product.getMultiplier() + "\n" + "verified  " + product.getVerified() + "]");
         loadInput(context);
         setProductWeight(PRODUCT_WEIGHT);
+
+        tvName.setText(product.getName());
     }
 }

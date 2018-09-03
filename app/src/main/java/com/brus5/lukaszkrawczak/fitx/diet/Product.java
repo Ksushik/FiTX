@@ -1,5 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.diet;
 
+import com.brus5.lukaszkrawczak.fitx.converter.StringConverter;
+
 import java.util.Locale;
 
 /**
@@ -24,8 +26,9 @@ public class Product
     private double carbsSugar;
     private double multiplier;
 
-    public Product(double proteins, double fats, double carbs, double saturatedFats, double unSaturatedFats, double carbsFiber, double carbsSugar, double multiplier, int verified)
+    public Product(String name, double proteins, double fats, double carbs, double saturatedFats, double unSaturatedFats, double carbsFiber, double carbsSugar, double multiplier, int verified)
     {
+        this.name = StringConverter.toUpperFirstLetter(name);
         this.proteins = proteins;
         this.fats = fats;
         this.carbs = carbs;
@@ -40,7 +43,7 @@ public class Product
     public Product(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, int verified, String dateTimeStamp)
     {
         this.id = id;
-        this.name = name;
+        this.name = StringConverter.toUpperFirstLetter(name);
         this.weight = weight;
         this.proteins = proteins;
         this.fats = fats;

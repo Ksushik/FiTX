@@ -33,7 +33,6 @@ public class ImageLoader
     {
         Transformation transformation = new RoundedTransformationBuilder().borderColor(Color.BLACK).borderWidthDp(0).cornerRadiusDp(5).oval(false).build();
 
-
         Picasso.with(context).load(url).placeholder(null).transform(transformation).error(R.drawable.image_no_available).into(imageView, new com.squareup.picasso.Callback()
         {
             @Override

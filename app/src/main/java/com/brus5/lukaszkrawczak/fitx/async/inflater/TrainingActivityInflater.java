@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.converter.NameConverter;
+import com.brus5.lukaszkrawczak.fitx.converter.StringConverter;
 import com.brus5.lukaszkrawczak.fitx.training.Training;
 import com.brus5.lukaszkrawczak.fitx.training.TrainingInflater;
 import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
@@ -221,9 +221,7 @@ class TrainingAdapter extends ArrayAdapter<Training>
             }
 
             tvId.setText(String.valueOf(id));
-            NameConverter nameConverter = new NameConverter();
-            nameConverter.setName(name);
-            tvName.setText(nameConverter.getName());
+            tvName.setText(StringConverter.toUpperFirstLetter(name));
             tvTimeStamp.setText(timeStamp);
             tvTarget.setText(target);
 
@@ -287,9 +285,7 @@ class TrainingAdapter extends ArrayAdapter<Training>
 
             tvId.setText(String.valueOf(id));
 
-            NameConverter nameConverter = new NameConverter();
-            nameConverter.setName(name);
-            tvName.setText(nameConverter.getName());
+            tvName.setText(StringConverter.toUpperFirstLetter(name));
 
             tvTimeStamp.setText(timeStamp);
 

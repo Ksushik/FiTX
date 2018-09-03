@@ -26,7 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.converter.NameConverter;
+import com.brus5.lukaszkrawczak.fitx.converter.StringConverter;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.training.addons.Timer;
@@ -272,8 +272,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         activityView.showBackButton();
     }
 
-
-    @SuppressLint("LongLogTag")
     private void getIntentFromPreviousActiity()
     {
         Intent intent = getIntent();
@@ -293,7 +291,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         else return this.trainingTimeStamp;
     }
 
-    private void trainingSetsGenerator(int seriesNumber)
+    private void seriesGenerator(int seriesNumber)
     {
         for (int i = 0; i < seriesNumber; i++)
         {
@@ -301,7 +299,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private void trainingGenerateNextSet()
+    private void nextSerie()
     {
         linearLayout.addView(inflater.trainingSetGenerator());
     }
@@ -324,9 +322,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     String weight;
                     String notepad = "";
 
-                    String exerciseName;
-
-                    NameConverter nameUpperCase = new NameConverter();
+                    String exerciseName = "";
 
                     JSONArray jsonArray = jsonObject.getJSONArray("server_response");
 
@@ -334,7 +330,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     {
                         JSONObject object = jsonArray.getJSONObject(i);
                         exerciseName = object.getString(RestAPI.DB_EXERCISE_NAME);
-                        nameUpperCase.setName(exerciseName);
                     }
 
 
@@ -355,11 +350,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                         inflater.setReps(reps);
                         inflater.setWeight(weight);
 
-                        TrainingDetailsActivity.this.trainingSetsGenerator(mReps_table.length);
+                        TrainingDetailsActivity.this.seriesGenerator(mReps_table.length);
                     }
 
 
-                    tvName.setText(nameUpperCase.getName());
+                    tvName.setText(StringConverter.toUpperFirstLetter(exerciseName));
                     TrainingDetailsActivity.this.onTrainingChangerListener(done);
                     etNotepad.setText(notepad);
                     timer.setSeekbarProgress(Integer.valueOf(rest));
@@ -406,16 +401,14 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     Log.d(TAG, "onResponse: " + jsonObject.toString(1));
                     String name = "";
                     JSONArray server_response = jsonObject.getJSONArray("server_response");
-                    NameConverter nameUpperCase = new NameConverter();
                     for (int i = 0; i < server_response.length(); i++)
                     {
                         JSONObject object = server_response.getJSONObject(0);
                         name = object.getString(RestAPI.DB_EXERCISE_NAME);
                     }
 
+                    tvName.setText(StringConverter.toUpperFirstLetter(name));
 
-                    nameUpperCase.setName(name);
-                    tvName.setText(nameUpperCase.getName());
                 } catch (JSONException e)
                 {
                     e.printStackTrace();
@@ -500,7 +493,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         switch (view.getId())
         {
             case R.id.buttonAddSeries:
-                trainingGenerateNextSet();
+                nextSerie();
                 break;
             case R.id.buttonShowDescription:
                 getTrainingDescAsynch(TrainingDetailsActivity.this);

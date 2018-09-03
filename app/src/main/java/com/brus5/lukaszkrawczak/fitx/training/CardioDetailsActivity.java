@@ -25,7 +25,6 @@ import com.brus5.lukaszkrawczak.fitx.training.addons.TimerCardio;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
-import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 import java.text.SimpleDateFormat;
@@ -39,6 +38,7 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_ID;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_NOTEPAD;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_TIME;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_USER_ID_NO_PRIMARY_KEY;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.SERVER_URL;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_DELETE;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_INSERT;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_UPDATE;
@@ -67,8 +67,8 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
         getIntentFromPreviousActiity();
 
         getPreviousActivity(previousActivity);
-
-        final String url = RestAPI.MAIN + "images/cardio/" + trainingID + ".jpg";
+        final String url = SERVER_URL + "images/cardio/" + trainingID + ".jpg";
+        Log.d(TAG, "url: " + url);
         new ImageLoader(CardioDetailsActivity.this, R.id.imageViewCardio, R.id.progressBarCardioDetails, url);
     }
 
@@ -195,7 +195,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
         kcalPerMin = intent.getDoubleExtra("kcalPerMin", -1);
         previousActivity = intent.getStringExtra("previousActivity");
 
-
         TimeStampReplacer time = new TimeStampReplacer(DateGenerator.getSelectedDate(), trainingTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
 
@@ -221,157 +220,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
         }
 
     }
-
-    //    private void detailsAsynchTask(final Context ctx)
-    //    {
-    //        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_SHOW, new Response.Listener<String>()
-    //        {
-    //            @Override
-    //            public void onResponse(String response)
-    //            {
-    //                try
-    //                {
-    //                    JSONObject jsonObject = new JSONObject(response);
-    //
-    //                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-    //
-    //                    String name;
-    //                    double calories;
-    //                    int done;
-    //
-    //                    JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-    //                    if (jsonArray.length() > 0)
-    //                    {
-    //                        for (int i = 0; i < jsonArray.length(); i++)
-    //                        {
-    //                            JSONObject object = jsonArray.getJSONObject(i);
-    //
-    //                            name = object.getString(RestAPI.DB_CARDIO_NAME);
-    //                            calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
-    //                            done = object.getInt(DB_CARDIO_DONE);
-    //
-    //                            Log.e(TAG, "done: " + done);
-    //
-    //                            String trainingName = name.substring(0, 1).toUpperCase() + name.substring(1);
-    //
-    //                            tvName.setText(trainingName);
-    //
-    //                            CardioDetailsActivity.this.onTrainingChangerListener(done);
-    //
-    //                            timer.setBurnedTextView(calories);
-    //                        }
-    //                    }
-    //                } catch (JSONException e)
-    //                {
-    //                    e.printStackTrace();
-    //                }
-    //            }
-    //        }, new Response.ErrorListener()
-    //        {
-    //            @Override
-    //            public void onErrorResponse(VolleyError error)
-    //            {
-    //                Toast.makeText(ctx, R.string.connection_error, Toast.LENGTH_SHORT).show();
-    //                Log.e(TAG, "onErrorResponse: Error" + error);
-    //            }
-    //        })
-    //        {
-    //            @Override
-    //            protected Map<String, String> getParams()
-    //            {
-    //                HashMap<String, String> params = new HashMap<>();
-    //                params.put(DB_CARDIO_ID, String.valueOf(trainingID));
-    //                params.put(DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(CardioDetailsActivity.this)));
-    //                params.put(DB_CARDIO_DATE, trainingTimeStamp);
-    //                return params;
-    //            }
-    //        };
-    //        RequestQueue queue = Volley.newRequestQueue(ctx);
-    //        queue.add(strRequest);
-    //    }
-
-    //    private void cardioAsynch(final Context ctx)
-    //    {
-    //        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_CARDIO_SHOW, new Response.Listener<String>()
-    //        {
-    //            @Override
-    //            public void onResponse(String response)
-    //            {
-    //                try
-    //                {
-    //                    JSONObject jsonObject = new JSONObject(response);
-    //
-    //                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-    //
-    //                    String name;
-    //                    double calories;
-    //
-    //                    JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-    //                    if (jsonArray.length() > 0)
-    //                    {
-    //                        for (int i = 0; i < jsonArray.length(); i++)
-    //                        {
-    //                            JSONObject object = jsonArray.getJSONObject(i);
-    //
-    //                            name = object.getString(RestAPI.DB_CARDIO_NAME);
-    //                            calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
-    //
-    //                            String trainingName = name.substring(0, 1).toUpperCase() + name.substring(1);
-    //
-    //                            tvName.setText(trainingName);
-    //
-    //
-    //                            timer.setBurnedTextView(calories);
-    //                        }
-    //                    }
-    //                } catch (JSONException e)
-    //                {
-    //                    e.printStackTrace();
-    //                }
-    //            }
-    //        }, new Response.ErrorListener()
-    //        {
-    //            @Override
-    //            public void onErrorResponse(VolleyError error)
-    //            {
-    //                Toast.makeText(ctx, R.string.connection_error, Toast.LENGTH_SHORT).show();
-    //                Log.e(TAG, "onErrorResponse: Error" + error);
-    //            }
-    //        })
-    //        {
-    //            @Override
-    //            protected Map<String, String> getParams()
-    //            {
-    //                HashMap<String, String> params = new HashMap<>();
-    //                params.put(DB_CARDIO_ID, String.valueOf(trainingID));
-    //                return params;
-    //            }
-    //        };
-    //        RequestQueue queue = Volley.newRequestQueue(ctx);
-    //        queue.add(strRequest);
-    //    }
-
-    //    @Override
-    //    public void onClick(View v)
-    //    {
-    //        switch (v.getId()){
-    //            case R.id.floatingButtonStartPause:
-    //                Log.i(TAG, "onClick: play" );
-    //                if (timer.isTimerRunning)
-    //                {
-    //                    timer.pauseTimer();
-    //                }
-    //                else
-    //                {
-    //                    timer.startTimer();
-    //                }
-    //                break;
-    //            case R.id.buttonResetTimer:
-    //                Log.i(TAG, "onClick: reset" );
-    //                timer.resetTimer();
-    //                break;
-    //        }
-    //    }
 
     private int setOnCheckedChangeListener()
     {

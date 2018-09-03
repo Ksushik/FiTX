@@ -53,9 +53,6 @@ public class DietProductDetailsActivityInflater extends DietProductDetailsActivi
             {
                 JSONObject srv_response = server_response.getJSONObject(i);
 
-                DietProductDetailsActivity diet = new DietProductDetailsActivity();
-
-
 
                 name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
                 double proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
@@ -67,12 +64,11 @@ public class DietProductDetailsActivityInflater extends DietProductDetailsActivi
                 double carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
                 double multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
                 int verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
-                //
-                //                                if (diet.verified == 1)
-                //                                {
-                //                                    diet.imgVerified.setVisibility(View.VISIBLE);
-                //                                }
-                Product product = new Product(proteins, fats, carbs, saturatedFats, unsaturatedFats, carbsFiber, carbsSugars, multiplier, verified);
+
+
+                Product product = new Product(name, proteins, fats, carbs, saturatedFats, unsaturatedFats, carbsFiber, carbsSugars, multiplier, verified);
+
+
                 load(product, context);
 
 
