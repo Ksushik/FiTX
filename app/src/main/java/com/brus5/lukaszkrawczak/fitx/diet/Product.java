@@ -1,6 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.diet;
 
-import com.brus5.lukaszkrawczak.fitx.converter.StringConverter;
+import com.brus5.lukaszkrawczak.fitx.utils.StringConverter;
 
 import java.util.Locale;
 

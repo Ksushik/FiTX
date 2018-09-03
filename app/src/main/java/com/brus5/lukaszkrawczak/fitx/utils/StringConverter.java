@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx.converter;
+package com.brus5.lukaszkrawczak.fitx.utils;
 
 public class StringConverter
 {
