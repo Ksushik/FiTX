@@ -38,13 +38,6 @@ public class Training extends ArrayList
         this.kcal = builder.kcal;
     }
 
-    @Override
-    public String toString()
-    {
-        return "Training{" + "viewType=" + viewType + ", id=" + id + ", done=" + done + ", name='" + name + '\'' + ", restTime=" + restTime + ", weight='" + weight + '\'' + ", reps='" + reps + '\'' + ", timeStamp='" + timeStamp + '\'' + ", target='" + target + '\'' + ", time=" + time + ", kcalPerMin='" + kcalPerMin + '\'' + ", kcal=" + kcal + '}';
-    }
-
-
     public int getId()
     {
         return id;
@@ -105,8 +98,15 @@ public class Training extends ArrayList
         return kcal;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Training{" + "viewType=" + viewType + ", id=" + id + ", done=" + done + ", name='" + name + '\'' + ", restTime=" + restTime + ", weight='" + weight + '\'' + ", reps='" + reps + '\'' + ", timeStamp='" + timeStamp + '\'' + ", target='" + target + '\'' + ", time=" + time + ", kcalPerMin='" + kcalPerMin + '\'' + ", kcal=" + kcal + '}';
+    }
+
     public static class Builder
     {
+
         private int viewType; /* 1: for Gym; 2: for Cardio */
         private int id;
         private int done;
@@ -119,7 +119,6 @@ public class Training extends ArrayList
         private int time;
         private String kcalPerMin;
         private double kcal;
-
         public Builder viewType(int viewType)
         {
             this.viewType = viewType;
@@ -190,6 +189,7 @@ public class Training extends ArrayList
         {
             return new Training(this);
         }
+
 
     }
 }

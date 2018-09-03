@@ -227,11 +227,11 @@ class TrainingAdapter extends ArrayAdapter<Training>
             tvTimeStamp.setText(timeStamp);
             tvTarget.setText(target);
 
-            int minutes = restTime / 1000 / 60;
-            int seconds = restTime / 1000 % 60;
+            int minutes = time / 1000 / 60;
+            int seconds = time / 1000 % 60;
 
             String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-
+            Log.i(TAG, "tvRest: " + tvRest.getText().toString() + "\n" + "time: " + time + "\n" + "timeLeftFormatted: " + timeLeftFormatted);
             tvRest.setText(timeLeftFormatted);
 
             TrainingInflater trainingInflater = new TrainingInflater(mContext);
