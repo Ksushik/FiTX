@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,6 +34,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import static com.brus5.lukaszkrawczak.fitx.diet.DietProductDetailsActivity.PRODUCT_WEIGHT;
 import static com.brus5.lukaszkrawczak.fitx.diet.DietService.DATE;
 import static com.brus5.lukaszkrawczak.fitx.diet.DietService.ID;
 import static com.brus5.lukaszkrawczak.fitx.diet.DietService.UPDATE_WEIGHT;
@@ -47,7 +49,7 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_UPDAT
  * Downloaded data from REST server are in JSON format.
  * They are converted as a JSON objects and delivered to View.
  * <p>
- * In this Activity user can Delete, Update or Add new product to his daily list.
+ * In this Activity user can Delete, Update or Add new productTextView to his daily list.
  * <p>
  * User can change Product Weight in EditText and also he can use whole
  * pieces as a Weight Type. For Example 1 banana as a 1 piece weights 118g
@@ -61,28 +63,19 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
 {
     private static final String TAG = "DietProductDetailsActivity";
     private ImageView imgVerified;
-    private TextView tvName, tvProteins, tvFats, tvCarbs, tvCalories, tvFatsSaturated, tvFatsUnsaturated, tvCarbsFiber, tvCarbsSugars;
-    private EditText etWeight;
     private int productID;
     private String productTimeStamp, previousActivity, dateFormat, newTimeStamp;
     private Spinner spinner;
     private ConstraintLayout constraintLayout;
+    ProductTextView productTextView;
 
     @SuppressLint("SimpleDateFormat")
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
-
-    private double proteins = 0d;
-    private double fats = 0d;
-    private double carbs = 0d;
-    private double saturatedFats = 0d;
-    private double unsaturatedFats = 0d;
-    private double carbsFiber = 0d;
-    private double carbsSugars = 0d;
-    private double multiplier = 0d;
     private double productWeightPerItems;
-    private static double PRODUCT_WEIGHT;
-    private int verified = 0;
+    public static double PRODUCT_WEIGHT;
+
+    ChangerTextViews changerTextViews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -97,62 +90,22 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
 
         new ImageLoader(DietProductDetailsActivity.this, R.id.imageViewProduct, R.id.progressBar, url);
 
-        //        loadAsynchTask(DietProductDetailsActivity.this);
         new Provider(DietProductDetailsActivity.this, DietProductDetailsActivity.this).load(String.valueOf(productID));
 
-        etWeight.setText(String.valueOf(PRODUCT_WEIGHT));
-        setWeight(false);
+        productTextView = new ProductTextView(DietProductDetailsActivity.this);
+
+        changerTextViews = new ChangerTextViews(DietProductDetailsActivity.this);
+        changerTextViews.setWeight(PRODUCT_WEIGHT);
     }
 
     public void loadInput()
     {
         imgVerified = findViewById(R.id.imageViewVerified);
 
-        etWeight = findViewById(R.id.editTextWeight);
-        etWeight.clearFocus();
-        etWeight.didTouchFocusSelect();
-
-        tvName = findViewById(R.id.textViewProductName);
-        tvProteins = findViewById(R.id.textViewProteins);
-        tvFats = findViewById(R.id.textViewFats);
-        tvCarbs = findViewById(R.id.textViewCarbs);
-        tvCalories = findViewById(R.id.textViewCalories);
-        tvFatsSaturated = findViewById(R.id.textViewFatsSaturated);
-        tvFatsUnsaturated = findViewById(R.id.textViewFatsUnsaturated);
-        tvCarbsFiber = findViewById(R.id.textViewCarbsFiber);
-        tvCarbsSugars = findViewById(R.id.textViewCarbsSugars);
-
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
-
         constraintLayout = findViewById(R.id.constraintLayoutDietDetails);
-        constraintLayout.requestFocus();
-    }
-
-    public void loadInput(Context context)
-    {
-        imgVerified = ((Activity) context).findViewById(R.id.imageViewVerified);
-
-        etWeight = ((Activity) context).findViewById(R.id.editTextWeight);
-        etWeight.clearFocus();
-        etWeight.didTouchFocusSelect();
-
-        tvName = ((Activity) context).findViewById(R.id.textViewProductName);
-        tvProteins = ((Activity) context).findViewById(R.id.textViewProteins);
-        tvFats = ((Activity) context).findViewById(R.id.textViewFats);
-        tvCarbs = ((Activity) context).findViewById(R.id.textViewCarbs);
-        tvCalories = ((Activity) context).findViewById(R.id.textViewCalories);
-        tvFatsSaturated = ((Activity) context).findViewById(R.id.textViewFatsSaturated);
-        tvFatsUnsaturated = ((Activity) context).findViewById(R.id.textViewFatsUnsaturated);
-        tvCarbsFiber = ((Activity) context).findViewById(R.id.textViewCarbsFiber);
-        tvCarbsSugars = ((Activity) context).findViewById(R.id.textViewCarbsSugars);
-
-        spinner = ((Activity) context).findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(this);
-
-
-        constraintLayout = ((Activity) context).findViewById(R.id.constraintLayoutDietDetails);
         constraintLayout.requestFocus();
     }
 
@@ -192,15 +145,12 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
                 {
                     Toast.makeText(this, R.string.product_updated, Toast.LENGTH_SHORT).show();
 
-                    Log.e(TAG, "onClick: " + getProductWeightPerItems());
-
-
                     DietService service = new DietService(DietProductDetailsActivity.this);
 
                     HashMap<String, String> params = new HashMap<>();
                     params.put(ID, String.valueOf(productID));
                     params.put(USER_ID, String.valueOf(SaveSharedPreference.getUserID(DietProductDetailsActivity.this)));
-                    params.put(UPDATE_WEIGHT, getProductWeightPerItems());
+                    params.put(UPDATE_WEIGHT, String.valueOf(PRODUCT_WEIGHT));
                     params.put(DATE, newTimeStamp);
 
                     service.post(params, URL_DIET_PRODUCT_UPDATE_WEIGHT);
@@ -217,7 +167,7 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
                     HashMap<String, String> params = new HashMap<>();
                     params.put(ID, String.valueOf(productID));
                     params.put(USER_ID, String.valueOf(SaveSharedPreference.getUserID(DietProductDetailsActivity.this)));
-                    params.put(WEIGHT, getProductWeightPerItems());
+                    params.put(WEIGHT, String.valueOf(PRODUCT_WEIGHT));
                     params.put(DATE, newTimeStamp);
 
                     service.post(params, URL_DIET_PRODUCT_INSERT);
@@ -234,7 +184,7 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
                 HashMap<String, String> params = new HashMap<>();
                 params.put(ID, String.valueOf(productID));
                 params.put(USER_ID, String.valueOf(SaveSharedPreference.getUserID(DietProductDetailsActivity.this)));
-                params.put(WEIGHT, getProductWeightPerItems());
+                params.put(WEIGHT, String.valueOf(PRODUCT_WEIGHT));
                 params.put(DATE, newTimeStamp);
 
                 service.post(params, URL_DIET_PRODUCT_DELETE);
@@ -245,6 +195,9 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Getting necessary values from previous activity.
+     */
     private void getIntentFromPreviousActiity()
     {
         Intent intent = getIntent();
@@ -257,14 +210,7 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
 
         TimeStampReplacer time = new TimeStampReplacer(dateFormat, productTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
-
-        Log.e(TAG, "dateFormat: " + dateFormat);
-        Log.e(TAG, "productID: " + productID);
-        Log.e(TAG, "productTimeStamp: " + productTimeStamp);
-        Log.e(TAG, "productTimeStamp: " + productTimeStamp);
-        Log.e(TAG, "PRODUCT_WEIGHT: " + PRODUCT_WEIGHT);
-        Log.e(TAG, "previousActivity: " + previousActivity);
-        Log.e(TAG, "newTimeStamp: " + newTimeStamp);
+        Log.d(TAG, "getIntentFromPreviousActiity() called\n" + "dateFormat: " + dateFormat + "\n" + "productID: " + productID + "\n" + "productTimeStamp: " + productTimeStamp + "\n" + "PRODUCT_WEIGHT: " + PRODUCT_WEIGHT + "previousActivity: " + previousActivity + "\n" + "newTimeStamp: " + newTimeStamp);
     }
 
     private String timeStampChanger(String productTimeStamp)
@@ -275,186 +221,114 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
             return this.productTimeStamp;
     }
 
-    //    public void loadAsynchTask(final Context ctx)
-    //    {
-    //        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_DIET_GET_PRODUCT_INFORMATIONS, new Response.Listener<String>()
-    //        {
-    //            @Override
-    //            public void onResponse(String response)
-    //            {
-    //                try
-    //                {
-    //                    JSONObject jsonObject = new JSONObject(response);
-    //                    String name;
-    //                    Log.i(TAG, "onResponse: " + jsonObject.toString(17));
-    //                    JSONArray server_response = jsonObject.getJSONArray("server_response");
-    //                    for (int i = 0; i < server_response.length(); i++)
-    //                    {
-    //                        JSONObject srv_response = server_response.getJSONObject(i);
-    //
-    //                        name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
-    //                        proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
-    //                        fats = srv_response.getDouble(RestAPI.DB_PRODUCT_FATS);
-    //                        carbs = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS);
-    //                        saturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_SATURATED_FATS);
-    //                        unsaturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_UNSATURATED_FATS);
-    //                        carbsFiber = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_FIBER);
-    //                        carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
-    //                        multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
-    //                        verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
-    //
-    //                        if (verified == 1)
-    //                        {
-    //                            imgVerified.setVisibility(View.VISIBLE);
-    //                        }
-    //
-    //                        String upName = name.substring(0, 1).toUpperCase() + name.substring(1);
-    //                        tvName.setText(upName);
-    //                        DietProductDetailsActivity.this.setProductWeight(PRODUCT_WEIGHT);
-    //                    }
-    //                } catch (JSONException e)
-    //                {
-    //                    e.printStackTrace();
-    //                }
-    //            }
-    //        }, new Response.ErrorListener()
-    //        {
-    //            @Override
-    //            public void onErrorResponse(VolleyError error)
-    //            {Toast.makeText(ctx, RestAPI.CONNECTION_INTERNET_FAILED, Toast.LENGTH_SHORT).show();}
-    //        })
-    //        {
-    //            @Override
-    //            protected Map<String, String> getParams()
-    //            {
-    //                HashMap<String, String> params = new HashMap<>();
-    //                params.put(RestAPI.DB_PRODUCT_ID, String.valueOf(productID));
-    //                return params;
-    //            }
-    //        };
-    //        RequestQueue queue = Volley.newRequestQueue(ctx);
-    //        queue.add(strRequest);
-    //    }
-
+    /**
+     * This is responsible for showing spinner, where you can choose product depends
+     * on weight, and depends on pieces of the product.
+     *
+     * @param parent   An AdapterView is a view whose children are determined by an {@link Adapter}.
+     * @param view     actual view
+     * @param position clicked position
+     * @param id       of the view
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
         switch (position)
         {
             case 0:
-                etWeight.setText(String.valueOf((int) PRODUCT_WEIGHT));
-                setWeight(false);
-                setProductWeight(PRODUCT_WEIGHT);
-                etWeight.clearFocus();
-                etWeight.didTouchFocusSelect();
+                changerTextViews.setWeight(PRODUCT_WEIGHT);
+                //                etWeight.setText(String.valueOf((int) PRODUCT_WEIGHT));
+                //                setWeight(false);
+                //                setProductCalories(productTextView, PRODUCT_WEIGHT);
+                //                etWeight.clearFocus();
+                //                etWeight.didTouchFocusSelect();
+                // TODO: 04.09.2018 tutaj są GRAMY
+                Log.d(TAG, "onItemSelected() called with: parent = [" + parent + "], view = [" + view + "], position = [" + position + "], id = [" + id + "]");
                 break;
             case 1:
-                etWeight.setText("1");
-                setWeight(true);
-                setProductWeight(100 / multiplier);
-                etWeight.clearFocus();
-                etWeight.didTouchFocusSelect();
+                changerTextViews.setWeightToZero();
+                //                etWeight.setText("1");
+                //                setWeight(true);
+                //                setProductCalories(productTextView, 100 / multiplier);
+                //                etWeight.clearFocus();
+                //                etWeight.didTouchFocusSelect();
+
+                // TODO: 04.09.2018 tutaj są PIECES
+                Log.d(TAG, "onItemSelected() called with: parent = [" + parent + "], view = [" + view + "], position = [" + position + "], id = [" + id + "]");
                 break;
         }
     }
 
+    /**
+     * This method is automatically implemented by AdapterView.OnItemSelectedListener interface
+     * @param parent null
+     */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
 
-    public void setProductWeight(double enteredWeight)
+
+    private String getProductWeightPerItems()
     {
-        Calories p = new Calories(enteredWeight, proteins);
-        p.countCalories(p);
-        tvProteins.setText(p.toString());
-
-        Calories f = new Calories(enteredWeight, fats);
-        f.countCalories(f);
-        tvFats.setText(f.toString());
-
-        Calories c = new Calories(enteredWeight, carbs);
-        c.countCalories(c);
-        tvCarbs.setText(c.toString());
-
-        Calories sat = new Calories(enteredWeight, saturatedFats);
-        sat.countCalories(sat);
-        tvFatsSaturated.setText(sat.toString());
-
-        Calories un = new Calories(enteredWeight, unsaturatedFats);
-        un.countCalories(un);
-        tvFatsUnsaturated.setText(un.toString());
-
-        Calories fib = new Calories(enteredWeight, carbsFiber);
-        fib.countCalories(fib);
-        tvCarbsFiber.setText(fib.toString());
-
-        Calories sug = new Calories(enteredWeight, carbsSugars);
-        sug.countCalories(sug);
-        tvCarbsSugars.setText(sug.toString());
-
-        double proteins = Double.valueOf(tvProteins.getText().toString());
-        double fats = Double.valueOf(tvFats.getText().toString());
-        double carbs = Double.valueOf(tvCarbs.getText().toString());
-
-
-        Product prod = new Product();
-        tvCalories.setText(String.valueOf((int) prod.countCalories(proteins, fats, carbs)));
-
-        setProductWeightPerItems(enteredWeight);
+        return String.format(Locale.getDefault(), "%.0f", productWeightPerItems);
     }
 
-    private void setWeight(final boolean item)
+    private void setProductWeightPerItems(double productWeightPerItems)
     {
-        etWeight.addTextChangedListener(new TextWatcher()
-        {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s)
-            {
-                if (!item)
-                {
-                    if (s.toString().isEmpty() || s.toString().startsWith("0"))
-                    {
-                        s.append("");
-                        resetTextViewsToZero();
-                    }
-                    else if (Double.valueOf(s.toString()) > 2000)
-                    {
-                        resetTextViewsToZero();
-                        etWeight.setText("");
-                    }
-                    else
-                    {
-                        setProductWeight(Double.valueOf(s.toString()));
-                    }
-                }
-                else
-                {
-                    if (s.toString().isEmpty() || s.toString().startsWith("0"))
-                    {
-                        s.append("");
-                        resetTextViewsToZero();
-                    }
-                    else if (Double.valueOf(s.toString()) > 2000)
-                    {
-                        resetTextViewsToZero();
-                        etWeight.setText("");
-                    }
-                    else
-                    {
-                        setProductWeight(Double.valueOf(s.toString()) * (100 / multiplier));
-
-                    }
-                }
-            }
-        });
+        this.productWeightPerItems = productWeightPerItems;
     }
 
-    private void resetTextViewsToZero()
+    /**
+     * Loading productTextView informations from AsyncTask
+     *
+     * @param product contains productTextView informations
+     * @param context contains actual view
+     */
+    public void load(Product product, Context context)
+    {
+        Log.d(TAG, "load() called wit6h: productTextView = [ " + "\n" + "PRODUCT_WEIGHT" + PRODUCT_WEIGHT + "\n" + "proteins: " + product.getProteins() + "\n" + "fats " + product.getFats() + "\n" + "carbs " + product.getCarbs() + "\n" + "saturatedFats " + product.getSaturatedFats() + "\n" + "unSaturatedFats " + product.getUnSaturatedFats() + "\n" + "carbsFiber " + product.getCarbsFiber() + "\n" + "carbsSugar " + product.getCarbsSugar() + "\n" + "multiplier " + product.getMultiplier() + "\n" + "verified  " + product.getVerified() + "]");
+
+        ProductTextView p = new ProductTextView(context);
+
+        p.tvName.setText(product.getName());
+        p.setProductCalories(product, PRODUCT_WEIGHT);
+
+        ChangerTextViews c = new ChangerTextViews(context);
+        c.setWeight(product, false);
+    }
+}
+
+class ProductTextView
+{
+    private Context context;
+
+    public TextView tvName, tvProteins, tvFats, tvCarbs, tvCalories, tvFatsSaturated, tvFatsUnsaturated, tvCarbsFiber, tvCarbsSugars;
+
+    ProductTextView(Context context)
+    {
+        this.context = context;
+        load();
+    }
+
+    /**
+     * Loading objects from reference.
+     */
+    private void load()
+    {
+        tvName = ((Activity) context).findViewById(R.id.textViewProductName);
+        tvProteins = ((Activity) context).findViewById(R.id.textViewProteins);
+        tvFats = ((Activity) context).findViewById(R.id.textViewFats);
+        tvCarbs = ((Activity) context).findViewById(R.id.textViewCarbs);
+        tvCalories = ((Activity) context).findViewById(R.id.textViewCalories);
+        tvFatsSaturated = ((Activity) context).findViewById(R.id.textViewFatsSaturated);
+        tvFatsUnsaturated = ((Activity) context).findViewById(R.id.textViewFatsUnsaturated);
+        tvCarbsFiber = ((Activity) context).findViewById(R.id.textViewCarbsFiber);
+        tvCarbsSugars = ((Activity) context).findViewById(R.id.textViewCarbsSugars);
+    }
+
+    /**
+     * That method is for resetting TextView to '0' value.
+     */
+    public void resetTextViewsToZero()
     {
         String s = "0";
         tvProteins.setText(s);
@@ -467,35 +341,145 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         tvCarbsSugars.setText(s);
     }
 
-    private String getProductWeightPerItems()
+    /**
+     * Enter the weight of productTextView and final value will be
+     * converted to calories.
+     *
+     * @param weight of productTextView.
+     */
+    public void setProductCalories(Product product, double weight)
     {
-        return String.format(Locale.getDefault(), "%.0f", productWeightPerItems);
+        ProductTextView productTextView = new ProductTextView(context);
+
+        Calories p = new Calories(weight, product.getProteins());
+        p.countCalories(p);
+        productTextView.tvProteins.setText(p.toString());
+
+        Calories f = new Calories(weight, product.getFats());
+        f.countCalories(f);
+        productTextView.tvFats.setText(f.toString());
+
+        Calories c = new Calories(weight, product.getCarbs());
+        c.countCalories(c);
+        productTextView.tvCarbs.setText(c.toString());
+
+        Calories sat = new Calories(weight, product.getSaturatedFats());
+        sat.countCalories(sat);
+        productTextView.tvFatsSaturated.setText(sat.toString());
+
+        Calories un = new Calories(weight, product.getUnSaturatedFats());
+        un.countCalories(un);
+        productTextView.tvFatsUnsaturated.setText(un.toString());
+
+        Calories fib = new Calories(weight, product.getCarbsFiber());
+        fib.countCalories(fib);
+        productTextView.tvCarbsFiber.setText(fib.toString());
+
+        Calories sug = new Calories(weight, product.getCarbsSugar());
+        sug.countCalories(sug);
+        productTextView.tvCarbsSugars.setText(sug.toString());
+
+        double proteins = Double.valueOf(productTextView.tvProteins.getText().toString());
+        double fats = Double.valueOf(productTextView.tvFats.getText().toString());
+        double carbs = Double.valueOf(productTextView.tvCarbs.getText().toString());
+
+
+        Product prod = new Product();
+        productTextView.tvCalories.setText(String.valueOf((int) prod.countCalories(proteins, fats, carbs)));
+
+        PRODUCT_WEIGHT = weight;
+    }
+}
+
+class ChangerTextViews
+{
+    private static final String TAG = "ChangerTextViews";
+    private Context context;
+    private EditText weight;
+    private ProductTextView productTextView;
+
+    ChangerTextViews(Context context)
+    {
+        this.context = context;
+        productTextView = new ProductTextView(context);
+        load();
     }
 
-    private void setProductWeightPerItems(double productWeightPerItems)
+    private void load()
     {
-        this.productWeightPerItems = productWeightPerItems;
+        weight = ((Activity) context).findViewById(R.id.editTextWeight);
+        weight.clearFocus();
+        weight.didTouchFocusSelect();
     }
 
-    public void load(Product product, Context context)
+    public void setWeight(double weight)
     {
-        proteins = product.getProteins();
-        fats = product.getFats();
-        carbs = product.getCarbs();
-        saturatedFats = product.getSaturatedFats();
-        unsaturatedFats = product.getUnSaturatedFats();
-        carbs = product.getCarbs();
-        carbsSugars = product.getCarbsSugar();
-        carbsFiber = product.getCarbsFiber();
-        multiplier = product.getMultiplier();
-        verified = product.getVerified();
+        this.weight.setText(String.valueOf((int) weight));
+    }
 
+    public void setWeightToZero()
+    {
+        weight.setText("0");
+    }
 
+    public void setWeight(final Product product, final boolean item)
+    {
+        weight.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        Log.d(TAG, "load() called wit6h: product = [ " + "\n" + "PRODUCT_WEIGHT" + PRODUCT_WEIGHT + "\n" + "proteins: " + product.getProteins() + "\n" + "fats " + product.getFats() + "\n" + "carbs " + product.getCarbs() + "\n" + "saturatedFats " + product.getSaturatedFats() + "\n" + "unSaturatedFats " + product.getUnSaturatedFats() + "\n" + "carbsFiber " + product.getCarbsFiber() + "\n" + "carbsSugar " + product.getCarbsSugar() + "\n" + "multiplier " + product.getMultiplier() + "\n" + "verified  " + product.getVerified() + "]");
-        loadInput(context);
-        setProductWeight(PRODUCT_WEIGHT);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
-        tvName.setText(product.getName());
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
+                Log.i(TAG, "afterTextChanged: "+s.toString());
+                if (!item)
+                {
+                    if (s.toString().isEmpty() || s.toString().startsWith("0"))
+                    {
+                        s.append("");
+                        //                        resetTextViewsToZero();
+                        productTextView.resetTextViewsToZero();
+
+                    }
+                    else if (Double.valueOf(s.toString()) > 2000)
+                    {
+                        //                        resetTextViewsToZero();
+                        productTextView.resetTextViewsToZero();
+                        weight.setText("");
+                    }
+                    else
+                    {
+                        //                        Product p = new Product("bulka",2,3,4,5,6,7,8,8,10);
+
+                        productTextView.setProductCalories(product, Double.valueOf(s.toString()));
+                    }
+                }
+                else
+                {
+                    if (s.toString().isEmpty() || s.toString().startsWith("0"))
+                    {
+                        s.append("");
+                        //                        resetTextViewsToZero();
+                        productTextView.resetTextViewsToZero();
+                    }
+                    else if (Double.valueOf(s.toString()) > 2000)
+                    {
+                        //                        resetTextViewsToZero();
+                        productTextView.resetTextViewsToZero();
+                        weight.setText("");
+                    }
+                    else
+                    {
+                        //                        Product p = new Product("bulka",2,3,4,5,6,7,8,8,10);
+                        productTextView.setProductCalories(product, Double.valueOf(s.toString()) * (100 / product.getMultiplier()));
+                    }
+                }
+            }
+        });
     }
 }
