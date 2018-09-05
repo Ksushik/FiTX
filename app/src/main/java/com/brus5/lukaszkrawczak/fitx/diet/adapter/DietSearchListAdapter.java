@@ -42,8 +42,6 @@ public class DietSearchListAdapter extends ArrayAdapter<Product>
         double kcal = getItem(position).getKcal();
         int verified = getItem(position).getVerified();
 
-        new Product(id, name, kcal, verified);
-
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 

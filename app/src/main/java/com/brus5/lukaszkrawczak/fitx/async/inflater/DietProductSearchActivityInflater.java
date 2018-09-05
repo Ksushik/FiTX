@@ -63,10 +63,9 @@ public class DietProductSearchActivityInflater
                     calories = srv_response.getDouble(RestAPI.DB_PRODUCT_KCAL);
                     verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
 
-                    String nameUpperCase = name.substring(0, 1).toUpperCase() + name.substring(1);
+                    Product p = new Product.Builder().id(id).name(name).kcal(calories).verified(verified).build();
 
-                    Product dietSearch = new Product(id, nameUpperCase, calories, verified);
-                    list.add(dietSearch);
+                    list.add(p);
                 }
             }
             /* End */

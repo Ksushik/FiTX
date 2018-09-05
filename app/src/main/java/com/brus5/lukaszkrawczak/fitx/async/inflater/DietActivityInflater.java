@@ -167,8 +167,9 @@ public class DietActivityInflater
                     countCarbs += carb.getCarbs();
                     countCalories += cal.getKcal();
 
-                    product = new Product(productId, productName, weight, protein.getProteins(), fat.getFats(), carb.getCarbs(), cal.getKcal(), productVerified, productTimeStamp);
-                    list.add(product);
+                    Product p = new Product.Builder().id(productId).name(productName).weight(weight).proteins(protein.getProteins()).fats(fat.getFats()).carbs(carb.getCarbs()).kcal(cal.getKcal()).verified(productVerified).dateTimeStamp(productTimeStamp).build();
+
+                    list.add(p);
                 }
 
             }

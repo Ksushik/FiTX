@@ -26,39 +26,134 @@ public class Product
     private double carbsSugar;
     private double multiplier;
 
-    public Product(String name, double proteins, double fats, double carbs, double saturatedFats, double unSaturatedFats, double carbsFiber, double carbsSugar, double multiplier, int verified)
+    private Product(Builder builder)
     {
-        this.name = StringConverter.toUpperFirstLetter(name);
-        this.proteins = proteins;
-        this.fats = fats;
-        this.carbs = carbs;
-        this.saturatedFats = saturatedFats;
-        this.unSaturatedFats = unSaturatedFats;
-        this.carbsFiber = carbsFiber;
-        this.carbsSugar = carbsSugar;
-        this.multiplier = multiplier;
-        this.verified = verified;
+        this.id = builder.id;
+        this.name = builder.name;
+        this.weight = builder.weight;
+        this.proteins = builder.proteins;
+        this.fats = builder.fats;
+        this.carbs = builder.carbs;
+        this.kcal = builder.kcal;
+        this.verified = builder.verified;
+        this.dateTimeStamp = builder.dateTimeStamp;
+        this.saturatedFats = builder.saturatedFats;
+        this.saturatedFats = builder.saturatedFats;
+        this.unSaturatedFats = builder.unSaturatedFats;
+        this.carbsFiber = builder.carbsFiber;
+        this.carbsSugar = builder.carbsSugar;
+        this.multiplier = builder.multiplier;
     }
 
-    public Product(int id, String name, double weight, double proteins, double fats, double carbs, double kcal, int verified, String dateTimeStamp)
+    public static class Builder
     {
-        this.id = id;
-        this.name = StringConverter.toUpperFirstLetter(name);
-        this.weight = weight;
-        this.proteins = proteins;
-        this.fats = fats;
-        this.carbs = carbs;
-        this.kcal = kcal;
-        this.verified = verified;
-        this.dateTimeStamp = dateTimeStamp;
-    }
+        private int id;
+        private String name;
+        private double weight;
+        private double proteins;
+        private double fats;
+        private double carbs;
+        private double kcal;
+        private int verified;
+        private String dateTimeStamp;
 
-    public Product(int id, String name, double kcal, int verified)
-    {
-        this.id = id;
-        this.name = name;
-        this.kcal = kcal;
-        this.verified = verified;
+        private double saturatedFats;
+        private double unSaturatedFats;
+        private double carbsFiber;
+        private double carbsSugar;
+        private double multiplier;
+
+        public Builder id(int id)
+        {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name(String name)
+        {
+            this.name = StringConverter.toUpperFirstLetter(name);
+            return this;
+        }
+
+        public Builder weight(double weight)
+        {
+            this.weight = weight;
+            return this;
+        }
+
+        public Builder proteins(double proteins)
+        {
+            this.proteins = proteins;
+            return this;
+        }
+
+        public Builder fats(double fats)
+        {
+            this.fats = fats;
+            return this;
+        }
+
+        public Builder carbs(double carbs)
+        {
+            this.carbs = carbs;
+            return this;
+        }
+
+        public Builder kcal(double kcal)
+        {
+            this.kcal = kcal;
+            return this;
+        }
+
+        public Builder verified(int verified)
+        {
+            this.verified = verified;
+            return this;
+        }
+
+        public Builder dateTimeStamp(String dateTimeStamp)
+        {
+            this.dateTimeStamp = dateTimeStamp;
+            return this;
+        }
+
+        public Builder saturatedFats(double saturatedFats)
+        {
+            this.saturatedFats = saturatedFats;
+            return this;
+        }
+
+        public Builder unSaturatedFats(double unSaturatedFats)
+        {
+            this.unSaturatedFats = unSaturatedFats;
+            return this;
+        }
+
+        public Builder carbsFiber(double carbsFiber)
+        {
+            this.carbsFiber = carbsFiber;
+            return this;
+        }
+
+        public Builder carbsSugar(double carbsSugar)
+        {
+            this.carbsSugar = carbsSugar;
+            return this;
+        }
+
+        public Builder multiplier(double multiplier)
+        {
+            this.multiplier = multiplier;
+            return this;
+        }
+
+        public Product build()
+        {
+            return new Product(this);
+        }
+
+
+
     }
 
     public Product() {}

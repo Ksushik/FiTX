@@ -66,10 +66,12 @@ public class DietProductDetailsActivityInflater extends DietProductDetailsActivi
                 int verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
 
 
-                Product product = new Product(name, proteins, fats, carbs, saturatedFats, unsaturatedFats, carbsFiber, carbsSugars, multiplier, verified);
+                //                Product product = new Product(name, proteins, fats, carbs, saturatedFats, unsaturatedFats, carbsFiber, carbsSugars, multiplier, verified);
 
 
-                load(product, context);
+                Product p = new Product.Builder().name(name).proteins(proteins).fats(fats).carbs(carbs).saturatedFats(saturatedFats).unSaturatedFats(unsaturatedFats).carbsFiber(carbsFiber).carbsSugar(carbsSugars).multiplier(multiplier).verified(verified).build();
+
+                load(p, context);
 
 
                 String upName = name.substring(0, 1).toUpperCase() + name.substring(1);

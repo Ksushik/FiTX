@@ -49,8 +49,6 @@ public class DietListAdapter extends ArrayAdapter<Product>
         int verified = getItem(position).getVerified();
         String dateTimeStamp = getItem(position).getDateTimeStamp();
 
-        new Product(id, name, weight, proteins, fats, carbs, kcal, verified, dateTimeStamp);
-
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent,false);
 
