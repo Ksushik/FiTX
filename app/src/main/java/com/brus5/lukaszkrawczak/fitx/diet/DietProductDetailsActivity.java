@@ -200,6 +200,8 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
      */
     private void getIntentFromPreviousActiity()
     {
+        TimeStamp time = new TimeStamp(dateFormat, productTimeStamp);
+
         Intent intent = getIntent();
         dateFormat = intent.getStringExtra("dateFormat");
         productID = intent.getIntExtra("productID", -1);
@@ -208,8 +210,18 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         PRODUCT_WEIGHT = intent.getDoubleExtra("productWeight", 50);
         previousActivity = intent.getStringExtra("previousActivity");
 
-        TimeStamp time = new TimeStamp(dateFormat, productTimeStamp);
-        newTimeStamp = time.getNewTimeStamp();
+        Log.i(TAG, "productTimeStamp: " + productTimeStamp + " | dateFormat: " + dateFormat + " | time.getNewTimeStamp(): " + time.getNewTimeStamp());
+
+        try
+        {
+            newTimeStamp = time.getNewTimeStamp();
+        } catch (NullPointerException e)
+        {
+            Log.e(TAG, "getIntentFromPreviousActiity: ", e);
+        } finally
+        {
+
+        }
         Log.d(TAG, "getIntentFromPreviousActiity() called\n" + "dateFormat: " + dateFormat + "\n" + "productID: " + productID + "\n" + "productTimeStamp: " + productTimeStamp + "\n" + "PRODUCT_WEIGHT: " + PRODUCT_WEIGHT + "previousActivity: " + previousActivity + "\n" + "newTimeStamp: " + newTimeStamp);
     }
 

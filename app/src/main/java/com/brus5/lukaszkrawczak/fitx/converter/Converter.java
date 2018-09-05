@@ -48,21 +48,7 @@ abstract class Converter
         }
     }
 
-    private String getDayAndMonth()
-    {
-        return this.dateToday.substring(5, 10);
-    }
 
-    private String getDayAndMonthFromTimeStamp()
-    {
-        return this.oldTimeStamp.substring(5, 10);
-    }
-
-    public String getNewTimeStamp()
-    {
-        Log.i(TAG, "getNewTimeStamp: " + this.oldTimeStamp.replace(getDayAndMonthFromTimeStamp(), getDayAndMonth()));
-        return this.oldTimeStamp.replace(getDayAndMonthFromTimeStamp(), getDayAndMonth());
-    }
 
     private void setProductGrams(double productWeight)
     {
