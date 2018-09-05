@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +31,6 @@ import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 import static com.brus5.lukaszkrawczak.fitx.diet.DietProductDetailsActivity.PRODUCT_WEIGHT;
 import static com.brus5.lukaszkrawczak.fitx.diet.DietService.DATE;
@@ -49,7 +47,7 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_UPDAT
  * Downloaded data from REST server are in JSON format.
  * They are converted as a JSON objects and delivered to View.
  * <p>
- * In this Activity user can Delete, Update or Add new productTextView to his daily list.
+ * In this Activity user can Delete, Update or Add new productTextViews to his daily list.
  * <p>
  * User can change Product Weight in EditText and also he can use whole
  * pieces as a Weight Type. For Example 1 banana as a 1 piece weights 118g
@@ -62,20 +60,18 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_UPDAT
 public class DietProductDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DefaultView
 {
     private static final String TAG = "DietProductDetailsActivity";
-    private ImageView imgVerified;
+    @SuppressLint("SimpleDateFormat")
+    private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
     private int productID;
     private String productTimeStamp, previousActivity, dateFormat, newTimeStamp;
     private Spinner spinner;
     private ConstraintLayout constraintLayout;
-    ProductTextView productTextView;
+    private ChangerTextViews changerTextViews;
 
-    @SuppressLint("SimpleDateFormat")
-    private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
-    private double productWeightPerItems;
-    public static double PRODUCT_WEIGHT;
-
-    ChangerTextViews changerTextViews;
+    protected static double PRODUCT_WEIGHT;
+    private static Product PRODUCT = new Product();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -86,22 +82,20 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         loadDefaultView();
         getIntentFromPreviousActiity();
 
-        String url = "http://justfitx.xyz/images/products/mid/" + productID + ".png"; // This must by under getIntentFromPreviousActiity()
+        // This must by under getIntentFromPreviousActiity()
+        String url = "http://justfitx.xyz/images/products/mid/" + productID + ".png";
 
         new ImageLoader(DietProductDetailsActivity.this, R.id.imageViewProduct, R.id.progressBar, url);
 
+        // Loading Async Task
         new Provider(DietProductDetailsActivity.this, DietProductDetailsActivity.this).load(String.valueOf(productID));
 
-        productTextView = new ProductTextView(DietProductDetailsActivity.this);
-
         changerTextViews = new ChangerTextViews(DietProductDetailsActivity.this);
-        changerTextViews.setWeight(PRODUCT_WEIGHT);
+        changerTextViews.setEditText(PRODUCT_WEIGHT);
     }
 
     public void loadInput()
     {
-        imgVerified = findViewById(R.id.imageViewVerified);
-
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
@@ -135,6 +129,12 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * This method is responsible for accepting, updating or deleting product
+     *
+     * @param item is item on ActionBar menu
+     * @return clicked item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -235,26 +235,29 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
     {
         switch (position)
         {
+            // user chooses weight as paramter
             case 0:
-                changerTextViews.setWeight(PRODUCT_WEIGHT);
-                //                etWeight.setText(String.valueOf((int) PRODUCT_WEIGHT));
-                //                setWeight(false);
-                //                setProductCalories(productTextView, PRODUCT_WEIGHT);
-                //                etWeight.clearFocus();
-                //                etWeight.didTouchFocusSelect();
-                // TODO: 04.09.2018 tutaj są GRAMY
-                Log.d(TAG, "onItemSelected() called with: parent = [" + parent + "], view = [" + view + "], position = [" + position + "], id = [" + id + "]");
+                try
+                {
+                    changerTextViews.setEditText(PRODUCT, true);
+                    changerTextViews.setWeightToZero();
+                    changerTextViews.setEditText(PRODUCT_WEIGHT);
+                } catch (NullPointerException e)
+                {
+                    Log.e(TAG, "onItemSelected: ", e);
+                }
                 break;
+            // user chooses pieces as parameter
             case 1:
-                changerTextViews.setWeightToZero();
-                //                etWeight.setText("1");
-                //                setWeight(true);
-                //                setProductCalories(productTextView, 100 / multiplier);
-                //                etWeight.clearFocus();
-                //                etWeight.didTouchFocusSelect();
-
-                // TODO: 04.09.2018 tutaj są PIECES
-                Log.d(TAG, "onItemSelected() called with: parent = [" + parent + "], view = [" + view + "], position = [" + position + "], id = [" + id + "]");
+                try
+                {
+                    changerTextViews.setEditText(PRODUCT, false);
+                    changerTextViews.setWeightToZero();
+                    changerTextViews.setEditText(1);
+                } catch (NullPointerException e)
+                {
+                    Log.e(TAG, "onItemSelected: ", e);
+                }
                 break;
         }
     }
@@ -267,36 +270,33 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
     public void onNothingSelected(AdapterView<?> parent) {}
 
 
-    private String getProductWeightPerItems()
-    {
-        return String.format(Locale.getDefault(), "%.0f", productWeightPerItems);
-    }
-
-    private void setProductWeightPerItems(double productWeightPerItems)
-    {
-        this.productWeightPerItems = productWeightPerItems;
-    }
-
     /**
-     * Loading productTextView informations from AsyncTask
+     * Loading productTextViews informations from AsyncTask
      *
-     * @param product contains productTextView informations
+     * @param product contains productTextViews informations
      * @param context contains actual view
      */
     public void load(Product product, Context context)
     {
-        Log.d(TAG, "load() called wit6h: productTextView = [ " + "\n" + "PRODUCT_WEIGHT" + PRODUCT_WEIGHT + "\n" + "proteins: " + product.getProteins() + "\n" + "fats " + product.getFats() + "\n" + "carbs " + product.getCarbs() + "\n" + "saturatedFats " + product.getSaturatedFats() + "\n" + "unSaturatedFats " + product.getUnSaturatedFats() + "\n" + "carbsFiber " + product.getCarbsFiber() + "\n" + "carbsSugar " + product.getCarbsSugar() + "\n" + "multiplier " + product.getMultiplier() + "\n" + "verified  " + product.getVerified() + "]");
+        Log.d(TAG, "load() called wit6h: productTextViews = [ " + "\n" + "PRODUCT_WEIGHT " + PRODUCT_WEIGHT + "\n" + "proteins: " + product.getProteins() + "\n" + "fats " + product.getFats() + "\n" + "carbs " + product.getCarbs() + "\n" + "saturatedFats " + product.getSaturatedFats() + "\n" + "unSaturatedFats " + product.getUnSaturatedFats() + "\n" + "carbsFiber " + product.getCarbsFiber() + "\n" + "carbsSugar " + product.getCarbsSugar() + "\n" + "multiplier " + product.getMultiplier() + "\n" + "verified  " + product.getVerified() + "]");
 
+        // setting TextViews and name of the product
         ProductTextView p = new ProductTextView(context);
-
         p.tvName.setText(product.getName());
         p.setProductCalories(product, PRODUCT_WEIGHT);
 
+        // passing object to setEditText method
         ChangerTextViews c = new ChangerTextViews(context);
-        c.setWeight(product, false);
+        c.setEditText(product, true);
+
+        // attribution product object to static object of main thread.
+        PRODUCT = product;
     }
 }
 
+/**
+ * This class represents final value of entered weight by user in EditText
+ */
 class ProductTextView
 {
     private Context context;
@@ -342,10 +342,10 @@ class ProductTextView
     }
 
     /**
-     * Enter the weight of productTextView and final value will be
+     * Enter the weight of productTextViews and final value will be
      * converted to calories.
      *
-     * @param weight of productTextView.
+     * @param weight of productTextViews.
      */
     public void setProductCalories(Product product, double weight)
     {
@@ -391,13 +391,20 @@ class ProductTextView
     }
 }
 
+/**
+ * This class cooperates with ProductTextView.class
+ */
 class ChangerTextViews
 {
-    private static final String TAG = "ChangerTextViews";
     private Context context;
     private EditText weight;
     private ProductTextView productTextView;
 
+    /**
+     * Constructor of TextViews which automatically loads objects from reference
+     *
+     * @param context actual context
+     */
     ChangerTextViews(Context context)
     {
         this.context = context;
@@ -405,6 +412,9 @@ class ChangerTextViews
         load();
     }
 
+    /**
+     * Loading objects from reference.
+     */
     private void load()
     {
         weight = ((Activity) context).findViewById(R.id.editTextWeight);
@@ -412,7 +422,7 @@ class ChangerTextViews
         weight.didTouchFocusSelect();
     }
 
-    public void setWeight(double weight)
+    public void setEditText(double weight)
     {
         this.weight.setText(String.valueOf((int) weight));
     }
@@ -422,7 +432,15 @@ class ChangerTextViews
         weight.setText("0");
     }
 
-    public void setWeight(final Product product, final boolean item)
+
+    /**
+     * Method for setting EditText
+     *
+     * @param product  getting Product object
+     * @param isWeight boolean value if isWeight then user entering weight
+     *                 if not then user entering pieces
+     */
+    public void setEditText(final Product product, final boolean isWeight)
     {
         weight.addTextChangedListener(new TextWatcher()
         {
@@ -435,47 +453,42 @@ class ChangerTextViews
             @Override
             public void afterTextChanged(Editable s)
             {
-
-                Log.i(TAG, "afterTextChanged: "+s.toString());
-                if (!item)
+                // if user choosed weight as paramter
+                if (isWeight)
                 {
                     if (s.toString().isEmpty() || s.toString().startsWith("0"))
                     {
                         s.append("");
-                        //                        resetTextViewsToZero();
                         productTextView.resetTextViewsToZero();
 
                     }
                     else if (Double.valueOf(s.toString()) > 2000)
                     {
-                        //                        resetTextViewsToZero();
                         productTextView.resetTextViewsToZero();
                         weight.setText("");
                     }
                     else
                     {
-                        //                        Product p = new Product("bulka",2,3,4,5,6,7,8,8,10);
-
                         productTextView.setProductCalories(product, Double.valueOf(s.toString()));
                     }
                 }
+
+                // if user choosed pieces as parameter
                 else
                 {
                     if (s.toString().isEmpty() || s.toString().startsWith("0"))
                     {
                         s.append("");
-                        //                        resetTextViewsToZero();
                         productTextView.resetTextViewsToZero();
+
                     }
                     else if (Double.valueOf(s.toString()) > 2000)
                     {
-                        //                        resetTextViewsToZero();
                         productTextView.resetTextViewsToZero();
                         weight.setText("");
                     }
                     else
                     {
-                        //                        Product p = new Product("bulka",2,3,4,5,6,7,8,8,10);
                         productTextView.setProductCalories(product, Double.valueOf(s.toString()) * (100 / product.getMultiplier()));
                     }
                 }
