@@ -1,9 +1,9 @@
 package com.brus5.lukaszkrawczak.fitx.converter;
 
-public class TimeStampReplacer extends Converter
+public class TimeStamp extends Converter
 {
 
-    public TimeStampReplacer(String dateToday, String oldTimeStamp)
+    public TimeStamp(String dateToday, String oldTimeStamp)
     {
         super(dateToday, oldTimeStamp);
     }

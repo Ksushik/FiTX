@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
-import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
+import com.brus5.lukaszkrawczak.fitx.converter.TimeStamp;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
@@ -208,7 +208,7 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         PRODUCT_WEIGHT = intent.getDoubleExtra("productWeight", 50);
         previousActivity = intent.getStringExtra("previousActivity");
 
-        TimeStampReplacer time = new TimeStampReplacer(dateFormat, productTimeStamp);
+        TimeStamp time = new TimeStamp(dateFormat, productTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
         Log.d(TAG, "getIntentFromPreviousActiity() called\n" + "dateFormat: " + dateFormat + "\n" + "productID: " + productID + "\n" + "productTimeStamp: " + productTimeStamp + "\n" + "PRODUCT_WEIGHT: " + PRODUCT_WEIGHT + "previousActivity: " + previousActivity + "\n" + "newTimeStamp: " + newTimeStamp);
     }

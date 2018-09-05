@@ -26,7 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
+import com.brus5.lukaszkrawczak.fitx.converter.TimeStamp;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.training.addons.Timer;
 import com.brus5.lukaszkrawczak.fitx.training.addons.TimerGym;
@@ -281,7 +281,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         trainingTimeStamp = timeStampChanger(trainingTimeStamp);
         previousActivity = intent.getStringExtra("previousActivity");
 
-        TimeStampReplacer time = new TimeStampReplacer(DateGenerator.getSelectedDate(), trainingTimeStamp);
+        TimeStamp time = new TimeStamp(DateGenerator.getSelectedDate(), trainingTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
     }
 

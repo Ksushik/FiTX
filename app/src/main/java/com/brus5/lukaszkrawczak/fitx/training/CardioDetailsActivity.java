@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.brus5.lukaszkrawczak.fitx.DefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
-import com.brus5.lukaszkrawczak.fitx.converter.TimeStampReplacer;
+import com.brus5.lukaszkrawczak.fitx.converter.TimeStamp;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.training.addons.TimerCardio;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
@@ -195,7 +195,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
         kcalPerMin = intent.getDoubleExtra("kcalPerMin", -1);
         previousActivity = intent.getStringExtra("previousActivity");
 
-        TimeStampReplacer time = new TimeStampReplacer(DateGenerator.getSelectedDate(), trainingTimeStamp);
+        TimeStamp time = new TimeStamp(DateGenerator.getSelectedDate(), trainingTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
 
         Log.i(TAG, "getIntentFromPreviousActiity: \n" + "trainingID: " + trainingID + "\n" + "trainingTimeStamp: " + trainingTimeStamp + "\n" + "trainingTime: " + trainingTime + "\n" + "kcalPerMin: " + kcalPerMin + "\n" + "previousActivity: " + previousActivity + "\n" + "DateGenerator.getSelectedDate(): " + DateGenerator.getSelectedDate() + "\n" + "newTimeStamp: " + newTimeStamp);
