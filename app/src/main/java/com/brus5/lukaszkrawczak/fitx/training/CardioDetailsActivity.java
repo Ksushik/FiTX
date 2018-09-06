@@ -43,6 +43,12 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_DELETE;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_INSERT;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_UPDATE;
 
+/**
+ * This class is viewing Cardio Details where user can set the timer,
+ * mark as "trained" or "not trained yet" training and simple notepad to
+ * store some thoughts. Also user can see how many calories can burn while
+ * moving SeekBar.
+ */
 @SuppressLint("SimpleDateFormat")
 public class CardioDetailsActivity extends AppCompatActivity implements DefaultView
 {
@@ -51,8 +57,8 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
     private static String previousActivity;
     private String trainingTimeStamp, newTimeStamp;
     private int trainingID, trainingTime;
-    private EditText etNotepad;
-    public TextView tvName, textViewBurned;
+    private EditText editText;
+    private TextView tvName, textViewBurned;
     private CheckBox checkBox;
     private double kcalPerMin;
     private ConstraintLayout constraintLayout;
@@ -89,7 +95,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
                     params.put(DB_CARDIO_DONE, String.valueOf(setOnCheckedChangeListener()));
                     params.put(DB_CARDIO_TIME, String.valueOf(START_TIME_IN_MILLIS / 1000 / 60));
                     params.put(DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(CardioDetailsActivity.this)));
-                    params.put(DB_CARDIO_NOTEPAD, etNotepad.getText().toString());
+                    params.put(DB_CARDIO_NOTEPAD, editText.getText().toString());
                     params.put(DB_CARDIO_DATE, newTimeStamp);
 
                     service.post(params, URL_CARDIO_UPDATE);
@@ -108,7 +114,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
                     params.put(DB_CARDIO_DONE, String.valueOf(setOnCheckedChangeListener()));
                     params.put(DB_CARDIO_TIME, String.valueOf(START_TIME_IN_MILLIS / 1000 / 60));
                     params.put(DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(CardioDetailsActivity.this)));
-                    params.put(DB_CARDIO_NOTEPAD, etNotepad.getText().toString());
+                    params.put(DB_CARDIO_NOTEPAD, editText.getText().toString());
                     params.put(DB_CARDIO_DATE, newTimeStamp);
 
                     service.post(params, URL_CARDIO_INSERT);
@@ -162,20 +168,13 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
     {
         tvName = findViewById(R.id.textViewCardioName);
         textViewBurned = findViewById(R.id.textViewBurned);
-        etNotepad = findViewById(R.id.editTextNotepadCardio);
+        editText = findViewById(R.id.editTextNotepadCardio);
 
         checkBox = findViewById(R.id.checkBox);
 
         constraintLayout = findViewById(R.id.constraingLayoutCardioDetails);
         constraintLayout.requestFocus();
     }
-
-    private void loadInputAsync(Context context)
-    {
-        tvName = ((Activity) context).findViewById(R.id.textViewCardioName);
-        checkBox = ((Activity) context).findViewById(R.id.checkBox);
-    }
-
 
     @Override
     public void loadDefaultView()
@@ -274,9 +273,10 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
     public void load(Activity activity, Context context, Training training)
     {
 
-        loadInputAsync(context);
-
-        Log.d(TAG, "previousActivity: " + previousActivity);
+        // need to findView once again because in loadInput() are loaded in the Main Thread
+        tvName = ((Activity) context).findViewById(R.id.textViewCardioName);
+        checkBox = ((Activity) context).findViewById(R.id.checkBox);
+        editText = ((Activity) context).findViewById(R.id.editTextNotepadCardio);
 
         if (previousActivity.equals(TrainingActivity.class.getSimpleName()))
         {
@@ -294,8 +294,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
         }
 
         tvName.setText(training.getName());
-
+        editText.setText(training.getNotepad());
     }
-
-
 }

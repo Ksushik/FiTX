@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_DONE;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_CARDIO_NOTEPAD;
 
 @SuppressLint({"LongLogTag", "Registered"})
 
@@ -58,6 +59,7 @@ public class CardioDetailsActivityInflater extends CardioDetailsActivity
             double calories;
             int done = -1;
             int time = -1;
+            String notepad = "";
 
             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
             if (jsonArray.length() > 0)
@@ -68,6 +70,7 @@ public class CardioDetailsActivityInflater extends CardioDetailsActivity
 
                     name = object.getString(RestAPI.DB_CARDIO_NAME);
                     calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
+                    notepad = object.getString(RestAPI.DB_CARDIO_NOTEPAD);
 
                     if (!object.getString(RestAPI.DB_CARDIO_TIME).equals("null"))
                     {
@@ -79,11 +82,14 @@ public class CardioDetailsActivityInflater extends CardioDetailsActivity
                         done = object.getInt(DB_CARDIO_DONE);
                     }
 
-                    String trainingName = name.substring(0, 1).toUpperCase() + name.substring(1);
+                    if (!object.getString(DB_CARDIO_NOTEPAD).equals("null"))
+                    {
+                        notepad = object.getString(DB_CARDIO_NOTEPAD);
+                    }
 
-                    Training training1 = new Training.Builder().name(trainingName).kcal(calories).done(done).time(time).build();
+                    Training t = new Training.Builder().name(name).kcal(calories).done(done).time(time).notepad(notepad).build();
 
-                    load(activity, context, training1);
+                    load(activity, context, t);
                 }
             }
         } catch (JSONException e)

@@ -1,5 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.training;
 
+import com.brus5.lukaszkrawczak.fitx.utils.StringConverter;
+
 import java.util.ArrayList;
 
 /**
@@ -20,6 +22,7 @@ public class Training extends ArrayList
     private int time;
     private String kcalPerMin;
     private double kcal;
+    private String notepad;
 
 
     private Training(Builder builder)
@@ -36,6 +39,7 @@ public class Training extends ArrayList
         this.time = builder.time;
         this.kcalPerMin = builder.kcalPerMin;
         this.kcal = builder.kcal;
+        this.notepad = builder.notepad;
     }
 
     public int getId()
@@ -50,7 +54,7 @@ public class Training extends ArrayList
 
     public String getName()
     {
-        return name;
+        return StringConverter.toUpperFirstLetter(name);
     }
 
     public int getRestTime()
@@ -98,6 +102,11 @@ public class Training extends ArrayList
         return kcal;
     }
 
+    public String getNotepad()
+    {
+        return notepad;
+    }
+
     @Override
     public String toString()
     {
@@ -119,6 +128,8 @@ public class Training extends ArrayList
         private int time;
         private String kcalPerMin;
         private double kcal;
+        private String notepad;
+
         public Builder viewType(int viewType)
         {
             this.viewType = viewType;
@@ -182,6 +193,13 @@ public class Training extends ArrayList
         public Builder kcal(double kcal)
         {
             this.kcal = kcal;
+            return this;
+        }
+
+
+        public Builder notepad(String notepad)
+        {
+            this.notepad = notepad;
             return this;
         }
 
