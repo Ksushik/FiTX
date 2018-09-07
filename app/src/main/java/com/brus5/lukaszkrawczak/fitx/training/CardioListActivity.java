@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
+import com.brus5.lukaszkrawczak.fitx.IPreviousActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
@@ -29,7 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class CardioListActivity extends AppCompatActivity implements IDefaultView
+public class CardioListActivity extends AppCompatActivity implements IDefaultView, IPreviousActivity
 {
     private static final String TAG = "CardioListActivity";
     private ArrayList<Training> list = new ArrayList<>();
@@ -51,7 +52,7 @@ public class CardioListActivity extends AppCompatActivity implements IDefaultVie
         onListViewItemSelected();
     }
 
-    private void getIntentFromPreviousActiity()
+    public void getIntentFromPreviousActiity()
     {
         Intent intent = getIntent();
         dateFormat = intent.getStringExtra("dateFormat");

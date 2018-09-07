@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
+import com.brus5.lukaszkrawczak.fitx.IPreviousActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStamp;
@@ -50,7 +51,7 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_UPDATE;
  * moving SeekBar.
  */
 @SuppressLint("SimpleDateFormat")
-public class CardioDetailsActivity extends AppCompatActivity implements IDefaultView
+public class CardioDetailsActivity extends AppCompatActivity implements IDefaultView, IPreviousActivity
 {
     private static final String TAG = "CardioDetailsActivity";
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -72,7 +73,8 @@ public class CardioDetailsActivity extends AppCompatActivity implements IDefault
         loadDefaultView();
         getIntentFromPreviousActiity();
 
-        getPreviousActivity(previousActivity);
+        startProvider(previousActivity);
+
         final String url = SERVER_URL + "images/cardio/" + trainingID + ".jpg";
         Log.d(TAG, "url: " + url);
         new ImageLoader(CardioDetailsActivity.this, R.id.imageViewCardio, R.id.progressBarCardioDetails, url);
@@ -184,7 +186,8 @@ public class CardioDetailsActivity extends AppCompatActivity implements IDefault
         activityView.showBackButton();
     }
 
-    private void getIntentFromPreviousActiity()
+    @Override
+    public void getIntentFromPreviousActiity()
     {
         Intent intent = getIntent();
         trainingID = intent.getIntExtra("trainingID", -1);
@@ -206,7 +209,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements IDefault
         else return this.trainingTimeStamp;
     }
 
-    private void getPreviousActivity(String previousActivity)
+    public void startProvider(String previousActivity)
     {
         if (previousActivity.equals(TrainingActivity.class.getSimpleName()))
         {
@@ -217,7 +220,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements IDefault
         {
             new Provider(CardioDetailsActivity.this, CardioDetailsActivity.this).load(String.valueOf(trainingID));
         }
-
     }
 
     private int setOnCheckedChangeListener()

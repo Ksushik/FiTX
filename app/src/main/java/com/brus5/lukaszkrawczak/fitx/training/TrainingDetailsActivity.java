@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
+import com.brus5.lukaszkrawczak.fitx.IPreviousActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStamp;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
@@ -51,7 +52,7 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_DELETE;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_INSERT;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_UPDATE;
 
-public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener, IDefaultView
+public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener, IDefaultView, IPreviousActivity
 {
     private static final String TAG = "TrainingDetailsA";
     @SuppressLint("SimpleDateFormat")
@@ -84,7 +85,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
         timer = new TimerGym(TrainingDetailsActivity.this, TrainingDetailsActivity.this);
         timer.seekbar();
-        getPreviousActivity(previousActivity);
+        startProvider(previousActivity);
         characterLimit = new CharacterLimit(etNotepad, tvCharsLeft, 280);
         etNotepad.addTextChangedListener(characterLimit);
     }
@@ -236,7 +237,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private void getPreviousActivity(String previousActivity)
+    private void startProvider(String previousActivity)
     {
         if (previousActivity.equals( TrainingActivity.class.getSimpleName() ))
         {
@@ -250,6 +251,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         }
     }
 
+    @Override
     public void loadInput()
     {
         checkBox = findViewById(R.id.checkBox);
@@ -272,7 +274,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         activityView.showBackButton();
     }
 
-    private void getIntentFromPreviousActiity()
+    @Override
+    public void getIntentFromPreviousActiity()
     {
         Intent intent = getIntent();
         trainingID = intent.getIntExtra("trainingID", -1);
