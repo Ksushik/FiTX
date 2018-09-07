@@ -3,6 +3,7 @@ package com.brus5.lukaszkrawczak.fitx.training;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,6 +18,8 @@ import com.brus5.lukaszkrawczak.fitx.R;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class TrainingInflater
 {

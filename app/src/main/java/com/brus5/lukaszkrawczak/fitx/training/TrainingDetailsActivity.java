@@ -53,7 +53,6 @@ import java.util.Map;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_DELETE;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_INSERT;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_UPDATE;
-
 public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener, IDefaultView, IPreviousActivity
 {
     private static final String TAG = "TrainingDetailsA";
@@ -65,10 +64,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private EditText etNotepad;
     private TextView tvName, tvCharsLeft;
     private CheckBox checkBox;
-    private TrainingInflater inflater = new TrainingInflater(TrainingDetailsActivity.this);
     private TimerGym timer;
     private CharacterLimit characterLimit;
     private ScrollView scrollView;
+
+    private static TrainingInflater inflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,10 +84,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         new ImageLoader(TrainingDetailsActivity.this, R.id.imageViewTraining, R.id.progressBarTrainingDetailsL, urlL);
         new ImageLoader(TrainingDetailsActivity.this, R.id.imageViewTraining1, R.id.progressBarTrainingDetailsR, urlR);
 
-
         startProvider(previousActivity);
         characterLimit = new CharacterLimit(etNotepad, tvCharsLeft, 280);
         etNotepad.addTextChangedListener(characterLimit);
+
+        inflater = new TrainingInflater(TrainingDetailsActivity.this);
     }
 
     @Override
@@ -132,6 +133,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
                     service.post(params, URL_TRAINING_UPDATE);
 
+                    // Need to attribute inflater to null for Garbage Collector to beign eligable
+                    inflater = null;
+
                     finish();
                 }
 
@@ -153,6 +157,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
                     service.post(params, URL_TRAINING_INSERT);
 
+                    // Need to attribute inflater to null for Garbage Collector to beign eligable
+                    inflater = null;
                     finish();
                 }
                 else
@@ -172,7 +178,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 params.put(RestAPI.DB_EXERCISE_DATE, getTimeStamp());
 
                 service.post(params, URL_TRAINING_DELETE);
-
 
                 finish();
                 break;
@@ -255,7 +260,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         else if (previousActivity.equals( TrainingListActivity.class.getSimpleName() ))
         {
 //            getTrainingNameAsynch(TrainingDetailsActivity.this);
-            timer.seekBar.setProgress(5);
+//            timer.seekBar.setProgress(5);
         }
     }
 
@@ -518,6 +523,13 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         builder.setTitle(R.string.description).setPositiveButton("Close", null).setMessage(string).show();
     }
 
+    /**
+     * This is Async Method. It's responsible for filling data from
+     * another Thread to Main Thread.
+     * @param activity actual Activity
+     * @param context actual Context
+     * @param t Training object
+     */
     public void load(Activity activity, Context context, Training t)
     {
         tvName = activity.findViewById(R.id.textViewExerciseName);
@@ -529,11 +541,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
         onTrainingChangerListener(context,t.getDone());
 
-        inflater = new TrainingInflater(context);
-
         inflater.setReps(t.getReps());
         inflater.setWeight(t.getWeight());
-        TrainingDetailsActivity.this.seriesGenerator(t.getSets());
+        seriesGenerator(t.getSets());
 
 
         timer = new TimerGym(activity, context);
