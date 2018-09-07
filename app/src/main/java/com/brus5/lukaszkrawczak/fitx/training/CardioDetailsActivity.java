@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.DefaultView;
+import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStamp;
@@ -50,7 +50,7 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_UPDATE;
  * moving SeekBar.
  */
 @SuppressLint("SimpleDateFormat")
-public class CardioDetailsActivity extends AppCompatActivity implements DefaultView
+public class CardioDetailsActivity extends AppCompatActivity implements IDefaultView
 {
     private static final String TAG = "CardioDetailsActivity";
     private String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -163,7 +163,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements DefaultV
         return super.onCreateOptionsMenu(menu);
     }
 
-
+    @Override
     public void loadInput()
     {
         tvName = findViewById(R.id.textViewCardioName);

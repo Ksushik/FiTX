@@ -18,7 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.DefaultView;
+import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TrainingListActivity extends AppCompatActivity implements DefaultView
+public class TrainingListActivity extends AppCompatActivity implements IDefaultView
 {
     private static final String TAG = "TrainingListActivity";
     private ArrayList<Training> trainingSearchArrayList = new ArrayList<>();

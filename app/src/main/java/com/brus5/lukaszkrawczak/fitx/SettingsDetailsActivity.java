@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 
-public class SettingsDetailsActivity extends AppCompatActivity implements DefaultView
+public class SettingsDetailsActivity extends AppCompatActivity implements IDefaultView
 {
 
     @Override

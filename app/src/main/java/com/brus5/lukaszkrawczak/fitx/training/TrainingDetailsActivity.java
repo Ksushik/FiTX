@@ -24,7 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.brus5.lukaszkrawczak.fitx.DefaultView;
+import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStamp;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
@@ -51,7 +51,7 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_DELETE;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_INSERT;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_UPDATE;
 
-public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
+public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener, IDefaultView
 {
     private static final String TAG = "TrainingDetailsA";
     @SuppressLint("SimpleDateFormat")

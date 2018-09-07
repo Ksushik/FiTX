@@ -23,7 +23,7 @@ import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsActiviy extends AppCompatActivity implements DefaultView
+public class SettingsActiviy extends AppCompatActivity implements IDefaultView
 {
     private DateGenerator cfg = new DateGenerator();
     private ArrayList<Settings> list = new ArrayList<>();

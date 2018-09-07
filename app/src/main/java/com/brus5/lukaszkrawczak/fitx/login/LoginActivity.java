@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.DefaultView;
+import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginNormalDTO;
@@ -42,7 +42,7 @@ import java.security.NoSuchAlgorithmException;
 
 import static com.facebook.Profile.getCurrentProfile;
 
-public class LoginActivity extends AppCompatActivity implements DefaultView
+public class LoginActivity extends AppCompatActivity implements IDefaultView
 {
     private static final String TAG = "LoginActivity";
     protected AccessTokenTracker tokenTracker;

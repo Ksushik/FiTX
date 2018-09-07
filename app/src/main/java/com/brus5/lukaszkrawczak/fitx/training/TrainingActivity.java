@@ -11,14 +11,14 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.brus5.lukaszkrawczak.fitx.DefaultView;
+import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.MyCalendar;
 
-public class TrainingActivity extends AppCompatActivity implements DefaultView
+public class TrainingActivity extends AppCompatActivity implements IDefaultView
 {
     TextView tvDate;
     ListView listView;

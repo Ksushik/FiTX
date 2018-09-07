@@ -16,14 +16,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.brus5.lukaszkrawczak.fitx.DefaultView;
+import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 
 import java.util.ArrayList;
 
-public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
+public class TrainingSearchActivity extends AppCompatActivity implements View.OnClickListener, IDefaultView
 {
     private static final String TAG = "TrainingSearchActivity";
     private ImageView imageViewBodyBack, imageViewBodyFront;

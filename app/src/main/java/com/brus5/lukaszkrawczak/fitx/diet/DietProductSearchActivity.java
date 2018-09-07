@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.brus5.lukaszkrawczak.fitx.DefaultView;
+import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
@@ -22,7 +22,7 @@ import java.util.TimerTask;
 
 @SuppressLint("LongLogTag")
 
-public class DietProductSearchActivity extends AppCompatActivity implements DefaultView
+public class DietProductSearchActivity extends AppCompatActivity implements IDefaultView
 {
     private static final String TAG = "DietProductSearchActivity";
     private String dateFormat;

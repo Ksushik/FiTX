@@ -20,7 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.DefaultView;
+import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStamp;
@@ -57,7 +57,7 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_UPDAT
  */
 
 @SuppressLint("LongLogTag")
-public class DietProductDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DefaultView
+public class DietProductDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, IDefaultView
 {
     private static final String TAG = "DietProductDetailsActivity";
     @SuppressLint("SimpleDateFormat")

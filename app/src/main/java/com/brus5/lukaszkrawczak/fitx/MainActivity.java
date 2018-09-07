@@ -26,7 +26,7 @@ import com.brus5.lukaszkrawczak.fitx.utils.MyCalendar;
  * XML FILE: <link>activity_main.xml</link>
  */
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, DefaultView
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, IDefaultView
 {
     private Button btnDiet, btTraining, btSettings, btnStats;
     private ListView listView;
