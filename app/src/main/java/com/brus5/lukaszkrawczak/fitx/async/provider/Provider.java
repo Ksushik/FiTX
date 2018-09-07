@@ -63,6 +63,9 @@ public class Provider
             case "CardioDetailsActivity":
                 new CardioDetailsActivityProvider(activity, context, listView, s);
                 break;
+            case "TrainingDetailsActivity":
+                new TrainingDetailsActivityProvider(activity, context, s);
+                break;
         }
     }
 

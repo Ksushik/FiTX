@@ -17,6 +17,7 @@ public class Training extends ArrayList
     private int restTime;
     private String weight;
     private String reps;
+    private int sets;
     private String timeStamp;
     private String target;
     private int time;
@@ -40,6 +41,7 @@ public class Training extends ArrayList
         this.kcalPerMin = builder.kcalPerMin;
         this.kcal = builder.kcal;
         this.notepad = builder.notepad;
+        this.sets = builder.sets;
     }
 
     public int getId()
@@ -107,6 +109,11 @@ public class Training extends ArrayList
         return notepad;
     }
 
+    public int getSets()
+    {
+        return sets;
+    }
+
     @Override
     public String toString()
     {
@@ -129,6 +136,7 @@ public class Training extends ArrayList
         private String kcalPerMin;
         private double kcal;
         private String notepad;
+        private int sets;
 
         public Builder viewType(int viewType)
         {
@@ -200,6 +208,13 @@ public class Training extends ArrayList
         public Builder notepad(String notepad)
         {
             this.notepad = notepad;
+            return this;
+        }
+
+
+        public Builder sets(int sets)
+        {
+            this.sets = sets;
             return this;
         }
 
