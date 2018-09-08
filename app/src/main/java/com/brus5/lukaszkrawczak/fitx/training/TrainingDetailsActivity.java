@@ -38,7 +38,6 @@ import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
 import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
-import com.brus5.lukaszkrawczak.fitx.utils.StringConverter;
 import com.brus5.lukaszkrawczak.fitx.validator.CharacterLimit;
 
 import org.json.JSONArray;
@@ -53,6 +52,18 @@ import java.util.Map;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_DELETE;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_INSERT;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_UPDATE;
+
+/**
+ * In this class user can configure specific gym exercise where he can:
+ * - see two images: concentrinc movment, excentric movment
+ * - add next serie of exercise and add in each row number of repetitions and
+ *   weight.
+ * - configure timer and user also can start, pause and reset that timer
+ * - write thoughts in notepad
+ * - read "how to train" in the exercise description
+ * - user can save or modify specific exercise
+ * - user can delete exercise
+ */
 public class TrainingDetailsActivity extends AppCompatActivity implements View.OnClickListener, IDefaultView, IPreviousActivity
 {
     private static final String TAG = "TrainingDetailsA";
@@ -67,8 +78,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private CharacterLimit characterLimit;
     private ScrollView scrollView;
 
-    private static TrainingInflater inflater;
-    private static TimerGym timer;
+    @SuppressLint("StaticFieldLeak")
+    private static TrainingInflater INFLATER;
+    @SuppressLint("StaticFieldLeak")
+    private static TimerGym TIMER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -77,8 +90,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_training_4_details);
         loadInput();
         loadDefaultView();
-
         getIntentFromPreviousActiity();
+
         String urlL = RestAPI.SERVER_URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_2" + ".jpg";
         String urlR = RestAPI.SERVER_URL + "images/exercises/" + trainingTarget + "/" + trainingID + "_1" + ".jpg";
         new ImageLoader(TrainingDetailsActivity.this, R.id.imageViewTraining, R.id.progressBarTrainingDetailsL, urlL);
@@ -90,18 +103,28 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
         Log.i(TAG, "onCreate: trainingID: " + trainingID);
 
-        inflater = new TrainingInflater(TrainingDetailsActivity.this);
-        timer = new TimerGym(TrainingDetailsActivity.this, TrainingDetailsActivity.this);
+        INFLATER = new TrainingInflater(TrainingDetailsActivity.this);
+        TIMER = new TimerGym(TrainingDetailsActivity.this, TrainingDetailsActivity.this);
     }
 
+    /**
+     *  Destroy object by Garbage Collector after Stop Activity
+     */
     @Override
     protected void onStop()
     {
         super.onStop();
-        timer = null;
-        inflater = null;
+        TIMER = null;
+        INFLATER = null;
     }
 
+    /**
+     * (Fragments provide their own onCreateOptionsMenu() callback).
+     * In this method, you can inflate your menu resource (defined in XML)
+     * into the Menu provided in the callback.
+     * @param menu menu
+     * @return initialize the contents of the Activity's standard options menu.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -117,16 +140,24 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         {
             item.setVisible(true);
         }
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
+    /**
+     * When you add items to the menu, you can implement the Activity's
+     * onOptionsItemSelected(MenuItem) method to handle them there.
+     * @param item Interface for direct access to a previously created menu item.
+     * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())
         {
+            // save exercise where user entered all needed data into the rows
             case R.id.menu_save_exercise:
-                if (previousActivity.equals( TrainingActivity.class.getSimpleName() ) && ( inflater.isValid()) && characterLimit.isLimit() )
+                // update
+                if (previousActivity.equals( TrainingActivity.class.getSimpleName() ) && ( INFLATER.isValid()) && characterLimit.isLimit() )
                 {
                     Toast.makeText(this, R.string.training_updated, Toast.LENGTH_SHORT).show();
 
@@ -134,10 +165,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
                     HashMap<String, String> params = new HashMap<>();
                     params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
-                    params.put(RestAPI.DB_EXERCISE_DONE, String.valueOf(setOnCheckedChangeListener()));
+                    params.put(RestAPI.DB_EXERCISE_DONE, String.valueOf(getChecked()));
                     params.put(RestAPI.DB_EXERCISE_REST_TIME, String.valueOf(Timer.START_TIME_IN_MILLIS));
-                    params.put(RestAPI.DB_EXERCISE_REPS, inflater.getReps());
-                    params.put(RestAPI.DB_EXERCISE_WEIGHT, inflater.getWeight());
+                    params.put(RestAPI.DB_EXERCISE_REPS, INFLATER.getReps());
+                    params.put(RestAPI.DB_EXERCISE_WEIGHT, INFLATER.getWeight());
                     params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
                     params.put(RestAPI.DB_EXERCISE_NOTEPAD, etNotepad.getText().toString());
                     params.put(RestAPI.DB_EXERCISE_DATE, newTimeStamp);
@@ -145,13 +176,14 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     service.post(params, URL_TRAINING_UPDATE);
 
                     // Need to attribute inflater to null for Garbage Collector to beign eligable
-                    inflater = null;
-                    timer = null;
+                    INFLATER = null;
+                    INFLATER = null;
 
                     finish();
                 }
 
-                else if (previousActivity.equals( TrainingListActivity.class.getSimpleName() ) && (inflater.isValid()) && characterLimit.isLimit() )
+                // save
+                else if (previousActivity.equals( TrainingListActivity.class.getSimpleName() ) && (INFLATER.isValid()) && characterLimit.isLimit() )
                 {
                     Toast.makeText(this, R.string.training_inserted, Toast.LENGTH_SHORT).show();
 
@@ -159,10 +191,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
                     HashMap<String, String> params = new HashMap<>();
                     params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
-                    params.put(RestAPI.DB_EXERCISE_DONE, String.valueOf(setOnCheckedChangeListener()));
+                    params.put(RestAPI.DB_EXERCISE_DONE, String.valueOf(getChecked()));
                     params.put(RestAPI.DB_EXERCISE_REST_TIME, String.valueOf(Timer.START_TIME_IN_MILLIS));
-                    params.put(RestAPI.DB_EXERCISE_REPS, inflater.getReps());
-                    params.put(RestAPI.DB_EXERCISE_WEIGHT, inflater.getWeight());
+                    params.put(RestAPI.DB_EXERCISE_REPS, INFLATER.getReps());
+                    params.put(RestAPI.DB_EXERCISE_WEIGHT, INFLATER.getWeight());
                     params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
                     params.put(RestAPI.DB_EXERCISE_NOTEPAD, etNotepad.getText().toString());
                     params.put(RestAPI.DB_EXERCISE_DATE, newTimeStamp);
@@ -170,8 +202,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     service.post(params, URL_TRAINING_INSERT);
 
                     // Need to attribute inflater to null for Garbage Collector to beign eligable
-                    inflater = null;
-                    timer = null;
+                    INFLATER = null;
+                    INFLATER = null;
                     finish();
                 }
                 else
@@ -180,6 +212,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     cfg.showError(TrainingDetailsActivity.this);
                 }
                 break;
+
+            // delete exercise
             case R.id.menu_delete_exercise:
                 Toast.makeText(this, R.string.training_deleted, Toast.LENGTH_SHORT).show();
 
@@ -195,7 +229,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 finish();
                 break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
 
@@ -214,11 +248,9 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
     private void onTrainingChangerListener(Context context, int i)
     {
-//        setOnCheckedChangeListener();
-
         checkBox = ((Activity)context).findViewById(R.id.checkBox);
 
-
+        setOnCheckedChangeListener();
 
         if (i == 0)
         {
@@ -232,7 +264,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private int setOnCheckedChangeListener()
+
+    private void setOnCheckedChangeListener()
     {
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
@@ -249,7 +282,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 }
             }
         });
+    }
 
+
+    private int getChecked()
+    {
         if (checkBox.isChecked())
         {
             return 1;
@@ -260,6 +297,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         }
     }
 
+    /**
+     * This method is responsible to start Providing data from DB
+     * @param previousActivity previous activity in String
+     */
     private void startProvider(String previousActivity)
     {
         if (previousActivity.equals( TrainingActivity.class.getSimpleName() ))
@@ -315,17 +356,24 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         else return this.trainingTimeStamp;
     }
 
+    /**
+     * Automatic serie generator
+     * @param seriesNumber how many series has been saved
+     */
     private void seriesGenerator(int seriesNumber)
     {
         for (int i = 0; i < seriesNumber; i++)
         {
-            linearLayout.addView(inflater.trainingSetGenerator());
+            linearLayout.addView(INFLATER.trainingSetGenerator());
         }
     }
 
+    /**
+     * Creating new serie of gym exercise
+     */
     private void nextSerie()
     {
-        linearLayout.addView(inflater.trainingSetGenerator());
+        linearLayout.addView(INFLATER.trainingSetGenerator());
     }
 
     private void getTrainingDescAsynch(final Context context)
@@ -379,6 +427,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         queue.add(strRequest);
     }
 
+    /**
+     * Method with button responsibilities
+     * @param view actual view
+     */
     @Override
     public void onClick(View view)
     {
@@ -393,6 +445,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         }
     }
 
+    /**
+     * Showing up alert dialog
+     * @param string showed value
+     */
     private void alertDialog(String string)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -417,15 +473,12 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
         onTrainingChangerListener(context,t.getDone());
 
-        inflater.setReps(t.getReps());
-        inflater.setWeight(t.getWeight());
+        INFLATER.setReps(t.getReps());
+        INFLATER.setWeight(t.getWeight());
         seriesGenerator(t.getSets());
-        timer.seekbar();
+        TIMER.seekbar();
 
-
-
-        //        timer = new TimerGym(activity, context);
-        timer.setSeekbarProgress(t.getTime());
+        TIMER.setSeekbarProgress(t.getTime());
 
 
         Log.i(TAG, "load: " + t.getSets());

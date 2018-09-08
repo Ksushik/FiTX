@@ -26,8 +26,8 @@ public class TimerGym extends Timer
         // need to set those methods because without this
         // after adding new training user wont be able to
         // turn on timer
-        seekBar.setProgress(1);
-        setTimer(1);
+        seekBar.setProgress(3);
+        setTimer(3);
         resetTimer();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
