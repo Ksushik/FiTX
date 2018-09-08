@@ -27,6 +27,7 @@ public class RestAPI
     public static final String URL_DIET_PRODUCTS_SHOW_BY_USER = DIET + "ShowByUser.php";
 
 
+    public static final String URL_TRAINING_NAME = TRAINING + "ShowName.php";
     public static final String URL_TRAINING_DETAILS = TRAINING + "ShowTrainingDetails.php";
     public static final String URL_TRAINING_SHOW = TRAINING + "ShowByUser.php";
     public static final String URL_TRAINING_SHOW_SHORT = TRAINING + "ShowByUserShort.php";

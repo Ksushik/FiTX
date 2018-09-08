@@ -69,6 +69,16 @@ public class Provider
         }
     }
 
+    public void load(final String s, final boolean isNew)
+    {
+        switch (context.getClass().getSimpleName())
+        {
+            case "TrainingDetailsActivity":
+                new TrainingDetailsActivityProvider(activity, context, s, isNew);
+                break;
+        }
+    }
+
     /**
      * This method load proper class with String param as one of communicators with HTTPService
      *

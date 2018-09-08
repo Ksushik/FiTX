@@ -64,11 +64,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private EditText etNotepad;
     private TextView tvName, tvCharsLeft;
     private CheckBox checkBox;
-    private TimerGym timer;
     private CharacterLimit characterLimit;
     private ScrollView scrollView;
 
     private static TrainingInflater inflater;
+    private static TimerGym timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -88,7 +88,18 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         characterLimit = new CharacterLimit(etNotepad, tvCharsLeft, 280);
         etNotepad.addTextChangedListener(characterLimit);
 
+        Log.i(TAG, "onCreate: trainingID: " + trainingID);
+
         inflater = new TrainingInflater(TrainingDetailsActivity.this);
+        timer = new TimerGym(TrainingDetailsActivity.this, TrainingDetailsActivity.this);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        timer = null;
+        inflater = null;
     }
 
     @Override
@@ -135,6 +146,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
                     // Need to attribute inflater to null for Garbage Collector to beign eligable
                     inflater = null;
+                    timer = null;
 
                     finish();
                 }
@@ -159,6 +171,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
                     // Need to attribute inflater to null for Garbage Collector to beign eligable
                     inflater = null;
+                    timer = null;
                     finish();
                 }
                 else
@@ -251,16 +264,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     {
         if (previousActivity.equals( TrainingActivity.class.getSimpleName() ))
         {
-//            getUserTrainingDetailsAsynch(TrainingDetailsActivity.this);
-
             new Provider(TrainingDetailsActivity.this,TrainingDetailsActivity.this).load(String.valueOf(trainingID));
-
-//            getTrainingNameAsynch(TrainingDetailsActivity.this);
         }
         else if (previousActivity.equals( TrainingListActivity.class.getSimpleName() ))
         {
-//            getTrainingNameAsynch(TrainingDetailsActivity.this);
-//            timer.seekBar.setProgress(5);
+            new Provider(TrainingDetailsActivity.this, TrainingDetailsActivity.this).load(String.valueOf(trainingID),true);
         }
     }
 
@@ -319,138 +327,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     {
         linearLayout.addView(inflater.trainingSetGenerator());
     }
-
-//    private void getUserTrainingDetailsAsynch(final Context ctx)
-//    {
-//        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_SHOW, new Response.Listener<String>()
-//        {
-//            @Override
-//            public void onResponse(String response)
-//            {
-//                try
-//                {
-//                    JSONObject jsonObject = new JSONObject(response);
-//                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-//
-//                    int done = 0;
-//                    String rest = "";
-//                    String reps;
-//                    String weight;
-//                    String notepad = "";
-//
-//                    String exerciseName = "";
-//
-//                    JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-//
-//                    for (int i = 0; i < jsonArray.length(); i++)
-//                    {
-//                        JSONObject object = jsonArray.getJSONObject(i);
-//                        exerciseName = object.getString(RestAPI.DB_EXERCISE_NAME);
-//                    }
-//
-//
-//                    JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
-//
-//                    for (int i = 0; i < trainings_info.length(); i++)
-//                    {
-//                        JSONObject tr_info = trainings_info.getJSONObject(i);
-//                        done = tr_info.getInt(RestAPI.DB_EXERCISE_DONE);
-//                        rest = tr_info.getString(RestAPI.DB_EXERCISE_REST_TIME);
-//                        reps = tr_info.getString(RestAPI.DB_EXERCISE_REPS);
-//                        weight = tr_info.getString(RestAPI.DB_EXERCISE_WEIGHT);
-//                        notepad = tr_info.getString(RestAPI.DB_EXERCISE_NOTEPAD);
-//
-//                        String mReps = reps.replaceAll("\\p{Punct}", " ");
-//                        String[] mReps_table = mReps.split("\\s+");
-//
-//                        inflater.setReps(reps);
-//                        inflater.setWeight(weight);
-//
-//                        TrainingDetailsActivity.this.seriesGenerator(mReps_table.length);
-//                    }
-//
-//
-//                    tvName.setText(StringConverter.toUpperFirstLetter(exerciseName));
-//                    TrainingDetailsActivity.this.onTrainingChangerListener(done);
-//                    etNotepad.setText(notepad);
-//                    timer.setSeekbarProgress(Integer.valueOf(rest));
-//                    Log.d(TAG, "rest: " + rest);
-//
-//                } catch (JSONException e)
-//                {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener()
-//        {
-//            @Override
-//            public void onErrorResponse(VolleyError error)
-//            {
-//                Toast.makeText(ctx, R.string.connection_error, Toast.LENGTH_SHORT).show();
-//                Log.e(TAG, "onErrorResponse: Error" + error);
-//            }
-//        })
-//        {
-//            @Override
-//            protected Map<String, String> getParams()
-//            {
-//                HashMap<String, String> params = new HashMap<>();
-//                params.put(RestAPI.DB_EXERCISE_DATE,            trainingTimeStamp);
-//                params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY,   String.valueOf(SaveSharedPreference.getUserID(ctx)));
-//                return params;
-//            }
-//        };
-//        RequestQueue queue = Volley.newRequestQueue(ctx);
-//        queue.add(strRequest);
-//    }
-
-//    private void getTrainingNameAsynch(final Context ctx)
-//    {
-//        StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_DETAILS, new Response.Listener<String>()
-//        {
-//            @Override
-//            public void onResponse(String response)
-//            {
-//                try
-//                {
-//                    JSONObject jsonObject = new JSONObject(response);
-//                    Log.d(TAG, "onResponse: " + jsonObject.toString(1));
-//                    String name = "";
-//                    JSONArray server_response = jsonObject.getJSONArray("server_response");
-//                    for (int i = 0; i < server_response.length(); i++)
-//                    {
-//                        JSONObject object = server_response.getJSONObject(0);
-//                        name = object.getString(RestAPI.DB_EXERCISE_NAME);
-//                    }
-//
-//                    tvName.setText(StringConverter.toUpperFirstLetter(name));
-//
-//                } catch (JSONException e)
-//                {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener()
-//        {
-//            @Override
-//            public void onErrorResponse(VolleyError error)
-//            {
-//                Toast.makeText(ctx, R.string.connection_error, Toast.LENGTH_SHORT).show();
-//                Log.e(TAG, "onErrorResponse: Error" + error);
-//            }
-//        })
-//        {
-//            @Override
-//            protected Map<String, String> getParams()
-//            {
-//                HashMap<String, String> params = new HashMap<>();
-//                params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
-//                return params;
-//            }
-//        };
-//        RequestQueue queue = Volley.newRequestQueue(ctx);
-//        queue.add(strRequest);
-//    }
 
     private void getTrainingDescAsynch(final Context context)
     {
@@ -544,10 +420,11 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         inflater.setReps(t.getReps());
         inflater.setWeight(t.getWeight());
         seriesGenerator(t.getSets());
-
-
-        timer = new TimerGym(activity, context);
         timer.seekbar();
+
+
+
+        //        timer = new TimerGym(activity, context);
         timer.setSeekbarProgress(t.getTime());
 
 

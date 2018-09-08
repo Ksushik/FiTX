@@ -47,6 +47,22 @@ class TrainingDetailsActivityProvider extends Provider
     }
 
 
+    @SuppressLint("LongLogTag")
+    TrainingDetailsActivityProvider(Activity activity, Context context, String trainingID, boolean isNew)
+    {
+        super(activity, context);
+
+        // Glueing SERVER_URL with variables
+        String params = "?id=" + trainingID;
+
+        Log.d(TAG, "TrainingActivityProvider: " + params);
+
+        // Starting AsyncTask after completing up SERVER_URL+params
+        // This method is in Provider.class
+        startHTTPService(URL, params);
+    }
+
+
     /**
      * This method start AsyncTask after completing SERVER_URL + params
      * This method is in Provider.class

@@ -23,6 +23,13 @@ public class TimerGym extends Timer
     @Override
     public void seekbar()
     {
+        // need to set those methods because without this
+        // after adding new training user wont be able to
+        // turn on timer
+        seekBar.setProgress(1);
+        setTimer(1);
+        resetTimer();
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
             @Override
