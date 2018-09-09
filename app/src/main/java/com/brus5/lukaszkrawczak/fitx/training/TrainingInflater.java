@@ -40,12 +40,24 @@ public class TrainingInflater
         this.ctx = ctx;
     }
 
+    /**
+     * This method is responsible for generating new rows in TrainingDetailsActivity
+     * @return View of the generated method
+     */
     public View trainingSetGenerator()
     {
+        // You can trace the LayoutInflater returned by getLayoutInflater() to LayoutInflater.from()
+        // and you can see this is just a shortcut for getSystemService()
         LayoutInflater layoutInflater = (LayoutInflater) this.ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        @SuppressLint("InflateParams") final View addView = layoutInflater.inflate(R.layout.row_training_details_add, null);
+
+        // Inflate a new view hierarchy from the specified xml resource. Throws
+        // where null is the parent layout where you want to add a child layout.
+        final View addView = layoutInflater.inflate(R.layout.row_training_details_add, null);
+
+        // Finding Views from addView
         TextView textViewTrainingDetailsID = addView.findViewById(R.id.textViewTrainingDetailsID);
 
+        // Adding EditText responsible for Reps
         final EditText editTextTrainingRowReps = addView.findViewById(R.id.editTextTrainingRowReps);
         editTextTrainingRowReps.addTextChangedListener(new TextWatcher()
         {
@@ -83,6 +95,7 @@ public class TrainingInflater
             }
         });
 
+        // Adding EditText responsible for Weight
         final EditText editTextTrainingRowWeight = addView.findViewById(R.id.editTextTrainingRowWeight);
         editTextTrainingRowWeight.addTextChangedListener(new TextWatcher()
         {
@@ -125,7 +138,7 @@ public class TrainingInflater
             }
         });
 
-
+        // Adding Delete Button responsible for deleting actual View
         Button buttonRemove = addView.findViewById(R.id.buttonTrainingRowRemove);
         buttonRemove.setOnClickListener(new View.OnClickListener()
         {

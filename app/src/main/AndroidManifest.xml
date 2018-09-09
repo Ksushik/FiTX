@@ -64,7 +64,7 @@
         <activity
             android:name=".training.TrainingDetailsActivity"
             android:label="@string/fitx"
-            android:parentActivityName=".training.TrainingActivity"
+            android:parentActivityName=".training.TrainingSearchActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
             android:name=".training.TrainingSearchActivity"

@@ -101,8 +101,6 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         characterLimit = new CharacterLimit(etNotepad, tvCharsLeft, 280);
         etNotepad.addTextChangedListener(characterLimit);
 
-        Log.i(TAG, "onCreate: trainingID: " + trainingID);
-
         INFLATER = new TrainingInflater(TrainingDetailsActivity.this);
         TIMER = new TimerGym(TrainingDetailsActivity.this, TrainingDetailsActivity.this);
     }
@@ -116,6 +114,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         super.onStop();
         TIMER = null;
         INFLATER = null;
+        Log.d(TAG, "onStop() called");
     }
 
     /**
@@ -140,23 +139,23 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         {
             item.setVisible(true);
         }
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     /**
      * When you add items to the menu, you can implement the Activity's
      * onOptionsItemSelected(MenuItem) method to handle them there.
      * @param item Interface for direct access to a previously created menu item.
-     * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
+     * @return boolean Return item selected
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())
         {
-            // save exercise where user entered all needed data into the rows
+            // Save exercise where user entered all needed data into the rows
             case R.id.menu_save_exercise:
-                // update
+                // Update exercise
                 if (previousActivity.equals( TrainingActivity.class.getSimpleName() ) && ( INFLATER.isValid()) && characterLimit.isLimit() )
                 {
                     Toast.makeText(this, R.string.training_updated, Toast.LENGTH_SHORT).show();
@@ -182,7 +181,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     finish();
                 }
 
-                // save
+                // Save exercise
                 else if (previousActivity.equals( TrainingListActivity.class.getSimpleName() ) && (INFLATER.isValid()) && characterLimit.isLimit() )
                 {
                     Toast.makeText(this, R.string.training_inserted, Toast.LENGTH_SHORT).show();
@@ -213,7 +212,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 }
                 break;
 
-            // delete exercise
+            // Delete exercise
             case R.id.menu_delete_exercise:
                 Toast.makeText(this, R.string.training_deleted, Toast.LENGTH_SHORT).show();
 
@@ -229,25 +228,17 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 finish();
                 break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
 
-
-//    private String getTimeStamp()
-//    {
-//        if (previousActivity.equals(TrainingActivity.class.getSimpleName()))
-//        {
-//            Log.d(TAG, "getTimeStamp() called" + "trainingTimeStamp: " +  trainingTimeStamp);
-//            return trainingTimeStamp;
-//        }
-//        else
-//        {
-//            Log.d(TAG, "getTimeStamp() called" + "timeStamp: " +  timeStamp);
-//            return timeStamp;
-//        }
-//    }
-
+    /**
+     * Setting checkbox with automatically setted value:
+     * - 0 - for not trained
+     * - 1 - for trained
+     * @param context actual context
+     * @param i value of trained or not trained
+     */
     private void onTrainingChangerListener(Context context, int i)
     {
         checkBox = ((Activity)context).findViewById(R.id.checkBox);
@@ -267,6 +258,12 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     }
 
 
+    /**
+     * Loading setOnCheckedChangeListener to actual checkBox
+     * Here user can see value of CheckBox with values:
+     * - not trained
+     * - trained
+     */
     private void setOnCheckedChangeListener()
     {
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
@@ -287,6 +284,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     }
 
 
+    /**
+     * Getting checkbox checked
+     * @return 1 for trained, 0 for not trained
+     */
     private int getChecked()
     {
         if (checkBox.isChecked())
@@ -345,13 +346,23 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         trainingID = intent.getIntExtra("trainingID", -1);
         trainingTarget = intent.getStringExtra("trainingTarget");
         trainingTimeStamp = intent.getStringExtra("trainingTimeStamp");
+        // Make sure this method is below trainingTimeStamp = intent.getStringExtra("trainingTimeStamp");
         trainingTimeStamp = timeStampChanger(trainingTimeStamp);
         previousActivity = intent.getStringExtra("previousActivity");
 
+        // Make sure this method is below
         TimeStamp time = new TimeStamp(DateGenerator.getSelectedDate(), trainingTimeStamp);
         newTimeStamp = time.getNewTimeStamp();
     }
 
+    /**
+     * This method is responsible for adding value for timeStamp/
+     * if trainingTimeStamp is null then returning actual timeStamp
+     * else
+     * returning trainingTimeStamp which is attributed already.
+     * @param trainingTimeStamp training timeStamp, can be null
+     * @return changed timeStamp
+     */
     private String timeStampChanger(String trainingTimeStamp)
     {
         if (trainingTimeStamp == null) return timeStamp;
@@ -378,6 +389,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         linearLayout.addView(INFLATER.trainingSetGenerator());
     }
 
+    /**
+     * This method loading "show description text" after pressed button
+     * @param context actual context
+     */
     private void getTrainingDescAsynch(final Context context)
     {
         StringRequest strRequest = new StringRequest(Request.Method.POST, RestAPI.URL_TRAINING_DESCRIPTION, new Response.Listener<String>()
@@ -482,9 +497,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
         TIMER.setSeekbarProgress(t.getTime());
 
-
         Log.i(TAG, "load: " + t.getSets());
-
     }
 
 }
