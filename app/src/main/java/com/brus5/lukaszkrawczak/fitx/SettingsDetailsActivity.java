@@ -1,22 +1,25 @@
 package com.brus5.lukaszkrawczak.fitx;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 
-public class SettingsDetailsActivity extends AppCompatActivity implements IDefaultView
+public class SettingsDetailsActivity extends AppCompatActivity implements IDefaultView, IPreviousActivity
 {
-
+    private static final String TAG = "SettingsDetailsActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_details);
         loadInput();
         loadDefaultView();
+        getIntentFromPreviousActiity();
     }
 
     @Override
@@ -54,5 +57,16 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void getIntentFromPreviousActiity()
+    {
+        Intent intent = getIntent();
+        Log.d(TAG, "getIntentFromPreviousActiity() called viewType: " + intent.getIntExtra("viewType",-1) + "\n"
+        + " viewTitle: " + intent.getStringExtra("viewTitle")
+
+
+        );
     }
 }

@@ -45,6 +45,7 @@ public class SettingsActiviy extends AppCompatActivity implements IDefaultView
         s1.value = "100 kg";
         s1.description = "Waga wyrażona w kilogramach";
         s1.viewType = 1;
+        s1.db = "user_weight";
         list.add(s1);
 
         Settings s2 = new Settings();
@@ -52,6 +53,7 @@ public class SettingsActiviy extends AppCompatActivity implements IDefaultView
         s2.value = "180 cm";
         s2.description = "Wzrost wyrażony w centymetrach";
         s2.viewType = 1;
+        s2.db = "user_height";
         list.add(s2);
 
         Settings s3 = new Settings();
@@ -60,6 +62,26 @@ public class SettingsActiviy extends AppCompatActivity implements IDefaultView
         s3.viewType = 2;
         list.add(s3);
 
+        Settings s4 = new Settings();
+        s4.name = "Somatotyp";
+        s4.value = "+200 kcal";
+        s4.description = "Somatotyp opisujący sylwetkę";
+        s4.viewType = 1;
+        list.add(s4);
+
+        Settings s5 = new Settings();
+        s5.name = "Stosunek makroskładników";
+        s5.value = "40/30/30";
+        s5.description = "Stosunek makroskładników pozwalający ograniczyć niepotrzebne kalorie";
+        s5.viewType = 1;
+        list.add(s5);
+
+        Settings s6 = new Settings();
+        s6.name = "Cel diety";
+        s6.value = "Utrata wagi";
+        s6.description = "Jaki cel ma mieć aktualna dieta";
+        s6.viewType = 1;
+        list.add(s6);
 
 
         adapter = new SettingsAdapter(this,R.layout.row_settings,list);
@@ -93,13 +115,16 @@ public class SettingsActiviy extends AppCompatActivity implements IDefaultView
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
                 TextView tvViewType = view.findViewById(R.id.textViewSettingsViewType);
+                TextView tvViewTitle = view.findViewById(R.id.textViewTitle);
 
                 Intent intent = new Intent(SettingsActiviy.this, SettingsDetailsActivity.class);
                 intent.putExtra("viewType", Integer.valueOf(tvViewType.getText().toString()));
+                intent.putExtra("viewTitle", tvViewTitle.getText().toString());
                 SettingsActiviy.this.startActivity(intent);
             }
         });
     }
+
 
 
 
@@ -108,6 +133,7 @@ public class SettingsActiviy extends AppCompatActivity implements IDefaultView
         String name;
         String value;
         String description;
+        String db;
         int viewType;
 
         public String getName()
@@ -127,6 +153,11 @@ public class SettingsActiviy extends AppCompatActivity implements IDefaultView
         public int getViewType()
         {
             return viewType;
+        }
+
+        public String getDb()
+        {
+            return db;
         }
     }
 
@@ -153,6 +184,7 @@ public class SettingsActiviy extends AppCompatActivity implements IDefaultView
             String value = getItem(position).getValue();
             String description = getItem(position).getDescription();
             int viewType = getItem(position).getViewType();
+            String db = getItem(position).getDb();
 
             if (viewType == 1)
             {
@@ -167,6 +199,18 @@ public class SettingsActiviy extends AppCompatActivity implements IDefaultView
                 tvValue.setText(value);
                 tvDescription.setText(description);
                 tvViewType.setText(String.valueOf(viewType));
+
+                System.out.println("DB: " + db);
+
+
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        System.out.println("CLICKED");
+                    }
+                });
+
             }
 
             if (viewType == 2)
