@@ -222,7 +222,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                 HashMap<String, String> params = new HashMap<>();
                 params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
                 params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
-                params.put(RestAPI.DB_EXERCISE_DATE, getTimeStamp());
+                params.put(RestAPI.DB_EXERCISE_DATE, trainingTimeStamp);
 
                 service.post(params, URL_TRAINING_DELETE);
 
@@ -234,17 +234,19 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
 
 
 
-    private String getTimeStamp()
-    {
-        if (previousActivity.equals(TrainingActivity.class.getSimpleName()))
-        {
-            return trainingTimeStamp;
-        }
-        else
-        {
-            return timeStamp;
-        }
-    }
+//    private String getTimeStamp()
+//    {
+//        if (previousActivity.equals(TrainingActivity.class.getSimpleName()))
+//        {
+//            Log.d(TAG, "getTimeStamp() called" + "trainingTimeStamp: " +  trainingTimeStamp);
+//            return trainingTimeStamp;
+//        }
+//        else
+//        {
+//            Log.d(TAG, "getTimeStamp() called" + "timeStamp: " +  timeStamp);
+//            return timeStamp;
+//        }
+//    }
 
     private void onTrainingChangerListener(Context context, int i)
     {
