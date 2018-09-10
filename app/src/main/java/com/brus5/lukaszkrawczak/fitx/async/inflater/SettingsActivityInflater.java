@@ -1,15 +1,14 @@
-package com.brus5.lukaszkrawczak.fitx;
+package com.brus5.lukaszkrawczak.fitx.async.inflater;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -17,116 +16,44 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
-import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
+import com.brus5.lukaszkrawczak.fitx.MainRow;
+import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.SettingsActivity;
+import com.brus5.lukaszkrawczak.fitx.SettingsDetailsActivity;
+import com.brus5.lukaszkrawczak.fitx.training.TrainingInflater;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class SettingsActiviy extends AppCompatActivity implements IDefaultView
+@SuppressLint("LongLogTag")
+public class SettingsActivityInflater
 {
-    private DateGenerator cfg = new DateGenerator();
-    private ArrayList<Settings> list = new ArrayList<>();
+    private static final String TAG = "SettingsActivityInflater";
+
+    private Context context;
     private ListView listView;
-    private SettingsAdapter adapter;
+    private MainRow mainRow;
+    private MainAdapter adapter;
+    private ArrayList<MainRow> list = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public SettingsActivityInflater(Context context, ListView listView, String response)
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-        loadInput();
-        loadDefaultView();
+        this.context = context;
+        this.listView = listView;
 
-        onListViewItemSelected();
-
-        Settings s1 = new Settings();
-        s1.name = "Waga";
-        s1.value = "100 kg";
-        s1.description = "Waga wyrażona w kilogramach";
-        s1.viewType = 1;
-        s1.db = "user_weight";
-        list.add(s1);
-
-        Settings s2 = new Settings();
-        s2.name = "Wzrost";
-        s2.value = "180 cm";
-        s2.description = "Wzrost wyrażony w centymetrach";
-        s2.viewType = 1;
-        s2.db = "user_height";
-        list.add(s2);
-
-        Settings s3 = new Settings();
-        s3.name = "Automatyczny limit kalorii";
-        s3.description = "Włącz lub wyłącz auto limit kalorii";
-        s3.viewType = 2;
-        list.add(s3);
-
-        Settings s4 = new Settings();
-        s4.name = "Somatotyp";
-        s4.value = "+200 kcal";
-        s4.description = "Somatotyp opisujący sylwetkę";
-        s4.viewType = 1;
-        list.add(s4);
-
-        Settings s5 = new Settings();
-        s5.name = "Stosunek makroskładników";
-        s5.value = "40/30/30";
-        s5.description = "Stosunek makroskładników pozwalający ograniczyć niepotrzebne kalorie";
-        s5.viewType = 1;
-        list.add(s5);
-
-        Settings s6 = new Settings();
-        s6.name = "Cel diety";
-        s6.value = "Utrata wagi";
-        s6.description = "Jaki cel ma mieć aktualna dieta";
-        s6.viewType = 1;
-        list.add(s6);
-
-
-        adapter = new SettingsAdapter(this,R.layout.row_settings,list);
-        listView.setAdapter(adapter);
-        listView.invalidate();
+        dataInflater(response);
     }
 
-    @Override
-    public void loadInput()
+
+    private void dataInflater(String s)
     {
-        listView = findViewById(R.id.listViewSettings);
+        Log.d(TAG, "dataInflater() called with: s = [" + s + "]");
     }
-
-    @Override
-    public void loadDefaultView()
-    {
-        ActivityView activityView = new ActivityView(SettingsActiviy.this, getApplicationContext(), this);
-        activityView.statusBarColor(R.id.toolbarSettingsActivity);
-        activityView.showBackButton();
-    }
-
-    private void onBackButtonPressed()
-    {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void onListViewItemSelected() {
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-            {
-                TextView tvViewType = view.findViewById(R.id.textViewSettingsViewType);
-                TextView tvViewTitle = view.findViewById(R.id.textViewTitle);
-
-                Intent intent = new Intent(SettingsActiviy.this, SettingsDetailsActivity.class);
-                intent.putExtra("viewType", Integer.valueOf(tvViewType.getText().toString()));
-                intent.putExtra("viewTitle", tvViewTitle.getText().toString());
-                SettingsActiviy.this.startActivity(intent);
-            }
-        });
-    }
-
-
-
 
     private class Settings
     {
@@ -184,7 +111,7 @@ public class SettingsActiviy extends AppCompatActivity implements IDefaultView
             String value = getItem(position).getValue();
             String description = getItem(position).getDescription();
             int viewType = getItem(position).getViewType();
-            String db = getItem(position).getDb();
+            final String db = getItem(position).getDb();
 
             if (viewType == 1)
             {
@@ -208,6 +135,10 @@ public class SettingsActiviy extends AppCompatActivity implements IDefaultView
                     public void onClick(View v)
                     {
                         System.out.println("CLICKED");
+                        Intent intent = new Intent(context, SettingsDetailsActivity.class);
+                        intent.putExtra("test","testuje sobie");
+                        intent.putExtra("db",db);
+                        startActivity(intent);
                     }
                 });
 
@@ -244,10 +175,9 @@ public class SettingsActiviy extends AppCompatActivity implements IDefaultView
 
             }
 
-                return convertView;
+            return convertView;
         }
     }
-
 
 
 }

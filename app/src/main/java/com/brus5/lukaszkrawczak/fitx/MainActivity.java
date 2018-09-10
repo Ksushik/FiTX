@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 runNextActivity(MainActivity.this, StatsActivity.class);
                 break;
             case R.id.buttonSettings:
-                runNextActivity(MainActivity.this, SettingsActiviy.class);
+                runNextActivity(MainActivity.this, SettingsActivity.class);
                 break;
         }
     }

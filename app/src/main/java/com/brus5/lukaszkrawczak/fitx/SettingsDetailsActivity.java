@@ -64,7 +64,9 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
     {
         Intent intent = getIntent();
         Log.d(TAG, "getIntentFromPreviousActiity() called viewType: " + intent.getIntExtra("viewType",-1) + "\n"
-        + " viewTitle: " + intent.getStringExtra("viewTitle")
+        + " viewTitle: " + intent.getStringExtra("viewTitle") + "\n" +
+          "db: " + intent.getStringExtra("db") + "\n" +
+          "test: " + intent.getStringExtra("test")
 
 
         );

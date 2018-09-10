@@ -87,13 +87,13 @@
             android:parentActivityName=".training.TrainingActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
-            android:name=".SettingsActiviy"
+            android:name=".SettingsActivity"
             android:label="@string/fitx"
             android:parentActivityName=".MainActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity android:name=".SettingsDetailsActivity"
             android:label="@string/fitx"
-            android:parentActivityName=".SettingsActiviy"
+            android:parentActivityName=".SettingsActivity"
             android:theme="@style/FiTX3theme.noBar"
             />
     </application>

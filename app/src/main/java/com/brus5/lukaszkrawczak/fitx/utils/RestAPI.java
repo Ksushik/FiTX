@@ -8,9 +8,12 @@ public class RestAPI
     public static final String TRAINING = SERVER_URL + "Training/";
     public static final String CARDIO = SERVER_URL + "Cardio/";
     public static final String MAIN = SERVER_URL + "Main/";
+    public static final String SETTINGS = SERVER_URL + "Settings/";
 
     public static final String URL_MAIN_INFORMATIONS = MAIN + "Main.php";
 
+
+    public static final String URL_SETTINGS = SETTINGS + "GetSettings.php";
 
 
     public static final String URL_DIET_DELETE_COUNTED_KCAL = DIET + "KcalResultDelete.php";
@@ -42,6 +45,8 @@ public class RestAPI
     public static final String URL_CARDIO_INSERT = CARDIO + "Insert.php";
     public static final String URL_CARDIO_UPDATE = CARDIO + "Update.php";
     public static final String URL_CARDIO_DELETE = CARDIO + "Delete.php";
+
+
 
     /* Names of db_user */
     public final static String DB_USER_ID = "id";

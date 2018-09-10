@@ -2,12 +2,14 @@ package com.brus5.lukaszkrawczak.fitx.async.provider;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 
 public class Provider
 {
+    private static final String TAG = "Provider";
     private ListView listView;
     private Activity activity;
     private Context context;
@@ -42,8 +44,12 @@ public class Provider
             case "TrainingActivity":
                 new TrainingActivityProvider(activity, context, listView);
                 break;
+            case "SettingsActivity":
+                new SettingsActivityProvider(activity, context, listView);
+                break;
         }
     }
+
 
     /**
      * This method load proper class with String param as one of communicators with HTTPService

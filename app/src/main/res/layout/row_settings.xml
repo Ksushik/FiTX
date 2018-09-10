@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/activity_listview_horizontal_margin"
     android:paddingRight="@dimen/activity_listview_horizontal_margin"
     android:onClick="onClickSetting"
-    tools:context="com.brus5.lukaszkrawczak.fitx.SettingsActiviy">
+    tools:context="com.brus5.lukaszkrawczak.fitx.SettingsActivity">
 
 
     <android.support.constraint.ConstraintLayout
