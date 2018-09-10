@@ -244,5 +244,8 @@
     <string name="weight1">Waga</string>
     <string name="added">Dodano</string>
     <string name="data_example">2018.09.10</string>
+    <string name="weight_in_kg">Waga wyrażona w kilogramach</string>
+    <string name="height1">Wzrost</string>
+    <string name="height_in_cm">Wzrost wyrażony w cm</string>
 
 </resources>

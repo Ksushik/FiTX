@@ -66,17 +66,29 @@ public class SettingsActivityInflater
             String weight = array.getJSONObject(0).getString("weight");
             String height = array.getJSONObject(1).getString("height");
 
-            // Creating variables for passing to Settings constructor
-            String s1 = "Waga";
-            String s3 = "Waga wyrażona w kilogramach";
+            // Creating variables for passing WEIGHT constructor
+            String s1 = context.getResources().getString(R.string.weight1);
+            String s3 = context.getResources().getString(R.string.weight_in_kg);
             String s4 = "user_weight";
-            int s5 = 1;
+            int defaultView = 1;
 
             // Passing data to constructor
-            Settings set1 = new Settings(s1,weight,s3,s4,s5);
+            Settings set1 = new Settings(s1,weight,s3,s4,defaultView);
 
             // Adding constructor to ArrayList<Settings> arrayList
             arrayList.add(set1);
+
+            // Creating variables for passing HEIGHT constructor
+            String h1 = context.getResources().getString(R.string.height1);
+            String h3 = context.getResources().getString(R.string.height_in_cm);
+            String h4 = "user_height";
+            Settings hei1 = new Settings(h1,height,h3,h4,defaultView);
+            // Adding constructor to ArrayList<Settings> arrayList
+            arrayList.add(hei1);
+
+
+
+
 
             // Adding new View to adapter
             adapter = new SettingsAdapter(context,R.layout.row_settings,arrayList);

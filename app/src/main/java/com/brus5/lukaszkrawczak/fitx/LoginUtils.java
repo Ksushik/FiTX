@@ -30,33 +30,38 @@ public class LoginUtils
         for (int i = 0; i < email.length(); i++)
         {
             ch = email.charAt(i);
-
-            if ( email.startsWith(".") ) // if starts with dot Example: ".example@gmail.com" then false;
+            // if starts with dot Example: ".example@gmail.com" then false;
+            if ( email.startsWith(".") )
             {
                 return false;
             }
 
-            if ( (ch == dot) && (email.charAt(i + 1) == dot) ) // if two dots are next to each other then false;
+            // if two dots are next to each other then false;
+            if ( (ch == dot) && (email.charAt(i + 1) == dot) )
             {
                 return false;
             }
 
-            if (email.substring(0,i).endsWith(".") && email.charAt(i + 1) == at ) // if prefix of email ends with "." Example: "example.@gmai.com";
+            // if prefix of email ends with "." Example: "example.@gmai.com";
+            if (email.substring(0,i).endsWith(".") && email.charAt(i + 1) == at )
             {
                 return false;
             }
 
             if (ch == at)
             {
-                if (email.substring(i+1).startsWith(".")) // if starts with "." return false. Example: ".gmail.com";
+                // if starts with "." return false. Example: ".gmail.com";
+                if (email.substring(i+1).startsWith("."))
                 {
                     return false;
                 }
-                if (email.substring(i+1).endsWith(".")) // if ends with "." return false. Example: "example@gmail.com.";
+                // if ends with "." return false. Example: "example@gmail.com.";
+                if (email.substring(i+1).endsWith("."))
                 {
                     return false;
                 }
-                if (email.substring(i-1).startsWith(".")) // if prefix ends with ".". Example: example.@gmail.com";
+                // if prefix ends with ".". Example: example.@gmail.com";
+                if (email.substring(i-1).startsWith("."))
                 {
                     return false;
                 }
