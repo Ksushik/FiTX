@@ -53,9 +53,29 @@ public class SettingsActivityInflater
     private void dataInflater(String s)
     {
         Log.d(TAG, "dataInflater() called with: s = [" + s + "]");
+
+
+
+        try
+        {
+            JSONObject json = new JSONObject(s);
+            JSONArray array = json.getJSONArray("server_response");
+
+            String weight = array.getJSONObject(0).getString("weight");
+            String height = array.getJSONObject(1).getString("height");
+
+            Log.d(TAG, "dataInflater() called with: weight = [" + weight + "]" + "height = [" + height + "]");
+
+
+        }
+        catch(JSONException e)
+        {
+            Log.e(TAG, "dataInflater: ",e );
+        }
+
     }
 
-    private class Settings
+    public class Settings
     {
         String name;
         String value;
@@ -138,7 +158,7 @@ public class SettingsActivityInflater
                         Intent intent = new Intent(context, SettingsDetailsActivity.class);
                         intent.putExtra("test","testuje sobie");
                         intent.putExtra("db",db);
-                        startActivity(intent);
+                        context.startActivity(intent);
                     }
                 });
 

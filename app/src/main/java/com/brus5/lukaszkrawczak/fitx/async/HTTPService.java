@@ -148,7 +148,7 @@ public class HTTPService extends AsyncTask<String, String, String>
             case "TrainingDetailsActivity":
                 new TrainingDetailsActivityInflater(activity, context, s);
                 break;
-            case "SettingsActiviy":
+            case "SettingsActivity":
                 new SettingsActivityInflater(context, listView, s);
                 break;
         }
