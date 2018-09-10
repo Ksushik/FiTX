@@ -10,14 +10,14 @@ public class MainRow extends ArrayList
 {
 
     private double textViewBig;
-    private int textViewSmall;
+    private String textViewSmall;
     private int viewType; /* 1: for Diet; 2: for Training; 3: for Cardio; 4: for UserWeight */
 
     private String weight;
     private String reps;
     private String rest;
 
-    public MainRow(double textViewBig, int textViewSmall, int viewType)
+    public MainRow(double textViewBig, String textViewSmall, int viewType)
     {
         this.textViewBig = textViewBig;
         this.textViewSmall = textViewSmall;
@@ -37,7 +37,7 @@ public class MainRow extends ArrayList
         return textViewBig;
     }
 
-    public int getTextViewSmall()
+    public String getTextViewSmall()
     {
         return textViewSmall;
     }

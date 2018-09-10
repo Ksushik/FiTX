@@ -42,10 +42,13 @@ public class MainActivityInflater
 
     private void dataInflater(String s)
     {
+        /**
+         * Creating DIET row
+         */
         try
         {
             int kcal = 0;
-            int kcalLimit;
+            String kcalLimit;
 
             JSONObject jsonObject = new JSONObject(s);
 
@@ -61,7 +64,7 @@ public class MainActivityInflater
                 for (int i = 0; i < response.length(); i++)
                 {
                     kcal = kcalObj.getInt("kcal");
-                    kcalLimit = kcalLimitObj.getInt("kcal_limit");
+                    kcalLimit = kcalLimitObj.getString("kcal_limit");
 
                     mainRow = new MainRow(kcal, kcalLimit, 1);
 
@@ -80,7 +83,9 @@ public class MainActivityInflater
         }
 
 
-
+        /**
+         * Creating GYM row
+         */
         try
         {
             JSONObject jsonObject1 = new JSONObject(s);
@@ -121,7 +126,9 @@ public class MainActivityInflater
         }
 
 
-
+        /**
+         * Creating CARDIO row
+         */
         try
         {
             JSONObject jsonObject1 = new JSONObject(s);
@@ -132,12 +139,12 @@ public class MainActivityInflater
 
 
             double kcalBurned = 0;
-            int time;
+            String time;
 
             for (int i = 0; i < response.length(); i++)
             {
                 kcalBurned = cardio_counted.getDouble("cardio_counted");
-                time = cardio_time.getInt("cardio_time");
+                time = cardio_time.getString("cardio_time");
 
                 adapter = new MainAdapter(context, R.layout.row_main_diet, list);
 
@@ -155,6 +162,10 @@ public class MainActivityInflater
         }
 
 
+
+        /**
+         * Creating WEIGHT row
+         */
         try
         {
             JSONObject jsonObject = new JSONObject(s);
@@ -162,18 +173,26 @@ public class MainActivityInflater
 
             JSONObject a = array.getJSONObject(9);
 
-            String s1 = a.getJSONArray("weight").toString();
+            // if contains any field inside the object
+            if (a.getJSONArray("weight").length() > 0)
+            {
+                double weight = a.getJSONArray("weight").getJSONObject(0).getDouble("weight");
+                String date = a.getJSONArray("weight").getJSONObject(0).getString("date");
+                a.getJSONArray("weight").getJSONObject(0);
 
-            Log.d(TAG, "dataInflater() called with: jArray = [" + array + "]");
-            Log.d(TAG, "dataInflater() called with: jObject = [" + a + "]");
-            Log.d(TAG, "dataInflater() called with: a.getJSONArray = [" + a.getJSONArray("weight").getDouble(0) + "]");
+                adapter = new MainAdapter(context,R.layout.row_main_weight, list);
+
+
+                mainRow = new MainRow(weight,date,4);
+
+                list.add(mainRow);
+            }
         }
+
         catch (JSONException e)
         {
             Log.e(TAG, "dataInflater: ",e);
         }
-
-
 
         listView.setDividerHeight(0);
         listView.setAdapter(adapter);
@@ -204,7 +223,7 @@ class MainAdapter extends ArrayAdapter<MainRow>
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
     {
         double textViewBig = getItem(position).getTextViewBig();
-        int textViewSmall = getItem(position).getTextViewSmall();
+        String textViewSmall = getItem(position).getTextViewSmall();
         int viewType = getItem(position).getViewType();
 
 
@@ -288,6 +307,20 @@ class MainAdapter extends ArrayAdapter<MainRow>
 
             tvBurned.setText(String.valueOf((int) textViewBig));
             tvTrainingTime.setText(String.valueOf(textViewSmall));
+
+            return convertView;
+        }
+
+
+        if (viewType == 4)
+        {
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_weight, parent, false);
+
+            TextView tvBig = convertView.findViewById(R.id.textViewWeight);
+            TextView tvSmall = convertView.findViewById(R.id.textViewDateAdded);
+
+            tvBig.setText(String.valueOf(textViewBig));
+            tvSmall.setText(String.valueOf(textViewSmall));
 
             return convertView;
         }
