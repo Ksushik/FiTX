@@ -37,9 +37,9 @@ public class SettingsActivityInflater
 
     private Context context;
     private ListView listView;
-    private MainRow mainRow;
-    private MainAdapter adapter;
-    private ArrayList<MainRow> list = new ArrayList<>();
+
+    private SettingsAdapter adapter;
+    private ArrayList<Settings> arrayList = new ArrayList<>();
 
     public SettingsActivityInflater(Context context, ListView listView, String response)
     {
@@ -54,17 +54,35 @@ public class SettingsActivityInflater
     {
         Log.d(TAG, "dataInflater() called with: s = [" + s + "]");
 
-
-
         try
         {
+            // Creating JSON Object with value fetched from "s" paramtere
             JSONObject json = new JSONObject(s);
+
+            // Getting array from JSONObject named "server_response"
             JSONArray array = json.getJSONArray("server_response");
 
+            // Getting JSONObject of array with index and then getting specific String name
             String weight = array.getJSONObject(0).getString("weight");
             String height = array.getJSONObject(1).getString("height");
 
-            Log.d(TAG, "dataInflater() called with: weight = [" + weight + "]" + "height = [" + height + "]");
+            // Creating variables for passing to Settings constructor
+            String s1 = "Waga";
+            String s3 = "Waga wyrażona w kilogramach";
+            String s4 = "user_weight";
+            int s5 = 1;
+
+            // Passing data to constructor
+            Settings set1 = new Settings(s1,weight,s3,s4,s5);
+
+            // Adding constructor to ArrayList<Settings> arrayList
+            arrayList.add(set1);
+
+            // Adding new View to adapter
+            adapter = new SettingsAdapter(context,R.layout.row_settings,arrayList);
+
+            // Setting adapter
+            listView.setAdapter(adapter);
 
 
         }
@@ -75,38 +93,7 @@ public class SettingsActivityInflater
 
     }
 
-    public class Settings
-    {
-        String name;
-        String value;
-        String description;
-        String db;
-        int viewType;
 
-        public String getName()
-        {
-            return name;
-        }
-
-        public String getValue()
-        {
-            return value;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public int getViewType()
-        {
-            return viewType;
-        }
-
-        public String getDb()
-        {
-            return db;
-        }
-    }
 
     private class SettingsAdapter extends ArrayAdapter<Settings>
     {
@@ -200,4 +187,100 @@ public class SettingsActivityInflater
     }
 
 
+}
+
+class Settings
+{
+    String name;
+    String value;
+    String description;
+    String db;
+    int viewType;
+
+    public Settings(String name, String value, String description, String db, int viewType)
+    {
+        this.name = name;
+        this.value = value;
+        this.description = description;
+        this.db = db;
+        this.viewType = viewType;
+
+    }
+
+    public Settings(Builder builder)
+    {
+        this.name = builder.name;
+        this.value = builder.value;
+        this.description = builder.description;
+        this.db = builder.db;
+        this.viewType = builder.viewType;
+    }
+
+    public static class Builder
+    {
+        String name;
+        String value;
+        String description;
+        String db;
+        int viewType;
+
+        public Builder name(String name)
+        {
+            this.name = name;
+            return this;
+        }
+
+        public Builder value(String value)
+        {
+            this.value = value;
+            return this;
+        }
+
+        public Builder description(String description)
+        {
+            this.description = description;
+            return this;
+        }
+
+        public Builder db(String db)
+        {
+            this.db = db;
+            return this;
+        }
+
+        public Builder viewType(int number)
+        {
+            this.viewType = viewType;
+            return this;
+        }
+
+        public Settings build()
+        {
+            return new Settings(this);
+        }
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public String getValue()
+    {
+        return value;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getViewType()
+    {
+        return viewType;
+    }
+
+    public String getDb()
+    {
+        return db;
+    }
 }
