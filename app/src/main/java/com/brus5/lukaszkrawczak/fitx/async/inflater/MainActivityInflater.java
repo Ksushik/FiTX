@@ -154,6 +154,27 @@ public class MainActivityInflater
             e.printStackTrace();
         }
 
+
+        try
+        {
+            JSONObject jsonObject = new JSONObject(s);
+            JSONArray array = jsonObject.getJSONArray("response");
+
+            JSONObject a = array.getJSONObject(9);
+
+            String s1 = a.getJSONArray("weight").toString();
+
+            Log.d(TAG, "dataInflater() called with: jArray = [" + array + "]");
+            Log.d(TAG, "dataInflater() called with: jObject = [" + a + "]");
+            Log.d(TAG, "dataInflater() called with: a.getJSONArray = [" + a.getJSONArray("weight").getDouble(0) + "]");
+        }
+        catch (JSONException e)
+        {
+            Log.e(TAG, "dataInflater: ",e);
+        }
+
+
+
         listView.setDividerHeight(0);
         listView.setAdapter(adapter);
         listView.postInvalidate();
