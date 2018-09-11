@@ -241,11 +241,19 @@
     <string name="connection_error">Błąd połączenia</string>
     <string name="password">Hasło</string>
     <string name="username">Nazwa użytkownika</string>
-    <string name="weight1">Waga</string>
     <string name="added">Dodano</string>
     <string name="data_example">2018.09.10</string>
-    <string name="weight_in_kg">Waga wyrażona w kilogramach</string>
-    <string name="height1">Wzrost</string>
-    <string name="height_in_cm">Wzrost wyrażony w cm</string>
 
+    <string name="somatotype">Somatotyp</string>
+    <string name="your_body_type">Twój typ sylwetki</string>
+    <string name="string_example">Przykład</string>
+
+
+    <string name="body_mass">Masa ciała</string>
+    <string name="body_mass_descripition_long">Masa ciała wyrażana w kilogramach na planecie Ziemia.</string>
+    <string name="body_mass_descripition_short">Masa ciała wyrażona w kilogramach</string>
+
+    <string name="body_height">Wzrost</string>
+    <string name="body_height_description_short">Wzrost wyrażony w cm</string>
+    <string name="body_height_description_long">Parametr określający wysokość człowieka mierzoną od czubka głowy do podeszwy stopy w pozycji wyprostowanej. Rano i wieczorem wzrost może się różnić o 2–3 cm.</string>
 </resources>

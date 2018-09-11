@@ -16,11 +16,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.MainRow;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.SettingsActivity;
 import com.brus5.lukaszkrawczak.fitx.SettingsDetailsActivity;
-import com.brus5.lukaszkrawczak.fitx.training.TrainingInflater;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +25,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @SuppressLint("LongLogTag")
 public class SettingsActivityInflater
@@ -65,26 +61,46 @@ public class SettingsActivityInflater
             // Getting JSONObject of array with index and then getting specific String name
             String weight = array.getJSONObject(0).getString("weight");
             String height = array.getJSONObject(1).getString("height");
+            String somatotype = array.getJSONObject(2).getString("somatotype");
 
-            // Creating variables for passing WEIGHT constructor
-            String s1 = context.getResources().getString(R.string.weight1);
-            String s3 = context.getResources().getString(R.string.weight_in_kg);
-            String s4 = "user_weight";
+            // Creating ROW View Type
             int defaultView = 1;
 
-            // Passing data to constructor
-            Settings set1 = new Settings(s1,weight,s3,s4,defaultView);
+            // Creating variables for passing WEIGHT constructor
+            String s1 = context.getResources().getString(R.string.body_mass);
+            String s3 = context.getResources().getString(R.string.body_mass_descripition_short);
+            String s4 = "user_weight";
+            String s6 = context.getResources().getString(R.string.body_mass_descripition_long);
 
-            // Adding constructor to ArrayList<Settings> arrayList
-            arrayList.add(set1);
+            Settings mWeight = new Settings(s1,weight,s3,s4,defaultView,s6);
+
+            arrayList.add(mWeight);
 
             // Creating variables for passing HEIGHT constructor
-            String h1 = context.getResources().getString(R.string.height1);
-            String h3 = context.getResources().getString(R.string.height_in_cm);
+            String h1 = context.getResources().getString(R.string.body_height);
+            String h3 = context.getResources().getString(R.string.body_height_description_short);
             String h4 = "user_height";
-            Settings hei1 = new Settings(h1,height,h3,h4,defaultView);
-            // Adding constructor to ArrayList<Settings> arrayList
-            arrayList.add(hei1);
+            String h6 = context.getResources().getString(R.string.body_height_description_long);
+            Settings mHeight = new Settings(h1,height,h3,h4,defaultView,h6);
+
+            arrayList.add(mHeight);
+
+
+            // Creating variables for passing SOMATOTYPE constructor
+            String st1 = context.getResources().getString(R.string.somatotype);
+            String st3 = context.getResources().getString(R.string.your_body_type);
+            String st4 = "user_somatotype";
+
+            StringBuilder b = new StringBuilder();
+            b.append("+");
+            b.append(somatotype);
+            b.append(" kcal");
+
+            String st6 = "?";
+
+            Settings mSomatotype = new Settings(st1,b.toString(),st3,st4,defaultView,st6);
+
+            arrayList.add(mSomatotype);
 
 
 
@@ -126,11 +142,12 @@ public class SettingsActivityInflater
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
 
-            String name = getItem(position).getName();
+            final String name = getItem(position).getName();
             String value = getItem(position).getValue();
             String description = getItem(position).getDescription();
             int viewType = getItem(position).getViewType();
             final String db = getItem(position).getDb();
+            final String descriptionLong = getItem(position).getDescriptionLong();
 
             if (viewType == 1)
             {
@@ -146,16 +163,13 @@ public class SettingsActivityInflater
                 tvDescription.setText(description);
                 tvViewType.setText(String.valueOf(viewType));
 
-                System.out.println("DB: " + db);
-
-
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v)
                     {
-                        System.out.println("CLICKED");
                         Intent intent = new Intent(context, SettingsDetailsActivity.class);
-                        intent.putExtra("test","testuje sobie");
+                        intent.putExtra("name",name);
+                        intent.putExtra("descriptionLong",descriptionLong);
                         intent.putExtra("db",db);
                         context.startActivity(intent);
                     }
@@ -208,14 +222,16 @@ class Settings
     String description;
     String db;
     int viewType;
+    String descriptionLong;
 
-    public Settings(String name, String value, String description, String db, int viewType)
+    public Settings(String name, String value, String description, String db, int viewType, String descriptionLong)
     {
         this.name = name;
         this.value = value;
         this.description = description;
         this.db = db;
         this.viewType = viewType;
+        this.descriptionLong = descriptionLong;
 
     }
 
@@ -266,6 +282,8 @@ class Settings
             return this;
         }
 
+
+
         public Settings build()
         {
             return new Settings(this);
@@ -294,5 +312,10 @@ class Settings
     public String getDb()
     {
         return db;
+    }
+
+    public String getDescriptionLong()
+    {
+        return descriptionLong;
     }
 }
