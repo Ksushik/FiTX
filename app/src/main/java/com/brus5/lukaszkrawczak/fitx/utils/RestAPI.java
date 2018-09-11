@@ -14,6 +14,8 @@ public class RestAPI
 
 
     public static final String URL_SETTINGS = SETTINGS + "GetSettings.php";
+    public static final String URL_SETTINGS_GET = SETTINGS + "GetLast.php";
+    public static final String URL_SETTINGS_INSERT = SETTINGS + "Insert.php";
 
 
     public static final String URL_DIET_DELETE_COUNTED_KCAL = DIET + "KcalResultDelete.php";

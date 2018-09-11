@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 
 public class SettingsDetailsActivity extends AppCompatActivity implements IDefaultView, IPreviousActivity
@@ -20,6 +21,9 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
         loadInput();
         loadDefaultView();
         getIntentFromPreviousActiity();
+
+        new Provider(SettingsDetailsActivity.this,SettingsDetailsActivity.this).load("user_height");
+
     }
 
     @Override

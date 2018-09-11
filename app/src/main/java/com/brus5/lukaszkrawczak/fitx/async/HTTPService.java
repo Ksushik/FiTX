@@ -13,6 +13,7 @@ import com.brus5.lukaszkrawczak.fitx.async.inflater.DietProductDetailsActivityIn
 import com.brus5.lukaszkrawczak.fitx.async.inflater.DietProductSearchActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.MainActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.SettingsActivityInflater;
+import com.brus5.lukaszkrawczak.fitx.async.inflater.SettingsDetailsActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.TrainingActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.TrainingDetailsActivityInflater;
 
@@ -151,6 +152,8 @@ public class HTTPService extends AsyncTask<String, String, String>
             case "SettingsActivity":
                 new SettingsActivityInflater(context, listView, s);
                 break;
+            case "SettingsDetailsActivity":
+                new SettingsDetailsActivityInflater(activity, context, s);
         }
         Log.d(TAG, "onPostExecute() called with: s = [" + s + "]");
     }

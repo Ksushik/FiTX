@@ -72,6 +72,9 @@ public class Provider
             case "TrainingDetailsActivity":
                 new TrainingDetailsActivityProvider(activity, context, s);
                 break;
+            case "SettingsDetailsActivity":
+                new SettingsDetailsActivityProvider(activity, context, s);
+                break;
         }
     }
 
