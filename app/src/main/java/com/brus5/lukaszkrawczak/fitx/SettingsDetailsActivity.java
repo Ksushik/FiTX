@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -14,7 +15,15 @@ import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS_INSERT;
 
 public class SettingsDetailsActivity extends AppCompatActivity implements IDefaultView, IPreviousActivity
 {
@@ -76,29 +85,22 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
         switch (item.getItemId())
         {
             case R.id.menu_save_setting:
+                EditText et = findViewById(R.id.editTextSettings);
+
                 Toast.makeText(this, String.valueOf(VALUE), Toast.LENGTH_SHORT).show();
 
                 String id = String.valueOf(SaveSharedPreference.getUserID(SettingsDetailsActivity.this));
-                String RESULT = String.valueOf(VALUE);
+                Calendar cal = Calendar.getInstance();
+                DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String date = sdf.format(cal.getTime());
 
-                new Provider(SettingsDetailsActivity.this, SettingsDetailsActivity.this).postSettings(RESULT, db);
+                String RESULT = et.getText().toString();
+                String LINK = URL_SETTINGS_INSERT + "?id=" + id + "&date=" + date + "&RESULT=" + RESULT + "&table=" + db;
+                MainService s = new MainService(SettingsDetailsActivity.this);
+                s.post(LINK);
 
-//                Calendar cal = Calendar.getInstance();
-//                DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-//                String date = sdf.format(cal.getTime());
 
-
-//                HashMap<String,String> params = new HashMap<>();
-//                params.put("id",id);
-//                params.put("date",date);
-//                params.put("RESULT",RESULT);
-//                params.put("table",db);
-//                http://justfitx.xyz/Settings/Insert.php?id=5&RESULT=92.1&date=2018-09-11&table=user_weight
-//                String l = URL_SETTINGS_INSERT + "?id=" + id + "&date=" + date + "&RESULT=" + RESULT + "&table=" + db;
-//                Log.i(TAG, "onOptionsItemSelected: "+l);
-//                MainService s = new MainService(SettingsDetailsActivity.this);
-//                s.post(l);
-//                new StringRequest(Request.Method.HEAD,l,null,null);
+//                new Provider(SettingsDetailsActivity.this, SettingsDetailsActivity.this).postSettings(RESULT, db);
 
                 break;
         }

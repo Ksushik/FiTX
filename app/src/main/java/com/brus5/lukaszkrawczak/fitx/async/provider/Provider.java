@@ -2,6 +2,7 @@ package com.brus5.lukaszkrawczak.fitx.async.provider;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
@@ -121,7 +122,7 @@ public class Provider
 
 
 
-
+        Log.d(TAG, "postSettings() called with: RESULT = [" + RESULT + "], db = [" + db + "]");
         final String URL = URL_SETTINGS_INSERT;
         final String params = "?id=" + id + "&date=" + date + "&RESULT=" + RESULT + "&table=" + db;
 
