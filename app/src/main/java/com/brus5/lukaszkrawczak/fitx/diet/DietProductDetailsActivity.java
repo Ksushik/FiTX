@@ -354,31 +354,31 @@ class ProductTextView
 
         Calories p = new Calories(weight, product.getProteins());
         p.countCalories(p);
-        productTextView.tvProteins.setText(p.toString());
+        productTextView.tvProteins.setText(s(p.toString()));
 
         Calories f = new Calories(weight, product.getFats());
         f.countCalories(f);
-        productTextView.tvFats.setText(f.toString());
+        productTextView.tvFats.setText(s(f.toString()));
 
         Calories c = new Calories(weight, product.getCarbs());
         c.countCalories(c);
-        productTextView.tvCarbs.setText(c.toString());
+        productTextView.tvCarbs.setText(s(c.toString()));
 
         Calories sat = new Calories(weight, product.getSaturatedFats());
         sat.countCalories(sat);
-        productTextView.tvFatsSaturated.setText(sat.toString());
+        productTextView.tvFatsSaturated.setText(s(sat.toString()));
 
         Calories un = new Calories(weight, product.getUnSaturatedFats());
         un.countCalories(un);
-        productTextView.tvFatsUnsaturated.setText(un.toString());
+        productTextView.tvFatsUnsaturated.setText(s(un.toString()));
 
         Calories fib = new Calories(weight, product.getCarbsFiber());
         fib.countCalories(fib);
-        productTextView.tvCarbsFiber.setText(fib.toString());
+        productTextView.tvCarbsFiber.setText(s(fib.toString()));
 
         Calories sug = new Calories(weight, product.getCarbsSugar());
         sug.countCalories(sug);
-        productTextView.tvCarbsSugars.setText(sug.toString());
+        productTextView.tvCarbsSugars.setText(s(sug.toString()));
 
         double proteins = Double.valueOf(productTextView.tvProteins.getText().toString());
         double fats = Double.valueOf(productTextView.tvFats.getText().toString());
@@ -390,6 +390,12 @@ class ProductTextView
 
         PRODUCT_WEIGHT = weight;
     }
+
+    private String s(String s1)
+    {
+        return s1.replace(",",".");
+    }
+
 }
 
 /**
