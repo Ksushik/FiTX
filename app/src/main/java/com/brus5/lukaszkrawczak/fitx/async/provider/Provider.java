@@ -2,10 +2,17 @@ package com.brus5.lukaszkrawczak.fitx.async.provider;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
+import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS_INSERT;
 
 public class Provider
 {
@@ -102,6 +109,23 @@ public class Provider
                 new CardioDetailsActivityProvider(activity, context, listView, timeStamp, id);
                 break;
         }
+    }
+
+
+    public void postSettings(final String RESULT, final String db)
+    {
+        String id = String.valueOf(SaveSharedPreference.getUserID(context));
+        Calendar cal = Calendar.getInstance();
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String date = sdf.format(cal.getTime());
+
+
+
+
+        final String URL = URL_SETTINGS_INSERT;
+        final String params = "?id=" + id + "&date=" + date + "&RESULT=" + RESULT + "&table=" + db;
+
+        startHTTPService(URL,params);
     }
 
     /**

@@ -14,9 +14,11 @@ import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 public class SettingsDetailsActivity extends AppCompatActivity implements IDefaultView, IPreviousActivity
 {
+    private static final String TAG = "SettingsDetailsActivity";
     private String db;
     private String name;
     private String descriptionLong;
@@ -75,6 +77,29 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
         {
             case R.id.menu_save_setting:
                 Toast.makeText(this, String.valueOf(VALUE), Toast.LENGTH_SHORT).show();
+
+                String id = String.valueOf(SaveSharedPreference.getUserID(SettingsDetailsActivity.this));
+                String RESULT = String.valueOf(VALUE);
+
+                new Provider(SettingsDetailsActivity.this, SettingsDetailsActivity.this).postSettings(RESULT, db);
+
+//                Calendar cal = Calendar.getInstance();
+//                DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//                String date = sdf.format(cal.getTime());
+
+
+//                HashMap<String,String> params = new HashMap<>();
+//                params.put("id",id);
+//                params.put("date",date);
+//                params.put("RESULT",RESULT);
+//                params.put("table",db);
+//                http://justfitx.xyz/Settings/Insert.php?id=5&RESULT=92.1&date=2018-09-11&table=user_weight
+//                String l = URL_SETTINGS_INSERT + "?id=" + id + "&date=" + date + "&RESULT=" + RESULT + "&table=" + db;
+//                Log.i(TAG, "onOptionsItemSelected: "+l);
+//                MainService s = new MainService(SettingsDetailsActivity.this);
+//                s.post(l);
+//                new StringRequest(Request.Method.HEAD,l,null,null);
+
                 break;
         }
         return super.onOptionsItemSelected(item);
