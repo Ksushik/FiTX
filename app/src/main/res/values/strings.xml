@@ -256,4 +256,8 @@
     <string name="body_height">Wzrost</string>
     <string name="body_height_description_short">Wzrost wyrażony w cm</string>
     <string name="body_height_description_long">Parametr określający wysokość człowieka mierzoną od czubka głowy do podeszwy stopy w pozycji wyprostowanej. Rano i wieczorem wzrost może się różnić o 2–3 cm.</string>
+    <string name="calories_automatic">Auto kalorie</string>
+    <string name="calories_automatic_long">Program za Ciebie obliczy ilość kalorii potrzebnych do utrzymania wagi</string>
+    <string name="calories_manual">Manualne kalorie</string>
+    <string name="calories_manual_long">Ręczne ustawianie kalorii</string>
 </resources>

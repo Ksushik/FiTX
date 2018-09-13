@@ -1,6 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx.async.inflater;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -16,8 +17,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brus5.lukaszkrawczak.fitx.MainService;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SettingsDetailsActivity;
+import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +28,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS_SET_AUTO_CALORIES;
 
 @SuppressLint("LongLogTag")
 public class SettingsActivityInflater
@@ -62,6 +67,8 @@ public class SettingsActivityInflater
             String weight = array.getJSONObject(0).getString("weight");
             String height = array.getJSONObject(1).getString("height");
             String somatotype = array.getJSONObject(2).getString("somatotype");
+            String auto_calories = array.getJSONObject(3).getString("auto_calories");
+            String calories_limit = array.getJSONObject(4).getString("calories_limit");
 
             // Creating ROW View Type
             int defaultView = 1;
@@ -102,6 +109,32 @@ public class SettingsActivityInflater
 
             arrayList.add(mSomatotype);
 
+
+            // Creating variables for passing AUTOMATIC CALORIES constructor
+            int switchView = 2;
+            String ac1 = context.getResources().getString(R.string.calories_automatic);
+            String ac3 = context.getResources().getString(R.string.calories_automatic_long);
+            String ac4 = "user_calories_limit_auto";
+
+
+            Settings mLimit = new Settings(ac1,auto_calories,ac3,ac4,switchView,st6);
+            arrayList.add(mLimit);
+
+
+            // If Automatic calories are turned OFF then be able to add manual calories row
+            if (Integer.valueOf(auto_calories) == 0)
+            {
+                String mc1 = context.getResources().getString(R.string.calories_manual);
+                String mc3 = context.getResources().getString(R.string.calories_manual_long);
+                String mc4 = "user_calories_limit";
+                String mc6 = "Long text";
+                Settings mManual = new Settings(mc1, calories_limit,mc3,mc4,defaultView,mc6);
+                arrayList.add(mManual);
+
+                SaveSharedPreference.setAutoCalories(context,0);
+                Log.i(TAG, "load: " + SaveSharedPreference.getAutoCalories(context));
+
+            }
 
 
 
@@ -184,24 +217,54 @@ public class SettingsActivityInflater
                 TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
                 TextView tvDescription = convertView.findViewById(R.id.textViewDescription);
                 Switch aSwitch = convertView.findViewById(R.id.switch1);
-                TextView tvViewType = convertView.findViewById(R.id.textViewSettingsViewType);
 
                 tvTitle.setText(name);
                 tvDescription.setText(description);
-                tvViewType.setText(String.valueOf(viewType));
+
+                if (Integer.valueOf(value) == 1)
+                {
+                    aSwitch.setChecked(true);
+                    SaveSharedPreference.setAutoCalories(context, 1);
+                }
+                else
+                {
+                    aSwitch.setChecked(false);
+                    SaveSharedPreference.setAutoCalories(context, 0);
+                }
+
 
                 aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
                 {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b)
                     {
+                        String id = String.valueOf(SaveSharedPreference.getUserID(context));
+
+                        switch (db)
+                        {
+                            case "user_calories_limit_auto":
+                                String auto_calories = b ? "1" : "0";
+                                final String LINK = URL_SETTINGS_SET_AUTO_CALORIES + "?id=" + id + "&auto_calories=" + auto_calories;
+
+                                // Set Automatic Calories
+                                new MainService(context).post(LINK);
+
+                                ((Activity)context).finish();
+                                ((Activity)context).overridePendingTransition(0, 0);
+                                context.startActivity(((Activity)context).getIntent());
+                                ((Activity)context).overridePendingTransition(0, 0);
+                                break;
+                        }
+
+
+
                         if (b)
                         {
-                            Toast.makeText(mContext, "ON", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, db + " ON", Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
-                            Toast.makeText(mContext, "OFF", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, db + " OFF", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

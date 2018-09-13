@@ -110,7 +110,7 @@ public class MainActivityInflater
                 inflater.setWeight(weight);
                 inflater.setReps(reps);
 
-                adapter = new MainAdapter(context, R.layout.row_main_diet, list);
+                adapter = new MainAdapter(context, R.layout.row_main_training, list);
 
                 mainRow = new MainRow(rest, reps, weight, 2);
             }
@@ -146,7 +146,7 @@ public class MainActivityInflater
                 kcalBurned = cardio_counted.getDouble("cardio_counted");
                 time = cardio_time.getString("cardio_time");
 
-                adapter = new MainAdapter(context, R.layout.row_main_diet, list);
+                adapter = new MainAdapter(context, R.layout.row_main_cardio, list);
 
                 mainRow = new MainRow(kcalBurned, time, 3);
             }
@@ -266,10 +266,6 @@ class MainAdapter extends ArrayAdapter<MainRow>
             TrainingInflater trainingInflater = new TrainingInflater(mContext);
             trainingInflater.setReps(reps);
             trainingInflater.setWeight(weight);
-
-
-            //            int mRest = ((Integer.valueOf(rest) / 1000) + trainingInflater.countRepsTime(reps)) / 60;
-
 
             int mRest = Integer.valueOf(rest) + (trainingInflater.countRepsTime(reps) / 60);
 

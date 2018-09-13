@@ -285,7 +285,11 @@ public class TrainingInflater
     {
         final int REP_TIME = 3;
 
+        // This String removes dots from RAW String and preparing it
+        // to being inserted to String[]
         String mReps = reps.replaceAll("\\p{Punct}", " ");
+
+        // This table is separating each number
         String[] strings = mReps.split("\\s+");
 
         int[] iReps = new int[strings.length];

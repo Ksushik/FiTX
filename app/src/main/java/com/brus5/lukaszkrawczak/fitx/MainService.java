@@ -13,7 +13,7 @@ import com.android.volley.toolbox.Volley;
 public class MainService
 {
 
-    private static final String TAG = "DietService";
+    private static final String TAG = "MainService";
 
 
     private Context context;
@@ -39,10 +39,7 @@ public class MainService
             {
                 Log.e(TAG, "onErrorResponse: ", error);
             }
-        })
-        {
-
-        };
+        });
 
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(stringRequest);

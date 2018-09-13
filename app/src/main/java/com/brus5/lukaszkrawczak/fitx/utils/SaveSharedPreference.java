@@ -21,6 +21,8 @@ public class SaveSharedPreference
     private static final String USER_GENDER = "userGender";
     private static final String USER_AGE = "userAge";
     private static final String USER_PASSWORD = "userPassword";
+    public static final String SAUTO_CALORIES = "autoCalories";
+    public static final int AUTO_CALORIES = 1;
 
     static SharedPreferences getSharedPreferences(Context context)
     {
@@ -162,20 +164,21 @@ public class SaveSharedPreference
         editor.apply();
     }
 
+    public static void setAutoCalories(Context context, int autoCalories)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putInt(SAUTO_CALORIES,autoCalories);
+        editor.apply();
+    }
+
+    public static int getAutoCalories(Context context)
+    {
+        return getSharedPreferences(context).getInt(SAUTO_CALORIES, 0);
+    }
+
     public static String getUserPassword(Context context)
     {
         return getSharedPreferences(context).getString(USER_PASSWORD, "");
     }
 
-    //    public static void setDateChoosed(Context context, String date)
-    //    {
-    //        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-    //        editor.putString(DATE_CHOOSED, date);
-    //        editor.apply();
-    //    }
-    //
-    //    public static String getDateChoosed(Context context)
-    //    {
-    //        return getSharedPreferences(context).getString(DATE_CHOOSED,"");
-    //    }
 }

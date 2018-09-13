@@ -89,8 +89,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onRestart()
     {
-        super.onRestart();
         new Provider(this, this, listView).load();
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        new Provider(this, this, listView).load();
+        super.onResume();
     }
 
     public void runNextActivity(Context context, Class<?> cls)

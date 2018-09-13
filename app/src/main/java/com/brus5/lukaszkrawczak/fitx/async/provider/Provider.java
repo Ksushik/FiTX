@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.brus5.lukaszkrawczak.fitx.MainService;
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
@@ -13,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_MAIN_INFORMATIONS;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_MAIN_KCAL_LIMIT_UPDATE;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS_INSERT;
 
 public class Provider
@@ -41,6 +44,19 @@ public class Provider
      */
     public void load()
     {
+        // Getting variables to update user_kcal_limit table
+        String id = String.valueOf(SaveSharedPreference.getUserID(context));
+        Calendar cal = Calendar.getInstance();
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String date = sdf.format(cal.getTime());
+        Log.i(TAG, "load: " + SaveSharedPreference.getAutoCalories(context));
+        if (SaveSharedPreference.getAutoCalories(context) == 1)
+        {
+            final String LINK = URL_MAIN_KCAL_LIMIT_UPDATE + "?user_id=" + id + "&date=" + date;
+            // Inserting OR Updating user_kcal_limit table
+            new MainService(context).post(LINK);
+        }
+
         switch (context.getClass().getSimpleName())
         {
             case "MainActivity":

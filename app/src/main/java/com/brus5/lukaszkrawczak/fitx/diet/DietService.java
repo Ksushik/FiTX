@@ -34,7 +34,7 @@ public class DietService
 
     public void post(final HashMap params, final String LINK)
     {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, LINK, new Response.Listener<String>()
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, LINK, new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response)
