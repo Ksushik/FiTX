@@ -9,6 +9,7 @@ public class RestAPI
     public static final String CARDIO = SERVER_URL + "Cardio/";
     public static final String MAIN = SERVER_URL + "Main/";
     public static final String SETTINGS = SERVER_URL + "Settings/";
+    public static final String GRAPH = SERVER_URL + "Graph/";
 
     public static final String URL_MAIN_INFORMATIONS = MAIN + "Main.php";
     public static final String URL_MAIN_KCAL_LIMIT_UPDATE = MAIN + "AutoCalories.php";
@@ -18,6 +19,9 @@ public class RestAPI
     public static final String URL_SETTINGS_GET = SETTINGS + "GetLast.php";
     public static final String URL_SETTINGS_INSERT = SETTINGS + "Insert.php";
     public static final String URL_SETTINGS_SET_AUTO_CALORIES = SETTINGS + "SetAutoCalories.php";
+
+
+    public static final String URL_GRAPH_KCAL = GRAPH + "GetKcalGraph.php";
 
 
 

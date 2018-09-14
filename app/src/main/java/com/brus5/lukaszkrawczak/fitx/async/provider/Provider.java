@@ -8,6 +8,7 @@ import android.widget.ListView;
 import com.brus5.lukaszkrawczak.fitx.MainService;
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
+import com.jjoe64.graphview.GraphView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,6 +25,7 @@ public class Provider
     private ListView listView;
     private Activity activity;
     private Context context;
+    private GraphView graphView;
 
     public Provider(Activity activity, Context context, ListView listView)
     {
@@ -36,6 +38,13 @@ public class Provider
     {
         this.activity = activity;
         this.context = context;
+    }
+
+    public Provider(Activity activity, Context context, GraphView graphView)
+    {
+        this.activity = activity;
+        this.context = context;
+        this.graphView = graphView;
     }
 
 
@@ -70,6 +79,9 @@ public class Provider
                 break;
             case "SettingsActivity":
                 new SettingsActivityProvider(activity, context, listView);
+                break;
+            case "StatsActivity":
+                new StatsActivityProvider(activity, context, graphView);
                 break;
         }
     }
