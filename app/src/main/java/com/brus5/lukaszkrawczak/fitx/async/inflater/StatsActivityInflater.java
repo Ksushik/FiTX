@@ -4,14 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.util.Log;
 
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.training.Training;
 import com.brus5.lukaszkrawczak.fitx.training.TrainingDetailsActivity;
-import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.Viewport;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -33,9 +33,7 @@ public class StatsActivityInflater extends TrainingDetailsActivity
 {
     private static final String TAG = "StatsActivityInflater";
 
-    private List<Date> dateArrayList = new ArrayList<>();
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-
 
     private Activity activity;
     private Context context;
@@ -48,16 +46,11 @@ public class StatsActivityInflater extends TrainingDetailsActivity
         this.context = context;
 
         dataInflater(response);
-
-
-
     }
 
     private void dataInflater(String s)
     {
         graphView = activity.findViewById(R.id.grapViewStatistics);
-
-
 
         try
         {
@@ -67,10 +60,8 @@ public class StatsActivityInflater extends TrainingDetailsActivity
 
             if (jsonArray.length() > 0)
             {
-
                 ArrayList<String> resultArray = new ArrayList<>();
                 ArrayList<String> dateArray = new ArrayList<>();
-
 
                 for (int i = 0; i < jsonArray.length(); i++)
                 {
@@ -82,62 +73,47 @@ public class StatsActivityInflater extends TrainingDetailsActivity
                     dateArray.add(date);
                 }
 
+                // Setting line to graph for consumed calories
+                setLineGraphSeries(convertStringsToDate(dateArray),resultArray,context.getString(R.string.calories_consumed),Color.argb(255,51,153,255));
 
-                for (String r : dateArray)
-                {
-                    try
-                    {
-                        dateArrayList.add(simpleDateFormat.parse(r));
-                    }
-                    catch (ParseException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
+                // Configuring view style
+                setViewStyle();
 
-
-
-                LineGraphSeries<DataPoint> line = new LineGraphSeries<>(new DataPoint[]{});
-
-                for (int i = dateArrayList.size(); i > 0; i--)
-                {
-                    Date x = dateArrayList.get(dateArrayList.size()-i);
-                    int y = Integer.valueOf(resultArray.get(resultArray.size()-i));
-
-                    line.appendData(new DataPoint(x,y),true, dateArrayList.size(), true);
-                }
-
-                graphView.addSeries(line);
-
-
-
-
-
-
-
-
-
-//                Log.d(TAG, "dataInflater() called with: resultArray = [" + resultArray + "]");
-//                Log.d(TAG, "dataInflater() called with: dateArray = [" + dateArray + "]");
-
+                // Setting X axis and Y axis titles and formats
+                setLabelFormatter();
             }
 
 
+            JSONArray arrayLimit = jsonObject.getJSONArray("calories_limit");
 
+            if (arrayLimit.length() > 0)
+            {
+                ArrayList<String> resultArray = new ArrayList<>();
+                ArrayList<String> dateArray = new ArrayList<>();
 
+                for (int i = 0; i < arrayLimit.length(); i++)
+                {
+                    JSONObject j = arrayLimit.getJSONObject(i);
+                    String RESULT = j.getString("RESULT");
+                    String date = j.getString("date");
 
+                    resultArray.add(RESULT);
+                    dateArray.add(date);
+                }
 
+                // Setting line to graph for consumed calories
+                setLineGraphSeries(convertStringsToDate(dateArray),resultArray,context.getString(R.string.calories_limit),Color.argb(255,242, 0, 86));
 
+                // Configuring view style
+                setViewStyle();
 
-
-
-
-
-
-
+                // Setting X axis and Y axis titles and formats
+                setLabelFormatter();
+            }
 
 
         }
+
         catch (JSONException e)
         {
             Log.e(TAG, "dataInflater: ",e);
@@ -146,17 +122,73 @@ public class StatsActivityInflater extends TrainingDetailsActivity
         {
             e.printStackTrace();
         }
+    }
 
 
-        graphView.getGridLabelRenderer().setHorizontalLabelsAngle(120);
+    /**
+     * Adding series to graph
+     * @param list array of Date
+     * @param array array of results
+     * @param string name of lineGraph
+     */
+    private void setLineGraphSeries(List<Date> list, ArrayList<String> array, String string, int color)
+    {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{});
+
+        for (int i = array.size(); i > 0; i--)
+        {
+            Date x = list.get(array.size()-i);
+            int y = Integer.valueOf(array.get(array.size()-i));
+
+            series.appendData(new DataPoint(x,y),true, array.size(), true);
+            series.setTitle(string);
+        }
+
+        series.setColor(color);
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(8);
+        series.setThickness(5);
+
+        graphView.addSeries(series);
+    }
+
+
+    /**
+     * Converting String date to Date format
+     * @param dateArray date array pass
+     */
+    private List<Date> convertStringsToDate(ArrayList<String> dateArray)
+    {
+        List<Date> dateArrayList = new ArrayList<>();
+        for (String r : dateArray)
+        {
+            try
+            {
+                dateArrayList.add(simpleDateFormat.parse(r));
+            }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return dateArrayList;
+    }
+
+    /**
+     * Configuring view style
+     */
+    private void setViewStyle()
+    {
+        graphView.getGridLabelRenderer().setVerticalAxisTitle(context.getString(R.string.calories));
+        graphView.getGridLabelRenderer().setHorizontalLabelsAngle(130);
         graphView.getGridLabelRenderer().setTextSize(25);
-        graphView.getGridLabelRenderer().setLabelsSpace(20);
-        graphView.getGridLabelRenderer().setLabelHorizontalHeight(80);
+        graphView.getGridLabelRenderer().setLabelsSpace(15);
+        graphView.getGridLabelRenderer().setLabelHorizontalHeight(100);
         graphView.getGridLabelRenderer().setHumanRounding(true);
         graphView.getGridLabelRenderer().setGridColor(Color.argb(255,204,204,204));
+
         graphView.getViewport().setScalable(true);
         graphView.getViewport().setScalableY(false);
-
         graphView.getViewport().setXAxisBoundsManual(true);
         graphView.getViewport().setMinX(1.520114E12); //1.5185628E12
         graphView.getViewport().setMaxX(1.521714E12); // 1.5186492E12
@@ -164,9 +196,16 @@ public class StatsActivityInflater extends TrainingDetailsActivity
         graphView.getViewport().setScrollable(true);
         graphView.getViewport().scrollToEnd();
 
+        graphView.getLegendRenderer().setVisible(true);
+        graphView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+    }
 
 
-
+    /**
+     * Setting X axis and Y axis titles and formats
+     */
+    private void setLabelFormatter()
+    {
         graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(graphView.getContext()){
             @Override
             public String formatLabel(double value, boolean isValueX)
@@ -174,14 +213,11 @@ public class StatsActivityInflater extends TrainingDetailsActivity
                 if(isValueX)
                 {
                     return simpleDateFormat.format(new Date((long) value));
-
-                            /*new SimpleDateFormat().format(new Date((long) value));*/
                 }
                 else
-                    {
-                    return super.formatLabel(value, false) + "\nkcal";
-                    }
-
+                {
+                    return super.formatLabel(value, false) ;
+                }
             }
         });
     }

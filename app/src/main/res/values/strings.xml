@@ -260,4 +260,6 @@
     <string name="calories_automatic_long">Program za Ciebie obliczy ilość kalorii potrzebnych do utrzymania wagi</string>
     <string name="calories_manual">Manualne kalorie</string>
     <string name="calories_manual_long">Ręczne ustawianie kalorii</string>
+    <string name="calories_consumed">Spożyte kalorie</string>
+    <string name="calories_limit">Limit kalorii</string>
 </resources>
