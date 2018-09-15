@@ -136,15 +136,15 @@ public class StatsActivityInflater extends TrainingDetailsActivity
     {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{});
 
-        for (int i = array.size(); i > 0; i--)
+        for (int i = 0; i < array.size(); i++)
         {
-            Date x = list.get(array.size()-i);
-            int y = Integer.valueOf(array.get(array.size()-i));
+            Date x = list.get(i);
+            int y = Integer.valueOf(array.get(i));
 
-            series.appendData(new DataPoint(x,y),false, list.size()+10, true);
-            series.setTitle(string);
+            series.appendData(new DataPoint(x,y),false, list.size(), true);
         }
 
+        series.setTitle(string);
         series.setColor(color);
         series.setDrawDataPoints(true);
         series.setDataPointsRadius(5);
@@ -208,22 +208,20 @@ dt = sdf.format(c.getTime());  // dt is now the new date
     {
         graphView.getGridLabelRenderer().setVerticalAxisTitle(context.getString(R.string.calories));
         graphView.getGridLabelRenderer().setHorizontalLabelsAngle(130);
-        graphView.getGridLabelRenderer().setTextSize(25);
-        graphView.getGridLabelRenderer().setLabelsSpace(15);
-        graphView.getGridLabelRenderer().setNumHorizontalLabels(30);
-
-        graphView.getGridLabelRenderer().setLabelHorizontalHeight(150);
-        graphView.getGridLabelRenderer().setHumanRounding(true);
-        graphView.getGridLabelRenderer().setGridColor(Color.argb(255,204,204,204));
+//        graphView.getGridLabelRenderer().setTextSize(25);
+//        graphView.getGridLabelRenderer().setLabelsSpace(15);
+//        graphView.getGridLabelRenderer().setLabelHorizontalHeight(150);
+//        graphView.getGridLabelRenderer().setHumanRounding(true);
+//        graphView.getGridLabelRenderer().setGridColor(Color.argb(255,204,204,204));
 
         graphView.onDataChanged(false,true);
-        graphView.getViewport().setScalable(true);
-        graphView.getViewport().setScalableY(false);
-        graphView.getViewport().setXAxisBoundsManual(true);
-        graphView.getViewport().setMinX(1.520114E12); // 1.5185628E12
-        graphView.getViewport().setMaxX(1.521714E12); // 1.5186492E12
-        graphView.getViewport().setScrollable(true);
-        graphView.getViewport().scrollToEnd();
+//        graphView.getViewport().setScalable(false);
+//        graphView.getViewport().setScalableY(true);
+//        graphView.getViewport().setXAxisBoundsManual(true);
+//        graphView.getViewport().setMinX(1.520114E12); // 1.5185628E12
+//        graphView.getViewport().setMaxX(1.521714E12); // 1.5186492E12
+//        graphView.getViewport().setScrollable(true);
+//        graphView.getViewport().scrollToEnd();
 //        graphView.getViewport().setMaxXAxisSize(1.621714E12);
 
         graphView.getLegendRenderer().setVisible(true);

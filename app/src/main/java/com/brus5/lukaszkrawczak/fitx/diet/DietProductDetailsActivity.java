@@ -138,6 +138,11 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+
+        String prodID = String.valueOf(productID);
+        String userID = String.valueOf(SaveSharedPreference.getUserID(DietProductDetailsActivity.this));
+        String productWeight = String.valueOf((int)PRODUCT_WEIGHT);
+
         switch (item.getItemId())
         {
             case R.id.menu_save_product:
@@ -148,9 +153,9 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
                     DietService service = new DietService(DietProductDetailsActivity.this);
 
                     HashMap<String, String> params = new HashMap<>();
-                    params.put(ID, String.valueOf(productID));
-                    params.put(USER_ID, String.valueOf(SaveSharedPreference.getUserID(DietProductDetailsActivity.this)));
-                    params.put(UPDATE_WEIGHT, String.valueOf(PRODUCT_WEIGHT));
+                    params.put(ID, prodID);
+                    params.put(USER_ID, userID);
+                    params.put(UPDATE_WEIGHT, productWeight);
                     params.put(DATE, newTimeStamp);
 
                     service.post(params, URL_DIET_PRODUCT_UPDATE_WEIGHT);
@@ -165,9 +170,9 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
                     DietService service = new DietService(DietProductDetailsActivity.this);
 
                     HashMap<String, String> params = new HashMap<>();
-                    params.put(ID, String.valueOf(productID));
-                    params.put(USER_ID, String.valueOf(SaveSharedPreference.getUserID(DietProductDetailsActivity.this)));
-                    params.put(WEIGHT, String.valueOf(PRODUCT_WEIGHT));
+                    params.put(ID, prodID);
+                    params.put(USER_ID, userID);
+                    params.put(WEIGHT, productWeight);
                     params.put(DATE, newTimeStamp);
 
                     service.post(params, URL_DIET_PRODUCT_INSERT);
@@ -182,10 +187,12 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
                 DietService service = new DietService(DietProductDetailsActivity.this);
 
                 HashMap<String, String> params = new HashMap<>();
-                params.put(ID, String.valueOf(productID));
-                params.put(USER_ID, String.valueOf(SaveSharedPreference.getUserID(DietProductDetailsActivity.this)));
-                params.put(WEIGHT, String.valueOf(PRODUCT_WEIGHT));
+                params.put(ID, prodID);
+                params.put(USER_ID, userID);
+                params.put(WEIGHT, productWeight);
                 params.put(DATE, newTimeStamp);
+
+                Log.d(TAG, "onOptionsItemSelected() called with: item = [" + productID + "]" + "[" + PRODUCT_WEIGHT + "]" + "[" + newTimeStamp + "]");
 
                 service.post(params, URL_DIET_PRODUCT_DELETE);
 
