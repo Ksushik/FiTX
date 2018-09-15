@@ -147,8 +147,8 @@ public class StatsActivityInflater extends TrainingDetailsActivity
 
         series.setColor(color);
         series.setDrawDataPoints(true);
-        series.setDataPointsRadius(8);
-        series.setThickness(5);
+        series.setDataPointsRadius(5);
+        series.setThickness(3);
 
         graphView.addSeries(series);
     }
@@ -210,18 +210,21 @@ dt = sdf.format(c.getTime());  // dt is now the new date
         graphView.getGridLabelRenderer().setHorizontalLabelsAngle(130);
         graphView.getGridLabelRenderer().setTextSize(25);
         graphView.getGridLabelRenderer().setLabelsSpace(15);
+        graphView.getGridLabelRenderer().setNumHorizontalLabels(30);
+
         graphView.getGridLabelRenderer().setLabelHorizontalHeight(150);
         graphView.getGridLabelRenderer().setHumanRounding(true);
         graphView.getGridLabelRenderer().setGridColor(Color.argb(255,204,204,204));
 
+        graphView.onDataChanged(false,true);
         graphView.getViewport().setScalable(true);
         graphView.getViewport().setScalableY(false);
         graphView.getViewport().setXAxisBoundsManual(true);
-        graphView.getViewport().setMinX(1.520114E12); //1.5185628E12
+        graphView.getViewport().setMinX(1.520114E12); // 1.5185628E12
         graphView.getViewport().setMaxX(1.521714E12); // 1.5186492E12
         graphView.getViewport().setScrollable(true);
-        graphView.getViewport().setScrollable(true);
-//        graphView.getViewport().scrollToEnd();
+        graphView.getViewport().scrollToEnd();
+//        graphView.getViewport().setMaxXAxisSize(1.621714E12);
 
         graphView.getLegendRenderer().setVisible(true);
         graphView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
