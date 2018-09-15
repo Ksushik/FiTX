@@ -116,6 +116,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         runNextActivity(MainActivity.this,TrainingActivity.class);
     }
 
+    void test()
+    {
+
+    }
+
     public void onClickCardio(View view)
     {
         runNextActivity(MainActivity.this,TrainingActivity.class);
