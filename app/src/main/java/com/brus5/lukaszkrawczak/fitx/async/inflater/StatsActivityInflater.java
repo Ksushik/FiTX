@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -140,7 +141,7 @@ public class StatsActivityInflater extends TrainingDetailsActivity
             Date x = list.get(array.size()-i);
             int y = Integer.valueOf(array.get(array.size()-i));
 
-            series.appendData(new DataPoint(x,y),true, array.size(), true);
+            series.appendData(new DataPoint(x,y),false, list.size()+10, true);
             series.setTitle(string);
         }
 
@@ -165,12 +166,38 @@ public class StatsActivityInflater extends TrainingDetailsActivity
             try
             {
                 dateArrayList.add(simpleDateFormat.parse(r));
+
             }
             catch (ParseException e)
             {
                 e.printStackTrace();
             }
         }
+        Log.i(TAG, "convertStringsToDate: " + String.valueOf(dateArray.get(dateArray.size()-1)));
+        /*
+        String dt = "2008-01-01";  // Start date
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+Calendar c = Calendar.getInstance();
+c.setTime(sdf.parse(dt));
+c.add(Calendar.DATE, 1);  // number of days to add
+dt = sdf.format(c.getTime());  // dt is now the new date
+        * */
+        Calendar c = Calendar.getInstance();
+        try
+        {
+            c.setTime(simpleDateFormat.parse(dateArray.get(dateArray.size()-1)));
+            c.add(Calendar.DATE,5);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        dateArrayList.add(c.getTime());
+
+//        for (int i = 0; i < 5; i++) {
+//
+//        }
         return dateArrayList;
     }
 
@@ -183,7 +210,7 @@ public class StatsActivityInflater extends TrainingDetailsActivity
         graphView.getGridLabelRenderer().setHorizontalLabelsAngle(130);
         graphView.getGridLabelRenderer().setTextSize(25);
         graphView.getGridLabelRenderer().setLabelsSpace(15);
-        graphView.getGridLabelRenderer().setLabelHorizontalHeight(100);
+        graphView.getGridLabelRenderer().setLabelHorizontalHeight(150);
         graphView.getGridLabelRenderer().setHumanRounding(true);
         graphView.getGridLabelRenderer().setGridColor(Color.argb(255,204,204,204));
 
@@ -194,7 +221,7 @@ public class StatsActivityInflater extends TrainingDetailsActivity
         graphView.getViewport().setMaxX(1.521714E12); // 1.5186492E12
         graphView.getViewport().setScrollable(true);
         graphView.getViewport().setScrollable(true);
-        graphView.getViewport().scrollToEnd();
+//        graphView.getViewport().scrollToEnd();
 
         graphView.getLegendRenderer().setVisible(true);
         graphView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
