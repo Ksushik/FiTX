@@ -76,12 +76,6 @@ public class StatsActivityInflater extends TrainingDetailsActivity
 
                 // Setting line to graph for consumed calories
                 setLineGraphSeries(convertStringsToDate(dateArray),resultArray,context.getString(R.string.calories_consumed),Color.argb(255,51,153,255));
-
-                // Configuring view style
-                setViewStyle();
-
-                // Setting X axis and Y axis titles and formats
-                setLabelFormatter();
             }
 
 
@@ -105,14 +99,20 @@ public class StatsActivityInflater extends TrainingDetailsActivity
                 // Setting line to graph for consumed calories
                 setLineGraphSeries(convertStringsToDate(dateArray),resultArray,context.getString(R.string.calories_limit),Color.argb(255,242, 0, 86));
 
+                // Create fake viewport
+                fakeViewport(dateArray.get(dateArray.size()-1));
+
+
                 // Configuring view style
                 setViewStyle();
 
                 // Setting X axis and Y axis titles and formats
                 setLabelFormatter();
+
+                // No adding fake legends
+                graphView.getLegendRenderer().setVisible(true);
+                graphView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
             }
-
-
         }
 
         catch (JSONException e)
@@ -125,29 +125,65 @@ public class StatsActivityInflater extends TrainingDetailsActivity
         }
     }
 
+    /**
+     * Creating fake viewport to get 10 days ahead of the last date
+     * @param s last date of arrayList
+     */
+    private void fakeViewport(String s)
+    {
+        ArrayList<String> fakeResult = new ArrayList<>();
+        ArrayList<String> fakeDate = new ArrayList<>();
+
+        Calendar c = Calendar.getInstance();
+
+        try
+        {
+            c.setTime(simpleDateFormat.parse(s));
+        }
+        catch (ParseException e)
+        {
+            // Returns the position where the error was found.
+            e.getErrorOffset();
+        }
+
+        // Moving Viewport 10 days in front of the last date
+        c.add(Calendar.DATE,10);
+        String date = simpleDateFormat.format(c.getTime());
+
+        fakeResult.add("3000");
+        fakeDate.add(date);
+
+        setLineGraphSeries(convertStringsToDate(fakeDate),fakeResult,null,0);
+    }
 
     /**
      * Adding series to graph
-     * @param list array of Date
-     * @param array array of results
+     * @param dateList array of Date
+     * @param resultList array of results
      * @param string name of lineGraph
      */
-    private void setLineGraphSeries(List<Date> list, ArrayList<String> array, String string, int color)
+    private void setLineGraphSeries(List<Date> dateList, ArrayList<String> resultList, String string, int color)
     {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{});
 
-        for (int i = 0; i < array.size(); i++)
+        for (int i = 0; i < resultList.size(); i++)
         {
-            Date x = list.get(i);
-            int y = Integer.valueOf(array.get(i));
+            Date x = dateList.get(i);
+            int y = Integer.valueOf(resultList.get(i));
 
-            series.appendData(new DataPoint(x,y),false, list.size(), true);
+            series.appendData(new DataPoint(x,y),true, dateList.size(), true);
         }
 
-        series.setTitle(string);
+        if (string != null && !string.isEmpty())
+        {
+            series.setTitle(string);
+        }
+
         series.setColor(color);
+
         series.setDrawDataPoints(true);
         series.setDataPointsRadius(5);
+
         series.setThickness(3);
 
         graphView.addSeries(series);
@@ -173,31 +209,7 @@ public class StatsActivityInflater extends TrainingDetailsActivity
                 e.printStackTrace();
             }
         }
-        Log.i(TAG, "convertStringsToDate: " + String.valueOf(dateArray.get(dateArray.size()-1)));
-        /*
-        String dt = "2008-01-01";  // Start date
-SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-Calendar c = Calendar.getInstance();
-c.setTime(sdf.parse(dt));
-c.add(Calendar.DATE, 1);  // number of days to add
-dt = sdf.format(c.getTime());  // dt is now the new date
-        * */
-        Calendar c = Calendar.getInstance();
-        try
-        {
-            c.setTime(simpleDateFormat.parse(dateArray.get(dateArray.size()-1)));
-            c.add(Calendar.DATE,5);
-        }
-        catch (ParseException e)
-        {
-            e.printStackTrace();
-        }
 
-        dateArrayList.add(c.getTime());
-
-//        for (int i = 0; i < 5; i++) {
-//
-//        }
         return dateArrayList;
     }
 
@@ -208,24 +220,23 @@ dt = sdf.format(c.getTime());  // dt is now the new date
     {
         graphView.getGridLabelRenderer().setVerticalAxisTitle(context.getString(R.string.calories));
         graphView.getGridLabelRenderer().setHorizontalLabelsAngle(130);
-//        graphView.getGridLabelRenderer().setTextSize(25);
-//        graphView.getGridLabelRenderer().setLabelsSpace(15);
-//        graphView.getGridLabelRenderer().setLabelHorizontalHeight(150);
-//        graphView.getGridLabelRenderer().setHumanRounding(true);
-//        graphView.getGridLabelRenderer().setGridColor(Color.argb(255,204,204,204));
+        graphView.getGridLabelRenderer().setTextSize(25);
+        graphView.getGridLabelRenderer().setLabelsSpace(15);
+        graphView.getGridLabelRenderer().setLabelHorizontalHeight(150);
+        graphView.getGridLabelRenderer().setHumanRounding(true);
+        graphView.getGridLabelRenderer().setGridColor(Color.argb(255,204,204,204));
 
         graphView.onDataChanged(false,true);
-//        graphView.getViewport().setScalable(false);
-//        graphView.getViewport().setScalableY(true);
-//        graphView.getViewport().setXAxisBoundsManual(true);
-//        graphView.getViewport().setMinX(1.520114E12); // 1.5185628E12
-//        graphView.getViewport().setMaxX(1.521714E12); // 1.5186492E12
-//        graphView.getViewport().setScrollable(true);
-//        graphView.getViewport().scrollToEnd();
-//        graphView.getViewport().setMaxXAxisSize(1.621714E12);
+        graphView.getViewport().setScalable(false);
+        graphView.getViewport().setScalableY(true);
+        graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setMinX(1.520114E12); // 1.5185628E12
+        graphView.getViewport().setMaxX(1.521714E12); // 1.5186492E12
+        graphView.getViewport().setScrollable(true);
+        graphView.getViewport().scrollToEnd();
 
-        graphView.getLegendRenderer().setVisible(true);
-        graphView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+
+
     }
 
 
