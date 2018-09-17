@@ -142,7 +142,7 @@ public class HTTPService extends AsyncTask<String, String, String>
                 new DietProductSearchActivityInflater(context, listView, s);
                 break;
             case "DietProductDetailsActivity":
-                new DietProductDetailsActivityInflater(context, listView, s);
+                new DietProductDetailsActivityInflater(context, s);
                 break;
             case "CardioDetailsActivity":
                 new CardioDetailsActivityInflater(activity, context, s);

@@ -66,7 +66,6 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
     private int productID;
     private String productTimeStamp, previousActivity, dateFormat, newTimeStamp;
     private Spinner spinner;
-    private ConstraintLayout constraintLayout;
     private ChangerTextViews changerTextViews;
 
 
@@ -99,7 +98,7 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
-        constraintLayout = findViewById(R.id.constraintLayoutDietDetails);
+        ConstraintLayout constraintLayout = findViewById(R.id.constraintLayoutDietDetails);
         constraintLayout.requestFocus();
     }
 
@@ -111,6 +110,12 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         activityView.showBackButton();
     }
 
+    /**
+     * This method is responsible for showing OptionsMenu
+     *
+     * @param menu item on ActionBar
+     * @return created item
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -118,12 +123,9 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
         getMenuInflater().inflate(R.menu.menu_diet_4_details, menu);
 
         MenuItem item = menu.findItem(R.id.menu_delete_product);
-        if (previousActivity.equals(DietActivity.class.getSimpleName()))
-        {
+        if (previousActivity.equals(DietActivity.class.getSimpleName())) {
             item.setVisible(true);
-        }
-        else
-        {
+        } else {
             item.setVisible(false);
         }
         return super.onCreateOptionsMenu(menu);

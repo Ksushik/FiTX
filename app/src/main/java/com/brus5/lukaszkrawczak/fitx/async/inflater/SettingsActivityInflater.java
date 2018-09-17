@@ -38,8 +38,6 @@ public class SettingsActivityInflater
 
     private Context context;
     private ListView listView;
-
-    private SettingsAdapter adapter;
     private ArrayList<Settings> arrayList = new ArrayList<>();
 
     public SettingsActivityInflater(Context context, ListView listView, String response)
@@ -98,14 +96,20 @@ public class SettingsActivityInflater
             String st3 = context.getResources().getString(R.string.your_body_type);
             String st4 = "user_somatotype";
 
-            StringBuilder b = new StringBuilder();
-            b.append("+");
-            b.append(somatotype);
-            b.append(" kcal");
+            String b = "+ " + somatotype + " kcal";
 
-            String st6 = "?";
+            String st6 = "Somatotyp, to typ budowy ciała, określa całościowe proporcje ciała. Jako regułę wyróżnia się trzy somatotypy - ektomorfik, mezomorfik i endomorfik. Każdy z nich charakteryzuje się inną budową. Wybranie jednej z tych grup pozwoli na trafniejsze wyliczanie kalorii a co za tym idzie lepsze efekty widoczne na ciele.\n" +
+                    "\n" +
+                    "+ 900 kcal - jeżeli masz niski poziom tkanki tłuszczowej, mało mięśni, dość szczupłe ramiona, płaską klatkę piersiową.\n" +
+                    "\n" +
+                    "+ 400 kcal - jeżeli masz niski poziom tkanki tłuszczowej, szerokie barki, wąską talię, widoczne mięśnie.\n" +
+                    "\n" +
+                    "+ 200 kcal - jeżeli masz wysoki poziom tkanki tłuszczowej, łatwo przybierasz na masie mięśniowej oraz tłuszczowej.\n" +
+                    "\n" +
+                    "Nie jesteśmy podzieleni tylko na trzy kategorie. Jeżeli wydaje Ci się, że przynależysz do jednej jak i do drugiej grupy to możesz wpisać wartość pośrednią. \n" +
+                    "Przykład: Możesz posiadać cechy endomorficzne jak i mezomorficzne w swoim somatotypie. Wtedy sugerowana wartość pośrednia wynosiłaby +300 kcal. Również możesz posiadać cechy ektomorficzne jak i mezomorficzne to Twoja wartość wynosiłaby między 400 a 900 kcal.";
 
-            Settings mSomatotype = new Settings(st1,b.toString(),st3,st4,defaultView,st6);
+            Settings mSomatotype = new Settings(st1, b, st3, st4, defaultView, st6);
 
             arrayList.add(mSomatotype);
 
@@ -132,20 +136,14 @@ public class SettingsActivityInflater
                 arrayList.add(mManual);
 
                 SaveSharedPreference.setAutoCalories(context,0);
-                Log.i(TAG, "load: " + SaveSharedPreference.getAutoCalories(context));
-
+                Log.d(TAG, "dataInflater() called with: SaveSharedPreference.getAutoCalories(context) = [" + SaveSharedPreference.getAutoCalories(context) + "]");
             }
 
-
-
-
             // Adding new View to adapter
-            adapter = new SettingsAdapter(context,R.layout.row_settings,arrayList);
+            SettingsAdapter adapter = new SettingsAdapter(context, R.layout.row_settings, arrayList);
 
             // Setting adapter
             listView.setAdapter(adapter);
-
-
         }
         catch(JSONException e)
         {
@@ -154,14 +152,12 @@ public class SettingsActivityInflater
 
     }
 
-
-
     private class SettingsAdapter extends ArrayAdapter<Settings>
     {
         private Context mContext;
         private int mResource;
 
-        public SettingsAdapter(@NonNull Context context, int resource, @NonNull List<Settings> objects)
+        SettingsAdapter(@NonNull Context context, int resource, @NonNull List<Settings> objects)
         {
             super(context, resource, objects);
             this.mContext = context;
@@ -175,104 +171,101 @@ public class SettingsActivityInflater
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
 
-            final String name = getItem(position).getName();
-            String value = getItem(position).getValue();
-            String description = getItem(position).getDescription();
-            int viewType = getItem(position).getViewType();
-            final String db = getItem(position).getDb();
-            final String descriptionLong = getItem(position).getDescriptionLong();
+            try {
+                final String name = getItem(position).getName();
+                String value = getItem(position).getValue();
+                String description = getItem(position).getDescription();
+                int viewType = getItem(position).getViewType();
+                final String db = getItem(position).getDb();
+                final String descriptionLong = getItem(position).getDescriptionLong();
 
-            if (viewType == 1)
-            {
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.row_settings, parent, false);
+                // Creating viewType with edittext
+                if (viewType == 1) {
+                    convertView = LayoutInflater.from(mContext).inflate(R.layout.row_settings, parent, false);
 
-                TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
-                TextView tvValue = convertView.findViewById(R.id.textViewValue);
-                TextView tvViewType = convertView.findViewById(R.id.textViewSettingsViewType);
-                TextView tvDescription = convertView.findViewById(R.id.textViewDescription);
+                    TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
+                    TextView tvValue = convertView.findViewById(R.id.textViewValue);
+                    TextView tvViewType = convertView.findViewById(R.id.textViewSettingsViewType);
+                    TextView tvDescription = convertView.findViewById(R.id.textViewDescription);
 
-                tvTitle.setText(name);
-                tvValue.setText(value);
-                tvDescription.setText(description);
-                tvViewType.setText(String.valueOf(viewType));
+                    tvTitle.setText(name);
+                    tvValue.setText(value);
+                    tvDescription.setText(description);
+                    tvViewType.setText(String.valueOf(viewType));
 
-                convertView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v)
+                    convertView.setOnClickListener(new View.OnClickListener()
                     {
-                        Intent intent = new Intent(context, SettingsDetailsActivity.class);
-                        intent.putExtra("name",name);
-                        intent.putExtra("descriptionLong",descriptionLong);
-                        intent.putExtra("db",db);
-                        context.startActivity(intent);
-                    }
-                });
+                        @Override
+                        public void onClick(View v)
+                        {
+                            Intent intent = new Intent(context, SettingsDetailsActivity.class);
+                            intent.putExtra("name", name);
+                            intent.putExtra("descriptionLong", descriptionLong);
+                            intent.putExtra("db", db);
+                            context.startActivity(intent);
+                        }
+                    });
 
-            }
-
-            if (viewType == 2)
-            {
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.row_settings_switch, parent, false);
-
-                TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
-                TextView tvDescription = convertView.findViewById(R.id.textViewDescription);
-                Switch aSwitch = convertView.findViewById(R.id.switch1);
-
-                tvTitle.setText(name);
-                tvDescription.setText(description);
-
-                if (Integer.valueOf(value) == 1)
-                {
-                    aSwitch.setChecked(true);
-                    SaveSharedPreference.setAutoCalories(context, 1);
-                }
-                else
-                {
-                    aSwitch.setChecked(false);
-                    SaveSharedPreference.setAutoCalories(context, 0);
                 }
 
+                // Creating viewtype with switch
+                if (viewType == 2) {
+                    convertView = LayoutInflater.from(mContext).inflate(R.layout.row_settings_switch, parent, false);
 
-                aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-                {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b)
-                    {
-                        String id = String.valueOf(SaveSharedPreference.getUserID(context));
+                    TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
+                    TextView tvDescription = convertView.findViewById(R.id.textViewDescription);
+                    Switch aSwitch = convertView.findViewById(R.id.switch1);
 
-                        switch (db)
-                        {
-                            case "user_calories_limit_auto":
-                                String auto_calories = b ? "1" : "0";
-                                final String LINK = URL_SETTINGS_SET_AUTO_CALORIES + "?id=" + id + "&auto_calories=" + auto_calories;
+                    tvTitle.setText(name);
+                    tvDescription.setText(description);
 
-                                // Set Automatic Calories
-                                new MainService(context).post(LINK);
-
-                                ((Activity)context).finish();
-                                ((Activity)context).overridePendingTransition(0, 0);
-                                context.startActivity(((Activity)context).getIntent());
-                                ((Activity)context).overridePendingTransition(0, 0);
-                                break;
-                        }
-
-
-
-                        if (b)
-                        {
-                            Toast.makeText(mContext, db + " ON", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            Toast.makeText(mContext, db + " OFF", Toast.LENGTH_SHORT).show();
-                        }
+                    if (Integer.valueOf(value) == 1) {
+                        aSwitch.setChecked(true);
+                        SaveSharedPreference.setAutoCalories(context, 1);
+                    } else {
+                        aSwitch.setChecked(false);
+                        SaveSharedPreference.setAutoCalories(context, 0);
                     }
-                });
 
+
+                    aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+                    {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean b)
+                        {
+                            String id = String.valueOf(SaveSharedPreference.getUserID(context));
+
+                            switch (db) {
+                                case "user_calories_limit_auto":
+                                    String auto_calories = b ? "1" : "0";
+                                    final String LINK = URL_SETTINGS_SET_AUTO_CALORIES + "?id=" + id + "&auto_calories=" + auto_calories;
+
+                                    // Set Automatic Calories
+                                    new MainService(context).post(LINK);
+
+                                    ((Activity) context).finish();
+                                    ((Activity) context).overridePendingTransition(0, 0);
+                                    context.startActivity(((Activity) context).getIntent());
+                                    ((Activity) context).overridePendingTransition(0, 0);
+                                    break;
+                            }
+
+
+                            if (b) {
+                                Toast.makeText(mContext, db + " ON", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(mContext, db + " OFF", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
-
             return convertView;
         }
+
     }
 
 
@@ -280,14 +273,14 @@ public class SettingsActivityInflater
 
 class Settings
 {
-    String name;
-    String value;
-    String description;
-    String db;
-    int viewType;
-    String descriptionLong;
+    private String name;
+    private String value;
+    private String description;
+    private String db;
+    private int viewType;
+    private String descriptionLong;
 
-    public Settings(String name, String value, String description, String db, int viewType, String descriptionLong)
+    Settings(String name, String value, String description, String db, int viewType, String descriptionLong)
     {
         this.name = name;
         this.value = value;
@@ -296,61 +289,6 @@ class Settings
         this.viewType = viewType;
         this.descriptionLong = descriptionLong;
 
-    }
-
-    public Settings(Builder builder)
-    {
-        this.name = builder.name;
-        this.value = builder.value;
-        this.description = builder.description;
-        this.db = builder.db;
-        this.viewType = builder.viewType;
-    }
-
-    public static class Builder
-    {
-        String name;
-        String value;
-        String description;
-        String db;
-        int viewType;
-
-        public Builder name(String name)
-        {
-            this.name = name;
-            return this;
-        }
-
-        public Builder value(String value)
-        {
-            this.value = value;
-            return this;
-        }
-
-        public Builder description(String description)
-        {
-            this.description = description;
-            return this;
-        }
-
-        public Builder db(String db)
-        {
-            this.db = db;
-            return this;
-        }
-
-        public Builder viewType(int number)
-        {
-            this.viewType = viewType;
-            return this;
-        }
-
-
-
-        public Settings build()
-        {
-            return new Settings(this);
-        }
     }
 
     public String getName()

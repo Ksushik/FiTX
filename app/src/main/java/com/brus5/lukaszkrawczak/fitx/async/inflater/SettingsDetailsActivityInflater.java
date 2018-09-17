@@ -4,15 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.SettingsDetailsActivity;
-import com.brus5.lukaszkrawczak.fitx.training.Training;
-import com.brus5.lukaszkrawczak.fitx.training.TrainingDetailsActivity;
-import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +16,6 @@ import org.json.JSONObject;
 public class SettingsDetailsActivityInflater extends SettingsDetailsActivity
 {
     private static final String TAG = "SettingsDetailsActivityInflater";
-    private String val;
     private Activity activity;
     private Context context;
 
@@ -44,8 +36,10 @@ public class SettingsDetailsActivityInflater extends SettingsDetailsActivity
         {
             JSONObject obj = new JSONObject(s);
             JSONArray arr = obj.getJSONArray("server_response");
-            val = arr.getJSONObject(0).getString("RESULT");
-            load(activity,context,arr.getJSONObject(0).getString("RESULT"));
+            String val = arr.getJSONObject(0).getString("RESULT");
+            load(activity, arr.getJSONObject(0).getString("RESULT"));
+
+            Log.d(TAG, "dataInflater() called with: s = [" + val + "]");
         }
         catch(JSONException e)
         {

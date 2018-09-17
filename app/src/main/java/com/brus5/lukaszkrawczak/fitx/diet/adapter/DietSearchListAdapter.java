@@ -23,7 +23,7 @@ import java.util.Locale;
 public class DietSearchListAdapter extends ArrayAdapter<Product>
 {
     private static final String TAG = "DietListAdapter";
-    int mResource;
+    private int mResource;
     private Context mContext;
 
     public DietSearchListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Product> objects)
