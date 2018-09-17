@@ -97,8 +97,6 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
             case R.id.menu_save_setting:
                 EditText et = findViewById(R.id.editTextSettings);
 
-                Toast.makeText(this, String.valueOf(VALUE), Toast.LENGTH_SHORT).show();
-
                 String id = String.valueOf(SaveSharedPreference.getUserID(SettingsDetailsActivity.this));
                 Calendar cal = Calendar.getInstance();
                 DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -109,8 +107,9 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
                 MainService s = new MainService(SettingsDetailsActivity.this);
                 s.post(LINK);
 
+                Toast.makeText(this, getApplicationContext().getString(R.string.updated) + " " + String.valueOf(VALUE), Toast.LENGTH_SHORT).show();
 
-                //                new Provider(SettingsDetailsActivity.this, SettingsDetailsActivity.this).postSettings(RESULT, db);
+                finish();
 
                 break;
         }

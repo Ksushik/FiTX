@@ -262,4 +262,5 @@
     <string name="calories_manual_long">Ręczne ustawianie kalorii</string>
     <string name="calories_consumed">Spożyte kalorie</string>
     <string name="calories_limit">Limit kalorii</string>
+    <string name="updated">Zaktualizowano</string>
 </resources>

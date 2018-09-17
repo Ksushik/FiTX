@@ -2,12 +2,10 @@ package com.brus5.lukaszkrawczak.fitx;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ListView;
 
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
-import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 
 public class SettingsActivity extends AppCompatActivity implements IDefaultView
 {
@@ -28,6 +26,17 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
     public void loadInput()
     {
         listView = findViewById(R.id.listViewSettings);
+    }
+
+    /**
+     * Reload info
+     */
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        new Provider(SettingsActivity.this, SettingsActivity.this, listView).load();
     }
 
     @Override

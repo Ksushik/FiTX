@@ -29,13 +29,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS_SET_AUTO_CALORIES;
-
-@SuppressLint("LongLogTag")
+@SuppressLint ("LongLogTag")
 public class SettingsActivityInflater
 {
     private static final String TAG = "SettingsActivityInflater";
-
     private Context context;
     private ListView listView;
     private ArrayList<Settings> arrayList = new ArrayList<>();
@@ -47,7 +44,6 @@ public class SettingsActivityInflater
 
         dataInflater(response);
     }
-
 
     private void dataInflater(String s)
     {
@@ -77,7 +73,7 @@ public class SettingsActivityInflater
             String s4 = "user_weight";
             String s6 = context.getResources().getString(R.string.body_mass_descripition_long);
 
-            Settings mWeight = new Settings(s1,weight,s3,s4,defaultView,s6);
+            Settings mWeight = new Settings(s1, weight, s3, s4, defaultView, s6);
 
             arrayList.add(mWeight);
 
@@ -86,7 +82,7 @@ public class SettingsActivityInflater
             String h3 = context.getResources().getString(R.string.body_height_description_short);
             String h4 = "user_height";
             String h6 = context.getResources().getString(R.string.body_height_description_long);
-            Settings mHeight = new Settings(h1,height,h3,h4,defaultView,h6);
+            Settings mHeight = new Settings(h1, height, h3, h4, defaultView, h6);
 
             arrayList.add(mHeight);
 
@@ -121,7 +117,7 @@ public class SettingsActivityInflater
             String ac4 = "user_calories_limit_auto";
 
 
-            Settings mLimit = new Settings(ac1,auto_calories,ac3,ac4,switchView,st6);
+            Settings mLimit = new Settings(ac1, auto_calories, ac3, ac4, switchView, st6);
             arrayList.add(mLimit);
 
 
@@ -132,10 +128,10 @@ public class SettingsActivityInflater
                 String mc3 = context.getResources().getString(R.string.calories_manual_long);
                 String mc4 = "user_calories_limit";
                 String mc6 = "Long text";
-                Settings mManual = new Settings(mc1, calories_limit,mc3,mc4,defaultView,mc6);
+                Settings mManual = new Settings(mc1, calories_limit, mc3, mc4, defaultView, mc6);
                 arrayList.add(mManual);
 
-                SaveSharedPreference.setAutoCalories(context,0);
+                SaveSharedPreference.setAutoCalories(context, 0);
                 Log.d(TAG, "dataInflater() called with: SaveSharedPreference.getAutoCalories(context) = [" + SaveSharedPreference.getAutoCalories(context) + "]");
             }
 
@@ -144,10 +140,9 @@ public class SettingsActivityInflater
 
             // Setting adapter
             listView.setAdapter(adapter);
-        }
-        catch(JSONException e)
+        } catch (JSONException e)
         {
-            Log.e(TAG, "dataInflater: ",e );
+            Log.e(TAG, "dataInflater: ", e);
         }
 
     }
@@ -171,7 +166,8 @@ public class SettingsActivityInflater
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
 
-            try {
+            try
+            {
                 final String name = getItem(position).getName();
                 String value = getItem(position).getValue();
                 String description = getItem(position).getDescription();
@@ -180,7 +176,8 @@ public class SettingsActivityInflater
                 final String descriptionLong = getItem(position).getDescriptionLong();
 
                 // Creating viewType with edittext
-                if (viewType == 1) {
+                if (viewType == 1)
+                {
                     convertView = LayoutInflater.from(mContext).inflate(R.layout.row_settings, parent, false);
 
                     TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
@@ -209,7 +206,8 @@ public class SettingsActivityInflater
                 }
 
                 // Creating viewtype with switch
-                if (viewType == 2) {
+                if (viewType == 2)
+                {
                     convertView = LayoutInflater.from(mContext).inflate(R.layout.row_settings_switch, parent, false);
 
                     TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
@@ -219,48 +217,59 @@ public class SettingsActivityInflater
                     tvTitle.setText(name);
                     tvDescription.setText(description);
 
-                    if (Integer.valueOf(value) == 1) {
-                        aSwitch.setChecked(true);
-                        SaveSharedPreference.setAutoCalories(context, 1);
-                    } else {
-                        aSwitch.setChecked(false);
-                        SaveSharedPreference.setAutoCalories(context, 0);
-                    }
+                    //                    if (Integer.valueOf(value) == 1)
+                    //                    {
+                    //                        aSwitch.setChecked(true);
+                    //                        SaveSharedPreference.setAutoCalories(context, 1);
+                    //                    } else
+                    //                    {
+                    //                        aSwitch.setChecked(false);
+                    //                        SaveSharedPreference.setAutoCalories(context, 0);
+                    //                    }
+
+                    Switcher s = new Switcher(mContext, aSwitch.getId());
+                    s.show();
+                    s.setChecked(false);
+
+                    //                    new AutoCalories(mContext, aSwitch).setChecked(false);
 
 
-                    aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-                    {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean b)
-                        {
-                            String id = String.valueOf(SaveSharedPreference.getUserID(context));
-
-                            switch (db) {
-                                case "user_calories_limit_auto":
-                                    String auto_calories = b ? "1" : "0";
-                                    final String LINK = URL_SETTINGS_SET_AUTO_CALORIES + "?id=" + id + "&auto_calories=" + auto_calories;
-
-                                    // Set Automatic Calories
-                                    new MainService(context).post(LINK);
-
-                                    ((Activity) context).finish();
-                                    ((Activity) context).overridePendingTransition(0, 0);
-                                    context.startActivity(((Activity) context).getIntent());
-                                    ((Activity) context).overridePendingTransition(0, 0);
-                                    break;
-                            }
-
-
-                            if (b) {
-                                Toast.makeText(mContext, db + " ON", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(mContext, db + " OFF", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                    //                    aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+                    //                    {
+                    //                        @Override
+                    //                        public void onCheckedChanged(CompoundButton compoundButton, boolean b)
+                    //                        {
+                    //                            String id = String.valueOf(SaveSharedPreference.getUserID(context));
+                    //
+                    //                            switch (db)
+                    //                            {
+                    //                                case "user_calories_limit_auto":
+                    //                                    String auto_calories = b ? "1" : "0";
+                    //                                    final String link = URL_SETTINGS_SET_AUTO_CALORIES + "?id=" + id + "&auto_calories=" + auto_calories;
+                    //
+                    //                                    // Set Automatic Calories
+                    //                                    new MainService(context).post(link);
+                    //
+                    //                                    ((Activity) context).finish();
+                    //                                    ((Activity) context).overridePendingTransition(0, 0);
+                    //                                    context.startActivity(((Activity) context).getIntent());
+                    //                                    ((Activity) context).overridePendingTransition(0, 0);
+                    //                                    break;
+                    //                            }
+                    //
+                    //                            if (b)
+                    //                            {
+                    //                                Toast.makeText(mContext, db + " ON", Toast.LENGTH_SHORT).show();
+                    //                            } else
+                    //                            {
+                    //                                Toast.makeText(mContext, db + " OFF", Toast.LENGTH_SHORT).show();
+                    //                            }
+                    //                        }
+                    //                    });
 
                 }
-            } catch (NullPointerException e) {
+            } catch (NullPointerException e)
+            {
                 e.printStackTrace();
             }
             return convertView;
@@ -301,7 +310,8 @@ class Settings
         return value;
     }
 
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
@@ -320,3 +330,69 @@ class Settings
         return descriptionLong;
     }
 }
+
+/**
+ * This is Switcher object which is responsible for Listening and sending information's to DB
+ */
+class Switcher extends Switch implements CompoundButton.OnCheckedChangeListener
+{
+    private static final String TAG = "Switcher";
+    protected Context mContext;
+    protected String link;
+
+    Switcher(Context mContext, int resID)
+    {
+        super(mContext);
+        this.mContext = mContext;
+        findViewById(resID);
+    }
+
+    void show()
+    {
+        setOnCheckedChangeListener(this);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+    {
+        String s = isChecked ? "1" : "0";
+
+        post(link + s);
+
+        Toast.makeText(mContext, "isChecked: " + s, Toast.LENGTH_SHORT).show();
+
+        ((Activity) mContext).finish();
+        ((Activity) mContext).overridePendingTransition(0, 0);
+        mContext.startActivity(((Activity) mContext).getIntent());
+        ((Activity) mContext).overridePendingTransition(0, 0);
+
+    }
+
+    void post(String link)
+    {
+        new MainService(mContext).post(link);
+    }
+
+    public void setLink(String link)
+    {
+        this.link = link;
+        Log.i(TAG, "setLink: " + link);
+    }
+}
+
+//@SuppressLint ("ViewConstructor")
+//class AutoCalories extends Switcher
+//{
+//    private Context mContext;
+//
+//    private String id = "5";
+//    String link = URL_SETTINGS_SET_AUTO_CALORIES + "?id=" + id + "&auto_calories=";
+//
+//    AutoCalories(Context mContext, Switch aSwitch)
+//    {
+//        super(mContext, aSwitch);
+//        this.mContext = mContext;
+//        show();
+//        setLink(link);
+//    }
+//}
