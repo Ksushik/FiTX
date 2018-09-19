@@ -39,11 +39,8 @@ public class DietActivityInflater
 {
     private static final String TAG = "MainActivityInflater";
 
-    private Activity parentActivity;
     private Context context;
     private ListView listView;
-    private Product product;
-    private DietListAdapter adapter;
     private ArrayList<Product> list = new ArrayList<>();
 
     private TextView tvProteins, tvFats, tvCarbs, tvCalories;
@@ -54,27 +51,25 @@ public class DietActivityInflater
 
     private double maxCalories = 0d;
 
-    public DietActivityInflater(Activity activity, Context context, ListView listView, String response)
+    public DietActivityInflater(Context context, ListView listView, String response)
     {
-        this.parentActivity = activity;
         this.context = context;
         this.listView = listView;
         loadInput();
 
         dataInflater(response);
-        Log.d(TAG, "DietActivityInflater: " + parentActivity.getClass().getSimpleName());
     }
 
     private void loadInput()
     {
-        pBarProteins = this.parentActivity.findViewById(R.id.progressBarProteins);
-        pBarFats = this.parentActivity.findViewById(R.id.progressBarFats);
-        pBarCarbs = this.parentActivity.findViewById(R.id.progressBarCarbs);
-        pBarKcal = this.parentActivity.findViewById(R.id.progressBarKcal);
-        tvProteins = this.parentActivity.findViewById(R.id.textViewProteins);
-        tvFats = this.parentActivity.findViewById(R.id.textViewFats);
-        tvCarbs = this.parentActivity.findViewById(R.id.textViewCarbs);
-        tvCalories = this.parentActivity.findViewById(R.id.textViewKcal);
+        pBarProteins = ((Activity)context).findViewById(R.id.progressBarProteins);
+        pBarFats = ((Activity)context).findViewById(R.id.progressBarFats);
+        pBarCarbs = ((Activity)context).findViewById(R.id.progressBarCarbs);
+        pBarKcal = ((Activity)context).findViewById(R.id.progressBarKcal);
+        tvProteins = ((Activity)context).findViewById(R.id.textViewProteins);
+        tvFats = ((Activity)context).findViewById(R.id.textViewFats);
+        tvCarbs = ((Activity)context).findViewById(R.id.textViewCarbs);
+        tvCalories = ((Activity)context).findViewById(R.id.textViewKcal);
     }
 
     private void dataInflater(String s)
@@ -200,7 +195,7 @@ public class DietActivityInflater
 
             setMaxCalories(countCalories);
 
-            adapter = new DietListAdapter(context, R.layout.row_diet_meal, list);
+            DietListAdapter adapter = new DietListAdapter(context, R.layout.row_diet_meal, list);
             listView.setAdapter(adapter);
             listView.invalidate();
 

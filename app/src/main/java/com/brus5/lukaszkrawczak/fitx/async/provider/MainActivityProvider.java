@@ -23,13 +23,12 @@ class MainActivityProvider extends Provider
      * Example SERVER_URL:
      * http://justfitx.xyz/Diet/ShowByUser.php?username=brus5&date=2018-08-27&user_id=5
      *
-     * @param activity activity from current Activity
      * @param context  context from current Activity
      * @param listView listView from current Activity
      */
-    MainActivityProvider(Activity activity, Context context, ListView listView)
+    MainActivityProvider(Context context, ListView listView)
     {
-        super(activity, context, listView);
+        super(context, listView);
 
         // Attributing proper information to variables
         int userID = SaveSharedPreference.getUserID(context);

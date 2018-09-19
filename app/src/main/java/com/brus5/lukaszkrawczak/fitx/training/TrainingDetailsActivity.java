@@ -102,7 +102,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         etNotepad.addTextChangedListener(characterLimit);
 
         INFLATER = new TrainingInflater(TrainingDetailsActivity.this);
-        TIMER = new TimerGym(TrainingDetailsActivity.this, TrainingDetailsActivity.this);
+        TIMER = new TimerGym(TrainingDetailsActivity.this);
     }
 
     /**
@@ -475,15 +475,14 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     /**
      * This is Async Method. It's responsible for filling data from
      * another Thread to Main Thread.
-     * @param activity actual Activity
      * @param context actual Context
      * @param t Training object
      */
-    public void load(Activity activity, Context context, Training t)
+    public void load(Context context, Training t)
     {
-        tvName = activity.findViewById(R.id.textViewExerciseName);
-        etNotepad = activity.findViewById(R.id.editTextNotepad);
-        linearLayout = activity.findViewById(R.id.container);
+        tvName = ((Activity)context).findViewById(R.id.textViewExerciseName);
+        etNotepad = ((Activity)context).findViewById(R.id.editTextNotepad);
+        linearLayout = ((Activity)context).findViewById(R.id.container);
 
         tvName.setText(t.getName());
         etNotepad.setText(t.getNotepad());

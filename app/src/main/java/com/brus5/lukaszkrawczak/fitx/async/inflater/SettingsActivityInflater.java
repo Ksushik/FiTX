@@ -3,13 +3,13 @@ package com.brus5.lukaszkrawczak.fitx.async.inflater;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.MainService;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.SettingsDetailsActivity;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 import org.json.JSONArray;
@@ -29,18 +28,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS_SET_AUTO_CALORIES;
+
 @SuppressLint ("LongLogTag")
 public class SettingsActivityInflater
 {
     private static final String TAG = "SettingsActivityInflater";
     private Context context;
-    private ListView listView;
-    private ArrayList<Settings> arrayList = new ArrayList<>();
+    private ArrayList<Settings> mySettings = new ArrayList<>();
 
-    public SettingsActivityInflater(Context context, ListView listView, String response)
+    public SettingsActivityInflater(Context context, String response)
     {
         this.context = context;
-        this.listView = listView;
 
         dataInflater(response);
     }
@@ -48,6 +47,10 @@ public class SettingsActivityInflater
     private void dataInflater(String s)
     {
         Log.d(TAG, "dataInflater() called with: s = [" + s + "]");
+
+        ListView listView = ((Activity)context).findViewById(R.id.listViewSettings);
+
+
 
         try
         {
@@ -75,7 +78,7 @@ public class SettingsActivityInflater
 
             Settings mWeight = new Settings(s1, weight, s3, s4, defaultView, s6);
 
-            arrayList.add(mWeight);
+            mySettings.add(mWeight);
 
             // Creating variables for passing HEIGHT constructor
             String h1 = context.getResources().getString(R.string.body_height);
@@ -84,7 +87,7 @@ public class SettingsActivityInflater
             String h6 = context.getResources().getString(R.string.body_height_description_long);
             Settings mHeight = new Settings(h1, height, h3, h4, defaultView, h6);
 
-            arrayList.add(mHeight);
+            mySettings.add(mHeight);
 
 
             // Creating variables for passing SOMATOTYPE constructor
@@ -107,7 +110,7 @@ public class SettingsActivityInflater
 
             Settings mSomatotype = new Settings(st1, b, st3, st4, defaultView, st6);
 
-            arrayList.add(mSomatotype);
+            mySettings.add(mSomatotype);
 
 
             // Creating variables for passing AUTOMATIC CALORIES constructor
@@ -118,9 +121,9 @@ public class SettingsActivityInflater
 
 
             Settings mLimit = new Settings(ac1, auto_calories, ac3, ac4, switchView, st6);
-            arrayList.add(mLimit);
+            mySettings.add(mLimit);
 
-
+            Log.i(TAG, "auto_calories: " + auto_calories);
             // If Automatic calories are turned OFF then be able to add manual calories row
             if (Integer.valueOf(auto_calories) == 0)
             {
@@ -129,17 +132,22 @@ public class SettingsActivityInflater
                 String mc4 = "user_calories_limit";
                 String mc6 = "Long text";
                 Settings mManual = new Settings(mc1, calories_limit, mc3, mc4, defaultView, mc6);
-                arrayList.add(mManual);
+                mySettings.add(mManual);
 
                 SaveSharedPreference.setAutoCalories(context, 0);
                 Log.d(TAG, "dataInflater() called with: SaveSharedPreference.getAutoCalories(context) = [" + SaveSharedPreference.getAutoCalories(context) + "]");
             }
 
             // Adding new View to adapter
-            SettingsAdapter adapter = new SettingsAdapter(context, R.layout.row_settings, arrayList);
+            SettingsAdapter adapter = new SettingsAdapter(context, R.layout.row_settings, mySettings);
 
             // Setting adapter
             listView.setAdapter(adapter);
+
+
+
+//            clickItems();
+
         } catch (JSONException e)
         {
             Log.e(TAG, "dataInflater: ", e);
@@ -147,7 +155,20 @@ public class SettingsActivityInflater
 
     }
 
-    private class SettingsAdapter extends ArrayAdapter<Settings>
+    private void clickItems()
+    {
+        ListView listView = ((Activity)context).findViewById(R.id.listViewSettings);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+//                Settings itemCicked = mySettings.get(position);
+
+            }
+        });
+    }
+
+    class SettingsAdapter extends ArrayAdapter<Settings>
     {
         private Context mContext;
         private int mResource;
@@ -190,18 +211,19 @@ public class SettingsActivityInflater
                     tvDescription.setText(description);
                     tvViewType.setText(String.valueOf(viewType));
 
-                    convertView.setOnClickListener(new View.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(View v)
-                        {
-                            Intent intent = new Intent(context, SettingsDetailsActivity.class);
-                            intent.putExtra("name", name);
-                            intent.putExtra("descriptionLong", descriptionLong);
-                            intent.putExtra("db", db);
-                            context.startActivity(intent);
-                        }
-                    });
+//                    convertView.setOnClickListener(new View.OnClickListener()
+//                    {
+//                        @Override
+//                        public void onClick(View v)
+//                        {
+//                            Intent intent = new Intent(context, SettingsDetailsActivity.class);
+//                            intent.putExtra("name", name);
+//                            intent.putExtra("descriptionLong", descriptionLong);
+//                            intent.putExtra("db", db);
+//                            context.startActivity(intent);
+//                        }
+//                    });
+
 
                 }
 
@@ -212,71 +234,77 @@ public class SettingsActivityInflater
 
                     TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
                     TextView tvDescription = convertView.findViewById(R.id.textViewDescription);
-                    Switch aSwitch = convertView.findViewById(R.id.switch1);
+                    final Switch aSwitch = convertView.findViewById(R.id.switch1);
 
                     tvTitle.setText(name);
                     tvDescription.setText(description);
 
-                    //                    if (Integer.valueOf(value) == 1)
-                    //                    {
-                    //                        aSwitch.setChecked(true);
-                    //                        SaveSharedPreference.setAutoCalories(context, 1);
-                    //                    } else
-                    //                    {
-                    //                        aSwitch.setChecked(false);
-                    //                        SaveSharedPreference.setAutoCalories(context, 0);
-                    //                    }
 
-                    Switcher s = new Switcher(mContext, aSwitch.getId());
-                    s.show();
-                    s.setChecked(false);
-
-                    //                    new AutoCalories(mContext, aSwitch).setChecked(false);
+                    if (Integer.valueOf(value) == 1)
+                    {
+                        aSwitch.setChecked(true);
+                    }
+                    else
+                    {
+                        aSwitch.setChecked(false);
+                    }
 
 
-                    //                    aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-                    //                    {
-                    //                        @Override
-                    //                        public void onCheckedChanged(CompoundButton compoundButton, boolean b)
-                    //                        {
-                    //                            String id = String.valueOf(SaveSharedPreference.getUserID(context));
-                    //
-                    //                            switch (db)
-                    //                            {
-                    //                                case "user_calories_limit_auto":
-                    //                                    String auto_calories = b ? "1" : "0";
-                    //                                    final String link = URL_SETTINGS_SET_AUTO_CALORIES + "?id=" + id + "&auto_calories=" + auto_calories;
-                    //
-                    //                                    // Set Automatic Calories
-                    //                                    new MainService(context).post(link);
-                    //
-                    //                                    ((Activity) context).finish();
-                    //                                    ((Activity) context).overridePendingTransition(0, 0);
-                    //                                    context.startActivity(((Activity) context).getIntent());
-                    //                                    ((Activity) context).overridePendingTransition(0, 0);
-                    //                                    break;
-                    //                            }
-                    //
-                    //                            if (b)
-                    //                            {
-                    //                                Toast.makeText(mContext, db + " ON", Toast.LENGTH_SHORT).show();
-                    //                            } else
-                    //                            {
-                    //                                Toast.makeText(mContext, db + " OFF", Toast.LENGTH_SHORT).show();
-                    //                            }
-                    //                        }
-                    //                    });
+
+                    aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+                    {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean b)
+                        {
+                            String id = String.valueOf(SaveSharedPreference.getUserID(context));
+
+                            switch (db)
+                            {
+                                case "user_calories_limit_auto":
+                                {
+                                    String auto_calories = b ? "1" : "0";
+
+                                    if (b) SaveSharedPreference.setAutoCalories(context, 1);
+                                    else SaveSharedPreference.setAutoCalories(context, 0);
+
+                                    final String link = URL_SETTINGS_SET_AUTO_CALORIES + "?id=" + id + "&auto_calories=" + auto_calories;
+
+                                    // Set Automatic Calories
+                                    new MainService(context).post(link);
+                                }
+
+                                // Always restarting activity to update the listView
+                                    default:
+                                        ((Activity) context).finish();
+                                        ((Activity) context).overridePendingTransition(0, 0);
+                                        context.startActivity(((Activity) context).getIntent());
+                                        ((Activity) context).overridePendingTransition(0, 0);
+                                        break;
+                            }
+
+                            if (b)
+                            {
+                                Toast.makeText(mContext, db + " ON", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(mContext, db + " OFF", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
 
                 }
-            } catch (NullPointerException e)
+            }
+            catch (NullPointerException e)
             {
                 e.printStackTrace();
             }
+
             return convertView;
         }
 
     }
-
 
 }
 
@@ -330,69 +358,3 @@ class Settings
         return descriptionLong;
     }
 }
-
-/**
- * This is Switcher object which is responsible for Listening and sending information's to DB
- */
-class Switcher extends Switch implements CompoundButton.OnCheckedChangeListener
-{
-    private static final String TAG = "Switcher";
-    protected Context mContext;
-    protected String link;
-
-    Switcher(Context mContext, int resID)
-    {
-        super(mContext);
-        this.mContext = mContext;
-        findViewById(resID);
-    }
-
-    void show()
-    {
-        setOnCheckedChangeListener(this);
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-    {
-        String s = isChecked ? "1" : "0";
-
-        post(link + s);
-
-        Toast.makeText(mContext, "isChecked: " + s, Toast.LENGTH_SHORT).show();
-
-        ((Activity) mContext).finish();
-        ((Activity) mContext).overridePendingTransition(0, 0);
-        mContext.startActivity(((Activity) mContext).getIntent());
-        ((Activity) mContext).overridePendingTransition(0, 0);
-
-    }
-
-    void post(String link)
-    {
-        new MainService(mContext).post(link);
-    }
-
-    public void setLink(String link)
-    {
-        this.link = link;
-        Log.i(TAG, "setLink: " + link);
-    }
-}
-
-//@SuppressLint ("ViewConstructor")
-//class AutoCalories extends Switcher
-//{
-//    private Context mContext;
-//
-//    private String id = "5";
-//    String link = URL_SETTINGS_SET_AUTO_CALORIES + "?id=" + id + "&auto_calories=";
-//
-//    AutoCalories(Context mContext, Switch aSwitch)
-//    {
-//        super(mContext, aSwitch);
-//        this.mContext = mContext;
-//        show();
-//        setLink(link);
-//    }
-//}

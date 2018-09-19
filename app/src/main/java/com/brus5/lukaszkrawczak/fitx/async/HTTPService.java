@@ -133,10 +133,10 @@ public class HTTPService extends AsyncTask<String, String, String>
                 new MainActivityInflater(context, listView, s);
                 break;
             case "DietActivity":
-                new DietActivityInflater(activity, context, listView, s);
+                new DietActivityInflater(context, listView, s);
                 break;
             case "TrainingActivity":
-                new TrainingActivityInflater(activity, context, listView, s);
+                new TrainingActivityInflater(context, listView, s);
                 break;
             case "DietProductSearchActivity":
                 new DietProductSearchActivityInflater(context, listView, s);
@@ -148,15 +148,17 @@ public class HTTPService extends AsyncTask<String, String, String>
                 new CardioDetailsActivityInflater(activity, context, s);
                 break;
             case "TrainingDetailsActivity":
-                new TrainingDetailsActivityInflater(activity, context, s);
+                new TrainingDetailsActivityInflater(context, s);
                 break;
             case "SettingsActivity":
-                new SettingsActivityInflater(context, listView, s);
+                new SettingsActivityInflater(context, s);
                 break;
             case "SettingsDetailsActivity":
-                new SettingsDetailsActivityInflater(activity, context, s);
+                new SettingsDetailsActivityInflater(context, s);
+                break;
             case "StatsActivity":
-                new StatsActivityInflater(activity, context, s);
+                new StatsActivityInflater(context, s);
+                break;
         }
         Log.d(TAG, "onPostExecute() called with: s = [" + s + "]");
     }

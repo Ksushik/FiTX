@@ -16,12 +16,11 @@ import org.json.JSONObject;
 public class SettingsDetailsActivityInflater extends SettingsDetailsActivity
 {
     private static final String TAG = "SettingsDetailsActivityInflater";
-    private Activity activity;
+
     private Context context;
 
-    public SettingsDetailsActivityInflater(Activity activity, Context context, String response)
+    public SettingsDetailsActivityInflater(Context context, String response)
     {
-        this.activity = activity;
         this.context = context;
 
         dataInflater(response);
@@ -37,7 +36,8 @@ public class SettingsDetailsActivityInflater extends SettingsDetailsActivity
             JSONObject obj = new JSONObject(s);
             JSONArray arr = obj.getJSONArray("server_response");
             String val = arr.getJSONObject(0).getString("RESULT");
-            load(activity, arr.getJSONObject(0).getString("RESULT"));
+
+            load(context, val);
 
             Log.d(TAG, "dataInflater() called with: s = [" + val + "]");
         }

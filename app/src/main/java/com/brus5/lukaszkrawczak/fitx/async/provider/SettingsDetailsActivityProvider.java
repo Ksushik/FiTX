@@ -23,13 +23,12 @@ class SettingsDetailsActivityProvider extends Provider
      * Example SERVER_URL:
      * http://justfitx.xyz/Settings/GetLast.php?id=5&table=user_height
      *
-     * @param activity activity from current Activity
      * @param context  context from current Activity
      */
 
-    SettingsDetailsActivityProvider(Activity activity, Context context, String db_table)
+    SettingsDetailsActivityProvider(Context context, String db_table)
     {
-        super(activity, context);
+        super(context);
 
         // Attributing proper information to variables
         int userID = SaveSharedPreference.getUserID(context);

@@ -23,13 +23,12 @@ class CardioDetailsActivityProvider extends Provider
      * Example SERVER_URL:
      * http://justfitx.xyz/Cardio/Show.php?user_id=5&date=2018-08-28&id=1
      *
-     * @param activity activity from current Activity
      * @param context  context from current Activity
      * @param listView listView from current Activity
      */
-    CardioDetailsActivityProvider(Activity activity, Context context, ListView listView, String cardioID)
+    CardioDetailsActivityProvider(Context context, ListView listView, String cardioID)
     {
-        super(activity, context, listView);
+        super(context, listView);
 
         // Attributing proper information to variables
         int userID = SaveSharedPreference.getUserID(context);
@@ -45,9 +44,9 @@ class CardioDetailsActivityProvider extends Provider
         startHTTPService(URL, params);
     }
 
-    CardioDetailsActivityProvider(Activity activity, Context context, ListView listView, String timeStamp, String cardioID)
+    CardioDetailsActivityProvider(Context context, ListView listView, String timeStamp, String cardioID)
     {
-        super(activity, context, listView);
+        super(context, listView);
 
         // Attributing proper information to variables
         int userID = SaveSharedPreference.getUserID(context);

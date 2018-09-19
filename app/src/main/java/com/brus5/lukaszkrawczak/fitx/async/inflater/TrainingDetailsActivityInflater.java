@@ -30,12 +30,10 @@ public class TrainingDetailsActivityInflater extends TrainingDetailsActivity
 {
     private static final String TAG = "TrainingDetailsActivityInflater";
 
-    private Activity activity;
     private Context context;
 
-    public TrainingDetailsActivityInflater(Activity activity, Context context, String response)
+    public TrainingDetailsActivityInflater(Context context, String response)
     {
-        this.activity = activity;
         this.context = context;
 
         dataInflater(response);
@@ -90,19 +88,7 @@ public class TrainingDetailsActivityInflater extends TrainingDetailsActivity
                 // This table is separating each number
                 mReps_table = mReps.split("\\s+");
 
-
-
-//                inflater.setReps(reps);
-//                inflater.setWeight(weight);
-
-//                TrainingDetailsActivity.this.seriesGenerator(mReps_table.length);
             }
-
-
-//            tvName.setText(StringConverter.toUpperFirstLetter(exerciseName));
-//            TrainingDetailsActivity.this.onTrainingChangerListener(done);
-//            etNotepad.setText(notepad);
-//            timer.setSeekbarProgress(Integer.valueOf(rest));
 
             Training t = new Training.Builder()
                     .name(exerciseName)
@@ -114,7 +100,9 @@ public class TrainingDetailsActivityInflater extends TrainingDetailsActivity
                     .sets(mReps_table.length)
                     .build();
 
-            load(activity,context, t);
+            load(context, t);
+
+
         } catch (JSONException e)
         {
             e.printStackTrace();

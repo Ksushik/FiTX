@@ -272,7 +272,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements IDefault
      * @param context  actual context
      * @param training training object
      */
-    public void load(Activity activity, Context context, Training training)
+    public void load(Context context, Training training)
     {
 
         // need to findView once again because in loadInput() are loaded in the Main Thread
@@ -282,14 +282,14 @@ public class CardioDetailsActivity extends AppCompatActivity implements IDefault
 
         if (previousActivity.equals(TrainingActivity.class.getSimpleName()))
         {
-            TimerCardio timer = new TimerCardio(activity, context);
+            TimerCardio timer = new TimerCardio(context);
             timer.seekbar();
             timer.setSeekbarProgress(training.getTime() * 60 * 1000);
             timer.setBurnedTextView(training.getKcal());
         }
         else if (previousActivity.equals(CardioListActivity.class.getSimpleName()))
         {
-            TimerCardio timer = new TimerCardio(activity, context);
+            TimerCardio timer = new TimerCardio(context);
             timer.seekbar();
             timer.setSeekbarProgress(900_000);
             timer.setBurnedTextView(training.getKcal());

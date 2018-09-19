@@ -21,14 +21,13 @@ public class DietProductSearchActivityProvider extends Provider
      * Example SERVER_URL:
      * http://justfitx.xyz/Diet/ProductsSearch.php?name=ziemniaki
      *
-     * @param activity activity from current Activity
      * @param context  context from current Activity
      * @param listView listView from current Activity
      */
     @SuppressLint("LongLogTag")
-    public DietProductSearchActivityProvider(Activity activity, Context context, ListView listView, String s)
+    public DietProductSearchActivityProvider(Context context, ListView listView, String s)
     {
-        super(activity, context, listView);
+        super(context, listView);
 
         // Glueing SERVER_URL with variables
         final String params = "?name=" + s;

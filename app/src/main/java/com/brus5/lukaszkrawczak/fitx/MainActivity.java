@@ -29,7 +29,6 @@ import com.brus5.lukaszkrawczak.fitx.utils.MyCalendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, IDefaultView
 {
-    private Button btnDiet, btTraining, btSettings, btnStats;
     private ListView listView;
 
     @Override
@@ -49,13 +48,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void loadInput()
     {
         listView = findViewById(R.id.listViewMain);
-        btnDiet = findViewById(R.id.buttonDiet);
+
+        Button btnDiet = findViewById(R.id.buttonDiet);
         btnDiet.setOnClickListener(this);
-        btTraining = findViewById(R.id.buttonTraining);
+
+        Button btTraining = findViewById(R.id.buttonTraining);
         btTraining.setOnClickListener(this);
-        btSettings = findViewById(R.id.buttonSettings);
+
+        Button btSettings = findViewById(R.id.buttonSettings);
         btSettings.setOnClickListener(this);
-        btnStats = findViewById(R.id.buttonStats);
+
+        Button btnStats = findViewById(R.id.buttonStats);
         btnStats.setOnClickListener(this);
     }
 
@@ -89,14 +92,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onRestart()
     {
-        new Provider(this, this, listView).load();
+        new Provider(MainActivity.this, listView).load();
         super.onRestart();
     }
 
     @Override
     protected void onResume()
     {
-        new Provider(this, this, listView).load();
+        new Provider(MainActivity.this, listView).load();
         super.onResume();
     }
 

@@ -11,17 +11,14 @@ import com.brus5.lukaszkrawczak.fitx.R;
 public class TimerCardio extends Timer
 {
     private static final String TAG = "TimerCardio";
-    private Activity activity;
     private TextView tvBurned;
     private double burned; // burning calories per 1 min
 
-    public TimerCardio(Activity activity, Context context)
+    public TimerCardio(Context context)
     {
-        super(activity, context);
+        super(context);
 
-        this.activity = activity;
-
-        tvBurned = this.activity.findViewById(R.id.textViewBurned);
+        tvBurned = ((Activity)context).findViewById(R.id.textViewBurned);
     }
 
     /**

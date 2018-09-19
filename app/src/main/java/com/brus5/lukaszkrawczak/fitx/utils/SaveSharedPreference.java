@@ -3,6 +3,7 @@ package com.brus5.lukaszkrawczak.fitx.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.Calendar;
 
@@ -12,6 +13,7 @@ import java.util.Calendar;
 
 public class SaveSharedPreference
 {
+    private static final String TAG = "SaveSharedPreference";
     private static final String USER_ID = "userID";
     private static final String USER_NAME = "userName";
     private static final String DEFAULT_LOGIN = "defaultLogin";

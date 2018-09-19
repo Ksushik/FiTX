@@ -30,15 +30,13 @@ public class TrainingActivityInflater
 {
     private static final String TAG = "MainActivityInflater";
 
-    private Activity activity;
     private Context context;
     private ListView listView;
     private TrainingAdapter adapter;
     private ArrayList<Training> list = new ArrayList<>();
 
-    public TrainingActivityInflater(Activity activity, Context context, ListView listView, String response)
+    public TrainingActivityInflater(Context context, ListView listView, String response)
     {
-        this.activity = activity;
         this.context = context;
         this.listView = listView;
 

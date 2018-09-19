@@ -19,7 +19,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
         loadInput();
         loadDefaultView();
 
-        new Provider(SettingsActivity.this,SettingsActivity.this,listView).load();
+        new Provider(SettingsActivity.this,listView).load();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
     {
         super.onResume();
 
-        new Provider(SettingsActivity.this, SettingsActivity.this, listView).load();
+        new Provider(SettingsActivity.this, listView).load();
     }
 
     @Override

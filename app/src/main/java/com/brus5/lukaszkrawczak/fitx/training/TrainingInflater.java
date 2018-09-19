@@ -241,9 +241,7 @@ public class TrainingInflater
 
     public boolean isValid()
     {
-        if ((mapReps.size() != rowsNum) || (mapWeight.size() != rowsNum) || this.weight == null || this.reps == null)
-            return false;
-        return true;
+        return (mapReps.size() == rowsNum) && (mapWeight.size() == rowsNum) && this.weight != null && this.reps != null;
     }
 
     public String printResult()

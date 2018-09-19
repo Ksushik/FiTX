@@ -24,14 +24,13 @@ class StatsActivityProvider extends Provider
      * Example SERVER_URL:
      * http://justfitx.xyz/Graph/GetKcalGraph.php?id=5
      *
-     * @param activity activity from current Activity
      * @param context  context from current Activity
      * @param graphView graphView from current Activity
      */
 
-    StatsActivityProvider(Activity activity, Context context, GraphView graphView)
+    StatsActivityProvider(Context context, GraphView graphView)
     {
-        super(activity, context, graphView);
+        super(context, graphView);
 
         // Attributing proper information to variables
         int userID = SaveSharedPreference.getUserID(context);

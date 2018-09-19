@@ -40,7 +40,7 @@ public class DietProductSearchActivity extends AppCompatActivity implements IDef
         searchProduct();
         onListViewItemSelected();
 
-        new Provider(DietProductSearchActivity.this, DietProductSearchActivity.this, listView).load("");
+        new Provider(DietProductSearchActivity.this, listView).load("");
 
     }
 
@@ -86,7 +86,7 @@ public class DietProductSearchActivity extends AppCompatActivity implements IDef
                     @Override
                     public void run()
                     {
-                        new Provider(DietProductSearchActivity.this, DietProductSearchActivity.this, listView).load(s.toString());
+                        new Provider(DietProductSearchActivity.this, listView).load(s.toString());
                     }
                 }, DELAY);
             }

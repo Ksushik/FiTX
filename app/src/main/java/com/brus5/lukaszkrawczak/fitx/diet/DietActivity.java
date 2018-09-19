@@ -74,7 +74,7 @@ public class DietActivity extends AppCompatActivity implements IDefaultView
     protected void onRestart()
     {
         super.onRestart();
-        new Provider(this, this, listView).load();
+        new Provider(DietActivity.this,listView).load();
     }
 
 

@@ -24,14 +24,12 @@ class SettingsActivityProvider extends Provider
      * Example SERVER_URL:
      * http://justfitx.xyz/Settings/GetSettings.php?id=5
      *
-     * @param activity activity from current Activity
      * @param context  context from current Activity
-     * @param listView listView from current Activity
      */
 
-    SettingsActivityProvider(Activity activity, Context context, ListView listView)
+    SettingsActivityProvider(Context context)
     {
-        super(activity, context, listView);
+        super(context);
 
         // Attributing proper information to variables
         int userID = SaveSharedPreference.getUserID(context);

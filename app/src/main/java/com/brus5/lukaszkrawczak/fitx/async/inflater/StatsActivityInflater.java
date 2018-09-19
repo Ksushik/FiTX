@@ -34,14 +34,12 @@ public class StatsActivityInflater extends TrainingDetailsActivity
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-    private Activity activity;
     private Context context;
 
     private GraphView graphView;
 
-    public StatsActivityInflater(Activity activity, Context context, String response)
+    public StatsActivityInflater(Context context, String response)
     {
-        this.activity = activity;
         this.context = context;
 
         dataInflater(response);
@@ -49,7 +47,7 @@ public class StatsActivityInflater extends TrainingDetailsActivity
 
     private void dataInflater(String s)
     {
-        graphView = activity.findViewById(R.id.grapViewStatistics);
+        graphView = ((Activity)context).findViewById(R.id.grapViewStatistics);
 
         try
         {

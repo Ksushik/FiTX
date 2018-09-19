@@ -27,9 +27,8 @@ public class Provider
     private Context context;
     private GraphView graphView;
 
-    public Provider(Activity activity, Context context, ListView listView)
+    public Provider(Context context, ListView listView)
     {
-        this.activity = activity;
         this.context = context;
         this.listView = listView;
     }
@@ -40,13 +39,20 @@ public class Provider
         this.context = context;
     }
 
-    public Provider(Activity activity, Context context, GraphView graphView)
+    public Provider(Context context, GraphView graphView)
     {
-        this.activity = activity;
         this.context = context;
         this.graphView = graphView;
     }
 
+    public Provider(Context context)
+    {
+        this.context = context;
+    }
+
+    void load123(){
+
+    }
 
     /**
      * This method loads proper class. It's must have to run out AsyncTask
@@ -59,6 +65,7 @@ public class Provider
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String date = sdf.format(cal.getTime());
         Log.i(TAG, "load: " + SaveSharedPreference.getAutoCalories(context));
+
         if (SaveSharedPreference.getAutoCalories(context) == 1)
         {
             final String LINK = URL_MAIN_KCAL_LIMIT_UPDATE + "?user_id=" + id + "&date=" + date;
@@ -69,19 +76,19 @@ public class Provider
         switch (context.getClass().getSimpleName())
         {
             case "MainActivity":
-                new MainActivityProvider(activity, context, listView);
+                new MainActivityProvider(context, listView);
                 break;
             case "DietActivity":
-                new DietActivityProdiver(activity, context, listView);
+                new DietActivityProdiver(context, listView);
                 break;
             case "TrainingActivity":
-                new TrainingActivityProvider(activity, context, listView);
+                new TrainingActivityProvider(context, listView);
                 break;
             case "SettingsActivity":
-                new SettingsActivityProvider(activity, context, listView);
+                new SettingsActivityProvider(context);
                 break;
             case "StatsActivity":
-                new StatsActivityProvider(activity, context, graphView);
+                new StatsActivityProvider(context, graphView);
                 break;
         }
     }
@@ -97,19 +104,19 @@ public class Provider
         switch (context.getClass().getSimpleName())
         {
             case "DietProductSearchActivity":
-                new DietProductSearchActivityProvider(activity, context, listView, s);
+                new DietProductSearchActivityProvider(context, listView, s);
                 break;
             case "DietProductDetailsActivity":
-                new DietProductDetailsActivityProvider(activity, context, listView, s);
+                new DietProductDetailsActivityProvider(context, listView, s);
                 break;
             case "CardioDetailsActivity":
-                new CardioDetailsActivityProvider(activity, context, listView, s);
+                new CardioDetailsActivityProvider(context, listView, s);
                 break;
             case "TrainingDetailsActivity":
-                new TrainingDetailsActivityProvider(activity, context, s);
+                new TrainingDetailsActivityProvider(context, s);
                 break;
             case "SettingsDetailsActivity":
-                new SettingsDetailsActivityProvider(activity, context, s);
+                new SettingsDetailsActivityProvider(context, s);
                 break;
         }
     }
@@ -119,7 +126,7 @@ public class Provider
         switch (context.getClass().getSimpleName())
         {
             case "TrainingDetailsActivity":
-                new TrainingDetailsActivityProvider(activity, context, s, isNew);
+                new TrainingDetailsActivityProvider(context, s, isNew);
                 break;
         }
     }
@@ -135,7 +142,7 @@ public class Provider
         switch (context.getClass().getSimpleName())
         {
             case "CardioDetailsActivity":
-                new CardioDetailsActivityProvider(activity, context, listView, timeStamp, id);
+                new CardioDetailsActivityProvider(context, listView, timeStamp, id);
                 break;
         }
     }

@@ -8,13 +8,11 @@ import android.widget.SeekBar;
 public class TimerGym extends Timer
 {
     private static final String TAG = "TimerCardio";
-    private Activity activity;
 
-    public TimerGym(Activity activity, Context context)
+    public TimerGym(Context context)
     {
-        super(activity, context);
+        super(context);
 
-        this.activity = activity;
     }
 
     /**

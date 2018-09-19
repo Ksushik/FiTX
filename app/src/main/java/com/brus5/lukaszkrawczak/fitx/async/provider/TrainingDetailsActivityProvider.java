@@ -28,9 +28,9 @@ class TrainingDetailsActivityProvider extends Provider
      */
 
     @SuppressLint("LongLogTag")
-    TrainingDetailsActivityProvider(Activity activity, Context context, String trainingID)
+    TrainingDetailsActivityProvider(Context context, String trainingID)
     {
-        super(activity, context);
+        super(context);
 
         // Attributing proper information to variables
         int userID = SaveSharedPreference.getUserID(context);
@@ -48,9 +48,9 @@ class TrainingDetailsActivityProvider extends Provider
 
 
     @SuppressLint("LongLogTag")
-    TrainingDetailsActivityProvider(Activity activity, Context context, String trainingID, boolean isNew)
+    TrainingDetailsActivityProvider(Context context, String trainingID, boolean isNew)
     {
-        super(activity, context);
+        super(context);
 
         // Glueing SERVER_URL with variables
         String params = "?id=" + trainingID;

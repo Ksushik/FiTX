@@ -23,13 +23,12 @@ class TrainingActivityProvider extends Provider
      * Example SERVER_URL:
      * http://justfitx.xyz/Diet/ShowByUser.php?user_id=5&date=2018-08-28
      *
-     * @param activity activity from current Activity
      * @param context  context from current Activity
      * @param listView listView from current Activity
      */
-    TrainingActivityProvider(Activity activity, Context context, ListView listView)
+    TrainingActivityProvider(Context context, ListView listView)
     {
-        super(activity, context, listView);
+        super(context, listView);
 
         // Attributing proper information to variables
         int userID = SaveSharedPreference.getUserID(context);

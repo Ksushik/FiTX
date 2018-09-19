@@ -1,6 +1,7 @@
 package com.brus5.lukaszkrawczak.fitx;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -138,12 +139,12 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
     /**
      * Loading value from AsyncTask
      *
-     * @param activity contains actual view
+     * @param context contains actual view
      * @param value    result of asynctask
      */
-    public void load(Activity activity, String value)
+    public void load(Context context, String value)
     {
-        EditText et = activity.findViewById(R.id.editTextSettings);
+        EditText et = ((Activity)context).findViewById(R.id.editTextSettings);
         et.setText(value);
         VALUE = Double.valueOf(value);
     }

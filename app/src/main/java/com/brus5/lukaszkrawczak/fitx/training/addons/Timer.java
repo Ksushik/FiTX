@@ -26,7 +26,6 @@ public class Timer
     public static long START_TIME_IN_MILLIS;
     public boolean isTimerRunning;
     public SeekBar seekBar;
-    private Activity activity;
     private Context context;
     private CountDownTimer timer;
     private long timeLeftInMillis;
@@ -38,19 +37,17 @@ public class Timer
     /**
      * Construcor of Timer
      *
-     * @param activity Activity is for findViewByID
      * @param context  Context is for updating TextView's
      */
-    public Timer(Activity activity, Context context)
+    public Timer(Context context)
     {
-        this.activity = activity;
         this.context = context;
 
-        seekBar = this.activity.findViewById(R.id.seekBarTimer);
-        circleProgressBar = this.activity.findViewById(R.id.progressBarCircle);
-        btnReset = this.activity.findViewById(R.id.buttonResetTimer);
-        tvTime = this.activity.findViewById(R.id.textViewTime);
-        btnStartPause = this.activity.findViewById(R.id.floatingButtonStartPause);
+        seekBar = ((Activity)context).findViewById(R.id.seekBarTimer);
+        circleProgressBar = ((Activity)context).findViewById(R.id.progressBarCircle);
+        btnReset = ((Activity)context).findViewById(R.id.buttonResetTimer);
+        tvTime = ((Activity)context).findViewById(R.id.textViewTime);
+        btnStartPause = ((Activity)context).findViewById(R.id.floatingButtonStartPause);
 
         // automatically after loading constructor of Timer buttons are loading.
         buttons();

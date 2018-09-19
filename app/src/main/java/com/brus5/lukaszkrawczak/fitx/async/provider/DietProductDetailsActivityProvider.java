@@ -23,14 +23,13 @@ public class DietProductDetailsActivityProvider extends Provider
      * <p>
      * RestAPI.SERVER_URL SERVER_URL is private static final in RestApi.class
      *
-     * @param activity activity from current Activity
      * @param context  context from current Activity
      * @param listView listView from current Activity
      */
     @SuppressLint("LongLogTag")
-    public DietProductDetailsActivityProvider(Activity activity, Context context, ListView listView, String s)
+    public DietProductDetailsActivityProvider(Context context, ListView listView, String s)
     {
-        super(activity, context, listView);
+        super(context, listView);
 
         // Glueing link with variables
         final String params = "?product_id=" + s;

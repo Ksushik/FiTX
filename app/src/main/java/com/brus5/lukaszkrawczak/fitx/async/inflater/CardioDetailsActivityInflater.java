@@ -89,7 +89,7 @@ public class CardioDetailsActivityInflater extends CardioDetailsActivity
 
                     Training t = new Training.Builder().name(name).kcal(calories).done(done).time(time).notepad(notepad).build();
 
-                    load(activity, context, t);
+                    load(context, t);
                 }
             }
         } catch (JSONException e)
