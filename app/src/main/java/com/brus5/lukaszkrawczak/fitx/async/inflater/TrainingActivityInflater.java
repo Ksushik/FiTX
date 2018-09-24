@@ -1,6 +1,5 @@
 package com.brus5.lukaszkrawczak.fitx.async.inflater;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -150,166 +149,168 @@ public class TrainingActivityInflater
         listView.setAdapter(adapter);
         listView.invalidate();
     }
-}
 
 
-
-class TrainingAdapter extends ArrayAdapter<Training>
-{
-    private static final String TAG = "TrainingAdapter";
-    private static final int KG_ONE_TONE = 1000;
-    int mResource;
-    private Context mContext;
-
-    public TrainingAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Training> objects)
+    class TrainingAdapter extends ArrayAdapter<Training>
     {
-        super(context, resource, objects);
-        mContext = context;
-        mResource = resource;
-    }
+        private static final String TAG = "TrainingAdapter";
+        private static final int KG_ONE_TONE = 1000;
+        int mResource;
+        private Context mContext;
 
-    @NonNull
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
-    {
-        int viewType = getItem(position).getViewType();
-
-        int id = getItem(position).getId();
-        int done = getItem(position).getDone();
-        String name = getItem(position).getName();
-        int restTime = getItem(position).getRestTime();
-        String weight = getItem(position).getWeight();
-        String reps = getItem(position).getReps();
-        String timeStamp = getItem(position).getTimeStamp();
-        String target = getItem(position).getTarget();
-
-        int time = getItem(position).getTime();
-        String kcalPerMin = getItem(position).getKcalPerMin();
-
-
-
-        /*training = new Training(id, done, name, time, date, kcalPerMin, 2);*/
-
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        convertView = inflater.inflate(mResource, parent, false);
-
-
-
-        if (viewType == 1)
+        public TrainingAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Training> objects)
         {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.row_training_excercise, parent, false);
+            super(context, resource, objects);
+            mContext = context;
+            mResource = resource;
+        }
 
-            CheckBox checkBox = convertView.findViewById(R.id.trainingExcerciseCheckBox);
-            TextView tvId = convertView.findViewById(R.id.trainingID);
-            TextView tvName = convertView.findViewById(R.id.trainingExcerciseTitle);
-            TextView tvRest = convertView.findViewById(R.id.trainingExcerciseRestTime);
-            TextView tvTimeStamp = convertView.findViewById(R.id.trainingTimeStamp);
-            TextView tvTarget = convertView.findViewById(R.id.trainingTarget);
-            TextView tvSeriesNum = convertView.findViewById(R.id.textViewSeriesNum);
-            TextView tvLifted = convertView.findViewById(R.id.textViewSumLiftedWeight);
-            TextView tvWeightType = convertView.findViewById(R.id.textViewWeightType);
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
+        {
+            int viewType = getItem(position).getViewType();
 
-            if (done == 1)
+            int id = getItem(position).getId();
+            int done = getItem(position).getDone();
+            String name = getItem(position).getName();
+            int restTime = getItem(position).getRestTime();
+            String weight = getItem(position).getWeight();
+            String reps = getItem(position).getReps();
+            String timeStamp = getItem(position).getTimeStamp();
+            String target = getItem(position).getTarget();
+
+            int time = getItem(position).getTime();
+            String kcalPerMin = getItem(position).getKcalPerMin();
+
+
+
+            /*training = new Training(id, done, name, time, date, kcalPerMin, 2);*/
+
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            convertView = inflater.inflate(mResource, parent, false);
+
+
+            if (viewType == 1)
             {
-                checkBox.setChecked(true);
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.row_training_excercise, parent, false);
+
+                CheckBox checkBox = convertView.findViewById(R.id.trainingExcerciseCheckBox);
+                TextView tvId = convertView.findViewById(R.id.trainingID);
+                TextView tvName = convertView.findViewById(R.id.trainingExcerciseTitle);
+                TextView tvRest = convertView.findViewById(R.id.trainingExcerciseRestTime);
+                TextView tvTimeStamp = convertView.findViewById(R.id.trainingTimeStamp);
+                TextView tvTarget = convertView.findViewById(R.id.trainingTarget);
+                TextView tvSeriesNum = convertView.findViewById(R.id.textViewSeriesNum);
+                TextView tvLifted = convertView.findViewById(R.id.textViewSumLiftedWeight);
+                TextView tvWeightType = convertView.findViewById(R.id.textViewWeightType);
+
+                if (done == 1)
+                {
+                    checkBox.setChecked(true);
+                }
+                else
+                {
+                    checkBox.setChecked(false);
+                }
+
+                tvId.setText(String.valueOf(id));
+                tvName.setText(StringConverter.toUpperFirstLetter(name));
+                tvTimeStamp.setText(timeStamp);
+                tvTarget.setText(target);
+
+                int minutes = time / 1000 / 60;
+                int seconds = time / 1000 % 60;
+
+                String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+                Log.i(TAG, "tvRest: " + tvRest.getText().toString() + "\n" + "time: " + time + "\n" + "timeLeftFormatted: " + timeLeftFormatted);
+                tvRest.setText(timeLeftFormatted);
+
+                TrainingInflater trainingInflater = new TrainingInflater(mContext);
+                trainingInflater.setReps(reps);
+                trainingInflater.setWeight(weight);
+
+                tvSeriesNum.setText(String.valueOf(trainingInflater.getSetNumber()));
+
+                double mWeight = trainingInflater.countLiftedWeight();
+                double toneConverter;
+
+                if (mWeight < KG_ONE_TONE)
+                {
+                    tvLifted.setText(String.valueOf(trainingInflater.countLiftedWeight()));
+                    tvWeightType.setText(R.string.kg_short);
+                }
+                else
+                {
+                    toneConverter = mWeight / KG_ONE_TONE;
+                    String value = String.format(Locale.getDefault(), "%.2f", toneConverter);
+                    tvLifted.setText(value);
+                    tvWeightType.setText(R.string.t_short);
+                }
+
+                return convertView;
+
             }
-            else
+
+
+            if (viewType == 2)
             {
-                checkBox.setChecked(false);
-            }
 
-            tvId.setText(String.valueOf(id));
-            tvName.setText(StringConverter.toUpperFirstLetter(name));
-            tvTimeStamp.setText(timeStamp);
-            tvTarget.setText(target);
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.row_training_cardio, parent, false);
 
-            int minutes = time / 1000 / 60;
-            int seconds = time / 1000 % 60;
+                CheckBox checkBox = convertView.findViewById(R.id.cardioCheckBox);
+                TextView tvId = convertView.findViewById(R.id.cardioID);
+                TextView tvName = convertView.findViewById(R.id.cardioTitle);
+                TextView tvTimeStamp = convertView.findViewById(R.id.cardioTimeStamp);
+                TextView tvTime = convertView.findViewById(R.id.cardioTime);
+                TextView tvKcalBurned = convertView.findViewById(R.id.cardioKcalBurned);
+                TextView tvKcalPerMin = convertView.findViewById(R.id.cardioBurnPerMin);
 
-            String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-            Log.i(TAG, "tvRest: " + tvRest.getText().toString() + "\n" + "time: " + time + "\n" + "timeLeftFormatted: " + timeLeftFormatted);
-            tvRest.setText(timeLeftFormatted);
 
-            TrainingInflater trainingInflater = new TrainingInflater(mContext);
-            trainingInflater.setReps(reps);
-            trainingInflater.setWeight(weight);
+                if (done == 1)
+                {
+                    checkBox.setChecked(true);
+                }
+                else
+                {
+                    checkBox.setChecked(false);
+                }
 
-            tvSeriesNum.setText(String.valueOf(trainingInflater.getSetNumber()));
+                tvId.setText(String.valueOf(id));
 
-            double mWeight = trainingInflater.countLiftedWeight();
-            double toneConverter;
+                tvName.setText(StringConverter.toUpperFirstLetter(name));
 
-            if (mWeight < KG_ONE_TONE)
-            {
-                tvLifted.setText(String.valueOf(trainingInflater.countLiftedWeight()));
-                tvWeightType.setText(R.string.kg_short);
-            }
-            else
-            {
-                toneConverter = mWeight / KG_ONE_TONE;
-                String value = String.format(Locale.getDefault(), "%.2f", toneConverter);
-                tvLifted.setText(value);
-                tvWeightType.setText(R.string.t_short);
+                tvTimeStamp.setText(timeStamp);
+
+                StringBuilder builder = new StringBuilder();
+                builder.append(time);
+                builder.append(":");
+                builder.append("00");
+
+                tvTime.setText(builder);
+
+                double iBurned = Integer.valueOf(time) * Double.parseDouble(kcalPerMin);
+                String burned = String.format(Locale.getDefault(), "%.0f", iBurned);
+
+
+                tvKcalBurned.setText(String.valueOf(burned));
+
+                tvKcalPerMin.setText(kcalPerMin);
+
+                Log.e(TAG, "tvId: " + tvId.getText().toString());
+                Log.e(TAG, "tvName: " + tvName.getText().toString());
+
+
+                return convertView;
             }
 
             return convertView;
 
         }
-
-
-
-        if (viewType == 2)
-        {
-
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.row_training_cardio, parent, false);
-
-            CheckBox checkBox = convertView.findViewById(R.id.cardioCheckBox);
-            TextView tvId = convertView.findViewById(R.id.cardioID);
-            TextView tvName = convertView.findViewById(R.id.cardioTitle);
-            TextView tvTimeStamp = convertView.findViewById(R.id.cardioTimeStamp);
-            TextView tvTime = convertView.findViewById(R.id.cardioTime);
-            TextView tvKcalBurned = convertView.findViewById(R.id.cardioKcalBurned);
-            TextView tvKcalPerMin = convertView.findViewById(R.id.cardioBurnPerMin);
-
-
-            if (done == 1)
-            {
-                checkBox.setChecked(true);
-            }
-            else
-            {
-                checkBox.setChecked(false);
-            }
-
-            tvId.setText(String.valueOf(id));
-
-            tvName.setText(StringConverter.toUpperFirstLetter(name));
-
-            tvTimeStamp.setText(timeStamp);
-
-            StringBuilder builder = new StringBuilder();
-            builder.append(time);
-            builder.append(":");
-            builder.append("00");
-
-            tvTime.setText(builder);
-
-            double iBurned = Integer.valueOf(time) * Double.parseDouble(kcalPerMin);
-            String burned = String.format(Locale.getDefault(), "%.0f", iBurned);
-
-
-            tvKcalBurned.setText(String.valueOf(burned));
-
-            tvKcalPerMin.setText(kcalPerMin);
-
-            Log.e(TAG, "tvId: " + tvId.getText().toString());
-            Log.e(TAG, "tvName: " + tvName.getText().toString());
-
-
-            return convertView;
-        }
-
-        return convertView;
-
     }
+
+
 }
+
+
+

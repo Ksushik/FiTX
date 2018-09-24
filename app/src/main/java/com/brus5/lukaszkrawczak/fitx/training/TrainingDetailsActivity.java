@@ -28,7 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.IPreviousActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
+import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStamp;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.training.addons.Timer;
@@ -51,6 +51,7 @@ import java.util.Map;
 
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_DELETE;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_INSERT;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_SHOW;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_TRAINING_UPDATE;
 
 /**
@@ -78,10 +79,8 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     private CharacterLimit characterLimit;
     private ScrollView scrollView;
 
-    @SuppressLint("StaticFieldLeak")
-    private static TrainingInflater INFLATER;
-    @SuppressLint("StaticFieldLeak")
-    private static TimerGym TIMER;
+    private TrainingInflater trainingInflater;
+    private TimerGym timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -101,21 +100,10 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         characterLimit = new CharacterLimit(etNotepad, tvCharsLeft, 280);
         etNotepad.addTextChangedListener(characterLimit);
 
-        INFLATER = new TrainingInflater(TrainingDetailsActivity.this);
-        TIMER = new TimerGym(TrainingDetailsActivity.this);
+        trainingInflater = new TrainingInflater(TrainingDetailsActivity.this);
+        timer = new TimerGym(TrainingDetailsActivity.this);
     }
 
-    /**
-     *  Destroy object by Garbage Collector after Stop Activity
-     */
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-        TIMER = null;
-        INFLATER = null;
-        Log.d(TAG, "onStop() called");
-    }
 
     /**
      * (Fragments provide their own onCreateOptionsMenu() callback).
@@ -156,7 +144,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
             // Save exercise where user entered all needed data into the rows
             case R.id.menu_save_exercise:
                 // Update exercise
-                if (previousActivity.equals( TrainingActivity.class.getSimpleName() ) && ( INFLATER.isValid()) && characterLimit.isLimit() )
+                if (previousActivity.equals(TrainingActivity.class.getSimpleName()) && (trainingInflater.isValid()) && characterLimit.isLimit())
                 {
                     Toast.makeText(this, R.string.training_updated, Toast.LENGTH_SHORT).show();
 
@@ -166,23 +154,19 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
                     params.put(RestAPI.DB_EXERCISE_DONE, String.valueOf(getChecked()));
                     params.put(RestAPI.DB_EXERCISE_REST_TIME, String.valueOf(Timer.START_TIME_IN_MILLIS));
-                    params.put(RestAPI.DB_EXERCISE_REPS, INFLATER.getReps());
-                    params.put(RestAPI.DB_EXERCISE_WEIGHT, INFLATER.getWeight());
+                    params.put(RestAPI.DB_EXERCISE_REPS, trainingInflater.getReps());
+                    params.put(RestAPI.DB_EXERCISE_WEIGHT, trainingInflater.getWeight());
                     params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
                     params.put(RestAPI.DB_EXERCISE_NOTEPAD, etNotepad.getText().toString());
                     params.put(RestAPI.DB_EXERCISE_DATE, newTimeStamp);
 
                     service.post(params, URL_TRAINING_UPDATE);
 
-                    // Need to attribute inflater to null for Garbage Collector to beign eligable
-                    INFLATER = null;
-                    INFLATER = null;
-
                     finish();
                 }
 
                 // Save exercise
-                else if (previousActivity.equals( TrainingListActivity.class.getSimpleName() ) && (INFLATER.isValid()) && characterLimit.isLimit() )
+                else if (previousActivity.equals(TrainingListActivity.class.getSimpleName()) && (trainingInflater.isValid()) && characterLimit.isLimit())
                 {
                     Toast.makeText(this, R.string.training_inserted, Toast.LENGTH_SHORT).show();
 
@@ -192,17 +176,14 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
                     params.put(RestAPI.DB_EXERCISE_ID, String.valueOf(trainingID));
                     params.put(RestAPI.DB_EXERCISE_DONE, String.valueOf(getChecked()));
                     params.put(RestAPI.DB_EXERCISE_REST_TIME, String.valueOf(Timer.START_TIME_IN_MILLIS));
-                    params.put(RestAPI.DB_EXERCISE_REPS, INFLATER.getReps());
-                    params.put(RestAPI.DB_EXERCISE_WEIGHT, INFLATER.getWeight());
+                    params.put(RestAPI.DB_EXERCISE_REPS, trainingInflater.getReps());
+                    params.put(RestAPI.DB_EXERCISE_WEIGHT, trainingInflater.getWeight());
                     params.put(RestAPI.DB_USER_ID_NO_PRIMARY_KEY, String.valueOf(SaveSharedPreference.getUserID(TrainingDetailsActivity.this)));
                     params.put(RestAPI.DB_EXERCISE_NOTEPAD, etNotepad.getText().toString());
                     params.put(RestAPI.DB_EXERCISE_DATE, newTimeStamp);
 
                     service.post(params, URL_TRAINING_INSERT);
 
-                    // Need to attribute inflater to null for Garbage Collector to beign eligable
-                    INFLATER = null;
-                    INFLATER = null;
                     finish();
                 }
                 else
@@ -308,11 +289,20 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     {
         if (previousActivity.equals( TrainingActivity.class.getSimpleName() ))
         {
-            new Provider(TrainingDetailsActivity.this,TrainingDetailsActivity.this).load(String.valueOf(trainingID));
+            int userID = SaveSharedPreference.getUserID(this);
+            String date = DateGenerator.getSelectedDate();
+
+            // Glueing SERVER_URL params
+            String params = "?user_id=" + userID + "&date=" + date + "&id=" + trainingID;
+
+            new MyTraining(TrainingDetailsActivity.this).execute(URL_TRAINING_SHOW, params);
         }
         else if (previousActivity.equals( TrainingListActivity.class.getSimpleName() ))
         {
-            new Provider(TrainingDetailsActivity.this, TrainingDetailsActivity.this).load(String.valueOf(trainingID),true);
+            String params = "?id=" + trainingID;
+
+            new MyTraining(TrainingDetailsActivity.this).execute(URL_TRAINING_SHOW, params);
+
         }
     }
 
@@ -377,7 +367,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
     {
         for (int i = 0; i < seriesNumber; i++)
         {
-            linearLayout.addView(INFLATER.trainingSetGenerator());
+            linearLayout.addView(trainingInflater.trainingSetGenerator());
         }
     }
 
@@ -386,7 +376,7 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
      */
     private void nextSerie()
     {
-        linearLayout.addView(INFLATER.trainingSetGenerator());
+        linearLayout.addView(trainingInflater.trainingSetGenerator());
     }
 
     /**
@@ -472,31 +462,106 @@ public class TrainingDetailsActivity extends AppCompatActivity implements View.O
         builder.setTitle(R.string.description).setPositiveButton("Close", null).setMessage(string).show();
     }
 
-    /**
-     * This is Async Method. It's responsible for filling data from
-     * another Thread to Main Thread.
-     * @param context actual Context
-     * @param t Training object
-     */
-    public void load(Context context, Training t)
+
+    @SuppressLint("StaticFieldLeak")
+    private class MyTraining extends HTTPService
     {
-        tvName = ((Activity)context).findViewById(R.id.textViewExerciseName);
-        etNotepad = ((Activity)context).findViewById(R.id.editTextNotepad);
-        linearLayout = ((Activity)context).findViewById(R.id.container);
+        private Context context;
 
-        tvName.setText(t.getName());
-        etNotepad.setText(t.getNotepad());
+        MyTraining(Context context)
+        {
+            super(context);
+            this.context = context;
+        }
 
-        onTrainingChangerListener(context,t.getDone());
+        @Override
+        public void onPostExecute(String s)
+        {
+            super.onPostExecute(s);
 
-        INFLATER.setReps(t.getReps());
-        INFLATER.setWeight(t.getWeight());
-        seriesGenerator(t.getSets());
-        TIMER.seekbar();
+            try
+            {
+                JSONObject jsonObject = new JSONObject(s);
+                Log.d(TAG, "onResponse: " + jsonObject.toString(1));
 
-        TIMER.setSeekbarProgress(t.getTime());
+                int done = 0;
+                int time = 0;
+                String reps = "";
+                String weight = "";
+                String notepad = "";
 
-        Log.i(TAG, "load: " + t.getSets());
+                String exerciseName = "";
+                String[] mReps_table = new String[]{};
+                JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+
+                for (int i = 0; i < jsonArray.length(); i++)
+                {
+                    JSONObject object = jsonArray.getJSONObject(i);
+                    exerciseName = object.getString(RestAPI.DB_EXERCISE_NAME);
+                }
+
+
+                JSONArray trainings_info = jsonObject.getJSONArray("trainings_info");
+
+                for (int i = 0; i < trainings_info.length(); i++)
+                {
+                    JSONObject tr_info = trainings_info.getJSONObject(i);
+                    done = tr_info.getInt(RestAPI.DB_EXERCISE_DONE);
+                    time = tr_info.getInt(RestAPI.DB_EXERCISE_REST_TIME);
+
+                    // reps and weight variables contains RAW data from MySQL.
+                    // Each dot in this String represents 1 serie.
+                    // Example 12.10.8. <- last dot also represents serie
+                    reps = tr_info.getString(RestAPI.DB_EXERCISE_REPS);
+
+                    weight = tr_info.getString(RestAPI.DB_EXERCISE_WEIGHT);
+                    notepad = tr_info.getString(RestAPI.DB_EXERCISE_NOTEPAD);
+
+                    // This String removes dots from RAW String and preparing it
+                    // to being inserted to String[]
+                    String mReps = reps.replaceAll("\\p{Punct}", " ");
+
+                    // This table is separating each number
+                    mReps_table = mReps.split("\\s+");
+
+                }
+
+                Training t = new Training.Builder()
+                        .name(exerciseName)
+                        .done(done)
+                        .reps(reps)
+                        .weight(weight)
+                        .notepad(notepad)
+                        .time(time)
+                        .sets(mReps_table.length)
+                        .build();
+
+                Log.d(TAG, "onPostExecute() called with: s = [" + t.getReps() + "] " + " [" + t.getWeight() + "] " + " [" + t.getSets() + "] ");
+
+
+                tvName = ((Activity) context).findViewById(R.id.textViewExerciseName);
+                etNotepad = ((Activity) context).findViewById(R.id.editTextNotepad);
+                linearLayout = ((Activity) context).findViewById(R.id.container);
+
+                tvName.setText(t.getName());
+                etNotepad.setText(t.getNotepad());
+
+                onTrainingChangerListener(context, t.getDone());
+
+                trainingInflater.setReps(t.getReps());
+                trainingInflater.setWeight(t.getWeight());
+                seriesGenerator(t.getSets());
+                timer.seekbar();
+
+                timer.setSeekbarProgress(t.getTime());
+
+
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
     }
-
 }

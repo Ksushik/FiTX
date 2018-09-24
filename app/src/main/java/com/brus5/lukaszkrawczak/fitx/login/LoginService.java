@@ -23,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +77,6 @@ public class LoginService
             @Override
             public void onErrorResponse(VolleyError error)
             {
-
             }
         })
         {
@@ -120,8 +121,6 @@ public class LoginService
                         GetUserInfoDTO dto1 = new GetUserInfoDTO();
                         dto1.userName = SaveSharedPreference.getUserName(ctx);
                         LoginService.this.GetUserInfo(dto1, ctx);
-
-
                     }
                     else
                     {
@@ -146,15 +145,19 @@ public class LoginService
             protected Map<String, String> getParams()
             {
                 HashMap<String, String> params = new HashMap<>();
+
                 params.put(RestAPI.DB_USERNAME, dto.userName);
-                params.put(RestAPI.DB_PASSWORD, dto.userPassword);
+                params.put(RestAPI.DB_PASSWORD, computeHash(dto.userPassword));
+
                 Log.e(TAG, "getParams: " + params);
+
                 return params;
             }
         };
 
         RequestQueue queue = Volley.newRequestQueue(ctx);
         queue.add(strRequest);
+
     }
 
     public void GetUserInfo(final GetUserInfoDTO dto, final Context ctx)
@@ -219,57 +222,31 @@ public class LoginService
         queue.add(strRequest);
     }
 
-    public void GraphKcalJson(final UserLoginNormalDTO dto, final Context ctx)
+
+    private String computeHash(String input)
     {
-        StringRequest strRequest = new StringRequest(Request.Method.POST, LOGIN_REQUEST, new Response.Listener<String>()
+        StringBuilder sb = new StringBuilder();
+        try
         {
-            @Override
-            public void onResponse(String response)
+            // This MessageDigest class provides applications the functionality of a
+            // message digest algorithm, such as SHA-1 or SHA-256.
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+            for (Byte b : md.digest(input.getBytes()))
             {
-                try
-                {
-                    JSONObject jsonObject = new JSONObject(response);
-                    boolean success = jsonObject.getBoolean("success");
-                    if (success)
-                    {
-                        Intent intent = new Intent(ctx, MainActivity.class);
-                        SaveSharedPreference.setUserName(ctx, dto.userName);
-                        SaveSharedPreference.setDefLogin(ctx, true);
-                        ctx.startActivity(intent);
-                        ((LoginActivity) ctx).finish();
-                    }
-                    else
-                    {
-                        Toast.makeText(ctx, R.string.error, Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-                Log.d(TAG, "onResponse: " + response);
+                sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
             }
-        }, new Response.ErrorListener()
+        }
+        catch (NoSuchAlgorithmException e)
         {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-
-            }
-        })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                HashMap<String, String> params = new HashMap<>();
-                params.put(RestAPI.DB_USERNAME, dto.userName);
-                params.put(RestAPI.DB_PASSWORD, dto.userPassword);
-
-                return params;
-            }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(ctx);
-        queue.add(strRequest);
+            e.printStackTrace();
+        }
+        return sb.toString().toLowerCase();
     }
+
+
+
+
+
 
 }

@@ -19,14 +19,19 @@ import android.widget.Toast;
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.IPreviousActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
+import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStamp;
 import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.training.addons.TimerCardio;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
+import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,6 +47,7 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.DB_USER_ID_NO_PRIMARY_
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.SERVER_URL;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_DELETE;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_INSERT;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_SHOW;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_CARDIO_UPDATE;
 
 /**
@@ -211,14 +217,21 @@ public class CardioDetailsActivity extends AppCompatActivity implements IDefault
 
     public void startProvider(String previousActivity)
     {
+        String trainingID = String.valueOf(this.trainingID);
+        int userID = SaveSharedPreference.getUserID(this);
+
+
         if (previousActivity.equals(TrainingActivity.class.getSimpleName()))
         {
-            new Provider(CardioDetailsActivity.this, CardioDetailsActivity.this).load(String.valueOf(trainingID), newTimeStamp);
+            String params = "?user_id=" + userID + "&date=" + newTimeStamp + "&id=" + trainingID;
 
+            new MyCardio(CardioDetailsActivity.this).execute(URL_CARDIO_SHOW, params);
         }
         if (previousActivity.equals(CardioListActivity.class.getSimpleName()))
         {
-            new Provider(CardioDetailsActivity.this, CardioDetailsActivity.this).load(String.valueOf(trainingID));
+            String params = "?id=" + trainingID;
+
+            new MyCardio(CardioDetailsActivity.this).execute(URL_CARDIO_SHOW, params);
         }
     }
 
@@ -268,7 +281,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements IDefault
     /**
      * Those are informations gathered from another application thread
      *
-     * @param activity actual activity
      * @param context  actual context
      * @param training training object
      */
@@ -298,4 +310,72 @@ public class CardioDetailsActivity extends AppCompatActivity implements IDefault
         tvName.setText(training.getName());
         editText.setText(training.getNotepad());
     }
+
+    class MyCardio extends HTTPService
+    {
+        private Context context;
+
+        public MyCardio(Context context)
+        {
+            super(context);
+            this.context = context;
+        }
+
+        @Override
+        public void onPostExecute(String s)
+        {
+            super.onPostExecute(s);
+
+            try
+            {
+                JSONObject jsonObject = new JSONObject(s);
+
+                Log.d(TAG, "onResponse: " + jsonObject);
+
+                String name;
+                double calories;
+                int done = -1;
+                int time = -1;
+                String notepad = "";
+
+                JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+                if (jsonArray.length() > 0)
+                {
+                    for (int i = 0; i < jsonArray.length(); i++)
+                    {
+                        JSONObject object = jsonArray.getJSONObject(i);
+
+                        name = object.getString(RestAPI.DB_CARDIO_NAME);
+                        calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
+                        notepad = object.getString(RestAPI.DB_CARDIO_NOTEPAD);
+
+                        if (!object.getString(RestAPI.DB_CARDIO_TIME).equals("null"))
+                        {
+                            time = object.getInt(RestAPI.DB_CARDIO_TIME);
+                        }
+
+                        if (!object.getString(DB_CARDIO_DONE).equals("null"))
+                        {
+                            done = object.getInt(DB_CARDIO_DONE);
+                        }
+
+                        if (!object.getString(DB_CARDIO_NOTEPAD).equals("null"))
+                        {
+                            notepad = object.getString(DB_CARDIO_NOTEPAD);
+                        }
+
+                        Training t = new Training.Builder().name(name).kcal(calories).done(done).time(time).notepad(notepad).build();
+
+                        load(context, t);
+                    }
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
 }

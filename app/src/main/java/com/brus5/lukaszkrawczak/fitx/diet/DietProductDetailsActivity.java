@@ -22,11 +22,16 @@ import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
+import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.converter.TimeStamp;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.ImageLoader;
+import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +44,7 @@ import static com.brus5.lukaszkrawczak.fitx.diet.DietService.UPDATE_WEIGHT;
 import static com.brus5.lukaszkrawczak.fitx.diet.DietService.USER_ID;
 import static com.brus5.lukaszkrawczak.fitx.diet.DietService.WEIGHT;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_DELETE;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_GET_INFORMATIONS;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_INSERT;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_DIET_PRODUCT_UPDATE_WEIGHT;
 
@@ -86,8 +92,10 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
 
         new ImageLoader(DietProductDetailsActivity.this, R.id.imageViewProduct, R.id.progressBar, url);
 
-        // Loading Async Task
-        new Provider(DietProductDetailsActivity.this, DietProductDetailsActivity.this).load(String.valueOf(productID));
+
+        final String params = "?product_id=" + productID;
+
+        new ProductResult(this).execute(URL_DIET_PRODUCT_GET_INFORMATIONS, params);
 
         changerTextViews = new ChangerTextViews(DietProductDetailsActivity.this);
         changerTextViews.setEditText(PRODUCT_WEIGHT);
@@ -301,6 +309,62 @@ public class DietProductDetailsActivity extends AppCompatActivity implements Ada
 
         // attribution product object to static object of main thread.
         PRODUCT = product;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class ProductResult extends HTTPService
+    {
+        private Context context;
+
+        ProductResult(Context context)
+        {
+            super(context);
+            this.context = context;
+        }
+
+        @Override
+        public void onPostExecute(String s)
+        {
+            super.onPostExecute(s);
+
+            try
+            {
+                JSONObject jsonObject = new JSONObject(s);
+                String name;
+                Log.i(TAG, "onResponse: " + jsonObject.toString(17));
+                JSONArray server_response = jsonObject.getJSONArray("server_response");
+                for (int i = 0; i < server_response.length(); i++)
+                {
+                    JSONObject srv_response = server_response.getJSONObject(i);
+
+
+                    name = srv_response.getString(RestAPI.DB_PRODUCT_NAME);
+                    double proteins = srv_response.getDouble(RestAPI.DB_PRODUCT_PROTEINS);
+                    double fats = srv_response.getDouble(RestAPI.DB_PRODUCT_FATS);
+                    double carbs = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS);
+                    double saturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_SATURATED_FATS);
+                    double unsaturatedFats = srv_response.getDouble(RestAPI.DB_PRODUCT_UNSATURATED_FATS);
+                    double carbsFiber = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_FIBER);
+                    double carbsSugars = srv_response.getDouble(RestAPI.DB_PRODUCT_CARBS_SUGAR);
+                    double multiplier = srv_response.getDouble(RestAPI.DB_PRODUCT_MULTIPLIER_PIECE);
+                    int verified = srv_response.getInt(RestAPI.DB_PRODUCT_VERIFIED);
+
+
+                    // Creating new product
+                    Product p = new Product.Builder().name(name).proteins(proteins).fats(fats).carbs(carbs).saturatedFats(saturatedFats).unSaturatedFats(unsaturatedFats).carbsFiber(carbsFiber).carbsSugar(carbsSugars).multiplier(multiplier).verified(verified).build();
+
+                    load(p, context);
+
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+
+
     }
 }
 

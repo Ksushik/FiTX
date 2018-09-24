@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".SettingsDetailsActivity">
+    tools:context=".settings.SettingsDetailsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"

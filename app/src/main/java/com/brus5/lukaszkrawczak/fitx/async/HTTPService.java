@@ -7,16 +7,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.brus5.lukaszkrawczak.fitx.async.inflater.CardioDetailsActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.DietActivityInflater;
-import com.brus5.lukaszkrawczak.fitx.async.inflater.DietProductDetailsActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.DietProductSearchActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.MainActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.SettingsActivityInflater;
-import com.brus5.lukaszkrawczak.fitx.async.inflater.SettingsDetailsActivityInflater;
-import com.brus5.lukaszkrawczak.fitx.async.inflater.StatsActivityInflater;
 import com.brus5.lukaszkrawczak.fitx.async.inflater.TrainingActivityInflater;
-import com.brus5.lukaszkrawczak.fitx.async.inflater.TrainingDetailsActivityInflater;
 
 import org.json.JSONObject;
 
@@ -46,6 +41,11 @@ public class HTTPService extends AsyncTask<String, String, String>
         this.activity = activity;
         this.context = context;
         this.listView = listView;
+    }
+
+    public HTTPService(Context context)
+    {
+        this.context = context;
     }
 
     // Invoked on the background thread
@@ -141,23 +141,8 @@ public class HTTPService extends AsyncTask<String, String, String>
             case "DietProductSearchActivity":
                 new DietProductSearchActivityInflater(context, listView, s);
                 break;
-            case "DietProductDetailsActivity":
-                new DietProductDetailsActivityInflater(context, s);
-                break;
-            case "CardioDetailsActivity":
-                new CardioDetailsActivityInflater(activity, context, s);
-                break;
-            case "TrainingDetailsActivity":
-                new TrainingDetailsActivityInflater(context, s);
-                break;
             case "SettingsActivity":
                 new SettingsActivityInflater(context, s);
-                break;
-            case "SettingsDetailsActivity":
-                new SettingsDetailsActivityInflater(context, s);
-                break;
-            case "StatsActivity":
-                new StatsActivityInflater(context, s);
                 break;
         }
         Log.d(TAG, "onPostExecute() called with: s = [" + s + "]");

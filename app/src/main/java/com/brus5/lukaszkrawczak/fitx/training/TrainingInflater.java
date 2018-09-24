@@ -3,7 +3,6 @@ package com.brus5.lukaszkrawczak.fitx.training;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,8 +17,6 @@ import com.brus5.lukaszkrawczak.fitx.R;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class TrainingInflater
 {
@@ -46,6 +43,7 @@ public class TrainingInflater
      */
     public View trainingSetGenerator()
     {
+        Log.d(TAG, "trainingSetGenerator() called");
         // You can trace the LayoutInflater returned by getLayoutInflater() to LayoutInflater.from()
         // and you can see this is just a shortcut for getSystemService()
         LayoutInflater layoutInflater = (LayoutInflater) this.ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

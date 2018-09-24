@@ -1,19 +1,13 @@
 package com.brus5.lukaszkrawczak.fitx.login;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,7 +19,6 @@ import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginRegisterFacebookDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -37,21 +30,12 @@ import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import static com.facebook.Profile.getCurrentProfile;
 
-public class LoginActivity extends AppCompatActivity implements IDefaultView
+public class LoginActivity extends AppCompatActivity implements IDefaultView, View.OnClickListener
 {
     private static final String TAG = "LoginActivity";
-    protected AccessTokenTracker tokenTracker;
-    private LoginButton loginButton;
-    private AccessToken token;
     private CallbackManager manager;
-    private String userName, userPassword;
-    private EditText etLogin, etPassword;
-    private Button btLogin, btRegister;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -63,19 +47,21 @@ public class LoginActivity extends AppCompatActivity implements IDefaultView
         setContentView(R.layout.activity_user_login);
         loadInput();
         loadDefaultView();
-
-        userButtonNormalLogin();
-        userButtonRegister();
+        userLogged();
         userButtonFacebookLogin();
+    }
+
+    private void userLogged()
+    {
+        if (!SaveSharedPreference.getUserName(this).isEmpty())
+        {
+            runNextActivity(LoginActivity.this, MainActivity.class, true);
+        }
     }
 
     @Override
     public void loadInput()
     {
-        etLogin = findViewById(R.id.editTextLogin);
-        etPassword = findViewById(R.id.editTextPassword);
-        btLogin = findViewById(R.id.buttonLogin);
-        btRegister = findViewById(R.id.buttonRegister);
     }
 
     @Override
@@ -85,95 +71,26 @@ public class LoginActivity extends AppCompatActivity implements IDefaultView
         activityView.statusBarColor(R.id.toolbarLoginActivity);
     }
 
-    private void userButtonNormalLogin()
-    {
-        if (SaveSharedPreference.getUserName(LoginActivity.this).length() == 0)
-        {
-            btLogin.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-
-                    setUserName(etLogin.getText().toString());
-                    setUserPassword(etPassword.getText().toString());
-
-                    UserLoginNormalDTO dto = new UserLoginNormalDTO();
-                    dto.userName = getUserName();
-                    dto.userPassword = getUserPassword();
-
-                    LoginService loginService = new LoginService();
-                    loginService.LoginNormal(dto, LoginActivity.this);
-
-                }
-            });
-        }
-        else
-        {
-            runNextActivity(LoginActivity.this, MainActivity.class, true);
-        }
-    }
-
-    private void userButtonRegister()
-    {
-        btRegister.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                runNextActivity(LoginActivity.this, null, false);
-            }
-        });
-    }
 
     private void userButtonFacebookLogin()
     {
-        try
-        {
-            @SuppressLint("PackageManagerGetSignatures") PackageInfo info = getPackageManager().getPackageInfo("com.brus5.lukaszkrawczak.fitx", PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures)
-            {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        }
-        catch (PackageManager.NameNotFoundException e)
-        {
-            Log.e(TAG, "userButtonFacebookLogin: "+e);
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            Log.e(TAG, "userButtonFacebookLogin: "+e);
-        }
-
         // releasing method updateWithToken
         // if connected via Facebook the first handler is gonna run up after one second
         // if not connected via Facebook the second handler is gonna run up after one second
         updateWithToken(AccessToken.getCurrentAccessToken());
 
-        loginButton = findViewById(R.id.buttonFacebookLogin);
+        LoginButton loginButton = findViewById(R.id.buttonFacebookLogin);
         manager = CallbackManager.Factory.create();
-        tokenTracker = new AccessTokenTracker()
-        {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken newAccessToken)
-            {
-            }
-        };
+
         loginButton.registerCallback(manager, new FacebookCallback<LoginResult>()
         {
             @Override
             public void onSuccess(final LoginResult loginResult)
             {
-                ProgressDialog dialog = ProgressDialog.show(LoginActivity.this, "Loading...",
-                        "Loading application View, please wait...", false, false
+                ProgressDialog dialog = ProgressDialog.show(LoginActivity.this, "Loading...", "Loading application View, please wait...", false, false
                 );
                 dialog.show();
-                Log.e(TAG, "Login success \n" + loginResult.getAccessToken().getUserId() + "\n" + loginResult.getAccessToken().getToken());
+
 
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback()
@@ -211,31 +128,23 @@ public class LoginActivity extends AppCompatActivity implements IDefaultView
 
                                     String convertedBirthday = mDay + "." + mMonth + "." + mYear;
 
-                                    UserLoginRegisterFacebookDTO registerFacebookDTO = new UserLoginRegisterFacebookDTO();
-                                    registerFacebookDTO.userName = loginResult.getAccessToken().getUserId();
-                                    registerFacebookDTO.userFirstName = firstName;
-                                    registerFacebookDTO.userBirthday = convertedBirthday;
-                                    registerFacebookDTO.userPassword = "123";
-                                    registerFacebookDTO.userGender = gender;
-                                    registerFacebookDTO.userEmail = email;
+                                    UserLoginRegisterFacebookDTO dto = new UserLoginRegisterFacebookDTO();
+                                    dto.userName = loginResult.getAccessToken().getUserId();
+                                    dto.userFirstName = firstName;
+                                    dto.userBirthday = convertedBirthday;
+                                    dto.userPassword = "123";
+                                    dto.userGender = gender;
+                                    dto.userEmail = email;
 
                                     // do not pass DB_USERNAME from Facebook to SaveSharedPreference class
-                                    SaveSharedPreference.setUserFirstName(LoginActivity.this, registerFacebookDTO.userFirstName);
-                                    SaveSharedPreference.setUserBirthday(LoginActivity.this, registerFacebookDTO.userBirthday);
-                                    SaveSharedPreference.setUserGender(LoginActivity.this, registerFacebookDTO.userGender);
-                                    SaveSharedPreference.setUserEmail(LoginActivity.this, registerFacebookDTO.userEmail);
+                                    SaveSharedPreference.setUserFirstName(LoginActivity.this, dto.userFirstName);
+                                    SaveSharedPreference.setUserBirthday(LoginActivity.this, dto.userBirthday);
+                                    SaveSharedPreference.setUserGender(LoginActivity.this, dto.userGender);
+                                    SaveSharedPreference.setUserEmail(LoginActivity.this, dto.userEmail);
 
                                     LoginService loginService = new LoginService();
-                                    loginService.LoginWithFacebook(registerFacebookDTO, LoginActivity.this);
-
-                                    Log.d(TAG, "convertedBirthday: " + convertedBirthday);
-                                    Log.d(TAG, "user_email: " + email);
-                                    Log.d(TAG, "user_lastname: " + lastName);
-                                    Log.d(TAG, "user_firstname: " + firstName);
-                                    Log.d(TAG, "birthday: " + birthday);
-                                    Log.d(TAG, "gender: " + gender);
-                                    Log.d(TAG, "location: " + location);
-                                    Log.d(TAG, "gender: " + gender);
+                                    loginService.LoginWithFacebook(dto, LoginActivity.this);
+                                    Log.d(TAG, "Connecting via Facebook " + " userID_facebook [" + loginResult.getAccessToken().getUserId() + "]" + " email [" + email + "]" + " firstName [" + firstName + "]" + " lastName [" + lastName + "]" + " birthday [" + birthday + "]" + " gender [" + gender + "]" + " location [" + location + "]" + " birthday [" + birthday + "]" + " convertedBirthday [" + convertedBirthday + "]" + " token [" + loginResult.getAccessToken().getToken() + "]");
                                 }
                             }
                         });
@@ -261,20 +170,11 @@ public class LoginActivity extends AppCompatActivity implements IDefaultView
             }
         });
 
-        tokenTracker = new AccessTokenTracker()
-        {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken)
-            {
-            }
-        };
-
         // getting accesstoken
-        token = AccessToken.getCurrentAccessToken();
+        AccessToken token = AccessToken.getCurrentAccessToken();
 
-        /*
-        if accesstoken isn't null then start new Activity which is MainActivity.class
-        */
+
+        // if accesstoken isn't null then start new Activity which is MainActivity.class
         if (token != null)
         {
             runNextActivity(LoginActivity.this, MainActivity.class, false);
@@ -289,9 +189,7 @@ public class LoginActivity extends AppCompatActivity implements IDefaultView
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        /*
-        running up facebookLogin
-        */
+        // running up facebookLogin
         manager.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -302,11 +200,7 @@ public class LoginActivity extends AppCompatActivity implements IDefaultView
         // if not connected via Facebook the second handler is gonna run up after one second
         if (currentAccessToken != null)
         {
-            Log.d(TAG, "Connected via Facebook");
-            Log.d(TAG, "getId()         " + getCurrentProfile().getId());
-            Log.d(TAG, "getFirstName()  " + getCurrentProfile().getFirstName());
-            Log.d(TAG, "getMiddleName() " + getCurrentProfile().getMiddleName());
-            Log.d(TAG, "getLastName()   " + getCurrentProfile().getLastName());
+            Log.d(TAG, "Connected via Facebook = ID [" + getCurrentProfile().getId() + "]" + " firstName [" + getCurrentProfile().getFirstName() + "]" + " middleName [" + getCurrentProfile().getMiddleName() + "]" + " lastName [" + getCurrentProfile().getLastName() + "]");
         }
         else
         {
@@ -322,23 +216,35 @@ public class LoginActivity extends AppCompatActivity implements IDefaultView
         finish();
     }
 
-    private String getUserName()
+    @Override
+    public void onClick(View v)
     {
-        return userName;
+        switch (v.getId())
+        {
+            case R.id.buttonLogin:
+                login();
+                break;
+            case R.id.buttonRegister:
+                runNextActivity(LoginActivity.this, null, false);
+                break;
+        }
     }
 
-    private void setUserName(String userName)
+    private void login()
     {
-        this.userName = userName;
-    }
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
-    private String getUserPassword()
-    {
-        return userPassword;
-    }
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-    private void setUserPassword(String userPassword)
-    {
-        this.userPassword = userPassword;
+        EditText etLogin = findViewById(R.id.editTextLogin);
+        EditText etPassword = findViewById(R.id.editTextPassword);
+
+        UserLoginNormalDTO dto = new UserLoginNormalDTO();
+        dto.userName = etLogin.getText().toString();
+        dto.userPassword = etPassword.getText().toString();
+
+
+        LoginService loginService = new LoginService();
+        loginService.LoginNormal(dto, LoginActivity.this);
     }
 }

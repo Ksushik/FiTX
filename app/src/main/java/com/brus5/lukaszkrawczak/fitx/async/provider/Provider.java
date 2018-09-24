@@ -15,9 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_MAIN_INFORMATIONS;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_MAIN_KCAL_LIMIT_UPDATE;
-import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS_INSERT;
 
 public class Provider
 {
@@ -50,9 +48,6 @@ public class Provider
         this.context = context;
     }
 
-    void load123(){
-
-    }
 
     /**
      * This method loads proper class. It's must have to run out AsyncTask
@@ -87,9 +82,6 @@ public class Provider
             case "SettingsActivity":
                 new SettingsActivityProvider(context);
                 break;
-            case "StatsActivity":
-                new StatsActivityProvider(context, graphView);
-                break;
         }
     }
 
@@ -106,62 +98,7 @@ public class Provider
             case "DietProductSearchActivity":
                 new DietProductSearchActivityProvider(context, listView, s);
                 break;
-            case "DietProductDetailsActivity":
-                new DietProductDetailsActivityProvider(context, listView, s);
-                break;
-            case "CardioDetailsActivity":
-                new CardioDetailsActivityProvider(context, listView, s);
-                break;
-            case "TrainingDetailsActivity":
-                new TrainingDetailsActivityProvider(context, s);
-                break;
-            case "SettingsDetailsActivity":
-                new SettingsDetailsActivityProvider(context, s);
-                break;
         }
-    }
-
-    public void load(final String s, final boolean isNew)
-    {
-        switch (context.getClass().getSimpleName())
-        {
-            case "TrainingDetailsActivity":
-                new TrainingDetailsActivityProvider(context, s, isNew);
-                break;
-        }
-    }
-
-    /**
-     * This method load proper class with String param as one of communicators with HTTPService
-     *
-     * @param id        is id which you want to get informations of
-     * @param timeStamp is trainingTimeStamp to get informations
-     */
-    public void load(final String id, final String timeStamp)
-    {
-        switch (context.getClass().getSimpleName())
-        {
-            case "CardioDetailsActivity":
-                new CardioDetailsActivityProvider(context, listView, timeStamp, id);
-                break;
-        }
-    }
-
-
-    public void postSettings(final String RESULT, final String db)
-    {
-        String id = String.valueOf(SaveSharedPreference.getUserID(context));
-        Calendar cal = Calendar.getInstance();
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String date = sdf.format(cal.getTime());
-
-
-
-        Log.d(TAG, "postSettings() called with: RESULT = [" + RESULT + "], db = [" + db + "]");
-        final String URL = URL_SETTINGS_INSERT;
-        final String params = "?id=" + id + "&date=" + date + "&RESULT=" + RESULT + "&table=" + db;
-
-        startHTTPService(URL,params);
     }
 
     /**

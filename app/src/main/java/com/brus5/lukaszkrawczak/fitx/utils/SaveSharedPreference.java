@@ -3,7 +3,6 @@ package com.brus5.lukaszkrawczak.fitx.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.Calendar;
 
@@ -24,6 +23,7 @@ public class SaveSharedPreference
     private static final String USER_AGE = "userAge";
     private static final String USER_PASSWORD = "userPassword";
     public static final String SAUTO_CALORIES = "autoCalories";
+    public static final String LIMIT_CALORIES = "limitCalories";
     public static final int AUTO_CALORIES = 1;
 
     static SharedPreferences getSharedPreferences(Context context)
@@ -171,6 +171,18 @@ public class SaveSharedPreference
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putInt(SAUTO_CALORIES,autoCalories);
         editor.apply();
+    }
+
+    public static void setLimitCalories(Context context, String limitCalories)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(LIMIT_CALORIES, limitCalories);
+        editor.apply();
+    }
+
+    public static String getLimitCalories(Context context)
+    {
+        return getSharedPreferences(context).getString(LIMIT_CALORIES, "");
     }
 
     public static int getAutoCalories(Context context)

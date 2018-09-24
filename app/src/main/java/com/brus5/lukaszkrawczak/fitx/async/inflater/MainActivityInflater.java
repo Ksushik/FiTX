@@ -52,7 +52,7 @@ public class MainActivityInflater
 
             JSONObject jsonObject = new JSONObject(s);
 
-            Log.d(TAG, "onResponse: " + jsonObject.toString(1));
+            Log.d(TAG, "onResponse: " + jsonObject);
 
             JSONArray response = jsonObject.getJSONArray("response");
 
@@ -200,131 +200,119 @@ public class MainActivityInflater
     }
 
 
+    class MainAdapter extends ArrayAdapter<MainRow>
+    {
+        private static final int KG_ONE_TONE = 1000;
+        private static final String TAG = "MainAdapter";
+        private Context mContext;
+        private int mResource;
+
+        MainAdapter(@NonNull Context context, int resource, @NonNull ArrayList<MainRow> objects)
+        {
+            super(context, resource, objects);
+            this.mContext = context;
+            this.mResource = resource;
+        }
+
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
+        {
+            double textViewBig = getItem(position).getTextViewBig();
+            String textViewSmall = getItem(position).getTextViewSmall();
+            int viewType = getItem(position).getViewType();
+
+
+            String rest = getItem(position).getRest();
+            String reps = getItem(position).getReps();
+            String weight = getItem(position).getWeight();
+
+
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            convertView = inflater.inflate(mResource, parent, false);
+
+
+            if (viewType == 1)
+            {
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_diet, parent, false);
+
+                TextView tvCalories = convertView.findViewById(R.id.textViewCalories);
+                TextView tvCaloriesLimit = convertView.findViewById(R.id.textViewCaloriesLimit);
+
+                tvCalories.setText(String.valueOf((int) textViewBig));
+                tvCaloriesLimit.setText(String.valueOf(textViewSmall));
+            }
+
+
+            if (viewType == 2)
+            {
+
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_training, parent, false);
+
+                TextView tvLifted = convertView.findViewById(R.id.textViewLifted);
+                TextView tvTime = convertView.findViewById(R.id.textViewTrainingTime);
+                TextView tvWeightType = convertView.findViewById(R.id.textViewWeightType);
+
+
+                TrainingInflater trainingInflater = new TrainingInflater(mContext);
+                trainingInflater.setReps(reps);
+                trainingInflater.setWeight(weight);
+
+                int mRest = Integer.valueOf(rest) + (trainingInflater.countRepsTime(reps) / 60);
+
+
+                double mWeight = trainingInflater.countLiftedWeight();
+                double toneConverter;
+
+                if (mWeight < KG_ONE_TONE)
+                {
+                    tvLifted.setText(String.valueOf(trainingInflater.countLiftedWeight()));
+                    tvWeightType.setText(R.string.kg_short);
+                }
+                else
+                {
+                    toneConverter = mWeight / KG_ONE_TONE;
+                    String value = String.format(Locale.getDefault(), "%.2f", toneConverter);
+                    tvLifted.setText(value);
+                    tvWeightType.setText(R.string.t_short);
+                }
+                tvTime.setText(String.valueOf(mRest));
+            }
+
+
+            if (viewType == 3)
+            {
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_cardio, parent, false);
+
+                TextView tvBurned = convertView.findViewById(R.id.textViewBurned);
+                TextView tvTrainingTime = convertView.findViewById(R.id.textViewTrainingTime);
+
+                tvBurned.setText(String.valueOf((int) textViewBig));
+                tvTrainingTime.setText(String.valueOf(textViewSmall));
+            }
+
+
+            if (viewType == 4)
+            {
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_weight, parent, false);
+
+                TextView tvBig = convertView.findViewById(R.id.textViewWeight);
+                TextView tvSmall = convertView.findViewById(R.id.textViewDateAdded);
+
+                tvBig.setText(String.valueOf(textViewBig));
+                tvSmall.setText(String.valueOf(textViewSmall));
+            }
+
+
+            return convertView;
+
+
+        }
+
+    }
+
 
 }
 
 
-class MainAdapter extends ArrayAdapter<MainRow>
-{
-    private static final int KG_ONE_TONE = 1000;
-    private static final String TAG = "MainAdapter";
-    private Context mContext;
-    private int mResource;
-
-    public MainAdapter(@NonNull Context context, int resource, @NonNull ArrayList<MainRow> objects)
-    {
-        super(context, resource, objects);
-        this.mContext = context;
-        this.mResource = resource;
-    }
-
-
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
-    {
-        double textViewBig = getItem(position).getTextViewBig();
-        String textViewSmall = getItem(position).getTextViewSmall();
-        int viewType = getItem(position).getViewType();
-
-
-        String rest = getItem(position).getRest();
-        String reps = getItem(position).getReps();
-        String weight = getItem(position).getWeight();
-
-
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        convertView = inflater.inflate(mResource, parent, false);
-
-        Log.e(TAG, "position: " + position);
-
-        if (viewType == 1)
-        {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_diet, parent, false);
-
-            TextView tvCalories = convertView.findViewById(R.id.textViewCalories);
-            TextView tvCaloriesLimit = convertView.findViewById(R.id.textViewCaloriesLimit);
-
-            tvCalories.setText(String.valueOf((int) textViewBig));
-            tvCaloriesLimit.setText(String.valueOf(textViewSmall));
-
-            return convertView;
-        }
-
-
-
-        if (viewType == 2)
-        {
-
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_training, parent, false);
-
-            TextView tvLifted = convertView.findViewById(R.id.textViewLifted);
-            TextView tvTime = convertView.findViewById(R.id.textViewTrainingTime);
-            TextView tvWeightType = convertView.findViewById(R.id.textViewWeightType);
-
-
-
-            TrainingInflater trainingInflater = new TrainingInflater(mContext);
-            trainingInflater.setReps(reps);
-            trainingInflater.setWeight(weight);
-
-            int mRest = Integer.valueOf(rest) + (trainingInflater.countRepsTime(reps) / 60);
-
-
-            double mWeight = trainingInflater.countLiftedWeight();
-            double toneConverter;
-
-            if (mWeight < KG_ONE_TONE)
-            {
-                tvLifted.setText(String.valueOf(trainingInflater.countLiftedWeight()));
-                tvWeightType.setText(R.string.kg_short);
-            }
-            else
-            {
-                toneConverter = mWeight / KG_ONE_TONE;
-                String value = String.format(Locale.getDefault(), "%.2f", toneConverter);
-                tvLifted.setText(value);
-                tvWeightType.setText(R.string.t_short);
-            }
-
-
-            tvTime.setText(String.valueOf(mRest));
-
-
-            return convertView;
-        }
-
-
-        if (viewType == 3)
-        {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_cardio, parent, false);
-
-            TextView tvBurned = convertView.findViewById(R.id.textViewBurned);
-            TextView tvTrainingTime = convertView.findViewById(R.id.textViewTrainingTime);
-
-            tvBurned.setText(String.valueOf((int) textViewBig));
-            tvTrainingTime.setText(String.valueOf(textViewSmall));
-
-            return convertView;
-        }
-
-
-        if (viewType == 4)
-        {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.row_main_weight, parent, false);
-
-            TextView tvBig = convertView.findViewById(R.id.textViewWeight);
-            TextView tvSmall = convertView.findViewById(R.id.textViewDateAdded);
-
-            tvBig.setText(String.valueOf(textViewBig));
-            tvSmall.setText(String.valueOf(textViewSmall));
-
-            return convertView;
-        }
-
-
-        return convertView;
-
-
-    }
-
-}
