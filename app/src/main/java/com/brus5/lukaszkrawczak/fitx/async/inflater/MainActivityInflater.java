@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.async.inflater;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,7 +31,7 @@ public class MainActivityInflater
     private ListView listView;
     private MainRow mainRow;
     private MainAdapter adapter;
-    private ArrayList<MainRow> list = new ArrayList<>();
+    private ArrayList<MainRow> mainRows = new ArrayList<>();
 
     public MainActivityInflater(Context context, ListView listView, String response)
     {
@@ -68,12 +69,12 @@ public class MainActivityInflater
 
                     mainRow = new MainRow(kcal, kcalLimit, 1);
 
-                    adapter = new MainAdapter(context, R.layout.row_main_diet, list);
+                    adapter = new MainAdapter(context, R.layout.row_main_diet, mainRows);
                 }
 
                 if (kcal > 0)
                 {
-                    list.add(mainRow);
+                    mainRows.add(mainRow);
                 }
 
             }
@@ -110,14 +111,14 @@ public class MainActivityInflater
                 inflater.setWeight(weight);
                 inflater.setReps(reps);
 
-                adapter = new MainAdapter(context, R.layout.row_main_training, list);
+                adapter = new MainAdapter(context, R.layout.row_main_training, mainRows);
 
                 mainRow = new MainRow(rest, reps, weight, 2);
             }
 
             if (!weight.equals("0"))
             {
-                list.add(mainRow);
+                mainRows.add(mainRow);
             }
 
         } catch (JSONException e)
@@ -146,14 +147,14 @@ public class MainActivityInflater
                 kcalBurned = cardio_counted.getDouble("cardio_counted");
                 time = cardio_time.getString("cardio_time");
 
-                adapter = new MainAdapter(context, R.layout.row_main_cardio, list);
+                adapter = new MainAdapter(context, R.layout.row_main_cardio, mainRows);
 
                 mainRow = new MainRow(kcalBurned, time, 3);
             }
 
             if (kcalBurned != 0)
             {
-                list.add(mainRow);
+                mainRows.add(mainRow);
             }
 
         } catch (JSONException e)
@@ -180,12 +181,12 @@ public class MainActivityInflater
                 String date = a.getJSONArray("weight").getJSONObject(0).getString("date");
                 a.getJSONArray("weight").getJSONObject(0);
 
-                adapter = new MainAdapter(context,R.layout.row_main_weight, list);
+                adapter = new MainAdapter(context, R.layout.row_main_weight, mainRows);
 
 
                 mainRow = new MainRow(weight,date,4);
 
-                list.add(mainRow);
+                mainRows.add(mainRow);
             }
         }
 
@@ -193,6 +194,19 @@ public class MainActivityInflater
         {
             Log.e(TAG, "dataInflater: ",e);
         }
+
+        if (mainRows.size() == 0)
+        {
+            TextView noData = ((Activity) context).findViewById(R.id.textViewNoData);
+            noData.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            TextView noData = ((Activity) context).findViewById(R.id.textViewNoData);
+            noData.setVisibility(View.INVISIBLE);
+        }
+
+        Log.d(TAG, "dataInflater() called with: mainRows.size() = [" + mainRows.size() + "]");
 
         listView.setDividerHeight(0);
         listView.setAdapter(adapter);

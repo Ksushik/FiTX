@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.async.inflater;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,7 +33,7 @@ public class TrainingActivityInflater
     private Context context;
     private ListView listView;
     private TrainingAdapter adapter;
-    private ArrayList<Training> list = new ArrayList<>();
+    private ArrayList<Training> trainingArrayList = new ArrayList<>();
 
     public TrainingActivityInflater(Context context, ListView listView, String response)
     {
@@ -86,8 +87,8 @@ public class TrainingActivityInflater
 
                     Training t = new Training.Builder().viewType(1).id(id).done(done).name(name).time(restTime).weight(weight).reps(reps).timeStamp(date).target(target).build();
 
-                    list.add(t);
-                    adapter = new TrainingAdapter(context, R.layout.row_training_excercise, list);
+                    trainingArrayList.add(t);
+                    adapter = new TrainingAdapter(context, R.layout.row_training_excercise, trainingArrayList);
 
                 }
 
@@ -137,8 +138,8 @@ public class TrainingActivityInflater
 
                     Training t = new Training.Builder().viewType(2).id(id).done(done).name(name).time(time).timeStamp(date).kcalPerMin(kcalPerMin).build();
 
-                    list.add(t);
-                    adapter = new TrainingAdapter(context, R.layout.row_training_excercise, list);
+                    trainingArrayList.add(t);
+                    adapter = new TrainingAdapter(context, R.layout.row_training_excercise, trainingArrayList);
                 }
             }
         } catch (JSONException e)
@@ -148,6 +149,19 @@ public class TrainingActivityInflater
 
         listView.setAdapter(adapter);
         listView.invalidate();
+
+        if (trainingArrayList.size() == 0)
+        {
+            TextView noData = ((Activity) context).findViewById(R.id.textViewNoData);
+            noData.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            TextView noData = ((Activity) context).findViewById(R.id.textViewNoData);
+            noData.setVisibility(View.INVISIBLE);
+        }
+
+
     }
 
 

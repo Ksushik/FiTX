@@ -265,4 +265,9 @@
     <string name="updated">Zaktualizowano</string>
     <string name="settings_user_goal">Twój cel</string>
     <string name="settings_user_goal_description_short">Obierz cel a program przeliczy za Ciebie automatycznie kalorie</string>
+    <string name="quit_message_title">Czy chcesz się wylogować?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="quit_message_long">Bez obaw, po ponownym zalogowaniu będziesz dalej w posiadaniu swoich wyników.</string>
+    <string name="no_data">Brak danych</string>
 </resources>

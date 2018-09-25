@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ public class DietActivityInflater
 
     private Context context;
     private ListView listView;
-    private ArrayList<Product> list = new ArrayList<>();
+    private ArrayList<Product> arrayList = new ArrayList<>();
 
     private TextView tvProteins, tvFats, tvCarbs, tvCalories;
     private ProgressBar pBarProteins, pBarFats, pBarCarbs, pBarKcal;
@@ -164,7 +165,7 @@ public class DietActivityInflater
 
                     Product p = new Product.Builder().id(productId).name(productName).weight(weight).proteins(protein.getProteins()).fats(fat.getFats()).carbs(carb.getCarbs()).kcal(cal.getKcal()).verified(productVerified).dateTimeStamp(productTimeStamp).build();
 
-                    list.add(p);
+                    arrayList.add(p);
                 }
 
             }
@@ -195,9 +196,20 @@ public class DietActivityInflater
 
             setMaxCalories(countCalories);
 
-            DietListAdapter adapter = new DietListAdapter(context, R.layout.row_diet_meal, list);
+            DietListAdapter adapter = new DietListAdapter(context, R.layout.row_diet_meal, arrayList);
             listView.setAdapter(adapter);
             listView.invalidate();
+
+            if (arrayList.size() == 0)
+            {
+                TextView noData = ((Activity) context).findViewById(R.id.textViewNoData);
+                noData.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                TextView noData = ((Activity) context).findViewById(R.id.textViewNoData);
+                noData.setVisibility(View.INVISIBLE);
+            }
 
             if (getMaxCalories() > 0d)
             {

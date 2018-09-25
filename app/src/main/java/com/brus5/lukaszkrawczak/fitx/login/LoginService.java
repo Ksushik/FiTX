@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class LoginService
 {
-    private static final String TAG = "ActivityService";
+    private static final String TAG = "LoginService";
     private static final String FACEBOOK_REGISTER = RestAPI.SERVER_URL + "Facebook/FacebookRegisterRequest.php";
     private static final String LOGIN_REQUEST = RestAPI.SERVER_URL + "User/UserLoginRequest.php";
     private static final String GET_USER_INFO = RestAPI.SERVER_URL + "User/UserInfoShowRequest.php";
@@ -111,16 +111,16 @@ public class LoginService
                     boolean success = jsonObject.getBoolean("success");
                     if (success)
                     {
-                        Intent intent = new Intent(ctx, MainActivity.class);
+
                         SaveSharedPreference.setUserName(ctx, dto.userName);
                         SaveSharedPreference.setDefLogin(ctx, true);
-                        ctx.startActivity(intent);
-                        ((LoginActivity) ctx).finish();
 
 
                         GetUserInfoDTO dto1 = new GetUserInfoDTO();
                         dto1.userName = SaveSharedPreference.getUserName(ctx);
                         LoginService.this.GetUserInfo(dto1, ctx);
+
+
                     }
                     else
                     {
@@ -188,12 +188,18 @@ public class LoginService
                         userGender = jsonObject1.getString("male");
 
                     }
+
                     SaveSharedPreference.setUserID(ctx, userId);
+                    Log.d(TAG, "onResponse() called with: response = [" + userId + "]");
                     SaveSharedPreference.setUserFirstName(ctx, userFirstName);
                     SaveSharedPreference.setUserBirthday(ctx, userBirthday);
                     SaveSharedPreference.setUserPassword(ctx, userPassword);
                     SaveSharedPreference.setUserEmail(ctx, userEmail);
                     SaveSharedPreference.setUserGender(ctx, userGender);
+
+                    Intent intent = new Intent(ctx, MainActivity.class);
+                    ctx.startActivity(intent);
+                    ((LoginActivity) ctx).finish();
 
                 } catch (JSONException e)
                 {

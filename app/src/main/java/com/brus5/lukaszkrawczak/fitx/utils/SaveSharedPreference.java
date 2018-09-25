@@ -185,14 +185,27 @@ public class SaveSharedPreference
         return getSharedPreferences(context).getString(LIMIT_CALORIES, "");
     }
 
+    /**
+     * Program automatically starts with automatic calories ON!
+     *
+     * @param context actual context
+     * @return int value of auto_calories YES '1', NO '0'
+     */
     public static int getAutoCalories(Context context)
     {
-        return getSharedPreferences(context).getInt(SAUTO_CALORIES, 0);
+        return getSharedPreferences(context).getInt(SAUTO_CALORIES, 1);
     }
 
     public static String getUserPassword(Context context)
     {
         return getSharedPreferences(context).getString(USER_PASSWORD, "");
+    }
+
+    public static void logOff(Context context)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.clear();
+        editor.apply();
     }
 
 }

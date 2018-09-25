@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.brus5.lukaszkrawczak.fitx.settings.SettingsDetailsActivity">
+    <item
+        android:id="@+id/menu_settings_logoff"
+        android:icon="@drawable/ic_exit_app_white_24dp"
+        android:title="@string/search"
+        app:showAsAction="ifRoom" />
+</menu>

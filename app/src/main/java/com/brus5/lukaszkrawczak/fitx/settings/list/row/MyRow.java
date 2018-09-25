@@ -3,7 +3,7 @@ package com.brus5.lukaszkrawczak.fitx.settings.list.row;
 import com.brus5.lukaszkrawczak.fitx.settings.list.MySettingsList;
 import com.brus5.lukaszkrawczak.fitx.settings.list.Settings;
 
-public abstract class MyRow
+abstract class MyRow
 {
     protected MySettingsList mySettingsList;
 

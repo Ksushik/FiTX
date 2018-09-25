@@ -16,6 +16,7 @@ import com.brus5.lukaszkrawczak.fitx.stats.StatsActivity;
 import com.brus5.lukaszkrawczak.fitx.training.TrainingActivity;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.MyCalendar;
+import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 /**
  * This is MainActivity class which shows Main class after LoginActivity.class
@@ -99,6 +100,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume()
     {
+        int userID = SaveSharedPreference.getUserID(MainActivity.this);
+        // If user is not logged in, which will be 0, the Activity will be finished.
+        if (userID == 0) finish();
         new Provider(MainActivity.this, listView).load();
         super.onResume();
     }

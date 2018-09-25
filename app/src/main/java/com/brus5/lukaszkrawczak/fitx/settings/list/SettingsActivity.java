@@ -1,11 +1,15 @@
 package com.brus5.lukaszkrawczak.fitx.settings.list;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -14,9 +18,9 @@ import android.widget.Toast;
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
+import com.brus5.lukaszkrawczak.fitx.login.LoginActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.SettingsDetailsActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.CaloriesAuto;
-import com.brus5.lukaszkrawczak.fitx.settings.list.row.CaloriesGoal;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.Height;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.ManualCalories;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.Somatotype;
@@ -56,6 +60,62 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
         listView = findViewById(R.id.listViewSettings);
     }
 
+    public static void start(Context context)
+    {
+        Intent starter = new Intent(context, LoginActivity.class);
+        starter.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(starter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_settings_logoff, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+
+            case R.id.menu_settings_logoff:
+                Toast.makeText(this, "You'll be logged off", Toast.LENGTH_SHORT).show();
+
+                int[] items = new int[]{R.string.no, R.string.yes};
+
+                Log.d(TAG, "onOptionsItemSelected() called with: item = [" + String.valueOf(getResources().getString(items[0])) + "]");
+
+
+                AlertDialog dialog = new AlertDialog.Builder(SettingsActivity.this)
+                        .setTitle(R.string.quit_message_title)
+                        .setMessage(R.string.quit_message_long)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                SaveSharedPreference.logOff(SettingsActivity.this);
+                                start(SettingsActivity.this);
+                                finishActivityFromChild(SettingsActivity.this, 0);
+                                finish();
+
+                            }
+                        })
+                        .setNegativeButton(R.string.no, null)
+                        .create();
+                dialog.show();
+
+
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * Reload info
      */
@@ -82,7 +142,6 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
         activityView.statusBarColor(R.id.toolbarSettingsActivity);
         activityView.showBackButton();
     }
-
 
     @SuppressLint("StaticFieldLeak")
     class MySettings extends HTTPService
@@ -135,7 +194,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                     new ManualCalories(SettingsActivity.this, mySettingsList, calories_limit);
                 }
 
-                new CaloriesGoal(SettingsActivity.this, mySettingsList, goal);
+//                new CaloriesGoal(SettingsActivity.this, mySettingsList, goal);
 
                 new OnItemClicked(mySettingsList);
 
