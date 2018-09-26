@@ -270,4 +270,6 @@
     <string name="no">Nie</string>
     <string name="quit_message_long">Bez obaw, po ponownym zalogowaniu będziesz dalej w posiadaniu swoich wyników.</string>
     <string name="no_data">Brak danych</string>
+    <string name="diet_title">Dieta</string>
+    <string name="training_title">Trening</string>
 </resources>

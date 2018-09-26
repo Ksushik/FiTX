@@ -16,6 +16,7 @@ import com.brus5.lukaszkrawczak.fitx.stats.StatsActivity;
 import com.brus5.lukaszkrawczak.fitx.training.TrainingActivity;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.MyCalendar;
+import com.brus5.lukaszkrawczak.fitx.utils.MyFloatingMenu;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 /**
@@ -43,7 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ConnectedView connectedView = new ConnectedView(this);
         connectedView.execute();
         new MyCalendar(this, this, R.id.calendarViewMainActivity, listView);
+        new MyFloatingMenu(this);
     }
+
 
     @Override
     public void loadInput()
