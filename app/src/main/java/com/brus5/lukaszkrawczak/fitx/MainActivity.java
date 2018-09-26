@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ConnectedView connectedView = new ConnectedView(this);
         connectedView.execute();
-        new MyCalendar(this, this, R.id.calendarViewMainActivity, listView);
+        new MyCalendar(MainActivity.this, MainActivity.this, R.id.calendarViewMainActivity, listView);
     }
 
 

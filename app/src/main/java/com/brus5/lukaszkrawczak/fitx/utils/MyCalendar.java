@@ -39,12 +39,16 @@ public class MyCalendar
         this.resId = resId;
         this.listView = listView;
 
+
+        // This object must be above week
+        mfm = new MyFloatingMenu(context);
+
+
         /**
          * The constructor automatically runs up method with past date and future date as a parameters.
          */
         weekCalendar(date.calendarPast(), date.calendarFuture());
 
-        mfm = new MyFloatingMenu(context);
     }
 
     /**
@@ -70,11 +74,11 @@ public class MyCalendar
             {
                 DateGenerator.setSelectedDate(MyCalendar.this.date.getDateFormat().format(date.getTime()));
 
+
                 new Provider(context, listView).load();
 
-
-
                 Log.d(TAG, "onDateSelected() called with: date = [" + date + "], position = [" + position + "]");
+                mfm.close();
             }
         });
     }
