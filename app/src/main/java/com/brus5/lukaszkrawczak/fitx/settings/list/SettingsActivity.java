@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
+import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.login.LoginActivity;
@@ -26,6 +27,7 @@ import com.brus5.lukaszkrawczak.fitx.settings.list.row.ManualCalories;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.Somatotype;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.Weight;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.utils.MyFloatingMenu;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 import org.json.JSONArray;
@@ -51,6 +53,8 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
         loadDefaultView();
 
         mySettingsList = new MySettingsList(SettingsActivity.this, listView);
+
+        new MyFloatingMenu(this);
     }
 
 
@@ -65,6 +69,13 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
         Intent starter = new Intent(context, LoginActivity.class);
         starter.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(starter);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     @Override

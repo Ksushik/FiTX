@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
+import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
@@ -45,6 +46,13 @@ public class DietActivity extends AppCompatActivity implements IDefaultView
         ActivityView activityView = new ActivityView(DietActivity.this, getApplicationContext(), this);
         activityView.statusBarColor(R.id.toolbarDietActivity);
         activityView.showBackButton();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     private void onListViewItemSelected()

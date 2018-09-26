@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
+import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
@@ -38,6 +39,13 @@ public class TrainingActivity extends AppCompatActivity implements IDefaultView
     {
         tvDate = findViewById(R.id.textViewDate);
         listView = findViewById(R.id.listViewTraining);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     @Override

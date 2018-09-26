@@ -23,7 +23,7 @@ public class MyCalendar
     private int resId;
     private Context context;
     private DateGenerator date = new DateGenerator();
-
+    private MyFloatingMenu mfm;
     /**
      * This is default constructor of MyCalendar
      *
@@ -44,6 +44,7 @@ public class MyCalendar
          */
         weekCalendar(date.calendarPast(), date.calendarFuture());
 
+        mfm = new MyFloatingMenu(context);
     }
 
     /**
@@ -70,6 +71,8 @@ public class MyCalendar
                 DateGenerator.setSelectedDate(MyCalendar.this.date.getDateFormat().format(date.getTime()));
 
                 new Provider(context, listView).load();
+
+
 
                 Log.d(TAG, "onDateSelected() called with: date = [" + date + "], position = [" + position + "]");
             }

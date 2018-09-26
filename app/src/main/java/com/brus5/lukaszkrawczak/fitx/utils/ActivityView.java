@@ -62,6 +62,6 @@ public class ActivityView
      */
     public void showBackButton()
     {
-        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 }

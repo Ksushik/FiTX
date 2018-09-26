@@ -3,14 +3,17 @@ package com.brus5.lukaszkrawczak.fitx.stats;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
+import com.brus5.lukaszkrawczak.fitx.utils.MyFloatingMenu;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
@@ -51,10 +54,15 @@ public class StatsActivity extends AppCompatActivity
 
         new MyStats(StatsActivity.this).execute(URL_GRAPH_KCAL, params);
 
-
+        new MyFloatingMenu(this);
     }
 
-
+    @Override
+    public void onBackPressed()
+    {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
 
     public void loadDefaultView()
     {
