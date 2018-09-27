@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.async.ConnectedView;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
@@ -18,6 +20,7 @@ import com.brus5.lukaszkrawczak.fitx.training.TrainingActivity;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.MyCalendar;
 import com.brus5.lukaszkrawczak.fitx.utils.MyFloatingMenu;
+import com.brus5.lukaszkrawczak.fitx.utils.OnSwipeTouchListener;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
 /**

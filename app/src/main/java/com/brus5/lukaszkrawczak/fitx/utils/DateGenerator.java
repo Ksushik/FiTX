@@ -79,6 +79,20 @@ public class DateGenerator
         return dateFormatView;
     }
 
+    public Calendar calendarPlusOneDay()
+    {
+        Calendar oldest = Calendar.getInstance();
+        oldest.add(Calendar.MONTH, 2);
+        return oldest;
+    }
+
+    public Calendar calendarMinusOneDay()
+    {
+        Calendar oldest = Calendar.getInstance();
+        oldest.add(Calendar.MONTH, -2);
+        return oldest;
+    }
+
     public Calendar calendarPast()
     {
         Calendar oldest = Calendar.getInstance();
