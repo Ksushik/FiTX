@@ -3,6 +3,8 @@ package com.brus5.lukaszkrawczak.fitx.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -28,7 +30,7 @@ public class MyFloatingMenu
     private Context context;
     private FloatingActionMenu fem;
 
-    public MyFloatingMenu(Context context)
+    public MyFloatingMenu(final Context context)
     {
         this.context = context;
 
@@ -42,6 +44,37 @@ public class MyFloatingMenu
         fem.addMenuButton(button("Statystyki", R.drawable.ic_timeline_white_24dp, StatsActivity.class));
         fem.setAnimated(true);
 
+        fem.setOnMenuButtonLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view)
+            {
+                Log.d(TAG, "onLongClick() called with: view = [" + view + "]");
+//                fem.setPadding(0,0,8,8);
+
+//                ConstraintLayout cl = ((Activity) context).findViewById(R.id.constraintLayout);
+//                ConstraintSet cs = new ConstraintSet();
+//                cs.clone(cl);
+//                cs.connect(R.id.menu,ConstraintSet.RIGHT,R.id.menu, ConstraintSet.LEFT,0);
+//                cs.applyTo(cl);
+
+                animFadeOut();
+                animFadeIn();
+
+                return false;
+            }
+        });
+/*To set constraints of image view to:
+
+app:layout_constraintRight_toRightOf="@+id/check_answer2"
+app:layout_constraintTop_toTopOf="@+id/check_answer2"
+use:
+
+ConstraintSet constraintSet = new ConstraintSet();
+constraintSet.clone(constraintLayout);
+constraintSet.connect(R.id.imageView,ConstraintSet.RIGHT,R.id.check_answer2,ConstraintSet.RIGHT,0);
+constraintSet.connect(R.id.imageView,ConstraintSet.TOP,R.id.check_answer2,ConstraintSet.TOP,0);
+constraintSet.applyTo(constraintLayout);
+*/
     }
 
     private FloatingActionButton button(String name, int resID, final Class<?> classDestination)

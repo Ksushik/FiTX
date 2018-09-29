@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.brus5.lukaszkrawczak.fitx.MainRow;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.training.TrainingInflater;
+import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
+import com.brus5.lukaszkrawczak.fitx.utils.StringConverter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +43,8 @@ public class MainActivityInflater
 
         dataInflater(response);
     }
+
+
 
     private void dataInflater(String s)
     {
@@ -209,6 +214,9 @@ public class MainActivityInflater
         Log.d(TAG, "dataInflater() called with: mainRows.size() = [" + mainRows.size() + "]");
 
         listView.setDividerHeight(0);
+
+        listView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fadein));
+        listView.setVisibility(View.VISIBLE);
         listView.setAdapter(adapter);
         listView.postInvalidate();
     }

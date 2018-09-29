@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -148,6 +149,8 @@ public class TrainingActivityInflater
         }
 
         listView.setAdapter(adapter);
+        listView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fadein));
+        listView.setVisibility(View.VISIBLE);
         listView.invalidate();
 
         if (trainingArrayList.size() == 0)

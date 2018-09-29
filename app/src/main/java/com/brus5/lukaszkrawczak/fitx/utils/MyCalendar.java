@@ -6,9 +6,11 @@ import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 
 import java.text.ParseException;
@@ -19,6 +21,7 @@ import java.util.Locale;
 
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
+import devs.mulham.horizontalcalendar.HorizontalCalendarView;
 
 public class MyCalendar
 {
@@ -44,7 +47,6 @@ public class MyCalendar
         this.context = context;
         this.resId = resId;
         this.listView = listView;
-
 
         // This object must be above week
         mfm = new MyFloatingMenu(context);
@@ -89,8 +91,7 @@ public class MyCalendar
             public void onDateSelected(Date date, int position)
             {
                 DateGenerator.setSelectedDate(MyCalendar.this.dateGenerator.getDateFormat().format(date.getTime()));
-
-
+                Log.i(TAG, "setSelectedDate: " + DateGenerator.getSelectedDate());
                 new Provider(context, listView).load();
 
                 Log.d(TAG, "onDateSelected() called with: dateGenerator = [" + date + "], position = [" + position + "]");
@@ -99,25 +100,32 @@ public class MyCalendar
         });
     }
 
-
-
-
-    void calListener(Calendar calendarPast, Calendar calendarFuture)
+    void selectDate()
     {
-        calendar = new HorizontalCalendar.Builder(((Activity)context), resId)
-                .defaultSelectedDate(DateGenerator.savedDate())
-                .startDate(calendarFuture.getTime())
-                .endDate(calendarPast.getTime())
-                .datesNumberOnScreen(5)
-                .dayNameFormat("EE")
-                .dayNumberFormat("dd")
-                .showDayName(true)
-                .showMonthName(false)
-                .build();
+        String date;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
+        Calendar c = Calendar.getInstance();
+
     }
 
 
+    private void removeRows()
+    {
 
+/*
+
+        private void animFadeOut()
+        {
+            fem.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fadeout));
+            fem.setVisibility(View.INVISIBLE);
+        }
+*/
+
+
+
+        listView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fadeout));
+        listView.setVisibility(View.INVISIBLE);
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     private void onSlide()
@@ -130,12 +138,64 @@ public class MyCalendar
             }
             public void onSwipeRight()
             {
+                removeRows();
+
+
+
                 String dt = "2008-01-01";  // Start dateGenerator
                 Date date = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
                 Calendar c = Calendar.getInstance();
 
-                c.setTime(date);
+                try
+                {
+                    c.setTime(sdf.parse(DateGenerator.getSelectedDate()));
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
+
+                c.add(Calendar.DATE, -1);  // number of days to add
+                dt = sdf.format(c.getTime());  // dt is now the new dateGenerator
+
+                Log.d(TAG, "onSwipeRight() called " +
+                        "sdf: " + String.valueOf(dt) + " :: " +
+                        "");
+
+                try
+                {
+//                    calendar.getCalendarListener().onDateSelected(MyCalendar.this.dateGenerator.getDateFormat().parse(dt),34);
+
+                    calendar.selectDate(MyCalendar.this.dateGenerator.getDateFormat().parse(dt), false);
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
+
+
+                Toast.makeText(context, "right", Toast.LENGTH_SHORT).show();
+
+
+            }
+            public void onSwipeLeft()
+            {
+                removeRows();
+
+                String dt = "2008-01-01";  // Start dateGenerator
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
+                Calendar c = Calendar.getInstance();
+
+                try
+                {
+                    c.setTime(sdf.parse(DateGenerator.getSelectedDate()));
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
 
                 c.add(Calendar.DATE, 1);  // number of days to add
                 dt = sdf.format(c.getTime());  // dt is now the new dateGenerator
@@ -148,24 +208,18 @@ public class MyCalendar
 //                DateGenerator.setSelectedDate(MyCalendar.this.dateGenerator.getDateFormat().format(c));
 
 
-                calListener(dateGenerator.calendarMinusOneDay(),dateGenerator.calendarPlusOneDay());
 
-//                try
-//                {
+                try
+                {
 //                    calendar.getCalendarListener().onDateSelected(MyCalendar.this.dateGenerator.getDateFormat().parse(dt),34);
-//                }
-//                catch (ParseException e)
-//                {
-//                    e.printStackTrace();
-//                }
 
+                    calendar.selectDate(MyCalendar.this.dateGenerator.getDateFormat().parse(dt), false);
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
 
-                Toast.makeText(context, "right", Toast.LENGTH_SHORT).show();
-
-
-            }
-            public void onSwipeLeft()
-            {
                 Toast.makeText(context, "left", Toast.LENGTH_SHORT).show();
             }
             public void onSwipeBottom()

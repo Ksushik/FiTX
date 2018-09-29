@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -197,7 +198,10 @@ public class DietActivityInflater
             setMaxCalories(countCalories);
 
             DietListAdapter adapter = new DietListAdapter(context, R.layout.row_diet_meal, arrayList);
+
             listView.setAdapter(adapter);
+            listView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fadein));
+            listView.setVisibility(View.VISIBLE);
             listView.invalidate();
 
             if (arrayList.size() == 0)
