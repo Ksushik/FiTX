@@ -39,6 +39,7 @@ import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS_INSERT;
  */
 public class SettingsDetailsActivity extends AppCompatActivity implements IDefaultView, IPreviousActivity
 {
+    private static final String TAG = "SettingsDetailsActivity";
     private String db;
     private String name;
     private String descriptionLong;
@@ -68,9 +69,16 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
 
 
         new MySettings(this).execute(URL_SETTINGS_GET, params);
-
+        Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]" +
+                "db = [" + db + "]");
     }
 
+    /*
+    [user_weight]
+    [user_height]
+    [user_somatotype]
+    [user_calories_limit]
+    */
     @Override
     public void loadInput()
     {
@@ -127,15 +135,54 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
                 String RESULT = et.getText().toString();
                 String LINK = URL_SETTINGS_INSERT + "?id=" + id + "&date=" + date + "&RESULT=" + RESULT + "&table=" + db;
                 MainService s = new MainService(SettingsDetailsActivity.this);
-                s.post(LINK);
 
-                Toast.makeText(this, getApplicationContext().getString(R.string.updated) + " " + et.getText().toString(), Toast.LENGTH_SHORT).show();
+                if (isValid(db,RESULT))
+                {
+                    s.post(LINK);
+                    Toast.makeText(this, getApplicationContext().getString(R.string.updated) + " " + et.getText().toString(), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
 
-                finish();
+
 
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    boolean isValid(String db, String RESULT)
+    {
+        double result = Double.valueOf(RESULT);
+
+        if (db.equals("user_weight"))
+        {
+            Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
+            return true;
+        }
+
+        if (db.equals("user_height"))
+        {
+            Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
+            return true;
+        }
+
+        if (db.equals("user_somatotype"))
+        {
+            Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
+            return true;
+        }
+        if (db.equals("user_calories_limit"))
+        {
+            Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
+
+            if (result > 7000 || result < 1000)
+            {
+                Toast.makeText(this, "Ustal wartość między 1000 a 7000 kcal", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
@@ -210,7 +257,5 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
 
         }
     }
-
-
 }
 

@@ -7,7 +7,7 @@ import android.widget.ProgressBar;
 public class ProgressBarAnimation extends Animation
 {
     private ProgressBar progressBar;
-    private static float from;
+    private float from;
     private float  to;
 
     public ProgressBarAnimation(ProgressBar progressBar, float from, float to) {

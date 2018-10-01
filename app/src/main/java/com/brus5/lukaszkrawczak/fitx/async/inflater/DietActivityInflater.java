@@ -249,6 +249,7 @@ public class DietActivityInflater
     }
 
 
+
     private void progressBarProteinsChangeColor(double result, double goal)
     {
         int intGoal = Integer.valueOf(String.format(Locale.getDefault(), "%.0f", goal));
@@ -256,13 +257,14 @@ public class DietActivityInflater
 
         pBarProteins.getProgressDrawable().setColorFilter(0xFF3287C3, PorterDuff.Mode.SRC_IN);
         pBarProteins.setMax(intGoal);
-//        pBarProteins.setProgress(intResult);
+        pBarProteins.setProgress(intResult);
 
-        ProgressBarAnimation anim = new ProgressBarAnimation(pBarProteins, PROTEINS_FROM,(int)result);
+        ProgressBarAnimation anim = new ProgressBarAnimation(pBarProteins, PROTEINS_FROM, (int)result);
         anim.setDuration(1000);
         pBarProteins.startAnimation(anim);
 
-        PROTEINS_FROM = intResult;
+        PROTEINS_FROM = (int)result;
+
 
         if (result > goal)
         {
