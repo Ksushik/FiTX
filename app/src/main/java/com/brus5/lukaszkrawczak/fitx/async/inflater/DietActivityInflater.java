@@ -20,6 +20,7 @@ import com.brus5.lukaszkrawczak.fitx.diet.DietService;
 import com.brus5.lukaszkrawczak.fitx.diet.Product;
 import com.brus5.lukaszkrawczak.fitx.diet.adapter.DietListAdapter;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
+import com.brus5.lukaszkrawczak.fitx.utils.ProgressBarAnimation;
 import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
@@ -52,6 +53,8 @@ public class DietActivityInflater
     private String dateFormat = DateGenerator.getSelectedDate();
 
     private double maxCalories = 0d;
+
+    private static int PROTEINS_FROM, FATS_FROM, CARBS_FROM, KCAL_FROM;
 
     public DietActivityInflater(Context context, ListView listView, String response)
     {
@@ -199,6 +202,9 @@ public class DietActivityInflater
 
             DietListAdapter adapter = new DietListAdapter(context, R.layout.row_diet_meal, arrayList);
 
+            ProgressBar pb = ((Activity)context).findViewById(R.id.progressBarListView);
+            pb.setVisibility(View.GONE);
+
             listView.setAdapter(adapter);
             listView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fadein));
             listView.setVisibility(View.VISIBLE);
@@ -242,6 +248,7 @@ public class DietActivityInflater
         }
     }
 
+
     private void progressBarProteinsChangeColor(double result, double goal)
     {
         int intGoal = Integer.valueOf(String.format(Locale.getDefault(), "%.0f", goal));
@@ -249,7 +256,13 @@ public class DietActivityInflater
 
         pBarProteins.getProgressDrawable().setColorFilter(0xFF3287C3, PorterDuff.Mode.SRC_IN);
         pBarProteins.setMax(intGoal);
-        pBarProteins.setProgress(intResult);
+//        pBarProteins.setProgress(intResult);
+
+        ProgressBarAnimation anim = new ProgressBarAnimation(pBarProteins, PROTEINS_FROM,(int)result);
+        anim.setDuration(1000);
+        pBarProteins.startAnimation(anim);
+
+        PROTEINS_FROM = intResult;
 
         if (result > goal)
         {
@@ -268,7 +281,13 @@ public class DietActivityInflater
     {
         pBarFats.getProgressDrawable().setColorFilter(0xFFF3AE28, PorterDuff.Mode.SRC_IN);
         pBarFats.setMax((int) goal);
-        pBarFats.setProgress((int) result);
+//        pBarFats.setProgress((int) result);
+
+        ProgressBarAnimation anim = new ProgressBarAnimation(pBarFats, FATS_FROM,(int)result);
+        anim.setDuration(1000);
+        pBarFats.startAnimation(anim);
+
+        FATS_FROM = (int)result;
 
         if (result > goal)
         {
@@ -287,7 +306,13 @@ public class DietActivityInflater
     {
         pBarCarbs.getProgressDrawable().setColorFilter(0xFFBD2121, PorterDuff.Mode.SRC_IN);
         pBarCarbs.setMax((int) goal);
-        pBarCarbs.setProgress((int) result);
+//        pBarCarbs.setProgress((int) result);
+
+        ProgressBarAnimation anim = new ProgressBarAnimation(pBarCarbs, CARBS_FROM,(int)result);
+        anim.setDuration(1000);
+        pBarCarbs.startAnimation(anim);
+
+        CARBS_FROM = (int)result;
 
         if (result > goal)
         {
@@ -306,7 +331,13 @@ public class DietActivityInflater
     {
         pBarKcal.getProgressDrawable().setColorFilter(0xFF89C611, PorterDuff.Mode.SRC_IN);
         pBarKcal.setMax((int) goal);
-        pBarKcal.setProgress((int) result);
+//        pBarKcal.setProgress((int) result);
+
+        ProgressBarAnimation anim = new ProgressBarAnimation(pBarKcal, KCAL_FROM,(int)result);
+        anim.setDuration(1000);
+        pBarKcal.startAnimation(anim);
+
+        KCAL_FROM = (int)result;
 
         if (result > goal)
         {

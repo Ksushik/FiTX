@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.R;
@@ -90,6 +91,7 @@ public class MyCalendar
             @Override
             public void onDateSelected(Date date, int position)
             {
+                removeRows();
                 DateGenerator.setSelectedDate(MyCalendar.this.dateGenerator.getDateFormat().format(date.getTime()));
                 Log.i(TAG, "setSelectedDate: " + DateGenerator.getSelectedDate());
                 new Provider(context, listView).load();
@@ -111,20 +113,12 @@ public class MyCalendar
 
     private void removeRows()
     {
+//        listView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fadeout));
+//        listView.setVisibility(View.INVISIBLE);
+        listView.invalidateViews();
+        ProgressBar pb = ((Activity)context).findViewById(R.id.progressBarListView);
+        pb.setVisibility(View.VISIBLE);
 
-/*
-
-        private void animFadeOut()
-        {
-            fem.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fadeout));
-            fem.setVisibility(View.INVISIBLE);
-        }
-*/
-
-
-
-        listView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fadeout));
-        listView.setVisibility(View.INVISIBLE);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -138,8 +132,6 @@ public class MyCalendar
             }
             public void onSwipeRight()
             {
-                removeRows();
-
 
 
                 String dt = "2008-01-01";  // Start dateGenerator
@@ -181,7 +173,6 @@ public class MyCalendar
             }
             public void onSwipeLeft()
             {
-                removeRows();
 
                 String dt = "2008-01-01";  // Start dateGenerator
                 Date date = new Date();

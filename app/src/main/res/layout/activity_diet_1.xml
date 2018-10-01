@@ -10,6 +10,19 @@
 
     >
 
+    <ProgressBar
+        android:id="@+id/progressBarListView"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
+        android:layout_marginStart="-1dp"
+        android:layout_marginLeft="-1dp"
+        android:elevation="10dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar5"
+        fab:layout_constraintEnd_toEndOf="parent"
+        fab:layout_constraintStart_toStartOf="parent" />
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -302,13 +315,16 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/colorBackground"
+        android:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar5"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBarListView"
+        app:layout_constraintVertical_bias="0.0">
+
+    </ListView>
 
     <TextView
         android:id="@+id/textViewNoData"

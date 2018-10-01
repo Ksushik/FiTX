@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.MainRow;
@@ -215,9 +216,18 @@ public class MainActivityInflater
 
         listView.setDividerHeight(0);
 
-        listView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fadein));
-        listView.setVisibility(View.VISIBLE);
+        ProgressBar pb = ((Activity)context).findViewById(R.id.progressBarListView);
+        pb.setVisibility(View.GONE);
+
+
+//        listView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fadein));
+//        listView.setVisibility(View.VISIBLE);
+
+
+
+
         listView.setAdapter(adapter);
+
         listView.postInvalidate();
     }
 

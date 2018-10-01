@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toTopOf="@+id/listViewMainActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarViewMainActivity"
+        app:layout_constraintTop_toBottomOf="@+id/progressBarListView"
         app:layout_constraintVertical_bias="0.0">
 
     </ListView>
@@ -209,8 +209,23 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.9" />
 
+
+    <ProgressBar
+        android:id="@+id/progressBarListView"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
+        android:layout_marginStart="-1dp"
+        android:layout_marginLeft="-1dp"
+        android:elevation="10dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/calendarViewMainActivity"
+        fab:layout_constraintEnd_toEndOf="parent"
+        fab:layout_constraintStart_toStartOf="parent" />
+
     <ListView
         android:id="@+id/listViewMainActivity"
+        android:elevation="0dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="visible"

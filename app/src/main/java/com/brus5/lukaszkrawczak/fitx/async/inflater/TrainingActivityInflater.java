@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.brus5.lukaszkrawczak.fitx.R;
@@ -147,6 +148,9 @@ public class TrainingActivityInflater
         {
             e.printStackTrace();
         }
+
+        ProgressBar pb = ((Activity)context).findViewById(R.id.progressBarListView);
+        pb.setVisibility(View.GONE);
 
         listView.setAdapter(adapter);
         listView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fadein));
