@@ -13,6 +13,6 @@ A personal diet/gym training assistant. Go directly to Java files https://goo.gl
 <img src="http://justfitx.xyz/github/images/cardio_details.png" width="200">
 <img src="http://justfitx.xyz/github/images/training_search.png" width="200">
 
+
   <br>
  I'm on settings-module and I'm adding new feature.<br>
- 
