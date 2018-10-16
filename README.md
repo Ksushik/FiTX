@@ -16,4 +16,6 @@ A personal diet/gym training assistant. Go directly to Java files https://goo.gl
   Just testing GVC!<br>
   version 0.1<br>
   just playing around with my branch!<br>
-  And I forgot to tell you that I like you!
+  And I forgot to tell you that I like you!<br>
+  <br>
+  I love my mom and dad ofcourse!!!
