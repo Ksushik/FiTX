@@ -15,4 +15,5 @@ A personal diet/gym training assistant. Go directly to Java files https://goo.gl
 
   Just testing GVC!<br>
   version 0.1<br>
-  just playing around with my branch!
+  just playing around with my branch!<br>
+  And I forgot to tell you that I like you!
