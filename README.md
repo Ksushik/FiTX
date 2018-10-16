@@ -15,3 +15,4 @@ A personal diet/gym training assistant. Go directly to Java files https://goo.gl
 
   Just testing GVC!
   version 0.1
+  just playing around with my branch!
