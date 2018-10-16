@@ -19,4 +19,4 @@ A personal diet/gym training assistant. Go directly to Java files https://goo.gl
   I love my mom and dad ofcourse!!!
   just playing around once again<br>
   im playing around with testing branch!<br>
-  that's sick!
+  that's awesome!
