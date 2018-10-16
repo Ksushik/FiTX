@@ -13,10 +13,6 @@ A personal diet/gym training assistant. Go directly to Java files https://goo.gl
 <img src="http://justfitx.xyz/github/images/cardio_details.png" width="200">
 <img src="http://justfitx.xyz/github/images/training_search.png" width="200">
 
-  Just testing GVC!<br>
-  version 0.1<br>
+
   <br>
-  I love my mom and dad ofcourse!!!
-  just playing around once again<br>
-  im playing around with testing branch!<br>
-  that's awesome!
+ I'm on settings-module and I'm adding new feature.<br>
