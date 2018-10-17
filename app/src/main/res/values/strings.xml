@@ -273,4 +273,10 @@
     <string name="diet_title">Dieta</string>
     <string name="training_title">Trening</string>
     <string name="userRealName">Imię</string>
+    <string name="email_address">Adres email</string>
+    <string name="password_retype">Powtórz hasło</string>
+    <string name="sex">Płeć</string>
+    <string name="man">Mężczyzna</string>
+    <string name="woman">Kobieta</string>
+    <string name="birthday_format">DD.MM.RRRR</string>
 </resources>
