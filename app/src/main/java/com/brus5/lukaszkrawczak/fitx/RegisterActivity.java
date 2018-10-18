@@ -2,6 +2,8 @@ package com.brus5.lukaszkrawczak.fitx;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,4 +40,19 @@ public class RegisterActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private class TextSearch implements TextWatcher
+    {
+        TextSearch() {}
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+        @Override
+        public void afterTextChanged(Editable s) {}
+    }
 }
+
