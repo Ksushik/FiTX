@@ -16,7 +16,20 @@ public class CaloriesGoal extends MyRow
         String dbName = "user_goals";
 
         super.name = name;
-        super.value = value;
+
+        switch (value)
+        {
+            case "0":
+                super.value = "Zwiększanie masy";
+                break;
+            case "1":
+                super.value = "Balans";
+                break;
+            case "2":
+                super.value = "Redukcja";
+                break;
+        }
+
         super.descriptionShort = descriptionShort;
         super.dbName = dbName;
         super.viewType = 3;

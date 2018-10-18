@@ -22,6 +22,7 @@ import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.login.LoginActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.SettingsDetailsActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.CaloriesAuto;
+import com.brus5.lukaszkrawczak.fitx.settings.list.row.CaloriesGoal;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.Height;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.ManualCalories;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.Somatotype;
@@ -187,9 +188,8 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                 String somatotype = array.getJSONObject(2).getString("somatotype");
                 String auto_calories = array.getJSONObject(3).getString("auto_calories");
                 String calories_limit = array.getJSONObject(4).getString("calories_limit");
+                String goal = array.getJSONObject(6).getString("diet_goal");
                 SaveSharedPreference.setLimitCalories(context, calories_limit);
-
-                String goal = "123";
 
                 new Weight(SettingsActivity.this, mySettingsList, weight);
 
@@ -205,7 +205,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                     new ManualCalories(SettingsActivity.this, mySettingsList, calories_limit);
                 }
 
-//                new CaloriesGoal(SettingsActivity.this, mySettingsList, goal);
+                new CaloriesGoal(SettingsActivity.this, mySettingsList, goal);
 
                 new OnItemClicked(mySettingsList);
 

@@ -272,4 +272,5 @@
     <string name="no_data">Brak danych</string>
     <string name="diet_title">Dieta</string>
     <string name="training_title">Trening</string>
+    <string name="increase_body_mass">Zwiększanie masy</string>
 </resources>
