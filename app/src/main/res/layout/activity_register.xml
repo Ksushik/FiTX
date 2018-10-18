@@ -28,8 +28,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
         android:gravity="end"
         android:inputType="textPersonName"
@@ -38,7 +38,33 @@
         app:layout_constraintTop_toBottomOf="@+id/registerUserTv"
         tools:ignore="Autofill,LabelFor" />
 
-        <TextView
+    <ImageView
+        android:id="@+id/firstNameRegisterAcceptedIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/firstNameRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/firstNameRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/firstNameRegisterEt"
+        app:srcCompat="@drawable/ic_accept_circle_green_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <ImageView
+        android:id="@+id/firstNameRegisterErrorIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/firstNameRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/firstNameRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/firstNameRegisterEt"
+        app:srcCompat="@drawable/ic_error_red_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <TextView
             android:id="@+id/firstNameRegisterTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,8 +83,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
         android:gravity="end"
         android:inputType="textPersonName"
@@ -66,6 +92,44 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/firstNameRegisterEt"
         tools:ignore="Autofill,LabelFor"/>
+
+    <ProgressBar
+        android:id="@+id/usernameRegisterPb"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/usernameRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/usernameRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/usernameRegisterEt" />
+
+    <ImageView
+        android:id="@+id/usernameRegisterAcceptedIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/usernameRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/usernameRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/usernameRegisterEt"
+        app:srcCompat="@drawable/ic_accept_circle_green_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <ImageView
+        android:id="@+id/usernameRegisterErrorIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/usernameRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/usernameRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/usernameRegisterEt"
+        app:srcCompat="@drawable/ic_error_red_24dp"
+        android:contentDescription="@string/register_user"/>
 
         <TextView
             android:id="@+id/usernameRegisterTv"
@@ -84,8 +148,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
         android:gravity="end"
         android:inputType="textEmailAddress"
@@ -93,6 +157,44 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameRegisterEt"
         tools:ignore="Autofill,LabelFor"/>
+
+    <ProgressBar
+        android:id="@+id/emailRegisterPb"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/emailRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/emailRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/emailRegisterEt" />
+
+    <ImageView
+        android:id="@+id/emailRegisterAcceptedIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/emailRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/emailRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/emailRegisterEt"
+        app:srcCompat="@drawable/ic_accept_circle_green_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <ImageView
+        android:id="@+id/emailRegisterErrorIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/emailRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/emailRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/emailRegisterEt"
+        app:srcCompat="@drawable/ic_error_red_24dp"
+        android:contentDescription="@string/register_user"/>
 
         <TextView
             android:id="@+id/emailRegisterTv"
@@ -111,8 +213,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
         android:gravity="end"
         android:inputType="textPassword"
@@ -121,7 +223,33 @@
         app:layout_constraintTop_toBottomOf="@+id/emailRegisterEt"
         tools:ignore="Autofill,LabelFor"/>
 
-        <TextView
+    <ImageView
+        android:id="@+id/passwordRegisterAcceptedIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/passwordRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/passwordRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/passwordRegisterEt"
+        app:srcCompat="@drawable/ic_accept_circle_green_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <ImageView
+        android:id="@+id/passwordRegisterErrorIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/passwordRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/passwordRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/passwordRegisterEt"
+        app:srcCompat="@drawable/ic_error_red_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <TextView
             android:id="@+id/passwordRegisterTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -138,8 +266,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
         android:gravity="end"
         android:inputType="textPassword"
@@ -147,6 +275,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordRegisterEt"
         tools:ignore="Autofill,LabelFor"/>
+
+    <ImageView
+        android:id="@+id/passwordRetypeRegisterAcceptedIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/passwordRetypeRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/passwordRetypeRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/passwordRetypeRegisterEt"
+        app:srcCompat="@drawable/ic_accept_circle_green_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <ImageView
+        android:id="@+id/passwordRetypeRegisterErrorIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/passwordRetypeRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/passwordRetypeRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/passwordRetypeRegisterEt"
+        app:srcCompat="@drawable/ic_error_red_24dp"
+        android:contentDescription="@string/register_user"/>
+
 
     <TextView
         android:id="@+id/passwordRetypeRegisterTv"
@@ -210,14 +365,14 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/birthdayRegisterEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
         android:inputType="date"
         android:gravity="end"
@@ -226,6 +381,32 @@
         app:layout_constraintTop_toBottomOf="@+id/radioButtonsRegisterLinearLay"
         tools:ignore="Autofill,LabelFor"/>
 
+    <ImageView
+        android:id="@+id/birthdayRegisterAcceptedIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/birthdayRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/birthdayRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/birthdayRegisterEt"
+        app:srcCompat="@drawable/ic_accept_circle_green_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <ImageView
+        android:id="@+id/birthdayRegisterErrorIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/birthdayRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/birthdayRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/birthdayRegisterEt"
+        app:srcCompat="@drawable/ic_error_red_24dp"
+        android:contentDescription="@string/register_user"/>
+
     <TextView
         android:id="@+id/birthdateRegisterTv"
         android:layout_width="wrap_content"
@@ -233,9 +414,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="@string/birthday_format"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText"
-        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintBaseline_toBaselineOf="@+id/birthdayRegisterEt"
+        app:layout_constraintStart_toStartOf="@+id/birthdayRegisterEt"
         android:filterTouchesWhenObscured="true"/>
+
+
 
 
 
