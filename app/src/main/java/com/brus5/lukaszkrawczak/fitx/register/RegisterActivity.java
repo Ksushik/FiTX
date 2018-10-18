@@ -1,23 +1,35 @@
-package com.brus5.lukaszkrawczak.fitx;
+package com.brus5.lukaszkrawczak.fitx.register;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.brus5.lukaszkrawczak.fitx.R;
 
 public class RegisterActivity extends AppCompatActivity
 {
     private static final String TAG = "RegisterActivity";
+
+
+    private void nameEditText()
+    {
+        EditText et = findViewById(R.id.firstNameRegisterEt);
+        ImageView acceptIv = findViewById(R.id.firstNameRegisterAcceptedIv);
+        ImageView errorv = findViewById(R.id.firstNameRegisterErrorIv);
+
+        new TextSearch(et, acceptIv,errorv);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        nameEditText();
     }
 
 
@@ -39,20 +51,6 @@ public class RegisterActivity extends AppCompatActivity
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private class TextSearch implements TextWatcher
-    {
-        TextSearch() {}
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-        @Override
-        public void afterTextChanged(Editable s) {}
     }
 }
 

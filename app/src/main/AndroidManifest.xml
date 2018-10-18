@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.brus5.lukaszkrawczak.fitx">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,7 +15,8 @@
         android:label="@string/fitx"
         android:roundIcon="@mipmap/ic_launcher_error"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <!-- SetFacebookID --><meta-data
         android:name="com.facebook.sdk.ApplicationId"
@@ -96,7 +98,7 @@
             android:parentActivityName=".settings.list.SettingsActivity"
             android:theme="@style/FiTX3theme.noBar" />
         <activity android:name=".settings.SettingsDetailsTriple" />
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".register.RegisterActivity"/>
     </application>
 
 </manifest>

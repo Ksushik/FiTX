@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.RegisterActivity;
+import com.brus5.lukaszkrawczak.fitx.register.RegisterActivity;
 import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginNormalDTO;
 import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginRegisterFacebookDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
