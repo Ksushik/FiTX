@@ -35,7 +35,8 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerUserTv" />
+        app:layout_constraintTop_toBottomOf="@+id/registerUserTv"
+        tools:ignore="Autofill,LabelFor" />
 
         <TextView
             android:id="@+id/firstNameRegisterTv"
@@ -63,7 +64,8 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstNameRegisterEt" />
+        app:layout_constraintTop_toBottomOf="@+id/firstNameRegisterEt"
+        tools:ignore="Autofill,LabelFor"/>
 
         <TextView
             android:id="@+id/usernameRegisterTv"
@@ -89,7 +91,8 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameRegisterEt" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameRegisterEt"
+        tools:ignore="Autofill,LabelFor"/>
 
         <TextView
             android:id="@+id/emailRegisterTv"
@@ -115,7 +118,8 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailRegisterEt" />
+        app:layout_constraintTop_toBottomOf="@+id/emailRegisterEt"
+        tools:ignore="Autofill,LabelFor"/>
 
         <TextView
             android:id="@+id/passwordRegisterTv"
@@ -141,7 +145,8 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordRegisterEt" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordRegisterEt"
+        tools:ignore="Autofill,LabelFor"/>
 
     <TextView
         android:id="@+id/passwordRetypeRegisterTv"
@@ -174,7 +179,8 @@
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:gravity="fill"
-            android:text="@string/sex" />
+            android:text="@string/sex"
+            android:layout_marginStart="8dp" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -215,10 +221,10 @@
         android:ems="10"
         android:inputType="date"
         android:gravity="end"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButtonsRegisterLinearLay" />
+        app:layout_constraintTop_toBottomOf="@+id/radioButtonsRegisterLinearLay"
+        tools:ignore="Autofill,LabelFor"/>
 
     <TextView
         android:id="@+id/birthdateRegisterTv"
