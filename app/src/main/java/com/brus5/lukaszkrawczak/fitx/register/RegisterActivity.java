@@ -7,8 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.register.search.ProgressTextSearch;
+import com.brus5.lukaszkrawczak.fitx.register.search.SimpleTextSearch;
 
 public class RegisterActivity extends AppCompatActivity
 {
@@ -21,7 +24,17 @@ public class RegisterActivity extends AppCompatActivity
         ImageView acceptIv = findViewById(R.id.firstNameRegisterAcceptedIv);
         ImageView errorv = findViewById(R.id.firstNameRegisterErrorIv);
 
-        new TextSearch(et, acceptIv,errorv);
+        new SimpleTextSearch(et, acceptIv,errorv);
+    }
+
+    private void userNameEditText()
+    {
+        EditText et = findViewById(R.id.usernameRegisterEt);
+        ImageView acceptIv = findViewById(R.id.usernameRegisterAcceptedIv);
+        ImageView errorv = findViewById(R.id.usernameRegisterErrorIv);
+        ProgressBar progressBar = findViewById(R.id.usernameRegisterPb);
+
+        new ProgressTextSearch(et,acceptIv,errorv,progressBar);
     }
 
     @Override
@@ -30,8 +43,8 @@ public class RegisterActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         nameEditText();
+        userNameEditText();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
