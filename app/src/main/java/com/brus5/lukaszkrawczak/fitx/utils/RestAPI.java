@@ -4,31 +4,28 @@ public class RestAPI
 {
     public static final String SERVER_URL = "http://justfitx.xyz/";
 
-    public static final String DIET = SERVER_URL + "Diet/";
-    public static final String TRAINING = SERVER_URL + "Training/";
-    public static final String CARDIO = SERVER_URL + "Cardio/";
-    public static final String MAIN = SERVER_URL + "Main/";
-    public static final String SETTINGS = SERVER_URL + "Settings/";
-    public static final String GRAPH = SERVER_URL + "Graph/";
+    private static final String DIET = SERVER_URL + "Diet/";
+    private static final String TRAINING = SERVER_URL + "Training/";
+    private static final String CARDIO = SERVER_URL + "Cardio/";
+    private static final String MAIN = SERVER_URL + "Main/";
+    private static final String SETTINGS = SERVER_URL + "Settings/";
+    private static final String GRAPH = SERVER_URL + "Graph/";
+    private static final String USER = SERVER_URL + "User/";
+
+    public static final String URL_USER_CHECK_EXISTING = USER + "CheckExistingUser.php";
 
     public static final String URL_MAIN_INFORMATIONS = MAIN + "Main.php";
     public static final String URL_MAIN_KCAL_LIMIT_UPDATE = MAIN + "AutoCalories.php";
-
 
     public static final String URL_SETTINGS = SETTINGS + "GetSettings.php";
     public static final String URL_SETTINGS_GET = SETTINGS + "GetLast.php";
     public static final String URL_SETTINGS_INSERT = SETTINGS + "Insert.php";
     public static final String URL_SETTINGS_SET_AUTO_CALORIES = SETTINGS + "SetAutoCalories.php";
 
-
     public static final String URL_GRAPH_KCAL = GRAPH + "GetKcalGraph.php";
-
-
-
 
     public static final String URL_DIET_DELETE_COUNTED_KCAL = DIET + "KcalResultDelete.php";
     public static final String URL_DIET_UPDATE_COUNTED_KCAL = DIET + "KcalResultUpdate.php";
-
 
     public static final String URL_DIET_PRODUCT_GET_INFORMATIONS = DIET + "GetProductInformations.php";
 
@@ -39,9 +36,6 @@ public class RestAPI
 
     public static final String URL_DIET_PRODUCTS_SHOW_BY_USER = DIET + "ShowByUser.php";
 
-
-    public static final String URL_TRAINING_NAME = TRAINING + "ShowName.php";
-    public static final String URL_TRAINING_DETAILS = TRAINING + "ShowTrainingDetails.php";
     public static final String URL_TRAINING_SHOW = TRAINING + "ShowByUser.php";
     public static final String URL_TRAINING_SHOW_SHORT = TRAINING + "ShowByUserShort.php";
     public static final String URL_TRAINING_DESCRIPTION = TRAINING + "ShowTrainingDescription.php";
@@ -55,8 +49,6 @@ public class RestAPI
     public static final String URL_CARDIO_INSERT = CARDIO + "Insert.php";
     public static final String URL_CARDIO_UPDATE = CARDIO + "Update.php";
     public static final String URL_CARDIO_DELETE = CARDIO + "Delete.php";
-
-
 
     /* Names of db_user */
     public final static String DB_USER_ID = "id";

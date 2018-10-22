@@ -1,4 +1,4 @@
-package com.brus5.lukaszkrawczak.fitx;
+package com.brus5.lukaszkrawczak.fitx.utils.callback;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,15 +10,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-public class SecondService
+public class CallBackService
 {
 
-    private static final String TAG = "SecondService";
+    private static final String TAG = "CallBackService";
 
 
     private Context context;
 
-    public SecondService(Context context)
+    public CallBackService(Context context)
     {
         this.context = context;
     }
@@ -39,6 +39,7 @@ public class SecondService
             public void onErrorResponse(VolleyError error)
             {
                 Log.e(TAG, "onErrorResponse: ", error);
+                onDataLoaded.onError(error.toString());
             }
         });
 

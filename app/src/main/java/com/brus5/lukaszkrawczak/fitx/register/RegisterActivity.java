@@ -9,11 +9,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.brus5.lukaszkrawczak.fitx.utils.callback.OnDataLoaded;
 import com.brus5.lukaszkrawczak.fitx.R;
-import com.brus5.lukaszkrawczak.fitx.register.search.ProgressTextSearch;
+import com.brus5.lukaszkrawczak.fitx.register.search.CallBackTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.SimpleTextSearch;
 
-public class RegisterActivity extends AppCompatActivity
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_USER_CHECK_EXISTING;
+
+public class RegisterActivity extends AppCompatActivity implements OnDataLoaded
 {
     private static final String TAG = "RegisterActivity";
 
@@ -34,7 +37,11 @@ public class RegisterActivity extends AppCompatActivity
         ImageView errorv = findViewById(R.id.usernameRegisterErrorIv);
         ProgressBar progressBar = findViewById(R.id.usernameRegisterPb);
 
-        new ProgressTextSearch(et,acceptIv,errorv,progressBar);
+        String params = "?username=";
+        String link = URL_USER_CHECK_EXISTING + params;
+
+        new CallBackTextSearch(RegisterActivity.this,et,acceptIv,errorv,progressBar,link);
+
     }
 
     @Override
@@ -64,6 +71,18 @@ public class RegisterActivity extends AppCompatActivity
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSuccess(String s)
+    {
+
+    }
+
+    @Override
+    public void onError(String s)
+    {
+
     }
 }
 
