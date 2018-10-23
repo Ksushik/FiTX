@@ -59,9 +59,9 @@ public class Provider
         Calendar cal = Calendar.getInstance();
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String date = sdf.format(cal.getTime());
-        Log.i(TAG, "load: " + SaveSharedPreference.getAutoCalories(context));
+        Log.i(TAG, "load: " + SaveSharedPreference.getUserAutoCalories(context));
 
-        if (SaveSharedPreference.getAutoCalories(context) == 1)
+        if (SaveSharedPreference.getUserAutoCalories(context) == 1)
         {
             final String LINK = URL_MAIN_KCAL_LIMIT_UPDATE + "?user_id=" + id + "&date=" + date;
             // Inserting OR Updating user_kcal_limit table

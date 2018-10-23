@@ -93,7 +93,7 @@ public class SettingsAdapter extends ArrayAdapter<Settings>
                 tvDescription.setText(description);
 
 
-                if (SaveSharedPreference.getAutoCalories(context) == 1)
+                if (SaveSharedPreference.getUserAutoCalories(context) == 1)
                 {
                     aSwitch.setChecked(true);
                 }

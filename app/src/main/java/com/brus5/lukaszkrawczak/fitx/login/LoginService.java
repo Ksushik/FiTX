@@ -19,7 +19,6 @@ import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginRegisterFacebookDTO;
 import com.brus5.lukaszkrawczak.fitx.utils.RestAPI;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,7 +32,7 @@ public class LoginService
     private static final String TAG = "LoginService";
     private static final String FACEBOOK_REGISTER = RestAPI.SERVER_URL + "Facebook/FacebookRegisterRequest.php";
     private static final String LOGIN_REQUEST = RestAPI.SERVER_URL + "User/UserLoginRequest.php";
-    private static final String GET_USER_INFO = RestAPI.SERVER_URL + "User/UserInfoShowRequest.php";
+    private static final String GET_USER_INFO = RestAPI.SERVER_URL + "User/GetData.php";
 
     public void LoginWithFacebook(final UserLoginRegisterFacebookDTO dto, final Context ctx)
     {
@@ -121,6 +120,7 @@ public class LoginService
                         LoginService.this.GetUserInfo(dto1, ctx);
 
 
+
                     }
                     else
                     {
@@ -170,32 +170,23 @@ public class LoginService
                 try
                 {
                     JSONObject jsonObject = new JSONObject(response);
-                    int userId = 0;
-                    String userFirstName = "";
-                    String userBirthday = "";
-                    String userPassword = "";
-                    String userEmail = "";
-                    String userGender = "";
-                    JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                    for (int i = 0; i < jsonArray.length(); i++)
-                    {
-                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                        userId = jsonObject1.getInt("user_id");
-                        userFirstName = jsonObject1.getString("name");
-                        userBirthday = jsonObject1.getString("birthday");
-                        userPassword = jsonObject1.getString("password");
-                        userEmail = jsonObject1.getString("email");
-                        userGender = jsonObject1.getString("male");
+                    int user_id = jsonObject.getInt("user_id");
+                    String username = jsonObject.getString("username");
+                    String user_first_name = jsonObject.getString("user_first_name");
+                    String user_birthday = jsonObject.getString("user_birthday");
+                    String user_email = jsonObject.getString("user_email");
+                    String user_gender = jsonObject.getString("user_gender");
+                    int user_auto_calories = jsonObject.getInt("user_auto_calories");
+                    int user_diet_goal = jsonObject.getInt("user_diet_goal");
 
-                    }
-
-                    SaveSharedPreference.setUserID(ctx, userId);
-                    Log.d(TAG, "onResponse() called with: response = [" + userId + "]");
-                    SaveSharedPreference.setUserFirstName(ctx, userFirstName);
-                    SaveSharedPreference.setUserBirthday(ctx, userBirthday);
-                    SaveSharedPreference.setUserPassword(ctx, userPassword);
-                    SaveSharedPreference.setUserEmail(ctx, userEmail);
-                    SaveSharedPreference.setUserGender(ctx, userGender);
+                    SaveSharedPreference.setUserID(ctx, user_id);
+                    SaveSharedPreference.setUserName(ctx, username);
+                    SaveSharedPreference.setUserFirstName(ctx, user_first_name);
+                    SaveSharedPreference.setUserBirthday(ctx, user_birthday);
+                    SaveSharedPreference.setUserEmail(ctx, user_email);
+                    SaveSharedPreference.setUserGender(ctx, user_gender);
+                    SaveSharedPreference.setAutoCalories(ctx, user_auto_calories);
+                    SaveSharedPreference.setDietGoal(ctx, user_diet_goal);
 
                     Intent intent = new Intent(ctx, MainActivity.class);
                     ctx.startActivity(intent);
