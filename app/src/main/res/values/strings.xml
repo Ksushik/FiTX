@@ -280,4 +280,5 @@
     <string name="woman">Kobieta</string>
     <string name="birthday_format">DD.MM.RRRR</string>
     <string name="register_user">Rejestracja użytkownika</string>
+    <string name="something_went_wrong">Coś poszło nie tak</string>
 </resources>
