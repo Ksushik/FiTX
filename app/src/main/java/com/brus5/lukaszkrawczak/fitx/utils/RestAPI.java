@@ -14,6 +14,7 @@ public class RestAPI
     private static final String REGISTRATION = SERVER_URL + "Registration/";
 
     public static final String URL_USER_CHECK_EXISTING = REGISTRATION + "CheckExistingUser.php";
+    public static final String URL_EMAIL_CHECK_EXISTING = REGISTRATION + "CheckExistingEmail.php";
 
     public static final String URL_MAIN_INFORMATIONS = MAIN + "Main.php";
     public static final String URL_MAIN_KCAL_LIMIT_UPDATE = MAIN + "AutoCalories.php";
