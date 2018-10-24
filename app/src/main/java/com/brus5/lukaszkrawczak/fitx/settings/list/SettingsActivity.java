@@ -200,7 +200,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                 new CaloriesAuto(SettingsActivity.this, mySettingsList, auto_calories);
 
                 // If Automatic calories are turned OFF then be able to add manual calories row
-                if (SaveSharedPreference.getAutoCalories(context) == 0)
+                if (SaveSharedPreference.getUserAutoCalories(context) == 0)
                 {
                     new ManualCalories(SettingsActivity.this, mySettingsList, calories_limit);
                 }

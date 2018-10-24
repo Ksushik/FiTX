@@ -151,7 +151,7 @@ public class SettingsActivityInflater
             Log.i(TAG, "auto_calories: " + auto_calories);
 
             // If Automatic calories are turned OFF then be able to add manual calories row
-            if (SaveSharedPreference.getAutoCalories(context) == 0)
+            if (SaveSharedPreference.getUserAutoCalories(context) == 0)
             {
 
                 String mc1 = context.getResources().getString(R.string.calories_manual);
@@ -162,7 +162,7 @@ public class SettingsActivityInflater
                 mySettingsList.add(mManual);
                 mySettingsList.load();
 
-                Log.d(TAG, "dataInflater() called with: SaveSharedPreference.getAutoCalories(context) = [" + SaveSharedPreference.getAutoCalories(context) + "]");
+                Log.d(TAG, "dataInflater() called with: SaveSharedPreference.getUserAutoCalories(context) = [" + SaveSharedPreference.getUserAutoCalories(context) + "]");
             }
 
 
@@ -247,7 +247,7 @@ public class SettingsActivityInflater
                     tvDescription.setText(description);
 
 
-                    if (SaveSharedPreference.getAutoCalories(context) == 1)
+                    if (SaveSharedPreference.getUserAutoCalories(context) == 1)
                     {
                         aSwitch.setChecked(true);
                     }
