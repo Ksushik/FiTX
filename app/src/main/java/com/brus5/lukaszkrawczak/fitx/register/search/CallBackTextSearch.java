@@ -30,6 +30,8 @@ public class CallBackTextSearch extends TextSearch
     private View acceptIv;
     private View errorIv;
 
+    public boolean isValid;
+
     private Timer timer = new Timer();
 
     public CallBackTextSearch(Context context, EditText et, View acceptIv, View errorIv, ProgressBar progressBar, String link)
@@ -82,6 +84,7 @@ public class CallBackTextSearch extends TextSearch
                             // for example if username is already taken, then status = true
                             boolean status = jsonObject.getBoolean("error");
                             statusChecker(status);
+                            isValid = !status;
                         }
                         catch (JSONException ex)
                         {

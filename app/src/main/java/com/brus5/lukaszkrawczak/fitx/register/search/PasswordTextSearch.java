@@ -4,34 +4,25 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class SimpleTextSearch extends TextSearch
+public class PasswordTextSearch extends TextSearch
 {
     private String enteredText;
 
-    // This patter contains only letters and polish letters for name
-    private Pattern pattern = Pattern.compile("\\p{Lu}\\p{Ll}*");
+    private PasswordListener myListener;
 
-    public SimpleTextSearch(EditText et, View acceptIv, View errorIv)
+    public PasswordTextSearch(EditText et, View acceptIv, View errorIv, PasswordListener myListener)
     {
         super(et, acceptIv, errorIv);
+        this.myListener = myListener;
     }
 
     private boolean isValid()
     {
-        Matcher matcher = pattern.matcher(enteredText);
-
         if (enteredText.isEmpty() || enteredText.equals("null"))
         {
             return false;
         }
-        if (enteredText.length() < 3 || enteredText.length() > 15)
-        {
-            return false;
-        }
-        if (!matcher.matches())
+        if (enteredText.length() < 5 || enteredText.length() > 64)
         {
             return false;
         }
@@ -44,5 +35,7 @@ public class SimpleTextSearch extends TextSearch
     {
         enteredText = s.toString();
         update(isValid());
+        myListener.callBackFirstPw(s.toString());
     }
+
 }

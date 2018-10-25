@@ -12,8 +12,9 @@ import android.widget.ProgressBar;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.register.search.CallBackTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.PasswordListener;
+import com.brus5.lukaszkrawczak.fitx.register.search.PasswordTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.RetypePasswordTextSearch;
-import com.brus5.lukaszkrawczak.fitx.register.search.SimpleTextSearch;
+import com.brus5.lukaszkrawczak.fitx.register.search.FirstNameTextSearch;
 
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_EMAIL_CHECK_EXISTING;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_USER_CHECK_EXISTING;
@@ -22,15 +23,24 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
 {
     private static final String TAG = "RegisterActivity";
 
+    private FirstNameTextSearch firstNameTS;
+    private CallBackTextSearch userNameTS;
+    private CallBackTextSearch emailTS;
+    private RetypePasswordTextSearch retypePassTS;
+
+
+    /** EditText of name with dynamic validation */
     private void nameEditText()
     {
         EditText et = findViewById(R.id.firstNameRegisterEt);
         ImageView acceptIv = findViewById(R.id.firstNameRegisterAcceptedIv);
         ImageView errorIv = findViewById(R.id.firstNameRegisterErrorIv);
 
-        new SimpleTextSearch(et, acceptIv,errorIv);
+        firstNameTS = new FirstNameTextSearch(et, acceptIv,errorIv);
     }
 
+
+    /** EditText of UserName with dynamic validation */
     private void userNameEditText()
     {
         EditText et = findViewById(R.id.usernameRegisterEt);
@@ -41,9 +51,10 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
         String params = "?username=";
         String link = URL_USER_CHECK_EXISTING + params;
 
-        new CallBackTextSearch(RegisterActivity.this,et,acceptIv,errorIv,progressBar,link);
+        userNameTS = new CallBackTextSearch(RegisterActivity.this,et,acceptIv,errorIv,progressBar,link);
     }
 
+    /** EditText of Email with dynamic validation */
     private void emailEditText()
     {
         EditText et = findViewById(R.id.emailRegisterEt);
@@ -54,39 +65,57 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
         String params = "?email=";
         String link = URL_EMAIL_CHECK_EXISTING + params;
 
-        new CallBackTextSearch(RegisterActivity.this,et,acceptIv,errorIv,progressBar,link);
+        emailTS = new CallBackTextSearch(RegisterActivity.this,et,acceptIv,errorIv,progressBar,link);
     }
 
+    /** EditText of Password */
     private void passwordEditText()
     {
+        EditText et = findViewById(R.id.passwordRegisterEt);
+        ImageView acceptIv = findViewById(R.id.passwordRegisterAcceptedIv);
+        ImageView errorIv = findViewById(R.id.passwordRegisterErrorIv);
 
+        new PasswordTextSearch(et, acceptIv,errorIv,this);
     }
 
-    private void retypePasswordEditText()
+    /**
+     * EditText of RetypePassword
+     * @param firstPassword firstPw
+     */
+    private void retypePasswordEditText(String firstPassword)
     {
         EditText et = findViewById(R.id.passwordRetypeRegisterEt);
         ImageView acceptIv = findViewById(R.id.passwordRetypeRegisterAcceptedIv);
         ImageView errorIv = findViewById(R.id.passwordRetypeRegisterErrorIv);
 
-        new RetypePasswordTextSearch(et, acceptIv,errorIv,this);
+        retypePassTS = new RetypePasswordTextSearch(et, acceptIv,errorIv,this, firstPassword);
+    }
+
+    /**
+     * Passing FirstPassword to RetypePasswordEditText to compare Strings
+     * @param result String of FirstPasswordEditText
+     */
+    @Override
+    public void callBackFirstPw(String result)
+    {
+        retypePasswordEditText(result);
     }
 
     @Override
-    public void firstPassword(boolean isValid)
-    {
-        Log.d(TAG, "firstPassword() called with: isValid = [" + isValid + "]");
-    }
+    public void callBackSecondPw(String result) {}
 
-    @Override
-    public void secondPassword(boolean isValid)
+    /**
+     * Checking if all fields are valid
+     * @return false if there is a mistake
+     */
+    private boolean isValid()
     {
-        Log.d(TAG, "secondPassword() called with: isValid = [" + isValid + "]");
-    }
-
-    @Override
-    public void callBack(String result)
-    {
-        Log.d(TAG, "callBack() called with: result = [" + result + "] dupaaa");
+        if (firstNameTS.isValid &&
+                userNameTS.isValid &&
+                emailTS.isValid &&
+                retypePassTS.isValid) return true;
+        else
+            return false;
     }
 
     @Override
@@ -98,7 +127,6 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
         userNameEditText();
         emailEditText();
         passwordEditText();
-        retypePasswordEditText();
     }
 
     @Override
@@ -115,7 +143,8 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
         switch (item.getItemId())
         {
             case R.id.menu_save_user:
-                Log.i(TAG, "onOptionsItemSelected: menu_save_user clicked!");
+                Log.i(TAG, "onOptionsItemSelected: menu_save_user isValid() " + isValid());
+
                 break;
         }
         return super.onOptionsItemSelected(item);

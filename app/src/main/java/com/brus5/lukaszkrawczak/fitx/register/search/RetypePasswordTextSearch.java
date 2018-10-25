@@ -7,37 +7,23 @@ import android.widget.EditText;
 public class RetypePasswordTextSearch extends TextSearch
 {
     private String enteredText;
-    private static final String TAG = "RetypePasswordTextSearc";
 
-    PasswordListener myListener;
+    private PasswordListener myListener;
+    private String secondPassword;
+    public boolean isValid;
 
-    public RetypePasswordTextSearch(EditText et, View acceptIv, View errorIv, PasswordListener myListener)
+    public RetypePasswordTextSearch(EditText et, View acceptIv, View errorIv, PasswordListener myListener, String firstPassword)
     {
         super(et, acceptIv, errorIv);
         this.myListener = myListener;
+        this.secondPassword = firstPassword;
     }
-
-    private boolean isValid()
-    {
-        if (enteredText.isEmpty() || enteredText.equals("null"))
-        {
-            return false;
-        }
-        if (enteredText.length() < 5 || enteredText.length() > 64)
-        {
-            return false;
-        }
-        return true;
-    }
-
 
     @Override
     public void afterTextChanged(Editable s)
     {
         enteredText = s.toString();
-        update(isValid());
-        myListener.callBack(s.toString());
-        myListener.secondPassword(isValid());
+        update(s.toString().equals(secondPassword));
+        isValid = s.toString().equals(secondPassword);
     }
-
 }
