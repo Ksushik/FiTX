@@ -8,18 +8,21 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.register.search.CallBackTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.PasswordListener;
 import com.brus5.lukaszkrawczak.fitx.register.search.PasswordTextSearch;
+import com.brus5.lukaszkrawczak.fitx.register.search.RadioGroupTwo;
 import com.brus5.lukaszkrawczak.fitx.register.search.RetypePasswordTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.FirstNameTextSearch;
+import com.brus5.lukaszkrawczak.fitx.register.search.SexListener;
 
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_EMAIL_CHECK_EXISTING;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_USER_CHECK_EXISTING;
 
-public class RegisterActivity extends AppCompatActivity implements PasswordListener
+public class RegisterActivity extends AppCompatActivity implements PasswordListener, SexListener
 {
     private static final String TAG = "RegisterActivity";
 
@@ -27,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
     private CallBackTextSearch userNameTS;
     private CallBackTextSearch emailTS;
     private RetypePasswordTextSearch retypePassTS;
+    private RadioGroupTwo radioGroupTwo;
 
 
     /** EditText of name with dynamic validation */
@@ -91,6 +95,12 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
         retypePassTS = new RetypePasswordTextSearch(et, acceptIv,errorIv,this, firstPassword);
     }
 
+    private void sexChooser()
+    {
+        RadioGroup radioGroup = findViewById(R.id.radioSexChooserRegister);
+        radioGroupTwo = new RadioGroupTwo(radioGroup, this);
+    }
+
     /**
      * Passing FirstPassword to RetypePasswordEditText to compare Strings
      * @param result String of FirstPasswordEditText
@@ -103,6 +113,12 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
 
     @Override
     public void callBackSecondPw(String result) {}
+
+    @Override
+    public void callBackSexChoose(String sex)
+    {
+        Log.d(TAG, "callBackSexChoose() called with: sex = [" + sex + "]");
+    }
 
     /**
      * Checking if all fields are valid
@@ -127,6 +143,7 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
         userNameEditText();
         emailEditText();
         passwordEditText();
+        sexChooser();
     }
 
     @Override
