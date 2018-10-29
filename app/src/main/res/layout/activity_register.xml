@@ -430,7 +430,117 @@
         app:layout_constraintStart_toStartOf="@+id/birthdayRegisterEt"
         android:filterTouchesWhenObscured="true"/>
 
+    <!--WEIGHT-->
+    <EditText
+        android:id="@+id/weightRegisterEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birthdayRegisterEt"
+        tools:ignore="Autofill,LabelFor"/>
 
+    <ImageView
+        android:id="@+id/weightRegisterAcceptedIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/weightRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/weightRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/weightRegisterEt"
+        app:srcCompat="@drawable/ic_accept_circle_green_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <ImageView
+        android:id="@+id/weightRegisterErrorIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/weightRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/weightRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/weightRegisterEt"
+        app:srcCompat="@drawable/ic_error_red_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <TextView
+        android:id="@+id/weightRegisterTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="@string/body_weight"
+        app:layout_constraintBaseline_toBaselineOf="@+id/weightRegisterEt"
+        app:layout_constraintStart_toStartOf="@+id/weightRegisterEt"
+        android:filterTouchesWhenObscured="true"/>
+    <!--END OF WEIGHT-->
+
+    <!--HEIGHT-->
+    <EditText
+        android:id="@+id/heightRegisterEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weightRegisterEt"
+        tools:ignore="Autofill,LabelFor"/>
+
+    <ImageView
+        android:id="@+id/heightRegisterAcceptedIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/heightRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/heightRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/heightRegisterEt"
+        app:srcCompat="@drawable/ic_accept_circle_green_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <ImageView
+        android:id="@+id/heightRegisterErrorIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/heightRegisterEt"
+        app:layout_constraintStart_toEndOf="@+id/heightRegisterEt"
+        app:layout_constraintTop_toTopOf="@+id/heightRegisterEt"
+        app:srcCompat="@drawable/ic_error_red_24dp"
+        android:contentDescription="@string/register_user"/>
+
+    <TextView
+        android:id="@+id/heightRegisterTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="@string/body_height"
+        app:layout_constraintBaseline_toBaselineOf="@+id/heightRegisterEt"
+        app:layout_constraintStart_toStartOf="@+id/heightRegisterEt"
+        android:filterTouchesWhenObscured="true"/>
+    <!--END OF HEIGHT-->
 
 
 

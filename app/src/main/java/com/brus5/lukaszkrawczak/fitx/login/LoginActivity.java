@@ -17,6 +17,7 @@ import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.register.RegisterActivity;
 import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginNormalDTO;
 import com.brus5.lukaszkrawczak.fitx.login.dto.UserLoginRegisterFacebookDTO;
+import com.brus5.lukaszkrawczak.fitx.register.RulesRegisterActivity;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
 import com.facebook.AccessToken;
@@ -226,7 +227,7 @@ public class LoginActivity extends AppCompatActivity implements IDefaultView, Vi
                 login();
                 break;
             case R.id.buttonRegister:
-                runNextActivity(LoginActivity.this, RegisterActivity.class, false);
+                runNextActivity(LoginActivity.this, RulesRegisterActivity.class, false);
                 break;
         }
     }

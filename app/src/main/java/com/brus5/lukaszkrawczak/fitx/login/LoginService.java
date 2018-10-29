@@ -220,7 +220,7 @@ public class LoginService
     }
 
 
-    private String computeHash(String input)
+    public static String computeHash(String input)
     {
         StringBuilder sb = new StringBuilder();
         try
