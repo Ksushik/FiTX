@@ -11,10 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.register.search.BirthdayTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.CallBackTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.PasswordListener;
 import com.brus5.lukaszkrawczak.fitx.register.search.PasswordTextSearch;
-import com.brus5.lukaszkrawczak.fitx.register.search.RadioGroupTwo;
 import com.brus5.lukaszkrawczak.fitx.register.search.RetypePasswordTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.FirstNameTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.SexListener;
@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
     private CallBackTextSearch emailTS;
     private RetypePasswordTextSearch retypePassTS;
     private RadioGroupTwo radioGroupTwo;
-
+    private BirthdayTextSearch birthdayTS;
 
     /** EditText of name with dynamic validation */
     private void nameEditText()
@@ -101,6 +101,16 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
         radioGroupTwo = new RadioGroupTwo(radioGroup, this);
     }
 
+    /**  EditText of Birthday */
+    private void birthdayEditText()
+    {
+        EditText et = findViewById(R.id.birthdayRegisterEt);
+        ImageView acceptIv = findViewById(R.id.birthdayRegisterAcceptedIv);
+        ImageView errorIv = findViewById(R.id.birthdayRegisterErrorIv);
+
+        birthdayTS = new BirthdayTextSearch(et, acceptIv,errorIv);
+    }
+
     /**
      * Passing FirstPassword to RetypePasswordEditText to compare Strings
      * @param result String of FirstPasswordEditText
@@ -129,7 +139,9 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
         if (firstNameTS.isValid &&
                 userNameTS.isValid &&
                 emailTS.isValid &&
-                retypePassTS.isValid) return true;
+                retypePassTS.isValid &&
+                radioGroupTwo.isSelected &&
+                birthdayTS.isValid) return true;
         else
             return false;
     }
@@ -144,6 +156,7 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
         emailEditText();
         passwordEditText();
         sexChooser();
+        birthdayEditText();
     }
 
     @Override
