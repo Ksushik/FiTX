@@ -1,5 +1,6 @@
 package com.brus5.lukaszkrawczak.fitx.register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.login.LoginActivity;
 import com.brus5.lukaszkrawczak.fitx.login.LoginService;
 import com.brus5.lukaszkrawczak.fitx.register.search.BirthdayTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.CallBackTextSearch;
@@ -22,9 +24,15 @@ import com.brus5.lukaszkrawczak.fitx.register.search.PasswordTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.RetypePasswordTextSearch;
 import com.brus5.lukaszkrawczak.fitx.register.search.SexListener;
 import com.brus5.lukaszkrawczak.fitx.register.search.WeightTextSearch;
+import com.brus5.lukaszkrawczak.fitx.utils.callback.CallBackService;
+import com.brus5.lukaszkrawczak.fitx.utils.callback.OnDataLoaded;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_EMAIL_CHECK_EXISTING;
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_USER_CHECK_EXISTING;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_USER_REGISTER;
 
 public class RegisterActivity extends AppCompatActivity implements PasswordListener, SexListener
 {
@@ -222,12 +230,6 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
         switch (item.getItemId())
         {
             case R.id.menu_save_user:
-                Log.i(TAG, "onOptionsItemSelected: menu_save_user isValid() " + isValid());
-
-//                String RESULT = et.getText().toString();
-//                String LINK = URL_SETTINGS_INSERT + "?id=" + id + "&date=" + date + "&RESULT=" + RESULT + "&table=" + db;
-//                MainService s = new MainService(SettingsDetailsActivity.this);
-
                 if (isValid())
                 {
                     String name = nameET.getText().toString();
@@ -237,23 +239,57 @@ public class RegisterActivity extends AppCompatActivity implements PasswordListe
                     String weight = weightET.getText().toString();
                     String height = heightET.getText().toString();
 
-                    Log.i(TAG, "onOptionsItemSelected: save data" + " name: " + name +
-                            " username: " + username +
-                            " email: " + email +
-                            " birthday: " + birthday +
-                            " password: " + LoginService.computeHash(password) +
-                            " weight: " + weight +
-                            " height: " + height +
-                            " sex: " + sex);
-                    Toast.makeText(this, getResources().getString(R.string.accept), Toast.LENGTH_SHORT).show();
-                    // TODO: 29/10/2018 tutaj wysyłanie info do API
-                    // TODO: 29/10/2018 sprawdzić zarejestrowanego użytkownika i poprawność danych a następnie wylogować się
+                    String link = URL_USER_REGISTER + "?name=" + name +
+                            "&username=" + username +
+                            "&birthday=" + birthday +
+                            "&email=" + email +
+                            "&password=" + LoginService.computeHash(password) +
+                            "&sex=" + sex +
+                            "&height=" + height +
+                            "&weight=" + weight;
+
+                    new CallBackService(RegisterActivity.this).post(link, new OnDataLoaded() {
+                        @Override
+                        public void onSuccess(String s)
+                        {
+                            finishRegistration(s);
+                        }
+
+                        @Override
+                        public void onError(String s)
+                        {
+                            Toast.makeText(RegisterActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-
-
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Complete registration
+     * @param callBack boolean value of JSON format
+     */
+    private void finishRegistration(String callBack)
+    {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(callBack);
+            boolean isSuccess = jsonObject.getBoolean("success");
+            if (isSuccess)
+            {
+                Toast.makeText(RegisterActivity.this, getResources().getString(R.string.welcome_new_user), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+        catch (JSONException e)
+        {
+            Toast.makeText(RegisterActivity.this, getResources().getString(R.string.register_user_failed), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 }
 

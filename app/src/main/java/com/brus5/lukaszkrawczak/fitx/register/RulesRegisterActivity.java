@@ -70,6 +70,7 @@ public class RulesRegisterActivity extends AppCompatActivity
                 {
                     Intent intent = new Intent(RulesRegisterActivity.this, RegisterActivity.class);
                     startActivity(intent);
+                    finish();
                 }
                 else Toast.makeText(this, getResources().getString(R.string.must_accept_rules), Toast.LENGTH_SHORT).show();
                 break;
