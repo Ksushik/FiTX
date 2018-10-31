@@ -272,4 +272,7 @@
     <string name="no_data">Brak danych</string>
     <string name="diet_title">Dieta</string>
     <string name="training_title">Trening</string>
+    <string name="diet_ratio">Stosunek makroskładników</string>
+    <string name="diet_ratio_description_short">Stosunek Białko:Tłuszcze:Węgle</string>
+    <string name="something_went_wrong">Coś poszło nie tak, nie zapisano danych</string>
 </resources>

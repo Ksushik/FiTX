@@ -5,22 +5,21 @@ import android.content.Context;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.settings.list.MySettingsList;
 
-public class Weight extends MyRow
+public class EmptyRow extends MyRow
 {
-    public Weight(Context context, MySettingsList mySettingsList, String value)
+    public EmptyRow(Context context, MySettingsList mySettingsList)
     {
         super(mySettingsList);
 
-        String name = context.getResources().getString(R.string.body_mass);
-        String descriptionShort = context.getResources().getString(R.string.body_mass_descripition_short);
-        String dbName = "user_weight";
-        String descriptionLong = context.getResources().getString(R.string.body_mass_descripition_long);
+        String name = "";
+        String descriptionShort = "";
+        String dbName = "";
+        String descriptionLong = "";
 
         super.name = name;
-        super.value = value;
         super.descriptionShort = descriptionShort;
         super.dbName = dbName;
-        super.viewType = 1;
+        super.viewType = 2; // as empty row
         super.descriptionLong = descriptionLong;
 
         setData();

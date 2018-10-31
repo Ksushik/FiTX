@@ -104,7 +104,7 @@ public class SettingsAdapter extends ArrayAdapter<Settings>
 
                 new MySwitch(context, aSwitch, mySettingsList, db, value);
 
-
+// TODO: 30/10/2018 dodać viewType == 4
             }
 
         }

@@ -26,16 +26,18 @@
             android:label="@string/fitx"
             android:theme="@style/FiTX3theme.noBar"
             android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/fitx"
+            android:theme="@style/FiTX3theme.noBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/fitx"
-            android:theme="@style/FiTX3theme.noBar" />
         <activity
             android:name=".stats.StatsActivity"
             android:label="@string/fitx"
@@ -96,7 +98,9 @@
             android:label="@string/fitx"
             android:parentActivityName=".settings.list.SettingsActivity"
             android:theme="@style/FiTX3theme.noBar" />
-        <activity android:name=".settings.SettingsDetailsTriple"></activity>
+        <activity android:name=".settings.SettingsDetailsTripleActivity"
+            android:parentActivityName=".settings.list.SettingsActivity"
+            android:theme="@style/FiTX3theme.noBar" />
     </application>
 
 </manifest>

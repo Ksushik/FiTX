@@ -59,8 +59,6 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
         tvName.setText(name);
         tvDescription.setText(descriptionLong);
 
-//        new Provider(SettingsDetailsActivity.this,SettingsDetailsActivity.this).load(db);
-
         // Attributing proper information to variables
         int userID = SaveSharedPreference.getUserID(this);
 
@@ -93,9 +91,8 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
     @Override
     public void loadDefaultView()
     {
-        ActivityView activityView = new ActivityView(SettingsDetailsActivity.this, getApplicationContext(), this);
+        ActivityView activityView = new ActivityView(SettingsDetailsActivity.this, SettingsDetailsActivity.this, this);
         activityView.statusBarColor(R.id.toolbaSettingsDetailsActivity);
-        activityView.showBackButton();
     }
 
     /**
@@ -152,36 +149,62 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
 
     boolean isValid(String db, String RESULT)
     {
-        double result = Double.valueOf(RESULT);
-
-        if (db.equals("user_weight"))
+        try
         {
-            Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
-            return true;
-        }
+            double result = Double.valueOf(RESULT);
 
-        if (db.equals("user_height"))
-        {
-            Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
-            return true;
-        }
-
-        if (db.equals("user_somatotype"))
-        {
-            Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
-            return true;
-        }
-        if (db.equals("user_calories_limit"))
-        {
-            Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
-
-            if (result > 7000 || result < 1000)
+            if (db.equals("user_weight"))
             {
-                Toast.makeText(this, "Ustal wartość między 1000 a 7000 kcal", Toast.LENGTH_SHORT).show();
-                return false;
+                Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
+                if (result < 30 || result > 200)
+                {
+                    Toast.makeText(this, "Ustal wartość między 30 a 200 kg", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+
+            if (db.equals("user_height"))
+            {
+                Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
+                if (result < 60 || result > 250)
+                {
+                    Toast.makeText(this, "Ustal wartość między 60 a 250 cm", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+
+            if (db.equals("user_somatotype"))
+            {
+                Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
+                if (result < 200 || result > 900)
+                {
+                    Toast.makeText(this, "Ustal wartość między 200 a 900", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+
+            if (db.equals("user_diet_ratio"))
+            {
+                Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
+                return true;
+            }
+            if (db.equals("user_calories_limit"))
+            {
+                Log.d(TAG, "isValid() called with: db = [" + db + "], RESULT = [" + RESULT + "]");
+
+                if (result > 7000 || result < 1000)
+                {
+                    Toast.makeText(this, "Ustal wartość między 1000 a 7000 kcal", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
             }
         }
-
+        catch (NumberFormatException e)
+        {
+            Log.e(TAG, "isValid: ", e);
+            Toast.makeText(this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 
@@ -240,12 +263,10 @@ public class SettingsDetailsActivity extends AppCompatActivity implements IDefau
                 JSONArray arr = obj.getJSONArray("server_response");
                 String val = arr.getJSONObject(0).getString("RESULT");
 
-
                 EditText et = ((Activity) context).findViewById(R.id.editTextSettings);
 
                 et.setText(val);
                 value = Double.valueOf(val);
-
 
                 Log.d(TAG, "onPostExecute() called with: s = [" + s + "]");
             }

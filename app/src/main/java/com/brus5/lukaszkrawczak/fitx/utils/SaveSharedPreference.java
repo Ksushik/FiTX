@@ -49,7 +49,7 @@ public class SaveSharedPreference
 
     public static String getUserName(Context context)
     {
-        return getSharedPreferences(context).getString(USER_NAME, "");
+        return getSharedPreferences(context).getString(USER_NAME, "brus5");
     }
 
     public static Boolean getDefLogin(Context context)
@@ -129,7 +129,7 @@ public class SaveSharedPreference
 
     public static int getUserID(Context context)
     {
-        return getSharedPreferences(context).getInt(USER_ID, 0);
+        return getSharedPreferences(context).getInt(USER_ID, 5);
     }
 
     public static void setUserAge(Context context, int userAge)

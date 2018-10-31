@@ -21,8 +21,11 @@ import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.login.LoginActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.SettingsDetailsActivity;
+import com.brus5.lukaszkrawczak.fitx.settings.SettingsDetailsTripleActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.CaloriesAuto;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.CaloriesGoal;
+import com.brus5.lukaszkrawczak.fitx.settings.list.row.DietRatio;
+import com.brus5.lukaszkrawczak.fitx.settings.list.row.EmptyRow;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.Height;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.ManualCalories;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.Somatotype;
@@ -152,7 +155,6 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
     {
         ActivityView activityView = new ActivityView(SettingsActivity.this, getApplicationContext(), this);
         activityView.statusBarColor(R.id.toolbarSettingsActivity);
-        activityView.showBackButton();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -188,6 +190,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                 String somatotype = array.getJSONObject(2).getString("somatotype");
                 String auto_calories = array.getJSONObject(3).getString("auto_calories");
                 String calories_limit = array.getJSONObject(4).getString("calories_limit");
+                String diet_ratio = array.getJSONObject(5).getString("diet_ratio");
                 String goal = array.getJSONObject(6).getString("diet_goal");
                 SaveSharedPreference.setLimitCalories(context, calories_limit);
 
@@ -205,9 +208,14 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                     new ManualCalories(SettingsActivity.this, mySettingsList, calories_limit);
                 }
 
+                new DietRatio(SettingsActivity.this, mySettingsList, diet_ratio);
+
                 new CaloriesGoal(SettingsActivity.this, mySettingsList, goal);
 
+                new EmptyRow(SettingsActivity.this,mySettingsList);
+
                 new OnItemClicked(mySettingsList);
+
 
             }
             catch (JSONException e)
@@ -248,7 +256,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                         startActivity(intent);
                     }
 
-                    // If viewType is with switch
+                    // If viewType is with switch NO ACITON after click
                     if (viewType == 2)
                     {
                         Toast.makeText(SettingsActivity.this, "name: " + itemClicked.getName() + " pos: " + position, Toast.LENGTH_SHORT).show();
@@ -260,6 +268,16 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                         Toast.makeText(SettingsActivity.this, "name: " + itemClicked.getName() + " pos: " + position, Toast.LENGTH_SHORT).show();
 
                         new TripleAlertDialog(SettingsActivity.this, itemClicked);
+                    }
+
+                    // If viewType is triple EditText Activity
+                    if (viewType == 4)
+                    {
+                        Intent intent = new Intent(SettingsActivity.this, SettingsDetailsTripleActivity.class);
+                        intent.putExtra("name", name);
+                        intent.putExtra("descriptionLong", descriptionLong);
+                        intent.putExtra("db", db);
+                        startActivity(intent);
                     }
                 }
             });
