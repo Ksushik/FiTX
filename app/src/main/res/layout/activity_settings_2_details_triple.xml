@@ -113,5 +113,14 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/thirdSettingsTripleEditText"
         app:layout_constraintStart_toStartOf="@+id/thirdSettingsTripleEditText" />
 
+    <TextView
+        android:id="@+id/textViewDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/string_example"
+        app:layout_constraintStart_toStartOf="@+id/thirdSettingsTripleEditText"
+        app:layout_constraintTop_toBottomOf="@+id/thirdSettingsTripleEditText" />
+
 
 </android.support.constraint.ConstraintLayout>

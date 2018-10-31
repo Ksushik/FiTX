@@ -29,7 +29,6 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
 {
     private static final String TAG = "SettingsDetailsTripleAc";
 
-    private String name;
     private String descriptionLong;
     private String value;
     private String db;
@@ -38,6 +37,7 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
     private EditText secondEditText;
     private EditText thirdEditText;
 
+    private TextView descriptionLongTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,7 +49,6 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
         getIntentFromPreviousActiity();
 
         loadInfoContext();
-
     }
 
     @Override
@@ -63,6 +62,8 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
         firstEditText = findViewById(R.id.firstSettingsTripleEditText);
         secondEditText = findViewById(R.id.secondSettingsTripleEditText);
         thirdEditText = findViewById(R.id.thirdSettingsTripleEditText);
+
+        descriptionLongTV = findViewById(R.id.textViewDescription);
     }
 
     @Override
@@ -72,17 +73,21 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
         activityView.statusBarColor(R.id.toolbaSettingsDetailsTripleActivity);
     }
 
-
     @Override
     public void getIntentFromPreviousActiity()
     {
         Intent intent = getIntent();
-        name = intent.getStringExtra("name");
+        String name = intent.getStringExtra("name");
         descriptionLong = intent.getStringExtra("descriptionLong");
         value = intent.getStringExtra("value");
         db = intent.getStringExtra("db");
+
+        Log.i(TAG, "getIntentFromPreviousActiity: " +
+                "name: " + name +
+                " descLong: " + descriptionLong);
     }
 
+    /** Loading context depends on String db */
     private void loadInfoContext()
     {
         switch (db)
@@ -119,17 +124,21 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
     {
         switch (item.getItemId())
         {
-
             case R.id.menu_save_setting:
+
                 if (isValid())
                 {
-                    Log.d(TAG, "onOptionsItemSelected() called with: getRatioResult() = [" + getRatioResult() + "]");
+                    sendDataToDB();
                 }
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Checking validation of entered data, depends on String db value.
+     * @return true if all data are correct
+     */
     private boolean isValid()
     {
         switch (db)
@@ -157,6 +166,29 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
              break;
         }
         return true;
+    }
+
+    /** After validating information this method invokes */
+    private void sendDataToDB()
+    {
+        String id = String.valueOf(SaveSharedPreference.getUserID(SettingsDetailsTripleActivity.this));
+        Calendar cal = Calendar.getInstance();
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String date = sdf.format(cal.getTime());
+
+        switch (db)
+        {
+            case "user_diet_ratio":
+                String RESULT = getRatioResult();
+                String link_ratio = URL_SETTINGS_INSERT + "?id=" + id + "&date=" + date + "&RESULT=" + RESULT + "&table=" + db;
+                MainService s = new MainService(SettingsDetailsTripleActivity.this);
+
+                s.post(link_ratio);
+                Toast.makeText(this, getApplicationContext().getString(R.string.updated) + " " + RESULT, Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "sendDataToDB: " + link_ratio);
+                finish();
+                break;
+        }
     }
 
     /**
@@ -208,7 +240,8 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
             firstEditText.setText(proteins);
             secondEditText.setText(fats);
             thirdEditText.setText(carbs);
+
+            descriptionLongTV.setText(descriptionLong);
         }
     }
-// TODO: 30/10/2018 zrobić sending info do mysql
 }

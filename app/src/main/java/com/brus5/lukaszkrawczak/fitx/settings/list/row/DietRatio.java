@@ -13,7 +13,9 @@ public class DietRatio extends MyRow
         String name = context.getString(R.string.diet_ratio);
         String descriptionShort = context.getString(R.string.diet_ratio_description_short);
         String dbName = "user_diet_ratio";
-        String descriptionLong = "";
+        String descriptionLong = "Ustal stosunek makroskładników aby precyzyjniej określić zapotrzebowanie. Trafne oszacowanie pozwoli na szybsze osiągnięcie zamierzonych efektów. \n" +
+                "\n" +
+                "Pamiętaj do prawidłowego obliczenia, suma musi wynosić 100. Nie mniej, nie więcej.";
 
         super.name = name;
         super.value = value;
