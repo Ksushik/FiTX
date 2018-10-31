@@ -29,6 +29,9 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
 {
     private static final String TAG = "SettingsDetailsTripleAc";
 
+    private String name;
+    private String descriptionLong;
+    private String value;
     private String db;
 
     private EditText firstEditText;
@@ -74,10 +77,10 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
     public void getIntentFromPreviousActiity()
     {
         Intent intent = getIntent();
-//        name = intent.getStringExtra("name");
-//        descriptionLong = intent.getStringExtra("descriptionLong");
+        name = intent.getStringExtra("name");
+        descriptionLong = intent.getStringExtra("descriptionLong");
+        value = intent.getStringExtra("value");
         db = intent.getStringExtra("db");
-        Log.d(TAG, "getIntentFromPreviousActiity() called db: " + db);
     }
 
     private void loadInfoContext()
@@ -85,10 +88,7 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
         switch (db)
         {
             case "user_diet_ratio":
-                String s1 = getResources().getString(R.string.proteins);
-                String s2 = getResources().getString(R.string.fats);
-                String s3 = getResources().getString(R.string.carbs);
-                new TypeInfo(s1,s2,s3);
+                new DietRatio();
                 break;
         }
     }
@@ -121,10 +121,42 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
         {
 
             case R.id.menu_save_setting:
-                Log.d(TAG, "onOptionsItemSelected() called with: getRatioResult() = [" + getRatioResult() + "]");
+                if (isValid())
+                {
+                    Log.d(TAG, "onOptionsItemSelected() called with: getRatioResult() = [" + getRatioResult() + "]");
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isValid()
+    {
+        switch (db)
+        {
+            case "user_diet_ratio":
+                try
+                {
+                    int proteins = Integer.valueOf(firstEditText.getText().toString());
+                    int fats = Integer.valueOf(secondEditText.getText().toString());
+                    int carbs = Integer.valueOf(thirdEditText.getText().toString());
+
+                    int sum = proteins + fats + carbs;
+
+                    if (sum > 100 || sum < 100)
+                    {
+                        Toast.makeText(this, getResources().getText(R.string.diet_ratio_enter_proper_data), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                }
+                catch (NumberFormatException e)
+                {
+                    Toast.makeText(this, getResources().getText(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "isValid: ",e);
+                }
+             break;
+        }
+        return true;
     }
 
     /**
@@ -139,9 +171,7 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
         return first + ":" + second + ":" + third;
     }
 
-    /**
-     * This class is responsible for creating text depends on String db value
-     */
+    /** This class is responsible for creating text depends on String db value */
     private class TypeInfo
     {
         private TextView firstTV;
@@ -159,6 +189,26 @@ public class SettingsDetailsTripleActivity extends AppCompatActivity implements 
             thirdTV.setText(thirdRow);
         }
 
+    }
+
+    /** Creating DietRatio model */
+    private class DietRatio
+    {
+        DietRatio()
+        {
+            String s1 = getResources().getString(R.string.proteins);
+            String s2 = getResources().getString(R.string.fats);
+            String s3 = getResources().getString(R.string.carbs);
+            new TypeInfo(s1,s2,s3);
+
+            String proteins = value.substring(0,2);
+            String fats = value.substring(3,5);
+            String carbs = value.substring(6,8);
+
+            firstEditText.setText(proteins);
+            secondEditText.setText(fats);
+            thirdEditText.setText(carbs);
+        }
     }
 // TODO: 30/10/2018 zrobić sending info do mysql
 }

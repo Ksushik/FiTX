@@ -276,6 +276,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                         Intent intent = new Intent(SettingsActivity.this, SettingsDetailsTripleActivity.class);
                         intent.putExtra("name", name);
                         intent.putExtra("descriptionLong", descriptionLong);
+                        intent.putExtra("value", itemClicked.getValue());
                         intent.putExtra("db", db);
                         startActivity(intent);
                     }
