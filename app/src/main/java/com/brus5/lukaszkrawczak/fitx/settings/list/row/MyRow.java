@@ -13,6 +13,8 @@ abstract class MyRow
     protected String dbName;
     protected int viewType;
     protected String descriptionLong;
+    protected String[] items;
+    protected int valNum;
 
 
     MyRow(MySettingsList mySettingsList)
@@ -23,6 +25,13 @@ abstract class MyRow
     void setData()
     {
         Settings settings = new Settings(name, value, descriptionShort, dbName, viewType, descriptionLong);
+        mySettingsList.add(settings);
+        mySettingsList.load();
+    }
+
+    void setItemsData()
+    {
+        Settings settings = new Settings(name, value, descriptionShort, dbName, viewType, descriptionLong, items, valNum);
         mySettingsList.add(settings);
         mySettingsList.load();
     }

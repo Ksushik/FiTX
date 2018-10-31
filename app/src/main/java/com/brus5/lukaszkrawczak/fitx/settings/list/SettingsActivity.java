@@ -17,13 +17,14 @@ import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
+import com.brus5.lukaszkrawczak.fitx.MainService;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.login.LoginActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.SettingsDetailsActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.SettingsDetailsTripleActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.CaloriesAuto;
-import com.brus5.lukaszkrawczak.fitx.settings.list.row.CaloriesGoal;
+import com.brus5.lukaszkrawczak.fitx.settings.list.row.DietGoal;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.DietRatio;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.EmptyRow;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.Height;
@@ -39,6 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS_SET_SETTINGS;
 
 public class SettingsActivity extends AppCompatActivity implements IDefaultView
 {
@@ -210,7 +212,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
 
                 new DietRatio(SettingsActivity.this, mySettingsList, diet_ratio);
 
-                new CaloriesGoal(SettingsActivity.this, mySettingsList, goal);
+                new DietGoal(SettingsActivity.this, mySettingsList, goal);
 
                 new EmptyRow(SettingsActivity.this,mySettingsList);
 
@@ -245,6 +247,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                     String descriptionLong = itemClicked.getDescriptionLong();
                     String db = itemClicked.getDb();
                     int viewType = itemClicked.getViewType();
+                    String[] items = itemClicked.getItems();
 
                     // If viewType is standard view with value
                     if (viewType == 1)
@@ -266,8 +269,21 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                     if (viewType == 3)
                     {
                         Toast.makeText(SettingsActivity.this, "name: " + itemClicked.getName() + " pos: " + position, Toast.LENGTH_SHORT).show();
+                        new TripleAlertDialog(SettingsActivity.this, itemClicked, items, new OnDialogChangeListener() {
+                            @Override
+                            public void onItemSelected(int which, String row)
+                            {
+                                String id = String.valueOf(SaveSharedPreference.getUserID(SettingsActivity.this));
+                                String value = String.valueOf(which);
 
-                        new TripleAlertDialog(SettingsActivity.this, itemClicked);
+                                Log.d(TAG, "onItemSelected() called with: which = [" + which + "], row = [" + row + "]");
+
+                                final String link = URL_SETTINGS_SET_SETTINGS + "?id=" + id + "&row=" + row + "&value=" + value;
+
+                                // Set Automatic Calories
+                                new MainService(SettingsActivity.this).post(link);
+                            }
+                        });
                     }
 
                     // If viewType is triple EditText Activity
