@@ -10,7 +10,6 @@ public class DietRatio extends MyRow
     public DietRatio(Context context, MySettingsList mySettingsList, String value)
     {
         super(mySettingsList);
-// TODO: 30/10/2018 pobrawić tego rowa bo wyświetla się FiTX zamiast nazwy...
         String name = context.getString(R.string.diet_ratio);
         String descriptionShort = context.getString(R.string.diet_ratio_description_short);
         String dbName = "user_diet_ratio";

@@ -19,7 +19,9 @@ public class EmptyRow extends MyRow
         super.name = name;
         super.descriptionShort = descriptionShort;
         super.dbName = dbName;
-        super.viewType = 2; // as empty row
+        // 50 - is number of empty row.
+        // Whole configuration are in com.brus5.lukaszkrawczak.fitx.settings.list.SettingsAdapter
+        super.viewType = 50;
         super.descriptionLong = descriptionLong;
 
         setData();

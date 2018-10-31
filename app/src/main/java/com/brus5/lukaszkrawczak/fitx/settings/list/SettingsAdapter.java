@@ -104,9 +104,29 @@ public class SettingsAdapter extends ArrayAdapter<Settings>
 
                 new MySwitch(context, aSwitch, mySettingsList, db, value);
 
-// TODO: 30/10/2018 dodać viewType == 4
             }
 
+            /** This is responsible for creating normal view, with non default click */
+            if (viewType == 4)
+            {
+                convertView = LayoutInflater.from(context).inflate(R.layout.row_settings, parent, false);
+
+                TextView tvTitle = convertView.findViewById(R.id.textViewTitle);
+                TextView tvValue = convertView.findViewById(R.id.textViewValue);
+                TextView tvViewType = convertView.findViewById(R.id.textViewSettingsViewType);
+                TextView tvDescription = convertView.findViewById(R.id.textViewDescription);
+
+                tvTitle.setText(name);
+                tvValue.setText(value);
+                tvDescription.setText(description);
+                tvViewType.setText(String.valueOf(viewType));
+            }
+
+            /** This is responsible for creating empty row */
+            if (viewType == 50)
+            {
+                convertView = LayoutInflater.from(context).inflate(R.layout.row_settings_empty, parent, false);
+            }
         }
         catch (NullPointerException e)
         {
