@@ -34,7 +34,7 @@ public class DietGoal extends MyRow
                 break;
             case "2":
                 super.value = s2;
-                valNum = 0;
+                valNum = 2;
                 break;
         }
 

@@ -12,16 +12,15 @@ import com.brus5.lukaszkrawczak.fitx.utils.SaveSharedPreference;
  */
 public class TripleAlertDialog
 {
-    private final String[] items;
-    private String goal;
     private int which;
     private String db;
 
-    TripleAlertDialog(final Context context, Settings itemClicked, final String[] items, final OnDialogChangeListener onDialogChangeListener)
-    {
-        this.items = items;
-        this.db = itemClicked.getDb();
+    private OnDialogChangeListener onDialogChangeListener;
+    private OnDialogSelectedListener onDialogSelectedListener;
 
+    TripleAlertDialog(final Context context, Settings itemClicked, final String[] items)
+    {
+        this.db = itemClicked.getDb();
         this.which = itemClicked.getValNum();
 
         AlertDialog alertDialog = new AlertDialog.Builder(context)
@@ -32,9 +31,6 @@ public class TripleAlertDialog
                     public void onClick(DialogInterface dialog, int which)
                     {
                         setWhich(which);
-                        if (which == 0) setGoal(items[0]);
-                        if (which == 1) setGoal(items[1]);
-                        if (which == 2) setGoal(items[2]);
                     }
                 })
                 .setPositiveButton("OK", new DialogInterface.OnClickListener()
@@ -44,21 +40,21 @@ public class TripleAlertDialog
                     {
                         SaveSharedPreference.setDietGoal(context,getWhich());
                         onDialogChangeListener.onItemSelected(getWhich(),db);
+                        onDialogSelectedListener.onChanged(String.valueOf(getWhich()));
                     }
                 })
                 .create();
         alertDialog.show();
     }
 
-    private String getGoal()
+    void setOnDialogChangeListener(OnDialogChangeListener onDialogChangeListener)
     {
-        if (goal == null || goal.equals("null")) return items[1];
-        else return goal;
+        this.onDialogChangeListener = onDialogChangeListener;
     }
 
-    private void setGoal(String goal)
+    void setOnDialogSelectedListener(OnDialogSelectedListener onDialogSelectedListener)
     {
-        this.goal = goal;
+        this.onDialogSelectedListener = onDialogSelectedListener;
     }
 
     public int getWhich()
