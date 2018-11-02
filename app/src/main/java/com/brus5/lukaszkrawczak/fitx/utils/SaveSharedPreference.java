@@ -22,9 +22,10 @@ public class SaveSharedPreference
     private static final String USER_GENDER = "userGender";
     private static final String USER_AGE = "userAge";
     private static final String USER_PASSWORD = "userPassword";
-    private static final String USER_AUTO_CALORIES = "autoCalories";
-    private static final String USER_LIMIT_CALORIES = "limitCalories";
-    private static final String USER_DIET_GOAL = "limitCalories";
+    public static final String USER_AUTO_CALORIES = "autoCalories";
+    public static final String USER_LIMIT_CALORIES = "limitCalories";
+    public static final int AUTO_CALORIES = 1;
+    public static final String DIET_GOAL = "dietGoal";
 
 
     static SharedPreferences getSharedPreferences(Context context)
