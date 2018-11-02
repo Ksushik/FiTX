@@ -17,11 +17,16 @@ import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
+import com.brus5.lukaszkrawczak.fitx.MainService;
 import com.brus5.lukaszkrawczak.fitx.R;
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.login.LoginActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.SettingsDetailsActivity;
+import com.brus5.lukaszkrawczak.fitx.settings.SettingsDetailsTripleActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.CaloriesAuto;
+import com.brus5.lukaszkrawczak.fitx.settings.list.row.DietGoal;
+import com.brus5.lukaszkrawczak.fitx.settings.list.row.DietRatio;
+import com.brus5.lukaszkrawczak.fitx.settings.list.row.EmptyRow;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.Height;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.ManualCalories;
 import com.brus5.lukaszkrawczak.fitx.settings.list.row.Somatotype;
@@ -35,14 +40,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS;
+import static com.brus5.lukaszkrawczak.fitx.utils.RestAPI.URL_SETTINGS_SET_SETTINGS;
 
 public class SettingsActivity extends AppCompatActivity implements IDefaultView
 {
-
     private static final String TAG = "SettingsActivity";
     private ListView listView;
     private MySettingsList mySettingsList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -118,12 +122,8 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                         .setNegativeButton(R.string.no, null)
                         .create();
                 dialog.show();
-
-
                 break;
-
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -143,7 +143,6 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
 
         MySettings mySettings = new MySettings(SettingsActivity.this);
         mySettings.execute(URL_SETTINGS, params);
-
     }
 
     @Override
@@ -151,8 +150,8 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
     {
         ActivityView activityView = new ActivityView(SettingsActivity.this, getApplicationContext(), this);
         activityView.statusBarColor(R.id.toolbarSettingsActivity);
-        activityView.showBackButton();
     }
+
 
     @SuppressLint("StaticFieldLeak")
     class MySettings extends HTTPService
@@ -169,10 +168,6 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
         public void onPostExecute(String s)
         {
             super.onPostExecute(s);
-
-
-            Log.d(TAG, "dataInflater() called with: s = [" + s + "]");
-
             try
             {
                 // Creating JSON Object with value fetched from "s" paramtere
@@ -187,16 +182,13 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                 String somatotype = array.getJSONObject(2).getString("somatotype");
                 String auto_calories = array.getJSONObject(3).getString("auto_calories");
                 String calories_limit = array.getJSONObject(4).getString("calories_limit");
+                String diet_ratio = array.getJSONObject(5).getString("diet_ratio");
+                String goal = array.getJSONObject(6).getString("diet_goal");
                 SaveSharedPreference.setLimitCalories(context, calories_limit);
 
-                String goal = "123";
-
                 new Weight(SettingsActivity.this, mySettingsList, weight);
-
                 new Height(SettingsActivity.this, mySettingsList, height);
-
                 new Somatotype(SettingsActivity.this, mySettingsList, somatotype);
-
                 new CaloriesAuto(SettingsActivity.this, mySettingsList, auto_calories);
 
                 // If Automatic calories are turned OFF then be able to add manual calories row
@@ -205,24 +197,33 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                     new ManualCalories(SettingsActivity.this, mySettingsList, calories_limit);
                 }
 
-//                new CaloriesGoal(SettingsActivity.this, mySettingsList, goal);
-
-                new OnItemClicked(mySettingsList);
-
+                new DietRatio(SettingsActivity.this, mySettingsList, diet_ratio);
+                new DietGoal(SettingsActivity.this, mySettingsList, goal);
+                new EmptyRow(SettingsActivity.this,mySettingsList);
+                new OnItemClicked(SettingsActivity.this,mySettingsList);
             }
             catch (JSONException e)
             {
                 Log.e(TAG, "dataInflater: ", e);
             }
         }
+
+        /** Updading existing row */
+        private void setDietGoal(String value)
+        {
+            // remove two last items
+            mySettingsList.remove(mySettingsList.size() - 1);
+            mySettingsList.remove(mySettingsList.size() - 1);
+
+            new DietGoal(SettingsActivity.this, mySettingsList, value);
+            new EmptyRow(SettingsActivity.this,mySettingsList);
+        }
     }
 
-    /**
-     * What happens when you click on specific item of ListView
-     */
+    /** What happens when you click on specific item of ListView */
     private class OnItemClicked
     {
-        OnItemClicked(final MySettingsList mySettingsList)
+        OnItemClicked(final Context context, final MySettingsList mySettingsList)
         {
             ListView listView = findViewById(R.id.listViewSettings);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -237,6 +238,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                     String descriptionLong = itemClicked.getDescriptionLong();
                     String db = itemClicked.getDb();
                     int viewType = itemClicked.getViewType();
+                    String[] items = itemClicked.getItems();
 
                     // If viewType is standard view with value
                     if (viewType == 1)
@@ -248,7 +250,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                         startActivity(intent);
                     }
 
-                    // If viewType is with switch
+                    // If viewType is with switch NO ACITON after click
                     if (viewType == 2)
                     {
                         Toast.makeText(SettingsActivity.this, "name: " + itemClicked.getName() + " pos: " + position, Toast.LENGTH_SHORT).show();
@@ -257,9 +259,41 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
                     // If view Type is with TripleChooser
                     if (viewType == 3)
                     {
-                        Toast.makeText(SettingsActivity.this, "name: " + itemClicked.getName() + " pos: " + position, Toast.LENGTH_SHORT).show();
+                        TripleAlertDialog tripleAlertDialog = new TripleAlertDialog(SettingsActivity.this, itemClicked, items);
+                        tripleAlertDialog.setOnDialogChangeListener(new OnDialogChangeListener()
+                        {
+                            @Override
+                            public void onItemSelected(int which, String row)
+                            {
+                                String id = String.valueOf(SaveSharedPreference.getUserID(SettingsActivity.this));
+                                String value = String.valueOf(which);
 
-                        new TripleAlertDialog(SettingsActivity.this, itemClicked);
+                                final String link = URL_SETTINGS_SET_SETTINGS + "?id=" + id + "&row=" + row + "&value=" + value;
+
+                                // Set Automatic Calories
+                                new MainService(SettingsActivity.this).post(link);
+                            }
+                        });
+
+                        tripleAlertDialog.setOnDialogSelectedListener(new OnDialogSelectedListener() {
+                            @Override
+                            public void onChanged(String value)
+                            {
+                                MySettings mySettings = new MySettings(context);
+                                mySettings.setDietGoal(value);
+                            }
+                        });
+                    }
+
+                    // If viewType is triple EditText Activity
+                    if (viewType == 4)
+                    {
+                        Intent intent = new Intent(SettingsActivity.this, SettingsDetailsTripleActivity.class);
+                        intent.putExtra("name", name);
+                        intent.putExtra("descriptionLong", descriptionLong);
+                        intent.putExtra("value", itemClicked.getValue());
+                        intent.putExtra("db", db);
+                        startActivity(intent);
                     }
                 }
             });

@@ -11,6 +11,8 @@ public class Settings
     private String db;
     private int viewType;
     private String descriptionLong;
+    private String[] items;
+    private int valNum;
 
     public Settings(String name, String value, String description, String db, int viewType, String descriptionLong)
     {
@@ -20,7 +22,18 @@ public class Settings
         this.db = db;
         this.viewType = viewType;
         this.descriptionLong = descriptionLong;
+    }
 
+    public Settings(String name, String value, String description, String db, int viewType, String descriptionLong, String[] items, int valNum)
+    {
+        this.name = name;
+        this.value = value;
+        this.description = description;
+        this.db = db;
+        this.viewType = viewType;
+        this.descriptionLong = descriptionLong;
+        this.items = items;
+        this.valNum = valNum;
     }
 
     public String getName()
@@ -51,5 +64,15 @@ public class Settings
     public String getDescriptionLong()
     {
         return descriptionLong;
+    }
+
+    public String[] getItems()
+    {
+        return items;
+    }
+
+    public int getValNum()
+    {
+        return valNum;
     }
 }

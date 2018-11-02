@@ -39,17 +39,6 @@ public class MySettingsList extends ArrayList<Settings>
 
         // Setting adapter
         listView.setAdapter(adapter);
+        listView.invalidate();
     }
-
-
-//    public void add(int pos, Settings s)
-//    {
-//        this.add()
-//    }
-//
-//    public static void remove()
-//    {
-//
-//    }
-//
 }

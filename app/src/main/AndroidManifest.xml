@@ -27,6 +27,12 @@
             android:label="@string/fitx"
             android:theme="@style/FiTX3theme.noBar"
             android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/fitx"
+            android:theme="@style/FiTX3theme.noBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,6 +40,7 @@
             </intent-filter>
         </activity>
         <activity
+<<<<<<< HEAD
             android:name=".MainActivity"
             android:label="@string/fitx"
             android:theme="@style/FiTX3theme.noBar" >
@@ -43,6 +50,8 @@
             android:label="@string/fitx"
             android:theme="@style/FiTX3theme.noBar" />
         <activity
+=======
+>>>>>>> settings-module
             android:name=".stats.StatsActivity"
             android:label="@string/fitx"
             android:parentActivityName=".MainActivity"
@@ -105,8 +114,11 @@
         <activity android:name=".settings.SettingsDetailsTripleActivity"
             android:parentActivityName=".settings.list.SettingsActivity"
             android:theme="@style/FiTX3theme.noBar" />
+<<<<<<< HEAD
         <activity android:name=".register.RulesRegisterActivity"></activity>
         <activity android:name=".register.RegisterActivity" />
+=======
+>>>>>>> settings-module
     </application>
 
 </manifest>

@@ -22,8 +22,14 @@ public class SaveSharedPreference
     private static final String USER_GENDER = "userGender";
     private static final String USER_AGE = "userAge";
     private static final String USER_PASSWORD = "userPassword";
+<<<<<<< HEAD
     public static final String USER_AUTO_CALORIES = "autoCalories";
     public static final String USER_LIMIT_CALORIES = "limitCalories";
+=======
+    public static final String SAUTO_CALORIES = "autoCalories";
+    public static final String LIMIT_CALORIES = "limitCalories";
+    public static final String DIET_GOAL = "dietGoal";
+>>>>>>> settings-module
     public static final int AUTO_CALORIES = 1;
     public static final String DIET_GOAL = "dietGoal";
 
@@ -51,7 +57,7 @@ public class SaveSharedPreference
 
     public static String getUserName(Context context)
     {
-        return getSharedPreferences(context).getString(USER_NAME, "");
+        return getSharedPreferences(context).getString(USER_NAME, "brus5");
     }
 
     public static Boolean getDefLogin(Context context)
@@ -131,7 +137,7 @@ public class SaveSharedPreference
 
     public static int getUserID(Context context)
     {
-        return getSharedPreferences(context).getInt(USER_ID, 0);
+        return getSharedPreferences(context).getInt(USER_ID, 5);
     }
 
     public static void setUserAge(Context context, int userAge)
@@ -168,12 +174,16 @@ public class SaveSharedPreference
         editor.apply();
     }
 
+<<<<<<< HEAD
     public static void setAutoCalories(Context context, int autoCalories)
     {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putInt(USER_AUTO_CALORIES,autoCalories);
         editor.apply();
     }
+=======
+
+>>>>>>> settings-module
 
     public static void setLimitCalories(Context context, String limitCalories)
     {
@@ -213,6 +223,31 @@ public class SaveSharedPreference
     {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putInt(USER_LIMIT_CALORIES, dietGoal);
+        editor.apply();
+    }
+
+    public static void setAutoCalories(Context context, int autoCalories)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putInt(SAUTO_CALORIES,autoCalories);
+        editor.apply();
+    }
+
+    /**
+     * Diet goal. Automatically is setted on 'Balanced mode'
+     *
+     * @param context actual context
+     * @return int value of diet_goal: 0 - mass, 1 - balanced, 2 - reduction
+     */
+    public static int getDietGoal(Context context)
+    {
+        return getSharedPreferences(context).getInt(DIET_GOAL, 1);
+    }
+
+    public static void setDietGoal(Context context, int dietGoal)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putInt(DIET_GOAL,dietGoal);
         editor.apply();
     }
 
