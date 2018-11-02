@@ -1,10 +1,14 @@
 package com.brus5.lukaszkrawczak.fitx.async;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.brus5.lukaszkrawczak.fitx.ConnectionFailedActivity;
 
 public class ConnectedView extends AsyncTask<Boolean, Boolean, Boolean>
 {
@@ -34,6 +38,11 @@ public class ConnectedView extends AsyncTask<Boolean, Boolean, Boolean>
         }
         else
         {
+            ((Activity)context).finish();
+
+            Intent intent = new Intent(context,ConnectionFailedActivity.class);
+            context.startActivity(intent);
+
             Toast.makeText(context, "Connected: " + aBoolean, Toast.LENGTH_SHORT).show();
             Log.e(TAG, "Connected to MySQL: " + aBoolean);
         }

@@ -97,11 +97,13 @@
             android:label="@string/fitx"
             android:parentActivityName=".settings.list.SettingsActivity"
             android:theme="@style/FiTX3theme.noBar" />
-        <activity android:name=".settings.SettingsDetailsTripleActivity"
+        <activity
+            android:name=".settings.SettingsDetailsTripleActivity"
             android:parentActivityName=".settings.list.SettingsActivity"
             android:theme="@style/FiTX3theme.noBar" />
-        <activity android:name=".register.RulesRegisterActivity"/>
+        <activity android:name=".register.RulesRegisterActivity" />
         <activity android:name=".register.RegisterActivity" />
+        <activity android:name=".ConnectionFailedActivity"></activity>
     </application>
 
 </manifest>

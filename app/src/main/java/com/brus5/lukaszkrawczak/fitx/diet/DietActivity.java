@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.async.ConnectionChecker;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
@@ -31,8 +32,8 @@ public class DietActivity extends AppCompatActivity implements IDefaultView
         loadInput();
         loadDefaultView();
         myCalendar = new MyCalendar(DietActivity.this, DietActivity.this, R.id.calendarViewDietActivity, listView);
-
         onListViewItemSelected();
+        new ConnectionChecker(this).execute();
     }
 
     public void loadInput()

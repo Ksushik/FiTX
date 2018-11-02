@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.async.ConnectionChecker;
 import com.brus5.lukaszkrawczak.fitx.async.provider.Provider;
 import com.brus5.lukaszkrawczak.fitx.utils.ActivityView;
 import com.brus5.lukaszkrawczak.fitx.utils.DateGenerator;
@@ -32,6 +33,7 @@ public class TrainingActivity extends AppCompatActivity implements IDefaultView
         loadInput();
         loadDefaultView();
         new MyCalendar(this, this, R.id.calendarViewTraining, listView);
+        new ConnectionChecker(this).execute();
     }
 
     @Override

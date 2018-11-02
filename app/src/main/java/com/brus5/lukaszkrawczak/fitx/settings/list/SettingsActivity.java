@@ -19,6 +19,7 @@ import com.brus5.lukaszkrawczak.fitx.IDefaultView;
 import com.brus5.lukaszkrawczak.fitx.MainActivity;
 import com.brus5.lukaszkrawczak.fitx.MainService;
 import com.brus5.lukaszkrawczak.fitx.R;
+import com.brus5.lukaszkrawczak.fitx.async.ConnectionChecker;
 import com.brus5.lukaszkrawczak.fitx.async.HTTPService;
 import com.brus5.lukaszkrawczak.fitx.login.LoginActivity;
 import com.brus5.lukaszkrawczak.fitx.settings.SettingsDetailsActivity;
@@ -59,6 +60,7 @@ public class SettingsActivity extends AppCompatActivity implements IDefaultView
         mySettingsList = new MySettingsList(SettingsActivity.this, listView);
 
         new MyFloatingMenu(this);
+        new ConnectionChecker(this).execute();
     }
 
 
