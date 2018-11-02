@@ -9,15 +9,16 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.brus5.lukaszkrawczak.fitx.ConnectionFailedActivity;
+import com.brus5.lukaszkrawczak.fitx.R;
 
-public class ConnectedView extends AsyncTask<Boolean, Boolean, Boolean>
+public class ConnectionChecker extends AsyncTask<Boolean, Boolean, Boolean>
 {
-    private static final String TAG = "ConnectedView";
+    private static final String TAG = "ConnectionChecker";
 
     @SuppressLint("StaticFieldLeak")
     private Context context;
 
-    public ConnectedView(Context context)
+    public ConnectionChecker(Context context)
     {
         this.context = context;
     }
@@ -33,7 +34,6 @@ public class ConnectedView extends AsyncTask<Boolean, Boolean, Boolean>
     {
         if (aBoolean)
         {
-            Toast.makeText(context, "Connected: " + aBoolean, Toast.LENGTH_SHORT).show();
             Log.i(TAG, "Connected to MySQL: " + aBoolean);
         }
         else
@@ -43,7 +43,7 @@ public class ConnectedView extends AsyncTask<Boolean, Boolean, Boolean>
             Intent intent = new Intent(context,ConnectionFailedActivity.class);
             context.startActivity(intent);
 
-            Toast.makeText(context, "Connected: " + aBoolean, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             Log.e(TAG, "Connected to MySQL: " + aBoolean);
         }
     }
