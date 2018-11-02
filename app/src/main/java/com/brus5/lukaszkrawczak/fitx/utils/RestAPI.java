@@ -10,15 +10,12 @@ public class RestAPI
     private static final String MAIN = SERVER_URL + "Main/";
     private static final String SETTINGS = SERVER_URL + "Settings/";
     private static final String GRAPH = SERVER_URL + "Graph/";
-<<<<<<< HEAD
     private static final String USER = SERVER_URL + "User/";
     private static final String REGISTRATION = SERVER_URL + "Registration/";
 
     public static final String URL_USER_CHECK_EXISTING = REGISTRATION + "CheckExistingUser.php";
     public static final String URL_EMAIL_CHECK_EXISTING = REGISTRATION + "CheckExistingEmail.php";
     public static final String URL_USER_REGISTER = REGISTRATION + "RegisterUser.php";
-=======
->>>>>>> settings-module
 
     public static final String URL_MAIN_INFORMATIONS = MAIN + "Main.php";
     public static final String URL_MAIN_KCAL_LIMIT_UPDATE = MAIN + "AutoCalories.php";
