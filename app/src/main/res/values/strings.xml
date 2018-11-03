@@ -313,4 +313,5 @@ Któż Korsak sprawić wozów kusość kielichu kątku Dobrze porówna Gościom 
     <string name="register_user_failed">Nie udało się zarejestrować</string>
     <string name="connection_off_message_funny">Brak internetów :(</string>
     <string name="connection_off_message_funny_long">Wygląda na to, że utracilimy połączenie z internetami lub bazą danych :( Sprawdź połączenie w ustawieniach telefonu.</string>
+    <string name="content_refresh">Odświeżam</string>
 </resources>

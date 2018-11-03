@@ -6,7 +6,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -22,12 +21,11 @@ import java.util.Locale;
 
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
-import devs.mulham.horizontalcalendar.HorizontalCalendarView;
 
 public class MyCalendar
 {
     private static final String TAG = "MyCalendar";
-    ListView listView;
+    private ListView listView;
     private HorizontalCalendar calendar;
     private Activity activity;
     private int resId;
@@ -68,7 +66,7 @@ public class MyCalendar
      * @param calendarFuture This is where is the newest dateGenerator of HorizontalCalendar.
      *                       If we got like example above the newest day is 29th.
      */
-    public void weekCalendar(Calendar calendarPast, Calendar calendarFuture)
+    private void weekCalendar(Calendar calendarPast, Calendar calendarFuture)
     {
         Log.d(TAG, "weekCalendar() called with: calendarPast = [" + calendarPast.getTime() + "], calendarFuture = [" + calendarFuture.getTime() + "]");
         calendar = new HorizontalCalendar.Builder(((Activity)context), resId)
@@ -91,7 +89,7 @@ public class MyCalendar
             @Override
             public void onDateSelected(Date date, int position)
             {
-                removeRows();
+                showProgressBar();
                 DateGenerator.setSelectedDate(MyCalendar.this.dateGenerator.getDateFormat().format(date.getTime()));
                 Log.i(TAG, "setSelectedDate: " + DateGenerator.getSelectedDate());
                 new Provider(context, listView).load();
@@ -102,23 +100,11 @@ public class MyCalendar
         });
     }
 
-    void selectDate()
+    private void showProgressBar()
     {
-        String date;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
-        Calendar c = Calendar.getInstance();
-
-    }
-
-
-    private void removeRows()
-    {
-//        listView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fadeout));
-//        listView.setVisibility(View.INVISIBLE);
         listView.invalidateViews();
         ProgressBar pb = ((Activity)context).findViewById(R.id.progressBarListView);
         pb.setVisibility(View.VISIBLE);
-
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -126,16 +112,10 @@ public class MyCalendar
     {
         listView.setOnTouchListener(new OnSwipeTouchListener(context)
         {
-            public void onSwipeTop()
-            {
-                Toast.makeText(context, "top", Toast.LENGTH_SHORT).show();
-            }
+            public void onSwipeTop() {}
             public void onSwipeRight()
             {
-
-
-                String dt = "2008-01-01";  // Start dateGenerator
-                Date date = new Date();
+                String sDate;  // Start dateGenerator
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
                 Calendar c = Calendar.getInstance();
 
@@ -149,33 +129,26 @@ public class MyCalendar
                 }
 
                 c.add(Calendar.DATE, -1);  // number of days to add
-                dt = sdf.format(c.getTime());  // dt is now the new dateGenerator
+                sDate = sdf.format(c.getTime());  // dt is now the new dateGenerator
 
                 Log.d(TAG, "onSwipeRight() called " +
-                        "sdf: " + String.valueOf(dt) + " :: " +
+                        "sdf: " + String.valueOf(sDate) + " :: " +
                         "");
 
                 try
                 {
-//                    calendar.getCalendarListener().onDateSelected(MyCalendar.this.dateGenerator.getDateFormat().parse(dt),34);
-
-                    calendar.selectDate(MyCalendar.this.dateGenerator.getDateFormat().parse(dt), false);
+                    calendar.selectDate(MyCalendar.this.dateGenerator.getDateFormat().parse(sDate), false);
                 }
                 catch (ParseException e)
                 {
                     e.printStackTrace();
                 }
-
-
-                Toast.makeText(context, "right", Toast.LENGTH_SHORT).show();
-
-
             }
+
             public void onSwipeLeft()
             {
 
-                String dt = "2008-01-01";  // Start dateGenerator
-                Date date = new Date();
+                String sDate;  // Start dateGenerator
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
                 Calendar c = Calendar.getInstance();
 
@@ -189,33 +162,25 @@ public class MyCalendar
                 }
 
                 c.add(Calendar.DATE, 1);  // number of days to add
-                dt = sdf.format(c.getTime());  // dt is now the new dateGenerator
+                sDate = sdf.format(c.getTime());  // dt is now the new dateGenerator
 
                 Log.d(TAG, "onSwipeRight() called " +
-                        "sdf: " + String.valueOf(dt) + " :: " +
+                        "sdf: " + String.valueOf(sDate) + " :: " +
                         "");
-
-
-//                DateGenerator.setSelectedDate(MyCalendar.this.dateGenerator.getDateFormat().format(c));
-
-
-
                 try
                 {
-//                    calendar.getCalendarListener().onDateSelected(MyCalendar.this.dateGenerator.getDateFormat().parse(dt),34);
-
-                    calendar.selectDate(MyCalendar.this.dateGenerator.getDateFormat().parse(dt), false);
+                    calendar.selectDate(MyCalendar.this.dateGenerator.getDateFormat().parse(sDate), false);
                 }
                 catch (ParseException e)
                 {
                     e.printStackTrace();
                 }
-
-                Toast.makeText(context, "left", Toast.LENGTH_SHORT).show();
             }
             public void onSwipeBottom()
             {
-                Toast.makeText(context, "bottom", Toast.LENGTH_SHORT).show();
+                new Provider(context, listView).load();
+                showProgressBar();
+                Toast.makeText(context, activity.getString(R.string.content_refresh), Toast.LENGTH_SHORT).show();
             }
 
             public boolean onTouch(View v, MotionEvent event)
