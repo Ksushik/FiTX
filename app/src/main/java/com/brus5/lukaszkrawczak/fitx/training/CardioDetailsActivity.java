@@ -306,7 +306,7 @@ public class CardioDetailsActivity extends AppCompatActivity implements IDefault
             timer.setSeekbarProgress(900_000);
             timer.setBurnedTextView(training.getKcal());
         }
-
+        Log.d(TAG, "load() called with: training.getNotepad() = [" + training.getNotepad() + "]");
         tvName.setText(training.getName());
         editText.setText(training.getNotepad());
     }
@@ -347,7 +347,6 @@ public class CardioDetailsActivity extends AppCompatActivity implements IDefault
 
                         name = object.getString(RestAPI.DB_CARDIO_NAME);
                         calories = object.getDouble(RestAPI.DB_CARDIO_CALORIES);
-                        notepad = object.getString(RestAPI.DB_CARDIO_NOTEPAD);
 
                         if (!object.getString(RestAPI.DB_CARDIO_TIME).equals("null"))
                         {
