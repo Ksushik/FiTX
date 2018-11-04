@@ -3,6 +3,7 @@ package com.brus5.lukaszkrawczak.fitx.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Looper;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
 
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
@@ -92,12 +96,23 @@ public class MyCalendar
                 showProgressBar();
                 DateGenerator.setSelectedDate(MyCalendar.this.dateGenerator.getDateFormat().format(date.getTime()));
                 Log.i(TAG, "setSelectedDate: " + DateGenerator.getSelectedDate());
-                new Provider(context, listView).load();
+                postDelayed();
 
                 Log.d(TAG, "onDateSelected() called with: dateGenerator = [" + date + "], position = [" + position + "]");
                 mfm.close();
             }
         });
+    }
+
+    private void postDelayed()
+    {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //Do something after 20000ms
+                new Provider(context, listView).load();
+            }
+        }, 1000);
     }
 
     private void showProgressBar()

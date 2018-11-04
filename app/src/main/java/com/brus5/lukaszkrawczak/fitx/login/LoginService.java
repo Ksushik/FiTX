@@ -118,13 +118,10 @@ public class LoginService
                         GetUserInfoDTO dto1 = new GetUserInfoDTO();
                         dto1.userName = SaveSharedPreference.getUserName(ctx);
                         LoginService.this.GetUserInfo(dto1, ctx);
-
-
-
                     }
                     else
                     {
-                        Toast.makeText(ctx, R.string.error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ctx, R.string.error_bad_username_or_password, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e)
                 {
