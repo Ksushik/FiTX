@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.15" />
+            app:layout_constraintGuide_percent="0.1" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guidelineTrainingDetails"
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.85" />
+            app:layout_constraintGuide_percent="0.9" />
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -55,6 +55,8 @@
             android:layout_width="0dp"
             android:layout_height="130dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
             android:contentDescription="@string/image"
             android:src="@drawable/image_frame"
             app:layout_constraintEnd_toStartOf="@+id/guidelineTrainingDetails"
@@ -66,6 +68,8 @@
             android:id="@+id/imageViewTraining1"
             android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/image1"
             app:layout_constraintEnd_toStartOf="@+id/guidelineTrainingDetails2"
@@ -75,9 +79,10 @@
 
         <TextView
             android:id="@+id/textViewExerciseName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:gravity="center"
             android:text="@string/exercise_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintEnd_toEndOf="parent"
